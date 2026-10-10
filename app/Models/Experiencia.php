@@ -1,0 +1,123 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
+
+class Experiencia extends Model
+{
+    use SoftDeletes;
+
+    protected $table = 'experiencias';
+    protected $primaryKey = 'id_experiencia';
+
+    protected $fillable = [
+        'nombre', 'id_zona', 'id_catalogo_exp', 'resumen', 'temporada',
+        'duracion', 'precio', 'requisitos', 'imagen',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'duracion' => 'integer',
+            'precio' => 'decimal:2',
+        ];
+    }
+
+    public function zona(): BelongsTo
+    {
+        return $this->belongsTo(Zona::class, 'id_zona', 'id_zona');
+    }
+
+    public function catalogo(): BelongsTo
+    {
+        return $this->belongsTo(CatalogoExperiencia::class, 'id_catalogo_exp', 'id_catalogo_exp');
+    }
+
+    /** Horarios asignados (tabla asigna_disponibilidad) con su cupo. */
+    public function disponibilidades(): BelongsToMany
+    {
+        return $this->belongsToMany(Disponibilidad::class, 'asigna_disponibilidad', 'id_experiencia', 'id_disponibilidad')
+            ->using(AsignaDisponibilidad::class)
+            ->withPivot('id_asigna_disponibilidad', 'cupo')
+            ->wherePivotNull('deleted_at')
+            ->withTimestamps();
+    }
+
+    public function solicitudes(): BelongsToMany
+    {
+        return $this->belongsToMany(Solicitud::class, 'asigna_experiencia', 'id_experiencia', 'id_solicitud')
+            ->using(AsignaExperiencia::class)
+            ->wherePivotNull('deleted_at')
+            ->withTimestamps();
+    }
+
+    /** "3 h (180 min)", "1 h 30 min (90 min)", "45 min" */
+    protected function duracionTexto(): Attribute
+    {
+        return Attribute::get(function () {
+            $h = intdiv($this->duracion, 60);
+            $m = $this->duracion % 60;
+            if ($h === 0) {
+                return "{$m} min";
+            }
+
+            return $h.' h'.($m ? " {$m} min" : '')." ({$this->duracion} min)";
+        });
+    }
+
+    protected function precioTexto(): Attribute
+    {
+        return Attribute::get(fn () => '$'.number_format((float) $this->precio, 2).' MXN');
+    }
+
+    /** Acepta URL completa (imágenes temporales) o ruta dentro de storage/app/public. */
+    protected function imagenUrl(): Attribute
+    {
+        return Attribute::get(function () {
+            if (! $this->imagen) {
+                return config('milcumbres.imagenes.experiencia_default');
+            }
+
+            return Str::startsWith($this->imagen, ['http://', 'https://'])
+                ? $this->imagen
+                : asset('storage/'.$this->imagen);
+        });
+    }
+
+    protected function slug(): Attribute
+    {
+        return Attribute::get(fn () => Str::slug($this->nombre));
+    }
+
+    /** Cupo máximo para una fecha: el del horario asignado al día de la semana de esa fecha. */
+    public function cupoParaFecha(Carbon|string $fecha): int
+    {
+        $dia = Disponibilidad::diaDeFecha(Carbon::parse($fecha));
+
+        return (int) $this->disponibilidades
+            ->where('dias_semana', $dia)
+            ->max(fn ($d) => $d->pivot->cupo);
+    }
+
+    /** Personas ya apartadas en solicitudes vigentes (no canceladas) para esa fecha. */
+    public function personasReservadas(Carbon|string $fecha, ?int $exceptoSolicitud = null): int
+    {
+        return (int) $this->solicitudes()
+            ->whereDate('fecha_deseada', Carbon::parse($fecha))
+            ->where('estado', '!=', 'cancelada')
+            ->when($exceptoSolicitud, fn ($q) => $q->where('solicitudes.id_solicitud', '!=', $exceptoSolicitud))
+            ->sum('cant_persona');
+    }
+
+    public function lugaresDisponibles(Carbon|string $fecha): int
+    {
+        return max(0, $this->cupoParaFecha($fecha) - $this->personasReservadas($fecha));
+    }
+}
