@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
+
 class SolicitudController extends Controller
 {
     /** C06 · Solicitar experiencia (puede llegar con ?experiencia=&fecha=&personas= desde C03) */
@@ -70,15 +71,76 @@ class SolicitudController extends Controller
     }
 
     /** C08 · Mis solicitudes */
-    public function index(Request $request): View
-    {
-        $solicitudes = $request->user()->solicitudes()
-            ->with(['experiencias', 'ultimoPago'])
-            ->latest()
-            ->paginate(10);
+    
+/** C08 · Mis solicitudes y consultorías */
 
-        return view('Solicitudes.index', compact('solicitudes'));
-    }
+/** C08 · Mis solicitudes y consultorías */
+public function index(Request $request): View
+{
+    // 1. OBTENER RESERVACIONES DEL USUARIO
+
+    $solicitudes = $request->user()->solicitudes()
+        ->with(['experiencias', 'ultimoPago'])
+        ->latest()
+        ->paginate(10);
+
+
+    // 2. OBTENER CONSULTORÍAS DEL USUARIO
+
+    $consultorias = DB::table('solicitud_consultorias as sc')
+        ->leftJoin(
+            'organizaciones as o',
+            'sc.id_organizacion',
+            '=',
+            'o.id_organizacion'
+        )
+        ->where(
+            'sc.id_persona',
+            $request->user()->id_persona
+        )
+        ->whereNull('sc.deleted_at')
+        ->select(
+            'sc.id_solicitud_consultoria',
+            'sc.ubicacion',
+            'sc.necesidad',
+            'sc.fecha_solicitud',
+            'sc.estado',
+            'o.nombre as nombre_organizacion'
+        )
+        ->orderByDesc('sc.fecha_solicitud')
+        ->get();
+
+
+    // 3. OBTENER COMENTARIOS DE SEGUIMIENTO
+
+    $seguimientos = DB::table('seguimiento_consultorias')
+        ->whereIn(
+            'id_solicitud_consultoria',
+            $consultorias->pluck('id_solicitud_consultoria')
+        )
+        ->whereNull('deleted_at')
+        ->select(
+            'id_seguimiento_consultoria',
+            'id_solicitud_consultoria',
+            'comentario',
+            'fecha'
+        )
+        ->orderByDesc('fecha')
+        ->orderByDesc('id_seguimiento_consultoria')
+        ->get()
+        ->groupBy('id_solicitud_consultoria');
+
+
+    // 4. ENVIAR DATOS A LA VISTA
+
+    return view('Solicitudes.index', compact(
+        'solicitudes',
+        'consultorias',
+        'seguimientos'
+    ));
+}
+
+
 
     public function cancelar(Request $request, Solicitud $solicitud): RedirectResponse
     {
