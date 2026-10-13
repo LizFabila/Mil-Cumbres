@@ -57,3 +57,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+Crea el enlace para que se puedan ver los archivos subidos (comprobantes de pago e imágenes de experiencias). Sin este paso, al abrir un comprobante aparece el error 403 Forbidden.
+```bash
+   php artisan storage:link
