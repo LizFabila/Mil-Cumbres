@@ -8,8 +8,8 @@
 <section class="hero" style="background-image: url('{{ config('milcumbres.imagenes.hero_inicio') }}')">
     <div class="contenedor">
         <span class="eyebrow eyebrow--claro">{{ config('milcumbres.contacto.lugar') }}</span>
-        <h1 class="titulo-display">Viaja despacio. Deja la montaña mejor de como la encontraste.</h1>
-        <p>Experiencias de bienestar, naturaleza y cultura diseñadas con comunidades locales.</p>
+        <h1 class="titulo-display">Descubre Valle de Bravo. Conecta con la naturaleza y deja una huella positiva.</h1>
+        <p>Descubre experiencias de bienestar, naturaleza y cultura diseñadas con comunidades locales.</p>
         <div class="fila mt-3">
             <a class="btn btn--primario" href="{{ route('experiencias.index') }}">Ver experiencias</a>
             <a class="btn btn--secundario" href="{{ route('modelo') }}">Conoce nuestro modelo</a>
