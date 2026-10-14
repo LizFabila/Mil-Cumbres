@@ -20,6 +20,8 @@ body.admin { background: var(--fondo-alt); }
 }
 .lateral .marca { color: #fff; padding: 0 8px 24px; }
 .lateral .marca__lema { color: #9fc7b8; }
+/* El logotipo tiene letras azul marino: en la barra oscura va sobre una placa blanca */
+.lateral .marca img { height: 52px; padding: 6px 10px; background: #fff; border-radius: var(--radio-sm); box-sizing: content-box; }
 .lateral nav { display: flex; flex-direction: column; gap: 2px; }
 .lateral nav a {
     display: flex; align-items: center; gap: 10px;
