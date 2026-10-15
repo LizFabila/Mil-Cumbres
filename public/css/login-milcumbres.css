@@ -933,3 +933,17 @@
     }
 
 }
+
+/* ---------- Enlace "¿Olvidaste tu contraseña?" (C14) ---------- */
+.mc-login__olvide {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: .875rem;
+    color: var(--login-acento);
+    text-decoration: none;
+}
+
+.mc-login__olvide:hover,
+.mc-login__olvide:focus-visible {
+    text-decoration: underline;
+}

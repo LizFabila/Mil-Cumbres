@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RecuperarContrasenaController;
 use App\Http\Controllers\Auth\RegistroController;
+use App\Http\Controllers\Auth\VerificarCorreoController;
 use App\Http\Controllers\ConsultoriaController;
 use App\Http\Controllers\ExperienciaController;
 use App\Http\Controllers\InicioController;
@@ -30,10 +32,26 @@ Route::middleware('guest')->group(function () {
     Route::post('/ingresar', [LoginController::class, 'store'])->name('login.store');
     Route::get('/registro', [RegistroController::class, 'create'])->name('registro');                  // C05
     Route::post('/registro', [RegistroController::class, 'store'])->name('registro.store');
+
+    Route::get('/olvide-contrasena', [RecuperarContrasenaController::class, 'create'])->name('password.request'); // C14
+    Route::post('/olvide-contrasena', [RecuperarContrasenaController::class, 'store'])->name('password.email');
+    Route::get('/restablecer-contrasena/{token}', [RecuperarContrasenaController::class, 'edit'])->name('password.reset');
+    Route::post('/restablecer-contrasena', [RecuperarContrasenaController::class, 'update'])->name('password.update');
 });
+
+// C15 · Verificación de correo: funciona sin sesión, porque sin verificar no se puede iniciar sesión.
+Route::get('/verificar-correo', [VerificarCorreoController::class, 'aviso'])->name('verification.notice');
+Route::get('/verificar-correo/{id}/{hash}', [VerificarCorreoController::class, 'verificar'])
+    ->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
+Route::post('/verificar-correo/reenviar', [VerificarCorreoController::class, 'reenviar'])
+    ->middleware('throttle:3,1')->name('verification.send');
 
 Route::middleware('auth')->group(function () {
     Route::post('/salir', [LoginController::class, 'destroy'])->name('logout');
+});
+
+// Solo cuentas con el correo verificado pueden solicitar, pagar y pedir consultorías.
+Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/solicitar', [SolicitudController::class, 'create'])->name('solicitudes.create');       // C06
     Route::post('/solicitar', [SolicitudController::class, 'store'])->name('solicitudes.store');
