@@ -50,13 +50,21 @@ class Experiencia extends Model
             ->withTimestamps();
     }
 
+    
     public function solicitudes(): BelongsToMany
     {
-        return $this->belongsToMany(Solicitud::class, 'asigna_experiencia', 'id_experiencia', 'id_solicitud')
+        return $this->belongsToMany(
+            Solicitud::class,
+            'asigna_experiencia',
+            'id_experiencia',
+            'id_solicitud'
+        )
             ->using(AsignaExperiencia::class)
+            ->withPivot('fecha_deseada')
             ->wherePivotNull('deleted_at')
             ->withTimestamps();
     }
+
 
     /** "3 h (180 min)", "1 h 30 min (90 min)", "45 min" */
     protected function duracionTexto(): Attribute
@@ -107,14 +115,32 @@ class Experiencia extends Model
     }
 
     /** Personas ya apartadas en solicitudes vigentes (no canceladas) para esa fecha. */
-    public function personasReservadas(Carbon|string $fecha, ?int $exceptoSolicitud = null): int
-    {
-        return (int) $this->solicitudes()
-            ->whereDate('fecha_deseada', Carbon::parse($fecha))
-            ->where('estado', '!=', 'cancelada')
-            ->when($exceptoSolicitud, fn ($q) => $q->where('solicitudes.id_solicitud', '!=', $exceptoSolicitud))
-            ->sum('cant_persona');
-    }
+    public function personasReservadas(
+    Carbon|string $fecha,
+    ?int $exceptoSolicitud = null
+): int {
+    $fecha = Carbon::parse($fecha)->toDateString();
+
+    return (int) $this->solicitudes()
+        ->where('solicitudes.estado', '!=', 'cancelada')
+        ->where(function ($query) use ($fecha) {
+            $query->where(function ($query) use ($fecha) {
+                $query->whereNotNull('asigna_experiencia.fecha_deseada')
+                    ->whereDate('asigna_experiencia.fecha_deseada', $fecha);
+            })->orWhere(function ($query) use ($fecha) {
+                $query->whereNull('asigna_experiencia.fecha_deseada')
+                    ->whereDate('solicitudes.fecha_deseada', $fecha);
+            });
+        })
+        ->when($exceptoSolicitud, function ($query) use ($exceptoSolicitud) {
+            $query->where(
+                'solicitudes.id_solicitud',
+                '!=',
+                $exceptoSolicitud
+            );
+        })
+        ->sum('solicitudes.cant_persona');
+}
 
     public function lugaresDisponibles(Carbon|string $fecha): int
     {

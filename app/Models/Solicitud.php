@@ -19,7 +19,15 @@ class Solicitud extends Model
     protected $table = 'solicitudes';
     protected $primaryKey = 'id_solicitud';
 
-    protected $fillable = ['fecha_deseada', 'id_persona', 'cant_persona', 'nota', 'folio', 'total', 'estado'];
+    protected $fillable = [
+        'fecha_deseada',
+        'id_persona',
+        'cant_persona',
+        'nota',
+        'folio',
+        'total',
+        'estado'
+    ];
 
     protected function casts(): array
     {
@@ -37,8 +45,14 @@ class Solicitud extends Model
 
     public function experiencias(): BelongsToMany
     {
-        return $this->belongsToMany(Experiencia::class, 'asigna_experiencia', 'id_solicitud', 'id_experiencia')
+        return $this->belongsToMany(
+            Experiencia::class,
+            'asigna_experiencia',
+            'id_solicitud',
+            'id_experiencia'
+        )
             ->using(AsignaExperiencia::class)
+            ->withPivot('fecha_deseada')
             ->wherePivotNull('deleted_at')
             ->withTimestamps();
     }
@@ -50,7 +64,8 @@ class Solicitud extends Model
 
     public function ultimoPago(): HasOne
     {
-        return $this->hasOne(Pago::class, 'id_solicitud', 'id_solicitud')->latestOfMany('fecha');
+        return $this->hasOne(Pago::class, 'id_solicitud', 'id_solicitud')
+            ->latestOfMany('fecha');
     }
 
     /** total = suma de precios de las experiencias × número de personas. */
@@ -73,6 +88,8 @@ class Solicitud extends Model
     public function puedePagar(): bool
     {
         return $this->estado === 'confirmada'
-            && ! $this->pagos()->whereIn('estado', ['pendiente', 'aprobado'])->exists();
+            && ! $this->pagos()
+                ->whereIn('estado', ['pendiente', 'aprobado'])
+                ->exists();
     }
 }

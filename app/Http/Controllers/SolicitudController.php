@@ -30,21 +30,67 @@ class SolicitudController extends Controller
     {
         $datos = $request->validate([
             'experiencias' => ['required', 'array', 'min:1'],
-            'experiencias.*' => ['integer', 'exists:experiencias,id_experiencia,deleted_at,NULL'],
-            'fecha_deseada' => ['required', 'date', 'after:today'],
+            'experiencias.*' => [
+                'integer',
+                'distinct',
+                'exists:experiencias,id_experiencia,deleted_at,NULL'
+            ],
+            'fechas' => ['required', 'array'],
+            'fechas.*' => ['required', 'date', 'after:today'],
             'cant_persona' => ['required', 'integer', 'min:1', 'max:500'],
             'nota' => ['nullable', 'string', 'max:1000'],
         ], [
             'experiencias.required' => 'Elige al menos una experiencia.',
-            'fecha_deseada.after' => 'La fecha debe ser posterior a hoy.',
+            'fechas.required' => 'Selecciona una fecha para cada experiencia.',
+            'fechas.*.required' => 'Debes elegir una fecha para cada experiencia.',
+            'fechas.*.after' => 'Las fechas deben ser posteriores a hoy.',
         ]);
 
-        $experiencias = Experiencia::with('disponibilidades')->findMany($datos['experiencias']);
-        $this->validarCupo($experiencias, $datos['fecha_deseada'], (int) $datos['cant_persona']);
+        $experiencias = Experiencia::with('disponibilidades')
+            ->whereIn('id_experiencia', $datos['experiencias'])
+            ->get();
 
-        $solicitud = DB::transaction(function () use ($request, $datos, $experiencias) {
+        $fechas = $datos['fechas'];
+        $personas = (int) $datos['cant_persona'];
+
+        foreach ($experiencias as $exp) {
+            $id = $exp->id_experiencia;
+            $fecha = $fechas[$id] ?? null;
+
+            if (!$fecha) {
+                throw ValidationException::withMessages([
+                    "fechas.$id" => "Selecciona una fecha para {$exp->nombre}.",
+                ]);
+            }
+
+            $cupo = $exp->cupoParaFecha($fecha);
+
+            if ($cupo <= 0) {
+                throw ValidationException::withMessages([
+                    "fechas.$id" => "{$exp->nombre} no tiene horario disponible ese día de la semana.",
+                ]);
+            }
+
+            $libres = $cupo - $exp->personasReservadas($fecha);
+
+            if ($personas > $libres) {
+                throw ValidationException::withMessages([
+                    "fechas.$id" => "{$exp->nombre} solo tiene {$libres} lugares disponibles para esa fecha.",
+                ]);
+            }
+        }
+
+        $primeraFecha = $fechas[$experiencias->first()->id_experiencia];
+
+        $solicitud = DB::transaction(function () use (
+            $request,
+            $datos,
+            $experiencias,
+            $fechas,
+            $primeraFecha
+        ) {
             $solicitud = Solicitud::create([
-                'fecha_deseada' => $datos['fecha_deseada'],
+                'fecha_deseada' => $primeraFecha,
                 'id_persona' => $request->user()->id_persona,
                 'cant_persona' => $datos['cant_persona'],
                 'nota' => $datos['nota'] ?? null,
@@ -52,7 +98,15 @@ class SolicitudController extends Controller
                 'estado' => 'pendiente',
             ]);
 
-            $solicitud->experiencias()->attach($experiencias->modelKeys());
+            $asignaciones = [];
+
+            foreach ($experiencias as $exp) {
+                $asignaciones[$exp->id_experiencia] = [
+                    'fecha_deseada' => $fechas[$exp->id_experiencia],
+                ];
+            }
+
+            $solicitud->experiencias()->attach($asignaciones);
             $solicitud->recalcularTotal();
 
             return $solicitud;
