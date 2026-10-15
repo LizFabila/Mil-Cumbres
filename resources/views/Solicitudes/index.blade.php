@@ -84,27 +84,38 @@
 
                             </div>
 
-                            <h3>
-                                {{ $s->experiencias->pluck('nombre')->implode(' + ') }}
-                            </h3>
+                                <h3>
+                {{ $s->experiencias->pluck('nombre')->implode(' + ') }}
+            </h3>
 
-                            <p class="texto-suave texto-chico mb-0">
+            <div class="texto-suave texto-chico">
+                <strong>Experiencias y fechas:</strong>
 
-                                {{ $s->fecha_deseada->translatedFormat('j M Y') }}
+                <ul>
+                    @foreach ($s->experiencias as $experiencia)
+                        @php
+                            $fechaExperiencia = $experiencia->pivot->fecha_deseada
+                                ?? $s->fecha_deseada;
+                        @endphp
 
-                                ·
+                        <li>
+                            {{ $experiencia->nombre }}:
+                            {{ \Carbon\Carbon::parse($fechaExperiencia)->translatedFormat('j M Y') }}
+                        </li>
+                    @endforeach
+                </ul>
 
-                                {{ $s->cant_persona }}
-                                {{ $s->cant_persona == 1 ? 'persona' : 'personas' }}
+        <p>
+            {{ $s->cant_persona }}
+            {{ $s->cant_persona == 1 ? 'persona' : 'personas' }}
 
-                                ·
+            ·
 
-                                <strong>
-                                    ${{ number_format($s->total, 2) }} MXN
-                                </strong>
-
-                            </p>
-
+            <strong>
+                ${{ number_format($s->total, 2) }} MXN
+            </strong>
+        </p>
+    </div>
                         </div>
 
                         <div class="solicitud-item__acciones">

@@ -1,39 +1,112 @@
-// C06 · Calcula el total estimado y avisa si la fecha no cae en un día con horario.
+// C06 · Calcula el total y revisa los días de cada experiencia.
 (function () {
+
     const form = document.getElementById('form-solicitud');
+
     if (!form) return;
 
-    const checks = form.querySelectorAll('input[name="experiencias[]"]');
-    const personas = form.querySelector('#cant_persona');
-    const fecha = form.querySelector('#fecha_deseada');
+    const checks = form.querySelectorAll(
+        'input[name="experiencias[]"]'
+    );
+
+    const personas = document.getElementById('cant_persona');
     const total = document.getElementById('total');
     const avisoDia = document.getElementById('aviso-dia');
-    const dias = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
-    const moneda = new Intl.NumberFormat('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    const nombresDias = [
+        'Domingo',
+        'Lunes',
+        'Martes',
+        'Miercoles',
+        'Jueves',
+        'Viernes',
+        'Sabado'
+    ];
+
+    const moneda = new Intl.NumberFormat('es-MX', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+
+    function normalizarDia(dia) {
+        return dia
+            .trim()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase();
+    }
 
     function actualizar() {
-        const n = Math.max(parseInt(personas.value, 10) || 0, 0);
+
+        const n = Math.max(
+            parseInt(personas?.value, 10) || 0,
+            0
+        );
+
         let suma = 0;
         const sinHorario = [];
 
-        // "2026-10-17" se interpreta en hora local para no recorrer el día.
-        const dia = fecha.value ? dias[new Date(fecha.value + 'T12:00:00').getDay()] : null;
+        checks.forEach(function (casilla) {
 
-        checks.forEach(function (c) {
-            if (!c.checked) return;
-            suma += parseFloat(c.dataset.precio);
-            if (dia && c.dataset.dias.split(',').indexOf(dia) === -1) {
-                sinHorario.push(c.closest('label').querySelector('strong').textContent);
+            if (!casilla.checked) return;
+
+            suma += parseFloat(casilla.dataset.precio) || 0;
+
+            const id = casilla.value;
+
+            const bloque = form.querySelector(
+                '.fecha-experiencia[data-experiencia="' + id + '"]'
+            );
+
+            if (!bloque) return;
+
+            const campo = bloque.querySelector('input[type="date"]');
+
+            if (!campo || !campo.value) return;
+
+            const fecha = new Date(campo.value + 'T12:00:00');
+
+            const diaSeleccionado = normalizarDia(
+                nombresDias[fecha.getDay()]
+            );
+
+            const diasPermitidos = (bloque.dataset.dias || '')
+                .split(',')
+                .map(normalizarDia)
+                .filter(Boolean);
+
+            if (!diasPermitidos.includes(diaSeleccionado)) {
+
+                const nombre = casilla
+                    .closest('label')
+                    ?.querySelector('strong')
+                    ?.textContent
+                    ?.trim() || 'Experiencia seleccionada';
+
+                sinHorario.push(nombre);
             }
         });
 
-        total.textContent = '$' + moneda.format(suma * n) + ' MXN';
-        avisoDia.textContent = sinHorario.length
-            ? 'Sin horario ese día para: ' + sinHorario.join(', ') + '.'
-            : '';
+        // Calcular total estimado
+        if (total) {
+            total.textContent = '$'
+                + moneda.format(suma * n)
+                + ' MXN';
+        }
+
+        // Mostrar advertencia cuando una fecha no es válida
+        if (avisoDia) {
+            avisoDia.textContent = sinHorario.length
+                ? 'Revisa las fechas de estas experiencias: '
+                    + sinHorario.join(', ')
+                    + '.'
+                : '';
+        }
     }
 
     form.addEventListener('input', actualizar);
     form.addEventListener('change', actualizar);
+
     actualizar();
+
 })();

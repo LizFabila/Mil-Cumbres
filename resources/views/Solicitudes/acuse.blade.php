@@ -16,17 +16,30 @@
 
         <dl class="datos">
             <div>
-                <dt>Fecha deseada</dt>
-                <dd>{{ $solicitud->fecha_deseada->translatedFormat('l j \d\e F \d\e Y') }}</dd>
-            </div>
-            <div>
-                <dt>Personas</dt>
-                <dd>{{ $solicitud->cant_persona }}</dd>
-            </div>
-            <div>
-                <dt>Experiencias</dt>
-                <dd>{{ $solicitud->experiencias->pluck('nombre')->implode(', ') }}</dd>
-            </div>
+                <div>
+        <dt>Personas</dt>
+        <dd>{{ $solicitud->cant_persona }}</dd>
+    </div>
+
+    <div>
+        <dt>Experiencias y fechas</dt>
+        <dd>
+            <ul>
+                @foreach ($solicitud->experiencias as $experiencia)
+                    <li>
+                        <strong>{{ $experiencia->nombre }}</strong> —
+                        @php
+                            $fechaExperiencia =
+                                $experiencia->pivot->fecha_deseada
+                                ?? $solicitud->fecha_deseada;
+                        @endphp
+
+                        {{ \Carbon\Carbon::parse($fechaExperiencia)->translatedFormat('l j \d\e F \d\e Y') }}
+                    </li>
+                @endforeach
+            </ul>
+        </dd>
+    </div>
             <div>
                 <dt>Total estimado</dt>
                 <dd>${{ number_format($solicitud->total, 2) }} MXN</dd>
