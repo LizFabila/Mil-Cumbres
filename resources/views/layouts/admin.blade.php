@@ -129,7 +129,7 @@
             </button>
 
             <span class="mc-adm-brand__subtitle">
-                ✳ CENTRO DE ADMINISTRACIÓN
+                CENTRO DE ADMINISTRACIÓN
             </span>
 
         </div>
@@ -318,10 +318,6 @@
                         ])
                     >
 
-                        <span class="mc-adm-nav__icon"
-                              aria-hidden="true">
-                            ✳
-                        </span>
 
                         <span class="mc-adm-nav__name">
                             Consultorías
@@ -489,7 +485,6 @@
 
             <div class="mc-adm-sidebar-message">
 
-                <span aria-hidden="true">✳</span>
 
                 <strong>
                     Mil Cumbres
@@ -674,7 +669,7 @@
         <div class="mc-adm-context">
 
             <span class="mc-adm-context__eyebrow">
-                ✳ CENTRO DE CONTROL
+                CENTRO DE CONTROL
             </span>
 
             <div class="mc-adm-context__inner">
@@ -692,10 +687,6 @@
 
                 </div>
 
-                <span class="mc-adm-context__symbol"
-                      aria-hidden="true">
-                    ✳
-                </span>
 
             </div>
 

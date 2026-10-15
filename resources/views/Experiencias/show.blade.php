@@ -98,9 +98,7 @@
 
                     <div class="mc-detalle-hero__superior">
 
-                        <span class="mc-detalle-hero__marca">
-                            ✳ MIL CUMBRES
-                        </span>
+                        
 
                         @if ($experiencia->catalogo)
 
@@ -114,18 +112,7 @@
 
                     <div class="mc-detalle-hero__inferior">
 
-                        <div>
-
-                            <span>
-                                DESCUBRE EL TERRITORIO
-                            </span>
-
-                            <strong>
-                                Valle de Bravo,
-                                Estado de México.
-                            </strong>
-
-                        </div>
+                        
 
                         <span class="mc-detalle-hero__numero"
                               aria-hidden="true">
@@ -146,9 +133,7 @@
                         UNA EXPERIENCIA MIL CUMBRES
                     </span>
 
-                    <span class="mc-detalle-hero__subtitulo">
-                        DESCUBRE UNA NUEVA FORMA DE VIAJAR
-                    </span>
+                    
 
                     <h1>
                         {{ $experiencia->nombre }}
@@ -160,24 +145,7 @@
                         {{ $experiencia->resumen ?: 'Descubre esta experiencia en Valle de Bravo.' }}
                     </p>
 
-                    <div class="mc-detalle-hero__ubicacion">
-
-                        <span class="mc-detalle-hero__ubicacion-icono"
-                              aria-hidden="true">
-                            ⌖
-                        </span>
-
-                        <div>
-                            <small>
-                                UBICACIÓN DE LA EXPERIENCIA
-                            </small>
-
-                            <strong>
-                                {{ $experiencia->zona?->nombre ?? 'Valle de Bravo' }}
-                            </strong>
-                        </div>
-
-                    </div>
+                    
 
                     <a href="#reservar-experiencia"
                        class="mc-detalle-boton mc-detalle-boton--verde">
@@ -188,9 +156,7 @@
 
                     </a>
 
-                    <span class="mc-detalle-hero__pie">
-                        NATURALEZA · BIENESTAR · CULTURA
-                    </span>
+                    
 
                 </div>
 
@@ -245,10 +211,6 @@
 
             <div class="mc-detalle-dato">
 
-                <span class="mc-detalle-dato__icono"
-                      aria-hidden="true">
-                    ✳
-                </span>
 
                 <div>
                     <small>TEMPORADA</small>
@@ -260,21 +222,7 @@
             </div>
 
 
-            <div class="mc-detalle-dato">
-
-                <span class="mc-detalle-dato__icono"
-                      aria-hidden="true">
-                    $
-                </span>
-
-                <div>
-                    <small>PRECIO POR PERSONA</small>
-                    <strong>
-                        {{ $experiencia->precio_texto }}
-                    </strong>
-                </div>
-
-            </div>
+            
 
         </div>
 
@@ -334,7 +282,6 @@
 
                     <div class="mc-detalle-frase">
 
-                        <span aria-hidden="true">✳</span>
 
                         <p>
                             Cada lugar tiene algo que contar.
@@ -481,7 +428,6 @@
 
                         <div class="mc-detalle-preparacion__icono"
                              aria-hidden="true">
-                            ✳
                         </div>
 
                         <div>
@@ -498,30 +444,7 @@
 
                     </div>
 
-                    <div class="mc-detalle-preparacion">
-
-                        <div class="mc-detalle-preparacion__icono"
-                             aria-hidden="true">
-                            ◷
-                        </div>
-
-                        <div>
-
-                            <h3>
-                                Confirmación de tu fecha
-                            </h3>
-
-                            <p>
-                                La fecha que selecciones
-                                es una preferencia.
-                                Revisaremos la disponibilidad
-                                antes de confirmar tu
-                                reservación y solicitar el pago.
-                            </p>
-
-                        </div>
-
-                    </div>
+                    
 
                 </article>
 
@@ -589,7 +512,7 @@
                 <div class="mc-detalle-reserva__cabecera">
 
                     <span>
-                        ✳ PLANEA TU VISITA
+                        PLANEA TU VISITA
                     </span>
 
                     <h2>
@@ -623,10 +546,6 @@
                         </small>
                     </div>
 
-                    <span class="mc-detalle-reserva__decoracion"
-                          aria-hidden="true">
-                        ✳
-                    </span>
 
                 </div>
 
@@ -818,7 +737,7 @@
                 <span class="mc-detalle-etiqueta
                              mc-detalle-etiqueta--clara">
 
-                    ✳ SIGUE DESCUBRIENDO
+                    SIGUE DESCUBRIENDO
                 </span>
 
                 <h2>

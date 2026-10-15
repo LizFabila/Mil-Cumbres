@@ -34,7 +34,6 @@
 
             <div>
                 <span class="mc-a03__eyebrow">
-                    <span aria-hidden="true">✳</span>
                     ADMINISTRACIÓN / CONTROL FINANCIERO
                 </span>
 
@@ -591,9 +590,6 @@
 
                                 <div class="mc-a03__vacio">
 
-                                    <span aria-hidden="true">
-                                        ✳
-                                    </span>
 
                                     <h3>
                                         No hay pagos en este estado.
@@ -668,7 +664,7 @@
     <footer class="mc-a03__footer">
 
         <span>
-            ✳ MIL CUMBRES
+            MIL CUMBRES
         </span>
 
         <span>

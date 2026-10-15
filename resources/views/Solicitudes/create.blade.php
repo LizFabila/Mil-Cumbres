@@ -64,7 +64,7 @@
 
             <span class="mc-c06__etiqueta
                          mc-c06__etiqueta--clara">
-                ✳ MIL CUMBRES · PLANEA TU EXPERIENCIA
+                MIL CUMBRES · PLANEA TU EXPERIENCIA
             </span>
 
             <h1>
@@ -126,7 +126,7 @@
                 </p>
 
                 <span>
-                    ✳ UNA SOLICITUD · MÚLTIPLES EXPERIENCIAS
+                    UNA SOLICITUD · MÚLTIPLES EXPERIENCIAS
                 </span>
 
             </div>
@@ -318,7 +318,6 @@
 
                                     <div class="mc-c06__vacio">
 
-                                        <span aria-hidden="true">✳</span>
 
                                         <h3>
                                             No hay experiencias
@@ -523,10 +522,6 @@
 
                         <div class="mc-c06__recordatorio">
 
-                            <span class="mc-c06__recordatorio-icono"
-                                  aria-hidden="true">
-                                ✳
-                            </span>
 
                             <div>
 
@@ -564,7 +559,7 @@
                             <div class="mc-c06__resumen-header">
 
                                 <span>
-                                    ✳ TU SOLICITUD
+                                    TU SOLICITUD
                                 </span>
 
                                 <h2>
@@ -590,7 +585,6 @@
                                 <div class="mc-c06__resumen-fila">
 
                                     <span>
-                                        <span aria-hidden="true">✳</span>
                                         Actividades
                                     </span>
 
@@ -677,7 +671,6 @@
 
                         <div class="mc-c06__lateral-extra">
 
-                            <span aria-hidden="true">✳</span>
 
                             <strong>
                                 Viaja con propósito.

@@ -73,10 +73,6 @@
                     MIL CUMBRES / CONSULTORÍA
                 </span>
 
-                <span class="mc-c12__hero-simbolo"
-                      aria-hidden="true">
-                    ✳
-                </span>
 
                 <h1>
                     El primer paso
@@ -166,7 +162,6 @@
                     <div class="mc-c12__sello"
                          aria-hidden="true">
 
-                        <span>✳</span>
 
                         <strong>
                             MIL CUMBRES
@@ -217,9 +212,6 @@
                                     NÚMERO DE SEGUIMIENTO
                                 </span>
 
-                                <span aria-hidden="true">
-                                    ✳
-                                </span>
 
                             </div>
 
@@ -269,7 +261,6 @@
                                 DATOS REGISTRADOS
                             </span>
 
-                            <span aria-hidden="true">✳</span>
 
                         </div>
 
@@ -482,9 +473,6 @@
 
                         <div class="mc-c12__siguientes-cierre">
 
-                            <span aria-hidden="true">
-                                ✳
-                            </span>
 
                             <p>
                                 Todo gran proyecto
@@ -576,9 +564,6 @@
 
             <div class="mc-c12__despedida">
 
-                <span aria-hidden="true">
-                    ✳
-                </span>
 
                 <p>
                     Gracias por imaginar

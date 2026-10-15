@@ -72,7 +72,6 @@
             <div class="mc-a08__hero-ornamento"
                  aria-hidden="true">
 
-                <span>✳</span>
 
                 <strong>
                     MIL CUMBRES
@@ -213,8 +212,6 @@
                         CONSULTORÍAS ABIERTAS
                     </span>
 
-                    <span class="mc-a08__kpi-icono"
-                          aria-hidden="true">✳</span>
 
                 </div>
 
@@ -457,7 +454,6 @@
 
                     <div class="mc-a08__vacio">
 
-                        <span aria-hidden="true">✳</span>
 
                         <strong>
                             Sin visitas confirmadas por ahora.
@@ -579,7 +575,6 @@
 
                     <div class="mc-a08__vacio">
 
-                        <span aria-hidden="true">✳</span>
 
                         <strong>
                             Todavía no hay solicitudes.
@@ -791,8 +786,6 @@
 
             <a href="{{ route('admin.consultorias.index') }}">
 
-                <span class="mc-a08__acceso-icono"
-                      aria-hidden="true">✳</span>
 
                 <span>
                     <strong>
@@ -820,7 +813,7 @@
     <footer class="mc-a08__footer">
 
         <span>
-            ✳ MIL CUMBRES
+            MIL CUMBRES
         </span>
 
         <span>

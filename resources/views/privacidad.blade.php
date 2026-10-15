@@ -62,10 +62,6 @@
 
                 <div class="priv-hero__pie">
 
-                    <span class="priv-hero__asterisco"
-                          aria-hidden="true">
-                        ✳
-                    </span>
 
                     <span>
                         MIL CUMBRES<br>
@@ -158,7 +154,6 @@
 
                 <div class="priv-indice__detalle">
 
-                    <span aria-hidden="true">✳</span>
 
                     <p>
                         Un espacio para conocer
@@ -495,7 +490,7 @@
         <div class="contenedor priv-cierre__contenido">
 
             <span class="priv-eyebrow priv-eyebrow--claro">
-                ✳ MIL CUMBRES
+                MIL CUMBRES
             </span>
 
             <h2>

@@ -64,10 +64,6 @@
                     MIL CUMBRES / CONSULTORÍA
                 </span>
 
-                <span class="mc-c11__hero-simbolo"
-                      aria-hidden="true">
-                    ✳
-                </span>
 
                 <h1>
                     Cuéntanos sobre
@@ -133,7 +129,6 @@
 
                 <div class="mc-c11__intro-nota">
 
-                    <span aria-hidden="true">✳</span>
 
                     <span>
                         Tus datos de contacto se tomarán
@@ -278,10 +273,6 @@
                                             required
                                         >
 
-                                        <span class="mc-c11__tipo-icono"
-                                              aria-hidden="true">
-                                            ✳
-                                        </span>
 
                                         <span class="mc-c11__tipo-texto">
 
@@ -536,7 +527,6 @@
 
                             <div class="mc-c11__consejo">
 
-                                <span aria-hidden="true">✳</span>
 
                                 <p>
                                     Una descripción clara nos
@@ -605,7 +595,7 @@
                         <div class="mc-c11__contacto">
 
                             <span class="mc-c11__contacto-eyebrow">
-                                ✳ TU INFORMACIÓN DE CONTACTO
+                                TU INFORMACIÓN DE CONTACTO
                             </span>
 
                             <h2>
@@ -726,9 +716,6 @@
 
                         <div class="mc-c11__modelo">
 
-                            <span aria-hidden="true">
-                                ✳
-                            </span>
 
                             <strong>
                                 Un enfoque que considera

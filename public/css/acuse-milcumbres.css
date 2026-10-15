@@ -1076,6 +1076,13 @@
         display: none;
     }
 
+    /* En papel solo va lo que sirve como comprobante: folio, fecha,
+       participantes, total, experiencias y el aviso de confirmación.
+       Los pasos siguientes se quedan en pantalla. */
+    .mc-acuse-siguientes {
+        display: none !important;
+    }
+
 }
 
 

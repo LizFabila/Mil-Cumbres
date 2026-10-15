@@ -71,10 +71,6 @@
 
                 </span>
 
-                <span class="mc-login__simbolo"
-                      aria-hidden="true">
-                    ✳
-                </span>
 
                 <h2>
                     El camino
@@ -133,10 +129,6 @@
 
                 <div class="mc-login__identidad">
 
-                    <span class="mc-login__identidad-icono"
-                          aria-hidden="true">
-                        ✳
-                    </span>
 
                     <span>
                         MIL CUMBRES
@@ -346,10 +338,6 @@
 
                 <div class="mc-login__registro">
 
-                    <span class="mc-login__registro-adorno"
-                          aria-hidden="true">
-                        ✳
-                    </span>
 
                     <div>
 

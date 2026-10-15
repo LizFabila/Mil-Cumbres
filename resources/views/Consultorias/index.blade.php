@@ -50,8 +50,6 @@
                     CONSULTORÍA · MIL CUMBRES
                 </span>
 
-                <span class="mc-consultoria-hero__simbolo"
-                      aria-hidden="true">✳</span>
 
                 <h1>
                     Diseñemos turismo
@@ -130,8 +128,6 @@
 
             <div class="mc-consultoria-intro__texto">
 
-                <span class="mc-consultoria-intro__ornamento"
-                      aria-hidden="true">✳</span>
 
                 <p>
                     Creemos en proyectos turísticos
@@ -363,7 +359,6 @@
 
                     <div class="mc-consultoria-tipos__vacio">
 
-                        <span aria-hidden="true">✳</span>
 
                         <h3>
                             Próximamente más información.
@@ -395,7 +390,6 @@
 
             <div class="mc-consultoria-frase__marca"
                  aria-hidden="true">
-                ✳
             </div>
 
             <div>
@@ -461,6 +455,10 @@
 
                 <article class="mc-consultoria-paso">
 
+                    <img class="mc-consultoria-paso__foto"
+                         src="{{ config('milcumbres.imagenes.metodologia.escuchar') }}"
+                         alt="Trabajo de campo en el terreno" loading="lazy">
+
                     <div class="mc-consultoria-paso__top">
 
                         <span>
@@ -500,6 +498,10 @@
                 {{-- DISEÑAR --}}
 
                 <article class="mc-consultoria-paso">
+
+                    <img class="mc-consultoria-paso__foto"
+                         src="{{ config('milcumbres.imagenes.metodologia.disenar') }}"
+                         alt="Plántulas listas para plantar" loading="lazy">
 
                     <div class="mc-consultoria-paso__top">
 
@@ -541,6 +543,10 @@
 
                 <article class="mc-consultoria-paso">
 
+                    <img class="mc-consultoria-paso__foto"
+                         src="{{ config('milcumbres.imagenes.metodologia.acompanar') }}"
+                         alt="Campo al atardecer, seguimiento a largo plazo" loading="lazy">
+
                     <div class="mc-consultoria-paso__top">
 
                         <span>
@@ -555,10 +561,6 @@
                         03
                     </span>
 
-                    <span class="mc-consultoria-paso__icono"
-                          aria-hidden="true">
-                        ✳
-                    </span>
 
                     <h3>
                         Acompañar.
@@ -595,7 +597,7 @@
 
                 <span class="mc-consultoria-eyebrow
                              mc-consultoria-eyebrow--claro">
-                    ✳ COMENCEMOS A CONVERSAR
+                    COMENCEMOS A CONVERSAR
                 </span>
 
                 <h2>
@@ -632,7 +634,6 @@
                 >
 
                 <div class="mc-consultoria-cta__visual-sello">
-                    <span aria-hidden="true">✳</span>
                     <strong>MIL CUMBRES</strong>
                     <small>TURISMO REGENERATIVO</small>
                 </div>

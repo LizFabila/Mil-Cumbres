@@ -54,7 +54,6 @@
 
             <span class="mc-c09__etiqueta
                          mc-c09__etiqueta--clara">
-                <span aria-hidden="true">✳</span>
                 MIL CUMBRES · PROCESO DE PAGO
             </span>
 
@@ -176,10 +175,6 @@
                 <div class="mc-c09__resumen-item
                             mc-c09__resumen-item--experiencias">
 
-                    <span class="mc-c09__resumen-icono"
-                          aria-hidden="true">
-                        ✳
-                    </span>
 
                     <div>
 
@@ -360,10 +355,6 @@
                                 01 / TRANSFERENCIA BANCARIA
                             </span>
 
-                            <span class="mc-c09__banco-simbolo"
-                                  aria-hidden="true">
-                                ✳
-                            </span>
 
                             <h3>
                                 Datos para
@@ -788,7 +779,6 @@
 
                 <div>
 
-                    <span aria-hidden="true">✳</span>
 
                     <p>
                         Continúa consultando tu solicitud

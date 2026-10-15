@@ -39,7 +39,6 @@
 
         <div class="mc-a04__hero-ornamento"
              aria-hidden="true">
-            ✳
         </div>
 
         <div class="mc-a04__hero-inner">
@@ -79,10 +78,6 @@
 
             <div class="mc-a04__hero-aside">
 
-                <span class="mc-a04__hero-aside-icono"
-                      aria-hidden="true">
-                    ✳
-                </span>
 
                 <span>
                     MIL CUMBRES
@@ -185,7 +180,6 @@
                     03 / SEGUIMIENTO
                 </span>
 
-                <span aria-hidden="true">✳</span>
 
             </div>
 
@@ -457,7 +451,6 @@
 
             <div class="mc-a04__filtros-activos">
 
-                <span aria-hidden="true">✳</span>
 
                 <p>
                     Estás consultando solicitudes
@@ -628,7 +621,6 @@
                                     <span class="mc-a04__seguimiento
                                                  mc-a04__seguimiento--activo">
 
-                                        <span aria-hidden="true">✳</span>
 
                                         {{ $c->seguimientos_count }}
 
@@ -688,10 +680,6 @@
 
                                 <div class="mc-a04__vacio">
 
-                                    <span class="mc-a04__vacio-icono"
-                                          aria-hidden="true">
-                                        ✳
-                                    </span>
 
                                     <h3>
                                         No hay consultorías
@@ -773,10 +761,6 @@
 
     <div class="mc-a04__ayuda">
 
-        <span class="mc-a04__ayuda-simbolo"
-              aria-hidden="true">
-            ✳
-        </span>
 
         <div>
 
