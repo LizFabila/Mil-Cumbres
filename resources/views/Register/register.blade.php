@@ -467,6 +467,7 @@
                                         minlength="8"
                                         autocomplete="new-password"
                                         placeholder="Mínimo 8 caracteres"
+                                        aria-describedby="requisitos-contrasena"
                                         required
                                     >
 
@@ -482,9 +483,8 @@
 
                                 </div>
 
-                                <span class="mc-registro__ayuda">
-                                    Utiliza al menos 8 caracteres.
-                                </span>
+                                {{-- Requisitos de contraseña segura (se marcan en vivo con validar-contrasena.js) --}}
+                                <x-requisitos-contrasena para="contrasena" />
 
                                 @error('contrasena')
                                     <span class="mc-registro__error"
@@ -532,6 +532,10 @@
                                     </button>
 
                                 </div>
+
+                                <span class="mc-registro__error" id="coincide-contrasena" hidden>
+                                    Las contraseñas no coinciden.
+                                </span>
 
                                 @error('contrasena_confirmation')
                                     <span class="mc-registro__error"
@@ -710,4 +714,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 </script>
+<script src="{{ asset('js/validar-contrasena.js') }}" defer></script>
 @endpush

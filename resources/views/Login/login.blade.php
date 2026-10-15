@@ -307,6 +307,10 @@
 
                         @enderror
 
+                        <a class="mc-login__olvide" href="{{ route('password.request') }}">
+                            ¿Olvidaste tu contraseña?
+                        </a>
+
                     </div>
 
 

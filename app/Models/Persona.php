@@ -5,16 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * Persona = usuario del sistema (cliente o administrador).
  * Es el modelo que usa Auth (ver config/auth.php).
  */
-class Persona extends Authenticatable
+class Persona extends Authenticatable implements MustVerifyEmail
 {
-    use SoftDeletes;
+    use Notifiable, SoftDeletes;
 
     protected $table = 'personas';
     protected $primaryKey = 'id_persona';
@@ -30,6 +32,7 @@ class Persona extends Authenticatable
     {
         return [
             'contrasena' => 'hashed',
+            'email_verified_at' => 'datetime',
         ];
     }
 
