@@ -1,0 +1,1102 @@
+
+/* ==================================================
+   MIL CUMBRES · C07 ACUSE DE SOLICITUD
+   Comprobante turístico editorial
+================================================== */
+
+.mc-acuse {
+    --acu-verde: #143D36;
+    --acu-verde-2: #1B6B57;
+    --acu-crema: #F6F2E9;
+    --acu-arena: #E5D8B8;
+    --acu-texto: #5F716B;
+    --acu-borde: #DCE5DB;
+
+    color: var(--acu-verde);
+    font-family: "Public Sans", sans-serif;
+    background: var(--acu-crema);
+}
+
+.mc-acuse *,
+.mc-acuse *::before,
+.mc-acuse *::after {
+    box-sizing: border-box;
+}
+
+.mc-acuse h1,
+.mc-acuse h2,
+.mc-acuse h3,
+.mc-acuse h4 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+}
+
+.mc-acuse h1,
+.mc-acuse h2,
+.mc-acuse h3,
+.mc-acuse h4,
+.mc-acuse p {
+    margin-top: 0;
+}
+
+.mc-acuse h1 em,
+.mc-acuse h2 em,
+.mc-acuse h3 em {
+    font-weight: 400;
+    font-style: italic;
+}
+
+.mc-acuse a {
+    text-decoration: none;
+}
+
+.mc-acuse a:focus-visible,
+.mc-acuse button:focus-visible {
+    outline: 3px solid #5AA0D8;
+    outline-offset: 4px;
+}
+
+.mc-acuse-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--acu-verde-2);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+    line-height: 1.6;
+}
+
+.mc-acuse-eyebrow--claro {
+    color: var(--acu-arena);
+}
+
+
+/* ==================================================
+   01 · PORTADA FOTOGRÁFICA
+================================================== */
+
+.mc-acuse-hero {
+    position: relative;
+    min-height: 480px;
+    isolation: isolate;
+    overflow: hidden;
+    color: white;
+    background: var(--acu-verde);
+}
+
+.mc-acuse-hero__imagen,
+.mc-acuse-hero__overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.mc-acuse-hero__imagen {
+    z-index: -2;
+    object-fit: cover;
+    object-position: center;
+}
+
+.mc-acuse-hero__overlay {
+    z-index: -1;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(8,32,25,.91) 0%,
+            rgba(8,32,25,.73) 54%,
+            rgba(8,32,25,.25) 100%
+        ),
+        linear-gradient(
+            0deg,
+            rgba(8,32,25,.45),
+            transparent 45%
+        );
+}
+
+.mc-acuse-hero__contenido {
+    position: relative;
+    padding-top: 35px;
+    padding-bottom: 130px;
+}
+
+.mc-acuse-hero__migas {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 55px;
+    color: rgba(255,255,255,.75);
+    font-size: 11px;
+}
+
+.mc-acuse-hero__migas a {
+    color: rgba(255,255,255,.92);
+}
+
+.mc-acuse-hero__migas a:hover {
+    color: var(--acu-arena);
+}
+
+.mc-acuse-hero h1 {
+    max-width: 850px;
+    margin: 20px 0 23px;
+    color: white;
+    font-size: clamp(48px, 6vw, 84px);
+    line-height: 1.1;
+    letter-spacing: -1.8px;
+}
+
+.mc-acuse-hero h1 em {
+    display: block;
+    color: var(--acu-arena);
+}
+
+.mc-acuse-hero__contenido > p {
+    max-width: 550px;
+    margin-bottom: 27px;
+    color: rgba(255,255,255,.9);
+    font-size: 15px;
+    line-height: 1.95;
+}
+
+.mc-acuse-hero__detalle {
+    color: #E6E2CE;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+}
+
+
+/* ==================================================
+   02 · ÁREA DEL COMPROBANTE
+================================================== */
+
+.mc-acuse-contenido {
+    position: relative;
+    margin-top: -76px;
+    padding-bottom: 105px;
+    background: linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 76px,
+        var(--acu-crema) 76px,
+        var(--acu-crema) 100%
+    );
+}
+
+.mc-acuse-comprobante {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #DFE5DC;
+    background: white;
+    box-shadow: 0 22px 65px rgba(20,61,54,.13);
+}
+
+
+/* ==================================================
+   CABECERA DE CONFIRMACIÓN
+================================================== */
+
+.mc-acuse-comprobante__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 35px;
+    padding: 43px clamp(25px, 4vw, 55px);
+    border-bottom: 1px solid var(--acu-borde);
+}
+
+.mc-acuse-comprobante__exito {
+    display: flex;
+    align-items: flex-start;
+    gap: 23px;
+    min-width: 0;
+}
+
+.mc-acuse-comprobante__icono {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 66px;
+    height: 66px;
+    border: 1px solid #C9E3CB;
+    border-radius: 50%;
+    background: #EAF4E9;
+    color: #237448;
+}
+
+.mc-acuse-comprobante__exito h2 {
+    margin: 14px 0;
+    color: var(--acu-verde);
+    font-size: clamp(29px, 3vw, 43px);
+    line-height: 1.2;
+}
+
+.mc-acuse-comprobante__exito h2 em {
+    color: var(--acu-verde-2);
+}
+
+.mc-acuse-comprobante__exito p {
+    max-width: 610px;
+    margin-bottom: 0;
+    color: var(--acu-texto);
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.mc-acuse-comprobante__sello {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    gap: 5px;
+    width: 104px;
+    height: 104px;
+    border: 1px dashed #B6CBBB;
+    border-radius: 50%;
+    color: var(--acu-verde-2);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .8px;
+}
+
+.mc-acuse-comprobante__sello span {
+    font-size: 34px;
+    line-height: 1;
+}
+
+
+/* ==================================================
+   DOS COLUMNAS DEL COMPROBANTE
+================================================== */
+
+.mc-acuse-comprobante__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+    align-items: stretch;
+}
+
+.mc-acuse-resumen {
+    min-width: 0;
+    padding: clamp(27px, 4vw, 52px);
+}
+
+.mc-acuse-resumen__titulo h3 {
+    margin: 13px 0 30px;
+    font-size: clamp(30px, 3.1vw, 42px);
+    color: var(--acu-verde);
+    line-height: 1.2;
+}
+
+.mc-acuse-resumen__titulo h3 em {
+    color: var(--acu-verde-2);
+}
+
+
+/* ==================================================
+   FOLIO
+================================================== */
+
+.mc-acuse-folio {
+    padding: 27px;
+    border: 1px solid var(--acu-verde);
+    background: var(--acu-verde);
+    color: white;
+}
+
+.mc-acuse-folio__superior {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: #DDD9BE;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+}
+
+.mc-acuse-folio__superior span:last-child {
+    font-size: 27px;
+    line-height: 1;
+}
+
+.mc-acuse-folio__numero {
+    display: block;
+    margin: 24px 0;
+    color: white;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: clamp(30px, 4vw, 51px);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 1px;
+    overflow-wrap: anywhere;
+    user-select: all;
+}
+
+.mc-acuse-folio__inferior {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-top: 19px;
+    border-top: 1px solid rgba(255,255,255,.28);
+}
+
+.mc-acuse-folio__inferior > span {
+    max-width: 210px;
+    color: rgba(255,255,255,.79);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.mc-acuse-folio__copiar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 39px;
+    padding: 9px 13px;
+    border: 1px solid rgba(255,255,255,.58);
+    border-radius: 3px;
+    background: rgba(255,255,255,.1);
+    color: white;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .25s ease;
+}
+
+.mc-acuse-folio__copiar:hover {
+    background: rgba(255,255,255,.23);
+}
+
+.mc-acuse-folio__copiar > span {
+    font-size: 19px;
+}
+
+.mc-acuse-folio__mensaje {
+    display: block;
+    color: #E2DFB9;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.mc-acuse-folio__mensaje:not(:empty) {
+    margin-top: 13px;
+}
+
+
+/* ==================================================
+   RESUMEN DE DATOS
+================================================== */
+
+.mc-acuse-datos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 13px;
+    margin: 25px 0 37px;
+}
+
+.mc-acuse-dato {
+    min-width: 0;
+    padding: 21px;
+    border: 1px solid var(--acu-borde);
+    background: #F9FAF7;
+}
+
+.mc-acuse-dato dt {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 14px;
+    color: #7D9084;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.mc-acuse-dato dt > span {
+    color: var(--acu-verde-2);
+    font-size: 19px;
+    line-height: 1;
+}
+
+.mc-acuse-dato dd {
+    margin: 0;
+    color: var(--acu-verde);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.mc-acuse-dato--total {
+    grid-column: 1 / -1;
+    background: #EAF1E8;
+}
+
+.mc-acuse-dato--total dd {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 33px;
+    font-weight: 600;
+}
+
+.mc-acuse-dato--total dd small {
+    font-family: "Public Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+/* ==================================================
+   EXPERIENCIAS SELECCIONADAS
+================================================== */
+
+.mc-acuse-experiencias__encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.mc-acuse-experiencias__conteo {
+    display: grid;
+    place-items: center;
+    width: 33px;
+    height: 33px;
+    border-radius: 50%;
+    background: #E4EEE3;
+    color: var(--acu-verde);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.mc-acuse-experiencias ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--acu-borde);
+}
+
+.mc-acuse-experiencias li {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-height: 65px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--acu-borde);
+    color: var(--acu-verde);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.mc-acuse-experiencias__icono {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 33px;
+    height: 33px;
+    border-radius: 50%;
+    background: #EAF1E8;
+    color: var(--acu-verde-2);
+    font-size: 20px;
+}
+
+.mc-acuse-experiencias li > span:nth-child(2) {
+    flex: 1;
+    min-width: 0;
+}
+
+.mc-acuse-experiencias__check {
+    margin-left: auto;
+    color: var(--acu-verde-2);
+    font-size: 17px;
+}
+
+
+/* ==================================================
+   03 · LÍNEA DE TIEMPO
+================================================== */
+
+.mc-acuse-siguientes {
+    min-width: 0;
+    padding: clamp(27px, 3.5vw, 47px);
+    background: #19483C;
+    color: white;
+}
+
+.mc-acuse-siguientes h3 {
+    margin: 17px 0;
+    color: white;
+    font-size: clamp(34px, 3.4vw, 47px);
+    line-height: 1.18;
+}
+
+.mc-acuse-siguientes h3 em {
+    display: block;
+    color: var(--acu-arena);
+}
+
+.mc-acuse-siguientes__intro {
+    max-width: 330px;
+    margin-bottom: 40px;
+    color: rgba(255,255,255,.78);
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.mc-acuse-pasos {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 37px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: none;
+}
+
+.mc-acuse-pasos::before {
+    content: "";
+    position: absolute;
+    top: 13px;
+    bottom: 22px;
+    left: 23px;
+    width: 1px;
+    background: rgba(255,255,255,.26);
+}
+
+.mc-acuse-paso {
+    position: relative;
+    display: grid;
+    grid-template-columns: 47px minmax(0,1fr);
+    align-items: start;
+    gap: 21px;
+}
+
+.mc-acuse-paso__numero {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 47px;
+    height: 47px;
+    border: 1px solid rgba(235,223,190,.6);
+    border-radius: 50%;
+    background: #19483C;
+    color: #EDDFBD;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.mc-acuse-paso__etiqueta {
+    display: block;
+    margin: 5px 0 10px;
+    color: #DCCFAF;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+}
+
+.mc-acuse-paso h4 {
+    margin-bottom: 12px;
+    color: white;
+    font-size: 22px;
+    line-height: 1.3;
+}
+
+.mc-acuse-paso p {
+    margin-bottom: 0;
+    color: rgba(255,255,255,.78);
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.mc-acuse-siguientes__cierre {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 55px;
+    padding-top: 23px;
+    border-top: 1px solid rgba(255,255,255,.25);
+}
+
+.mc-acuse-siguientes__cierre > span {
+    color: var(--acu-arena);
+    font-size: 28px;
+}
+
+.mc-acuse-siguientes__cierre p {
+    max-width: 300px;
+    margin-bottom: 0;
+    color: #F0E8D5;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 24px;
+    font-style: italic;
+    line-height: 1.35;
+}
+
+
+/* ==================================================
+   RECORDATORIO IMPORTANTE
+================================================== */
+
+.mc-acuse-importante {
+    display: flex;
+    align-items: flex-start;
+    gap: 19px;
+    padding: 25px clamp(25px, 4vw, 52px);
+    border-top: 1px solid #E0E6DC;
+    border-bottom: 1px solid #E0E6DC;
+    background: #F9F5E9;
+}
+
+.mc-acuse-importante__icono {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #D7C69D;
+    border-radius: 50%;
+    color: #8B713A;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 18px;
+    font-style: italic;
+}
+
+.mc-acuse-importante strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #67532D;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.mc-acuse-importante p {
+    max-width: 850px;
+    margin-bottom: 0;
+    color: #766B55;
+    font-size: 12px;
+    line-height: 1.85;
+}
+
+
+/* ==================================================
+   04 · ACCIONES
+================================================== */
+
+.mc-acuse-acciones {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 42px clamp(25px, 4vw, 52px);
+}
+
+.mc-acuse-acciones__texto h3 {
+    margin: 13px 0 0;
+    color: var(--acu-verde);
+    font-size: clamp(28px, 3vw, 38px);
+    line-height: 1.2;
+}
+
+.mc-acuse-acciones__texto h3 em {
+    color: var(--acu-verde-2);
+}
+
+.mc-acuse-acciones__botones {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 11px;
+}
+
+.mc-acuse-boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 48px;
+    padding: 12px 16px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    transition:
+        background .25s,
+        transform .25s,
+        color .25s;
+}
+
+.mc-acuse-boton:hover {
+    transform: translateY(-2px);
+}
+
+.mc-acuse-boton span {
+    font-size: 18px;
+}
+
+.mc-acuse-boton--verde {
+    background: var(--acu-verde);
+    color: white;
+}
+
+.mc-acuse-boton--verde:hover {
+    background: var(--acu-verde-2);
+    color: white;
+}
+
+.mc-acuse-boton--borde {
+    border-color: #CCDCD0;
+    background: white;
+    color: var(--acu-verde);
+}
+
+.mc-acuse-boton--borde:hover {
+    border-color: var(--acu-verde);
+    background: #EAF1E8;
+    color: var(--acu-verde);
+}
+
+.mc-acuse-imprimir {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 12px 5px;
+    border: 0;
+    background: transparent;
+    color: var(--acu-verde-2);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.mc-acuse-imprimir:hover {
+    color: var(--acu-verde);
+    text-decoration: underline;
+}
+
+.mc-acuse-imprimir span {
+    font-size: 20px;
+}
+
+
+/* ==================================================
+   05 · DESPEDIDA
+================================================== */
+
+.mc-acuse-despedida {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 65px 20px 0;
+    text-align: center;
+}
+
+.mc-acuse-despedida > span {
+    color: var(--acu-verde-2);
+    font-size: 43px;
+    line-height: 1;
+}
+
+.mc-acuse-despedida p {
+    max-width: 660px;
+    margin-bottom: 0;
+    color: var(--acu-verde);
+    font-family: "Fraunces", Georgia, serif;
+    font-size: clamp(27px, 3vw, 40px);
+    line-height: 1.35;
+}
+
+.mc-acuse-despedida p em {
+    color: var(--acu-verde-2);
+}
+
+.mc-acuse-despedida small {
+    color: #829389;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+
+/* ==================================================
+   TABLET
+================================================== */
+
+@media (max-width: 980px) {
+
+    .mc-acuse-comprobante__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mc-acuse-siguientes {
+        padding: 40px;
+    }
+
+    .mc-acuse-pasos {
+        gap: 29px;
+    }
+
+    .mc-acuse-siguientes__cierre {
+        margin-top: 35px;
+    }
+
+    .mc-acuse-comprobante__header {
+        padding: 35px;
+    }
+
+    .mc-acuse-resumen {
+        padding: 35px;
+    }
+
+    .mc-acuse-acciones {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 35px;
+    }
+}
+
+
+/* ==================================================
+   CELULARES
+================================================== */
+
+@media (max-width: 600px) {
+
+    .mc-acuse-hero {
+        min-height: 400px;
+    }
+
+    .mc-acuse-hero__contenido {
+        padding-top: 22px;
+        padding-bottom: 110px;
+    }
+
+    .mc-acuse-hero__migas {
+        margin-bottom: 38px;
+        font-size: 10px;
+    }
+
+    .mc-acuse-hero h1 {
+        font-size: clamp(42px, 10vw, 58px);
+        letter-spacing: -1px;
+    }
+
+    .mc-acuse-hero__contenido > p {
+        font-size: 13px;
+    }
+
+    .mc-acuse-hero__detalle {
+        font-size: 9px;
+    }
+
+    .mc-acuse-contenido {
+        margin-top: -55px;
+        padding-bottom: 65px;
+    }
+
+    .mc-acuse-comprobante__header {
+        padding: 29px 21px;
+    }
+
+    .mc-acuse-comprobante__exito {
+        gap: 15px;
+    }
+
+    .mc-acuse-comprobante__icono {
+        width: 46px;
+        height: 46px;
+    }
+
+    .mc-acuse-comprobante__icono svg {
+        width: 25px;
+        height: 25px;
+    }
+
+    .mc-acuse-comprobante__exito h2 {
+        font-size: 29px;
+    }
+
+    .mc-acuse-comprobante__sello {
+        display: none;
+    }
+
+    .mc-acuse-resumen {
+        padding: 27px 21px;
+    }
+
+    .mc-acuse-resumen__titulo h3 {
+        font-size: 32px;
+    }
+
+    .mc-acuse-folio {
+        padding: 22px;
+    }
+
+    .mc-acuse-folio__numero {
+        font-size: clamp(26px, 7vw, 41px);
+    }
+
+    .mc-acuse-datos {
+        grid-template-columns: 1fr;
+        gap: 9px;
+    }
+
+    .mc-acuse-dato,
+    .mc-acuse-dato--total {
+        grid-column: auto;
+    }
+
+    .mc-acuse-dato {
+        padding: 19px;
+    }
+
+    .mc-acuse-siguientes {
+        padding: 35px 23px;
+    }
+
+    .mc-acuse-siguientes h3 {
+        font-size: 39px;
+    }
+
+    .mc-acuse-paso {
+        gap: 13px;
+    }
+
+    .mc-acuse-paso h4 {
+        font-size: 21px;
+    }
+
+    .mc-acuse-importante {
+        gap: 12px;
+        padding: 24px 21px;
+    }
+
+    .mc-acuse-acciones {
+        padding: 32px 21px;
+    }
+
+    .mc-acuse-acciones__botones {
+        align-items: stretch;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .mc-acuse-boton {
+        width: 100%;
+    }
+
+    .mc-acuse-imprimir {
+        align-self: flex-start;
+    }
+
+    .mc-acuse-despedida {
+        padding-top: 50px;
+    }
+}
+
+
+/* ==================================================
+   IMPRESIÓN DEL COMPROBANTE
+================================================== */
+
+@media print {
+
+    @page {
+        size: A4;
+        margin: 15mm;
+    }
+
+    .encabezado,
+    .mc-hub,
+    .pie,
+    .mc-acuse-hero,
+    .mc-acuse-acciones,
+    .mc-acuse-despedida,
+    .mc-acuse-folio__copiar,
+    .mc-acuse-folio__mensaje {
+        display: none !important;
+    }
+
+    .mc-acuse,
+    .mc-acuse-contenido {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+    }
+
+    .mc-acuse-comprobante {
+        border: 1px solid #CCCCCC;
+        box-shadow: none !important;
+    }
+
+    .mc-acuse-comprobante__grid {
+        display: block;
+    }
+
+    .mc-acuse-comprobante__header,
+    .mc-acuse-resumen,
+    .mc-acuse-siguientes {
+        padding: 20px;
+    }
+
+    .mc-acuse-folio,
+    .mc-acuse-siguientes {
+        background: white !important;
+        color: #143D36 !important;
+        border: 1px solid #CCCCCC;
+    }
+
+    .mc-acuse-folio *,
+    .mc-acuse-siguientes *,
+    .mc-acuse-paso *,
+    .mc-acuse-siguientes h3 {
+        color: #143D36 !important;
+    }
+
+    .mc-acuse-paso,
+    .mc-acuse-dato,
+    .mc-acuse-importante {
+        break-inside: avoid;
+    }
+
+    .mc-acuse-despedida {
+        display: none;
+    }
+
+    /* En papel solo va lo que sirve como comprobante: folio, fecha,
+       participantes, total, experiencias y el aviso de confirmación.
+       Los pasos siguientes se quedan en pantalla. */
+    .mc-acuse-siguientes {
+        display: none !important;
+    }
+
+}
+
+
+/* ==================================================
+   ACCESIBILIDAD
+================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .mc-acuse *,
+    .mc-acuse *::before,
+    .mc-acuse *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+
+}

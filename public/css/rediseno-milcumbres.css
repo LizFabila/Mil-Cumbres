@@ -1,0 +1,383 @@
+/* ==========================================================================
+   Mil Cumbres · rediseno-milcumbres.css
+   Capa de presentación del rediseño: paleta, encabezado verde bosque,
+   franja de contacto directo y animaciones al hacer scroll.
+   Se carga después de sitio.css, así que sus reglas tienen prioridad.
+   No contiene lógica: si se quita este archivo, el sitio sigue funcionando.
+   ========================================================================== */
+
+/* ---------- Paleta del rediseño ---------- */
+:root {
+    --verde-bosque: #143D36;   /* encabezado, hero y bloques oscuros */
+    --verde:        #176954;   /* botones y navegación activa */
+    --azul:         #2F6690;   /* cursivas de títulos sobre fondo blanco */
+    --lima:         #00DD00;   /* acento sobre verde bosque (nunca como texto sobre blanco) */
+    --verde-suave:  #F3F7F5;   /* fondos alternos */
+    --gris-texto:   #5F716B;   /* texto secundario */
+    --borde-suave:  #D6E1DC;   /* líneas y contornos */
+}
+
+/* ---------- Encabezado verde bosque ---------- */
+.mc-hub {
+    --mc-deep: var(--verde-bosque);
+    --mc-green: var(--verde);
+    background: var(--verde-bosque);
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+
+.mc-hub__ribbon {
+    background: #0C2A25;
+    color: rgba(255, 255, 255, .82);
+    border-bottom: 1px solid rgba(255, 255, 255, .06);
+}
+
+.mc-hub__ribbon-inner {
+    min-height: 40px;
+    font-size: 10px;
+}
+
+.mc-hub__ribbon-marca {
+    color: var(--lima);
+    font-weight: 700;
+}
+
+.mc-hub__mobile-toggle {
+    border-color: rgba(255, 255, 255, .3);
+}
+
+.mc-hub__mobile-toggle span {
+    background: #fff;
+}
+
+/* Logotipo sobre fondo oscuro: el PNG trae texto azul-marino, así que va sobre una placa blanca */
+.mc-hub .marca {
+    color: #fff;
+}
+
+.mc-hub .marca img {
+    height: 52px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #fff;
+    box-sizing: content-box;
+}
+
+.mc-hub .marca__lema {
+    color: rgba(255, 255, 255, .72);
+}
+
+/* ---------- Franja de contacto directo ---------- */
+.mc-contacto {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 4px 6px;
+}
+
+.mc-contacto__enlace {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    text-transform: none;
+    text-decoration: none;
+    transition: color .2s ease;
+}
+
+.mc-contacto__enlace:hover {
+    color: var(--lima);
+    text-decoration: none;
+}
+
+.mc-contacto__enlace:focus-visible {
+    outline: 2px solid var(--lima);
+    outline-offset: 2px;
+}
+
+.mc-contacto__icono {
+    width: 16px;
+    height: 16px;
+    flex: none;
+}
+
+/* Red sin dato todavía: ícono atenuado con borde punteado, visible para el equipo */
+.mc-contacto__enlace--pendiente {
+    opacity: .4;
+    border: 1px dashed rgba(255, 255, 255, .55);
+    cursor: help;
+}
+
+/* ---------- Navegación de escritorio (oscura) ---------- */
+@media (min-width: 1121px) {
+    .mc-hub__nav-link {
+        color: rgba(255, 255, 255, .88);
+    }
+
+    .mc-hub__nav-link:hover,
+    .mc-hub__nav-link.is-active,
+    .mc-hub__nav-button[aria-expanded="true"] {
+        color: var(--lima);
+    }
+
+    .mc-hub__nav-link::after {
+        background: var(--lima);
+    }
+
+    .mc-hub__account {
+        color: #fff;
+    }
+
+    .mc-hub__account-icon {
+        background: rgba(255, 255, 255, .08);
+        border-color: rgba(255, 255, 255, .3);
+        color: #fff;
+    }
+
+    .mc-hub__primary-cta {
+        background: var(--verde);
+        color: #fff !important;
+    }
+
+    .mc-hub__primary-cta:hover {
+        background: var(--lima);
+        color: var(--verde-bosque) !important;
+    }
+}
+
+/* ---------- Títulos: cursiva azul sobre blanco, cursiva lima sobre verde ---------- */
+.inicio-intro h2 em,
+.inicio-cabecera h2 em,
+.inicio-pasos__encabezado h2 em,
+.inicio-consultoria__contenido h2 em,
+.mc-hub__dropdown-heading h2 em,
+.mc-hub__consult-content h2 em {
+    color: var(--azul);
+}
+
+.inicio-hero h1 em,
+.inicio-filosofia__principal h2 em,
+.inicio-filosofia__palabras em {
+    color: var(--lima);
+}
+
+.inicio-hero__enlace:hover {
+    color: var(--lima);
+}
+
+.inicio-btn--verde {
+    background: var(--verde);
+}
+
+/* ---------- Nuestro modelo ----------
+   Va con .mc-modelo delante: su hoja propia se carga después de esta y, con igual
+   especificidad, ganaría. */
+.mc-modelo .modelo-vision__intro h2 em,
+.mc-modelo .modelo-seccion-heading h2 em,
+.mc-modelo .modelo-compromisos__intro h2 em {
+    color: var(--azul);
+}
+
+.mc-modelo .modelo-hero h1 em,
+.mc-modelo .modelo-vision__manifiesto h3 em,
+.mc-modelo .modelo-evolucion__card h3 em,
+.mc-modelo .modelo-pilares__cabecera h2 em,
+.mc-modelo .modelo-final__contenido h2 em {
+    color: var(--lima);
+}
+
+/* ---------- Ficha de experiencia: tres datos clave en una fila ----------
+   Con .mc-detalle-datos delante para ganar a detalle-milcumbres.css, que se carga después. */
+.mc-detalle-datos .mc-detalle-datos__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 640px) {
+    .mc-detalle-datos .mc-detalle-datos__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- Ficha de experiencia: títulos de sección en azul sobre blanco ---------- */
+.mc-detalle-principal .mc-detalle-seccion h2 em,
+.mc-detalle-principal .mc-detalle-proceso h2 em {
+    color: var(--azul);
+}
+
+/* ---------- Acentos según fondo (lo asigna acentos-milcumbres.js) ---------- */
+#contenido-principal [data-acento="azul"] {
+    color: var(--azul);
+}
+
+#contenido-principal [data-acento="lima"] {
+    color: var(--lima);
+}
+
+/* ---------- Animaciones al hacer scroll ----------
+   Sin JavaScript (o con movimiento reducido) el contenido se muestra completo. */
+/* Se usa la propiedad individual `translate` (no `transform`) para no pisar
+   los hover que ya usan `transform` en las tarjetas. */
+.js-reveal [data-reveal] {
+    opacity: 0;
+    translate: 0 26px;
+    transition:
+        opacity .9s cubic-bezier(.2, .65, .3, 1) var(--retardo, 0ms),
+        translate .9s cubic-bezier(.2, .65, .3, 1) var(--retardo, 0ms);
+}
+
+.js-reveal [data-reveal].is-visible {
+    opacity: 1;
+    translate: 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .js-reveal [data-reveal] {
+        opacity: 1;
+        translate: none;
+        transition: none;
+    }
+}
+
+/* ---------- Pantallas medianas y pequeñas ---------- */
+@media (max-width: 1120px) {
+    .mc-hub__ribbon-marca {
+        display: none;
+    }
+
+    .mc-hub__ribbon-inner {
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 640px) {
+    /* En celular el logotipo va solo: el texto junto a la placa ocupa cuatro líneas */
+    .mc-hub .marca > span {
+        display: none;
+    }
+
+    .mc-hub__ribbon-inner {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .mc-contacto {
+        gap: 2px 2px;
+    }
+
+    .mc-contacto__enlace {
+        padding: 4px;
+    }
+
+    .mc-contacto__enlace--texto span {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   Ajustes de la ronda 2: etiqueta de bienvenida, pasos con foto,
+   botón "Todas" en experiencias y fotos en la metodología.
+   ========================================================================== */
+
+/* ---------- Inicio: la etiqueta "BIENVENIDO" ocupa solo su ancho ---------- */
+.inicio-intro__grid {
+    grid-template-columns: max-content minmax(0, 1fr);
+}
+
+@media (max-width: 768px) {
+    .inicio-intro__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- Inicio: "Tu próxima aventura" con foto en cada paso ---------- */
+.inicio-paso {
+    padding: 0 30px 38px;
+    overflow: hidden;
+}
+
+.inicio-paso__foto {
+    position: relative;
+    height: 210px;
+    margin: 0 -30px 28px;
+    overflow: hidden;
+}
+
+.inicio-paso__foto img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .6s ease;
+}
+
+.inicio-paso__foto::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(20, 61, 54, 0) 45%, rgba(20, 61, 54, .45));
+}
+
+.inicio-paso:hover .inicio-paso__foto img {
+    transform: scale(1.05);
+}
+
+.inicio-paso__numero {
+    margin-bottom: 22px;
+}
+
+@media (max-width: 768px) {
+    .inicio-paso {
+        padding: 0 25px 30px;
+    }
+
+    .inicio-paso__foto {
+        margin: 0 -25px 24px;
+    }
+}
+
+/* ---------- Experiencias: botón "Todas las experiencias" ---------- */
+.mc-cat-todas {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 22px;
+    border: 1px solid var(--cat-verde);
+    color: var(--cat-verde);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: background .3s ease, color .3s ease;
+}
+
+.mc-cat-todas span {
+    font-size: 16px;
+}
+
+.mc-cat-todas:hover,
+.mc-cat-todas--activa {
+    background: var(--cat-verde);
+    color: #FFFFFF;
+}
+
+/* ---------- Metodología: foto en cada etapa ---------- */
+.mc-consultoria-paso {
+    padding: 0 27px 27px;
+    overflow: hidden;
+}
+
+.mc-consultoria-paso__foto {
+    display: block;
+    width: calc(100% + 54px);
+    height: 170px;
+    max-width: none;
+    margin: 0 -27px 24px;
+    object-fit: cover;
+}

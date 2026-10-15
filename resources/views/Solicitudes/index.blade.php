@@ -1,353 +1,1172 @@
-
 {{-- C08 · Mis solicitudes y consultorías
-     Tablas:
-     solicitudes, asigna_experiencia, experiencias, pagos,
-     solicitud_consultorias, organizaciones
---}}
+
+     Tablas: solicitudes, asigna_experiencia,
+
+     experiencias, pagos, solicitud_consultorias,
+
+     organizaciones
+
+\--}}
 
 @extends('layouts.app')
 
 @section('titulo', 'Mis solicitudes')
 
-@section('contenido')
-<div class="contenedor seccion">
+@section('descripcion',
 
-    {{-- ENCABEZADO --}}
-    <div class="fila fila--entre fila--abajo">
-        <div>
-            <h1 class="titulo-seccion mb-0">Mis solicitudes</h1>
-            <p class="texto-suave mb-0">
+    'Consulta tus solicitudes de experiencias, pagos y consultorías en Mil Cumbres.'
+
+)
+
+@push('estilos')
+
+<link rel="stylesheet"
+
+      href="{{ asset('css/mis-solicitudes-milcumbres.css') }}">
+
+@endpush
+
+@section('contenido')
+
+@php
+
+    $totalReservaciones = $solicitudes->total();
+
+    $totalConsultorias = $consultorias->count();
+
+@endphp
+
+<div class="mc-c08">
+
+    {{-- ======================================== --}}
+
+    {{-- 01 · PORTADA PERSONAL --}}
+
+    {{-- ======================================== --}}
+
+    <section class="mc-c08__hero">
+
+        <img
+
+            class="mc-c08__hero-imagen"
+
+            src="{{ config('milcumbres.imagenes.hero_inicio_local') ? asset(config('milcumbres.imagenes.hero_inicio_local')) : config('milcumbres.imagenes.hero_inicio') }}"
+
+            alt="Paisaje natural de Valle de Bravo"
+
+            fetchpriority="high"
+
+        >
+
+        <div class="mc-c08__hero-overlay"></div>
+
+        <div class="contenedor mc-c08__hero-contenido">
+
+            <nav class="mc-c08__migas"
+
+                 aria-label="Ruta de navegación">
+
+                <a href="{{ route('inicio') }}">
+
+                    Inicio
+
+                </a>
+
+                <span>/</span>
+
+                <span>Mis solicitudes</span>
+
+            </nav>
+
+            <span class="mc-c08__etiqueta
+
+                         mc-c08__etiqueta--clara">
+
+                MIL CUMBRES / MI ESPACIO
+
+            </span>
+
+            <h1>
+
+                Tus experiencias,
+
+                <em>en un solo lugar.</em>
+
+            </h1>
+
+            <p>
+
                 Hola, {{ auth()->user()->nombre }}.
-                Consulta el estado de tus reservaciones y consultorías.
+
+                Aquí puedes consultar tus reservaciones,
+
+                revisar sus pagos y conocer el seguimiento
+
+                de las consultorías que has solicitado.
+
             </p>
+
+            <a
+
+                href="{{ route('solicitudes.create') }}"
+
+                class="mc-c08__boton mc-c08__boton--claro"
+
+            >
+
+                Solicitar nueva experiencia
+
+                <span aria-hidden="true">↗</span>
+
+            </a>
+
         </div>
 
-        <a class="btn btn--primario"
-           href="{{ route('solicitudes.create') }}">
-            Nueva solicitud
-        </a>
-    </div>
+        <div class="mc-c08__hero-pie">
 
-    <div class="mt-3">
-        <x-avisos />
-    </div>
+            <div class="contenedor">
 
-    {{-- ======================================= --}}
-    {{-- SECCIÓN 1: RESERVACIONES DE EXPERIENCIAS --}}
-    {{-- ======================================= --}}
+                <span>
 
-    <section class="mt-3">
+                    MI ESPACIO · MIL CUMBRES
 
-        <h2 class="titulo-seccion">
-            Mis reservaciones
-        </h2>
+                </span>
 
-        <p class="texto-suave">
-            Consulta las experiencias turísticas que has solicitado.
-        </p>
+                <span>
 
-        @if ($solicitudes->isEmpty())
+                    NATURALEZA / BIENESTAR / CULTURA
 
-            <div class="tarjeta vacio">
-                Todavía no tienes solicitudes de experiencias.
-                <a href="{{ route('experiencias.index') }}">
-                    Explora las experiencias
-                </a>.
-            </div>
-
-        @else
-
-            <div class="tarjeta">
-
-                @foreach ($solicitudes as $s)
-
-                    <article class="solicitud-item">
-
-                        <div>
-
-                            <div class="fila">
-
-                                <span class="mono texto-suave">
-                                    {{ $s->folio }}
-                                </span>
-
-                                <x-estado :valor="$s->estado" />
-
-                                @if ($s->ultimoPago)
-                                    <span class="texto-chico texto-suave">
-                                        Pago:
-                                    </span>
-
-                                    <x-estado
-                                        :valor="$s->ultimoPago->estado" />
-                                @endif
-
-                            </div>
-
-                                <h3>
-                {{ $s->experiencias->pluck('nombre')->implode(' + ') }}
-            </h3>
-
-            <div class="texto-suave texto-chico">
-                <strong>Experiencias y fechas:</strong>
-
-                <ul>
-                    @foreach ($s->experiencias as $experiencia)
-                        @php
-                            $fechaExperiencia = $experiencia->pivot->fecha_deseada
-                                ?? $s->fecha_deseada;
-                        @endphp
-
-                        <li>
-                            {{ $experiencia->nombre }}:
-                            {{ \Carbon\Carbon::parse($fechaExperiencia)->translatedFormat('j M Y') }}
-                        </li>
-                    @endforeach
-                </ul>
-
-        <p>
-            {{ $s->cant_persona }}
-            {{ $s->cant_persona == 1 ? 'persona' : 'personas' }}
-
-            ·
-
-            <strong>
-                ${{ number_format($s->total, 2) }} MXN
-            </strong>
-        </p>
-    </div>
-                        </div>
-
-                        <div class="solicitud-item__acciones">
-
-                            @if ($s->puedePagar())
-
-                                <a class="btn btn--primario btn--chico"
-                                   href="{{ route('pagos.create', $s) }}">
-
-                                    {{ $s->ultimoPago?->estado === 'rechazado'
-                                        ? 'Reenviar comprobante'
-                                        : 'Registrar pago' }}
-
-                                </a>
-
-                            @endif
-
-                            @if ($s->estado === 'pendiente')
-
-                                <form method="POST"
-                                      action="{{ route('solicitudes.cancelar', $s) }}"
-                                      onsubmit="return confirm('¿Cancelar la solicitud {{ $s->folio }}?')">
-
-                                    @csrf
-                                    @method('PATCH')
-
-                                    <button class="btn btn--peligro btn--chico"
-                                            type="submit">
-                                        Cancelar
-                                    </button>
-
-                                </form>
-
-                            @endif
-
-                        </div>
-
-                    </article>
-
-                @endforeach
+                </span>
 
             </div>
 
-            {{ $solicitudes->links() }}
-
-        @endif
+        </div>
 
     </section>
 
+    {{-- ======================================== --}}
 
-    {{-- ======================================= --}}
-    {{-- SECCIÓN 2: CONSULTORÍAS DEL USUARIO --}}
-    {{-- ======================================= --}}
+    {{-- 02 · RESUMEN PERSONAL --}}
 
-    <section class="mt-3">
+    {{-- ======================================== --}}
 
-        <div class="fila fila--entre fila--abajo">
+    <section class="mc-c08__resumen">
 
-            <div>
+        <div class="contenedor">
 
-                <h2 class="titulo-seccion mb-0">
-                    Mis consultorías
-                </h2>
+            <div class="mc-c08__bienvenida">
 
-                <p class="texto-suave mb-0">
-                    Revisa las consultorías que has solicitado
-                    y el estado de atención de cada una.
+                <div>
+
+                    <span class="mc-c08__etiqueta">
+
+                        <span class="mc-c08__linea"></span>
+
+                        TU ACTIVIDAD EN MIL CUMBRES
+
+                    </span>
+
+                    <h2>
+
+                        Sigue el camino
+
+                        <em>de tus experiencias.</em>
+
+                    </h2>
+
+                </div>
+
+                <p>
+
+                    Consulta tus solicitudes y revisa
+
+                    en qué etapa se encuentra cada una.
+
+                    Toda la información se obtiene de
+
+                    los registros de tu cuenta.
+
                 </p>
 
             </div>
 
-            <span class="texto-suave texto-chico">
-                {{ $consultorias->count() }}
-                {{ $consultorias->count() === 1
-                    ? 'consultoría registrada'
-                    : 'consultorías registradas' }}
-            </span>
+            <div class="mc-c08__estadisticas">
+
+                <a href="#mis-reservaciones"
+
+                   class="mc-c08__estadistica">
+
+                    <span class="mc-c08__estadistica-top">
+
+                        01 / EXPERIENCIAS
+
+                        <span aria-hidden="true">↗</span>
+
+                    </span>
+
+                    <strong>
+
+                        {{ $totalReservaciones }}
+
+                    </strong>
+
+                    <span class="mc-c08__estadistica-nombre">
+
+                        {{ $totalReservaciones === 1
+
+                            ? 'Solicitud de experiencia'
+
+                            : 'Solicitudes de experiencias' }}
+
+                    </span>
+
+                    <span class="mc-c08__estadistica-pie">
+
+                        Consultar mis reservaciones →
+
+                    </span>
+
+                </a>
+
+                <a href="#mis-consultorias"
+
+                   class="mc-c08__estadistica
+
+                          mc-c08__estadistica--verde">
+
+                    <span class="mc-c08__estadistica-top">
+
+                        02 / CONSULTORÍAS
+
+                        <span aria-hidden="true">↗</span>
+
+                    </span>
+
+                    <strong>
+
+                        {{ $totalConsultorias }}
+
+                    </strong>
+
+                    <span class="mc-c08__estadistica-nombre">
+
+                        {{ $totalConsultorias === 1
+
+                            ? 'Consultoría registrada'
+
+                            : 'Consultorías registradas' }}
+
+                    </span>
+
+                    <span class="mc-c08__estadistica-pie">
+
+                        Consultar seguimientos →
+
+                    </span>
+
+                </a>
+
+            </div>
 
         </div>
 
-        @if ($consultorias->isEmpty())
+    </section>
 
-            <div class="tarjeta vacio mt-3">
+    {{-- ======================================== --}}
 
-                <h3>Sin consultorías registradas</h3>
+    {{-- 03 · CONTENIDO PERSONAL --}}
 
-                <p class="texto-suave mb-0">
-                    Aún no has realizado ninguna solicitud
-                    de consultoría.
-                </p>
+    {{-- ======================================== --}}
 
-            </div>
+    <section class="mc-c08__contenido">
 
-        @else
+        <div class="contenedor">
 
-            <div class="tarjeta mt-3">
+            <x-avisos />
 
-                @foreach ($consultorias as $c)
+            {{-- ENLACES INTERNOS --}}
 
-                    @php
-                        $estadoConsultoria = match ($c->estado) {
-                            'recibida' => 'Recibida',
-                            'en_proceso' => 'En proceso',
-                            'atendida' => 'Atendida',
-                            'cerrada' => 'Cerrada',
-                            default => ucfirst($c->estado),
-                        };
-                    @endphp
+            <nav class="mc-c08__navegacion"
 
-                    <article class="solicitud-item">
+                 aria-label="Apartados de mis solicitudes">
 
-                        <div>
+                <a href="#mis-reservaciones">
 
-                            {{-- IDENTIFICADOR Y ESTADO --}}
+                    <span>01</span>
 
-                            <div class="fila">
+                    Mis reservaciones
 
-                                <span class="mono texto-suave">
-                                    Consultoría #{{ $c->id_solicitud_consultoria }}
-                                </span>
+                </a>
 
-                                <span class="texto-chico texto-suave">
-                                    Estado:
-                                    <strong>
-                                        {{ $estadoConsultoria }}
-                                    </strong>
-                                </span>
+                <a href="#mis-consultorias">
 
-                            </div>
+                    <span>02</span>
 
+                    Mis consultorías
 
-                            {{-- ORGANIZACIÓN --}}
+                </a>
 
-                            <h3>
-                                {{ $c->nombre_organizacion ?? 'Organización no disponible' }}
-                            </h3>
+                <a href="{{ route('experiencias.index') }}">
 
+                    <span aria-hidden="true">↗</span>
 
-                            {{-- UBICACIÓN --}}
+                    Explorar experiencias
 
-                            <p class="texto-suave texto-chico">
-                                <strong>Ubicación:</strong>
-                                {{ $c->ubicacion }}
-                            </p>
+                </a>
 
+            </nav>
 
-                            {{-- NECESIDAD REGISTRADA --}}
+            {{-- ==================================== --}}
 
-                            <p class="texto-suave texto-chico">
-                                <strong>Necesidad:</strong>
-                                {{ $c->necesidad }}
-                            </p>
+            {{-- 04 · RESERVACIONES --}}
 
+            {{-- ==================================== --}}
 
-                            
-                            {{-- FECHA DE SOLICITUD --}}
+            <section
 
-                            <p class="texto-suave texto-chico mb-0">
+                class="mc-c08__apartado"
 
-                                <strong>Fecha de solicitud:</strong>
+                id="mis-reservaciones"
 
-                                {{ \Carbon\Carbon::parse($c->fecha_solicitud)->translatedFormat('d M Y') }}
+            >
 
-                            </p>
+                <div class="mc-c08__encabezado">
 
+                    <div>
 
-                            {{-- ====================================== --}}
-                            {{-- SEGUIMIENTO DE LA CONSULTORÍA --}}
-                            {{-- ====================================== --}}
+                        <span class="mc-c08__etiqueta">
 
-                            <div class="mt-3">
+                            <span class="mc-c08__linea"></span>
 
-                                <h4 class="mb-2">
-                                    Seguimiento de la consultoría
-                                </h4>
+                            01 / EXPERIENCIAS TURÍSTICAS
 
-                                @php
-                                    $comentarios = $seguimientos->get(
-                                        $c->id_solicitud_consultoria,
-                                        collect()
-                                    );
-                                @endphp
+                        </span>
 
-                                @if ($comentarios->isEmpty())
+                        <h2>
 
-                                    <div class="texto-suave texto-chico">
+                            Mis
 
-                                        Aún no hay comentarios de seguimiento
-                                        para esta consultoría.
+                            <em>reservaciones.</em>
+
+                        </h2>
+
+                        <p>
+
+                            Consulta las experiencias
+
+                            que has solicitado y revisa
+
+                            el estado de cada reservación.
+
+                        </p>
+
+                    </div>
+
+                    <a
+
+                        href="{{ route('solicitudes.create') }}"
+
+                        class="mc-c08__enlace"
+
+                    >
+
+                        Nueva solicitud
+
+                        <span aria-hidden="true">↗</span>
+
+                    </a>
+
+                </div>
+
+                {{-- SIN RESERVACIONES --}}
+
+                @if ($solicitudes->isEmpty())
+
+                    <div class="mc-c08__vacio">
+
+                        <h3>
+
+                            Tu próxima historia
+
+                            está por comenzar.
+
+                        </h3>
+
+                        <p>
+
+                            Todavía no tienes solicitudes
+
+                            de experiencias. Explora
+
+                            nuestras actividades
+
+                            y encuentra tu próximo destino.
+
+                        </p>
+
+                        <a
+
+                            href="{{ route('experiencias.index') }}"
+
+                            class="mc-c08__boton mc-c08__boton--verde"
+
+                        >
+
+                            Descubrir experiencias
+
+                            <span aria-hidden="true">↗</span>
+
+                        </a>
+
+                    </div>
+
+                @else
+
+                    <div class="mc-c08__reservaciones">
+
+                        @foreach ($solicitudes as $s)
+
+                            <article class="mc-c08__reserva">
+
+                                {{-- CABECERA DEL EXPEDIENTE --}}
+
+                                <div class="mc-c08__reserva-top">
+
+                                    <div class="mc-c08__reserva-identidad">
+
+                                        <span class="mc-c08__micro">
+
+                                            FOLIO DE SOLICITUD
+
+                                        </span>
+
+                                        <strong class="mc-c08__folio">
+
+                                            {{ $s->folio }}
+
+                                        </strong>
 
                                     </div>
 
-                                @else
+                                    <div class="mc-c08__estados">
 
-                                    @foreach ($comentarios as $seguimiento)
+                                        <div class="mc-c08__estado-grupo">
 
-                                        <div class="mt-2">
+                                            <span class="mc-c08__micro">
 
-                                            <p class="texto-suave texto-chico mb-1">
+                                                SOLICITUD
 
-                                                <strong>Comentario:</strong>
+                                            </span>
 
-                                                {{ $seguimiento->comentario }}
-
-                                            </p>
-
-                                            <p class="texto-suave texto-chico mb-0">
-
-                                                <strong>Fecha de seguimiento:</strong>
-
-                                                {{ \Carbon\Carbon::parse($seguimiento->fecha)->translatedFormat('d M Y, H:i') }}
-
-                                            </p>
+                                            <x-estado :valor="$s->estado" />
 
                                         </div>
 
-                                        @if (!$loop->last)
-                                            <hr>
+                                        @if ($s->ultimoPago)
+
+                                            <div class="mc-c08__estado-grupo">
+
+                                                <span class="mc-c08__micro">
+
+                                                    PAGO
+
+                                                </span>
+
+                                                <x-estado
+
+                                                    :valor="$s->ultimoPago->estado"
+
+                                                />
+
+                                            </div>
+
                                         @endif
 
-                                    @endforeach
+                                    </div>
 
-                                @endif
+                                </div>
 
-                            </div>
+                                {{-- EXPERIENCIAS --}}
 
-                        </div>
-                    </article>
-                @endforeach
+                                <div class="mc-c08__reserva-cuerpo">
+
+                                    @if ($s->experiencias->first()?->imagen_url)
+
+                                        <div class="mc-c08__reserva-foto">
+
+                                            <img
+
+                                                src="{{ $s->experiencias->first()->imagen_url }}"
+
+                                                alt=""
+
+                                                loading="lazy"
+
+                                            >
+
+                                        </div>
+
+                                    @endif
+
+                                    <div class="mc-c08__reserva-info">
+
+                                        <span class="mc-c08__etiqueta">
+
+                                            EXPERIENCIAS SELECCIONADAS
+
+                                        </span>
+
+                                        <h3>
+
+                                            {{ $s->experiencias
+
+                                                ->pluck('nombre')
+
+                                                ->implode(' + ') }}
+
+                                        </h3>
+
+                                        <ul class="mc-c08__experiencias-lista">
+
+                                            @foreach ($s->experiencias as $exp)
+
+                                                <li>
+                                            <span>{{ $exp->nombre }}</span>
+                                            @php
+                                                $fechaExperiencia = $exp->pivot->fecha_deseada
+                                                    ?? $s->fecha_deseada;
+                                            @endphp
+                                            <small>
+                                                @if ($fechaExperiencia)
+                                                    {{ \Carbon\Carbon::parse($fechaExperiencia)->translatedFormat('j M Y') }}
+                                                @else
+                                                    Fecha por confirmar
+                                                @endif
+                                            </small>
+                                        </li>
+
+                                            @endforeach
+
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+
+                                {{-- DATOS DE LA RESERVACIÓN --}}
+
+                                <dl class="mc-c08__datos">
+
+                                    <div>
+
+                                        <dt>
+
+                                            FECHAS SOLICITADAS
+
+                                        </dt>
+
+                                        <dd>
+
+                                            Consulta las fechas de cada experiencia arriba.
+
+                                        </dd>
+
+                                    </div>
+
+                                    <div>
+
+                                        <dt>
+
+                                            PARTICIPANTES
+
+                                        </dt>
+
+                                        <dd>
+
+                                            {{ $s->cant_persona }}
+
+                                            {{ $s->cant_persona == 1
+
+                                                ? 'persona'
+
+                                                : 'personas' }}
+
+                                        </dd>
+
+                                    </div>
+
+                                    <div class="mc-c08__dato-total">
+
+                                        <dt>
+
+                                            TOTAL REGISTRADO
+
+                                        </dt>
+
+                                        <dd>
+
+                                            ${{ number_format($s->total, 2) }}
+
+                                            <small>MXN</small>
+
+                                        </dd>
+
+                                    </div>
+
+                                </dl>
+
+                                {{-- ACCIONES DE LA SOLICITUD --}}
+
+                                <div class="mc-c08__reserva-acciones">
+
+                                    <div class="mc-c08__reserva-mensaje">
+
+                                        <span aria-hidden="true">ⓘ</span>
+
+                                        <span>
+
+                                            Consulta el estado de tu solicitud
+
+                                            antes de realizar un pago.
+
+                                        </span>
+
+                                    </div>
+
+                                    <div class="mc-c08__acciones">
+
+                                        @if ($s->puedePagar())
+
+                                            <a
+
+                                                href="{{ route('pagos.create', $s) }}"
+
+                                                class="mc-c08__boton mc-c08__boton--verde"
+
+                                            >
+
+                                                {{ $s->ultimoPago?->estado === 'rechazado'
+
+                                                    ? 'Reenviar comprobante'
+
+                                                    : 'Registrar pago' }}
+
+                                                <span aria-hidden="true">↗</span>
+
+                                            </a>
+
+                                        @endif
+
+                                        @if ($s->estado === 'pendiente')
+
+                                            <form
+
+                                                method="POST"
+
+                                                action="{{ route('solicitudes.cancelar', $s) }}"
+
+                                                onsubmit="return confirm('¿Seguro que deseas cancelar esta solicitud?')"
+
+                                            >
+
+                                                @csrf
+
+                                                @method('PATCH')
+
+                                                <button
+
+                                                    type="submit"
+
+                                                    class="mc-c08__cancelar"
+
+                                                >
+
+                                                    Cancelar solicitud
+
+                                                </button>
+
+                                            </form>
+
+                                        @endif
+
+                                    </div>
+
+                                </div>
+
+                            </article>
+
+                        @endforeach
+
+                    </div>
+
+                    {{-- PAGINACIÓN ORIGINAL --}}
+
+                    <div class="mc-c08__paginacion">
+
+                        {{ $solicitudes->links() }}
+
+                    </div>
+
+                @endif
+
+            </section>
+
+            {{-- ==================================== --}}
+
+            {{-- 05 · CONSULTORÍAS --}}
+
+            {{-- ==================================== --}}
+
+            <section
+
+                class="mc-c08__apartado"
+
+                id="mis-consultorias"
+
+            >
+
+                <div class="mc-c08__encabezado">
+
+                    <div>
+
+                        <span class="mc-c08__etiqueta">
+
+                            <span class="mc-c08__linea"></span>
+
+                            02 / ACOMPAÑAMIENTO Y CONSULTORÍA
+
+                        </span>
+
+                        <h2>
+
+                            Mis
+
+                            <em>consultorías.</em>
+
+                        </h2>
+
+                        <p>
+
+                            Consulta las necesidades
+
+                            registradas, el estado de atención
+
+                            y los comentarios de seguimiento
+
+                            de tus proyectos.
+
+                        </p>
+
+                    </div>
+
+                    <span class="mc-c08__contador">
+
+                        {{ $totalConsultorias }}
+
+                        {{ $totalConsultorias === 1
+
+                            ? 'consultoría'
+
+                            : 'consultorías' }}
+
+                    </span>
+
+                </div>
+
+                {{-- SIN CONSULTORÍAS --}}
+
+                @if ($consultorias->isEmpty())
+
+                    <div class="mc-c08__vacio">
+
+                        <h3>
+
+                            Aún no tienes
+
+                            consultorías registradas.
+
+                        </h3>
+
+                        <p>
+
+                            Cuando registres una solicitud
+
+                            de consultoría podrás consultar
+
+                            aquí su información
+
+                            y seguimiento.
+
+                        </p>
+
+                        <a
+
+                            href="{{ route('consultoria.index') }}"
+
+                            class="mc-c08__boton mc-c08__boton--verde"
+
+                        >
+
+                            Conocer las consultorías
+
+                            <span aria-hidden="true">↗</span>
+
+                        </a>
+
+                    </div>
+
+                @else
+
+                    <div class="mc-c08__consultorias">
+
+                        @foreach ($consultorias as $c)
+
+                            @php
+
+                                $estadoConsultoria = match ($c->estado) {
+
+                                    'recibida' => 'Recibida',
+
+                                    'en_proceso' => 'En proceso',
+
+                                    'atendida' => 'Atendida',
+
+                                    'cerrada' => 'Cerrada',
+
+                                    default => ucfirst(
+
+                                        str_replace('_', ' ', $c->estado)
+
+                                    ),
+
+                                };
+
+                                $comentarios = $seguimientos->get(
+
+                                    $c->id_solicitud_consultoria,
+
+                                    collect()
+
+                                );
+
+                            @endphp
+
+                            <article class="mc-c08__consultoria">
+
+                                {{-- CABECERA --}}
+
+                                <div class="mc-c08__consultoria-top">
+
+                                    <div>
+
+                                        <span class="mc-c08__micro">
+
+                                            EXPEDIENTE DE CONSULTORÍA
+
+                                        </span>
+
+                                        <strong class="mc-c08__consultoria-folio">
+
+                                            CON-{{ str_pad(
+
+                                                $c->id_solicitud_consultoria,
+
+                                                5,
+
+                                                '0',
+
+                                                STR_PAD_LEFT
+
+                                            ) }}
+
+                                        </strong>
+
+                                    </div>
+
+                                    <span
+
+                                        @class([
+
+                                            'mc-c08__estado-consultoria',
+
+                                            'mc-c08__estado-consultoria--recibida'
+
+                                                *=*> $c->estado === 'recibida',
+
+                                            'mc-c08__estado-consultoria--proceso'
+
+                                                => $c->estado === 'en_proceso',
+
+                                            'mc-c08__estado-consultoria--atendida'
+
+                                                => $c->estado === 'atendida',
+
+                                            'mc-c08__estado-consultoria--cerrada'
+
+                                                => $c->estado === 'cerrada',
+
+                                        ])
+
+                                    >
+
+                                        {{ $estadoConsultoria }}
+
+                                    </span>
+
+                                </div>
+
+                                {{-- ORGANIZACIÓN Y NECESIDAD --}}
+
+                                <div class="mc-c08__consultoria-cuerpo">
+
+                                    <span class="mc-c08__etiqueta">
+
+                                        ORGANIZACIÓN SOLICITANTE
+
+                                    </span>
+
+                                    <h3>
+
+                                        {{ $c->nombre_organizacion
+
+                                           ?? 'Organización no disponible' }}
+
+                                    </h3>
+
+                                    <div class="mc-c08__consultoria-meta">
+
+                                        <span>
+
+                                            ⌖
+
+                                            {{ $c->ubicacion }}
+
+                                        </span>
+
+                                        <span>
+
+                                            ◷
+
+                                            {{ \Carbon\Carbon::parse(
+
+                                                $c->fecha_solicitud
+
+                                            )->translatedFormat('d M Y') }}
+
+                                        </span>
+
+                                    </div>
+
+                                    <div class="mc-c08__necesidad">
+
+                                        <span class="mc-c08__micro">
+
+                                            NECESIDAD REGISTRADA
+
+                                        </span>
+
+                                        <p>
+
+                                            {{ $c->necesidad }}
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                {{-- HISTORIAL DESPLEGABLE --}}
+
+                                <details
+
+                                    class="mc-c08__seguimiento"
+
+                                    @if ($comentarios->isNotEmpty()) open @endif
+
+                                >
+
+                                    <summary>
+
+                                        <span class="mc-c08__seguimiento-texto">
+
+                                            <strong>
+
+                                                Seguimiento de la consultoría
+
+                                            </strong>
+
+                                            <small>
+
+                                                {{ $comentarios->count() }}
+
+                                                {{ $comentarios->count() === 1
+
+                                                    ? 'comentario registrado'
+
+                                                    : 'comentarios registrados' }}
+
+                                            </small>
+
+                                        </span>
+
+                                        <span class="mc-c08__chevron"
+
+                                              aria-hidden="true">
+
+                                            ⌄
+
+                                        </span>
+
+                                    </summary>
+
+                                    <div class="mc-c08__seguimiento-contenido">
+
+                                        @if ($comentarios->isEmpty())
+
+                                            <div class="mc-c08__sin-seguimiento">
+
+                                                <span aria-hidden="true">◷</span>
+
+                                                <p>
+
+                                                    Aún no hay comentarios
+
+                                                    de seguimiento
+
+                                                    para esta consultoría.
+
+                                                </p>
+
+                                            </div>
+
+                                        @else
+
+                                            <ol class="mc-c08__timeline">
+
+                                                @foreach (
+
+                                                    $comentarios->sortBy('fecha')
+
+                                                    as $seguimiento
+
+                                                )
+
+                                                    <li>
+
+                                                        <div class="mc-c08__timeline-card">
+
+                                                            <span class="mc-c08__micro">
+
+                                                                ACTUALIZACIÓN DEL PROYECTO
+
+                                                            </span>
+
+                                                            <p>
+
+                                                                {{ $seguimiento->comentario }}
+
+                                                            </p>
+
+                                                            <time
+
+                                                                datetime="{{ \Carbon\Carbon::parse($seguimiento->fecha)->toIso8601String() }}"
+
+                                                            >
+
+                                                                {{ \Carbon\Carbon::parse(
+
+                                                                    $seguimiento->fecha
+
+                                                                )->translatedFormat('d M Y, H:i') }}
+
+                                                            </time>
+
+                                                        </div>
+
+                                                    </li>
+
+                                                @endforeach
+
+                                            </ol>
+
+                                        @endif
+
+                                    </div>
+
+                                </details>
+
+                            </article>
+
+                        @endforeach
+
+                    </div>
+
+                @endif
+
+            </section>
+
+        </div>
+
+    </section>
+
+    {{-- ======================================== --}}
+
+    {{-- 06 · INVITACIÓN FINAL --}}
+
+    {{-- ======================================== --}}
+
+    <section class="mc-c08__final">
+
+        <div class="contenedor mc-c08__final-grid">
+
+            <div>
+
+                <span class="mc-c08__etiqueta
+
+                             mc-c08__etiqueta--clara">
+
+                    CONTINÚA DESCUBRIENDO
+
+                </span>
+
+                <h2>
+
+                    Siempre hay algo
+
+                    <em>nuevo por vivir.</em>
+
+                </h2>
+
+                <p>
+
+                    Explora otras experiencias
+
+                    y descubre nuevas formas
+
+                    de conectar con Valle de Bravo.
+
+                </p>
+
             </div>
-        @endif
+
+            <a
+
+                href="{{ route('experiencias.index') }}"
+
+                class="mc-c08__boton mc-c08__boton--claro"
+
+            >
+
+                Explorar experiencias
+
+                <span aria-hidden="true">↗</span>
+
+            </a>
+
+        </div>
+
     </section>
 
 </div>
+
 @endsection

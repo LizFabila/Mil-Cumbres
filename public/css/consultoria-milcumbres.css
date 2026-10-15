@@ -1,0 +1,1096 @@
+
+/* =====================================================
+   MIL CUMBRES · C10 CONSULTORÍA
+   Diseño editorial de servicios regenerativos
+===================================================== */
+
+.mc-consultoria {
+    --con-verde: #143D36;
+    --con-verde-2: #1B6B57;
+    --con-crema: #FAF8F2;
+    --con-arena: #E5D8B8;
+    --con-texto: #5F716B;
+    --con-borde: #D6E1DC;
+
+    width: 100%;
+    background: var(--con-crema);
+    color: var(--con-verde);
+    font-family: "Public Sans", sans-serif;
+    overflow: clip;
+}
+
+.mc-consultoria *,
+.mc-consultoria *::before,
+.mc-consultoria *::after {
+    box-sizing: border-box;
+}
+
+.mc-consultoria h1,
+.mc-consultoria h2,
+.mc-consultoria h3,
+.mc-consultoria blockquote {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+}
+
+.mc-consultoria h1,
+.mc-consultoria h2,
+.mc-consultoria h3,
+.mc-consultoria p {
+    margin-top: 0;
+}
+
+.mc-consultoria h1 em,
+.mc-consultoria h2 em,
+.mc-consultoria h3 em {
+    font-style: italic;
+    font-weight: 400;
+}
+
+.mc-consultoria a {
+    text-decoration: none;
+}
+
+.mc-consultoria a:focus-visible {
+    outline: 3px solid #5AA0D8;
+    outline-offset: 4px;
+}
+
+/* Elementos compartidos */
+
+.mc-consultoria-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    color: var(--con-verde-2);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.6;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+}
+
+.mc-consultoria-eyebrow--claro {
+    color: #E8DBB9;
+}
+
+.mc-consultoria-raya {
+    width: 28px;
+    height: 1px;
+    flex-shrink: 0;
+    background: currentColor;
+}
+
+.mc-consultoria-boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    min-height: 56px;
+    padding: 15px 22px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.4;
+    transition:
+        transform .25s ease,
+        background .25s ease,
+        color .25s ease;
+}
+
+.mc-consultoria-boton > span {
+    font-size: 21px;
+    line-height: 1;
+}
+
+.mc-consultoria-boton:hover {
+    transform: translateY(-3px);
+}
+
+.mc-consultoria-boton--crema {
+    background: #F7F3E9;
+    color: var(--con-verde);
+}
+
+.mc-consultoria-boton--crema:hover {
+    background: #E7D9B7;
+    color: var(--con-verde);
+}
+
+.mc-consultoria-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid currentColor;
+    color: var(--con-verde-2);
+    font-size: 12px;
+    font-weight: 700;
+    transition: gap .25s ease;
+}
+
+.mc-consultoria-link:hover {
+    gap: 27px;
+    color: var(--con-verde);
+}
+
+/* =====================================================
+   01 · PORTADA
+===================================================== */
+
+.mc-consultoria-hero {
+    position: relative;
+    isolation: isolate;
+    min-height: 710px;
+    overflow: hidden;
+    background: var(--con-verde);
+    color: white;
+}
+
+.mc-consultoria-hero__imagen,
+.mc-consultoria-hero__overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.mc-consultoria-hero__imagen {
+    z-index: -2;
+    object-fit: cover;
+    object-position: center;
+}
+
+.mc-consultoria-hero__overlay {
+    z-index: -1;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(7,31,24,.93) 0%,
+            rgba(7,31,24,.78) 42%,
+            rgba(7,31,24,.40) 74%,
+            rgba(7,31,24,.22) 100%
+        ),
+        linear-gradient(
+            0deg,
+            rgba(8,31,24,.7),
+            transparent 35%
+        );
+}
+
+.mc-consultoria-hero__contenedor {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 710px;
+}
+
+.mc-consultoria-migas {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    flex-wrap: wrap;
+    padding-top: 33px;
+    color: #E0E7DF;
+    font-size: 11px;
+}
+
+.mc-consultoria-migas a {
+    color: white;
+}
+
+.mc-consultoria-migas a:hover {
+    color: var(--con-arena);
+}
+
+.mc-consultoria-hero__contenido {
+    max-width: 840px;
+    padding: 65px 0 75px;
+}
+
+.mc-consultoria-hero__simbolo {
+    display: block;
+    margin: 33px 0 15px;
+    color: var(--con-arena);
+    font-size: 49px;
+    line-height: 1;
+}
+
+.mc-consultoria-hero h1 {
+    max-width: 840px;
+    margin: 0 0 25px;
+    color: white;
+    font-size: clamp(52px, 6.1vw, 87px);
+    line-height: 1.1;
+    letter-spacing: -2px;
+}
+
+.mc-consultoria-hero h1 em {
+    color: #E6D8B7;
+}
+
+.mc-consultoria-hero__contenido > p {
+    max-width: 590px;
+    margin-bottom: 33px;
+    color: rgba(255,255,255,.87);
+    font-size: 15px;
+    line-height: 1.95;
+}
+
+.mc-consultoria-hero__acciones {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 22px;
+}
+
+.mc-consultoria-hero__enlace {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid rgba(255,255,255,.45);
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.mc-consultoria-hero__enlace:hover {
+    color: var(--con-arena);
+}
+
+.mc-consultoria-hero__pie {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 19px 0;
+    border-top: 1px solid rgba(255,255,255,.28);
+    color: rgba(255,255,255,.82);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+}
+
+/* =====================================================
+   02 · INTRODUCCIÓN
+===================================================== */
+
+.mc-consultoria-intro {
+    padding: 115px 0;
+    background: #FAF8F2;
+}
+
+.mc-consultoria-intro__grid {
+    display: grid;
+    grid-template-columns: minmax(0,1.12fr) minmax(0,.88fr);
+    align-items: center;
+    gap: clamp(35px, 6vw, 110px);
+}
+
+.mc-consultoria-intro__titulo h2 {
+    max-width: 730px;
+    margin: 22px 0 0;
+    color: var(--con-verde);
+    font-size: clamp(40px, 4.4vw, 66px);
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+}
+
+.mc-consultoria-intro__titulo h2 em {
+    display: block;
+    color: var(--con-verde-2);
+}
+
+.mc-consultoria-intro__texto {
+    padding: 25px 0 25px 32px;
+    border-left: 1px solid #C6D6CB;
+}
+
+.mc-consultoria-intro__ornamento {
+    display: block;
+    margin-bottom: 23px;
+    color: var(--con-verde-2);
+    font-size: 39px;
+    line-height: 1;
+}
+
+.mc-consultoria-intro__texto p {
+    max-width: 500px;
+    margin-bottom: 19px;
+    color: var(--con-texto);
+    font-size: 14px;
+    line-height: 2;
+}
+
+.mc-consultoria-intro__texto .mc-consultoria-link {
+    margin-top: 13px;
+}
+
+/* =====================================================
+   03 · TIPOS DE ORGANIZACIÓN
+===================================================== */
+
+.mc-consultoria-tipos {
+    padding: 105px 0 120px;
+    background: #FFFFFF;
+    scroll-margin-top: 115px;
+}
+
+.mc-consultoria-seccion-titulo {
+    display: grid;
+    grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr);
+    align-items: end;
+    gap: 55px;
+    margin-bottom: 43px;
+}
+
+.mc-consultoria-seccion-titulo h2 {
+    max-width: 750px;
+    margin: 19px 0 0;
+    color: var(--con-verde);
+    font-size: clamp(38px, 4vw, 59px);
+    line-height: 1.18;
+    letter-spacing: -1.2px;
+}
+
+.mc-consultoria-seccion-titulo h2 em {
+    display: block;
+    color: var(--con-verde-2);
+}
+
+.mc-consultoria-seccion-titulo > p {
+    max-width: 480px;
+    margin-bottom: 4px;
+    color: var(--con-texto);
+    font-size: 14px;
+    line-height: 1.95;
+}
+
+.mc-consultoria-tipos__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    align-items: stretch;
+    gap: 24px;
+}
+
+/* Tarjetas de servicios */
+
+.mc-consultoria-tipo {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--con-borde);
+    background: #FAFBF8;
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+.mc-consultoria-tipo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 35px rgba(20,61,54,.1);
+}
+
+.mc-consultoria-tipo__visual {
+    position: relative;
+    isolation: isolate;
+    height: 320px;
+    overflow: hidden;
+    background: var(--con-verde);
+}
+
+.mc-consultoria-tipo__visual img,
+.mc-consultoria-tipo__sombra {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.mc-consultoria-tipo__visual img {
+    z-index: -2;
+    display: block;
+    object-fit: cover;
+    transition: transform .6s ease;
+}
+
+.mc-consultoria-tipo:hover .mc-consultoria-tipo__visual img {
+    transform: scale(1.06);
+}
+
+.mc-consultoria-tipo__sombra {
+    z-index: -1;
+    background: linear-gradient(
+        180deg,
+        rgba(8,34,26,.55) 0%,
+        transparent 40%,
+        rgba(8,34,26,.82) 100%
+    );
+}
+
+.mc-consultoria-tipo__numero {
+    position: absolute;
+    top: 25px;
+    left: 28px;
+    color: white;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.mc-consultoria-tipo__numero span {
+    padding: 0 5px;
+    color: #DDCEAA;
+    font-size: 18px;
+}
+
+.mc-consultoria-tipo__categoria {
+    position: absolute;
+    left: 28px;
+    bottom: 26px;
+    padding: 11px 14px;
+    background: #F7F3E8;
+    color: var(--con-verde);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+}
+
+.mc-consultoria-tipo__cuerpo {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    padding: clamp(25px, 3vw, 42px);
+}
+
+.mc-consultoria-tipo__cuerpo h3 {
+    margin: 15px 0 17px;
+    color: var(--con-verde);
+    font-size: clamp(31px, 3.1vw, 44px);
+    line-height: 1.2;
+}
+
+.mc-consultoria-tipo__intro {
+    max-width: 520px;
+    margin-bottom: 26px;
+    color: var(--con-texto);
+    font-size: 13px;
+    line-height: 1.95;
+}
+
+.mc-consultoria-tipo__servicios {
+    margin-bottom: 33px;
+    padding-top: 25px;
+    border-top: 1px solid var(--con-borde);
+}
+
+.mc-consultoria-tipo__servicios > span {
+    display: block;
+    margin-bottom: 21px;
+    color: var(--con-verde-2);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+}
+
+.mc-consultoria-tipo__servicios ul {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.mc-consultoria-tipo__servicios li {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    color: var(--con-texto);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.mc-consultoria-tipo__servicios li > span {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #E2EEE0;
+    color: var(--con-verde-2);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.mc-consultoria-tipo__boton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 19px;
+    min-height: 57px;
+    margin-top: auto;
+    padding: 14px 18px;
+    border: 1px solid var(--con-verde);
+    background: var(--con-verde);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    transition: background .25s ease;
+}
+
+.mc-consultoria-tipo__boton:hover {
+    background: var(--con-verde-2);
+    color: white;
+}
+
+.mc-consultoria-tipo__flecha {
+    font-size: 22px;
+    line-height: 1;
+}
+
+/* Sin tipos de organización */
+
+.mc-consultoria-tipos__vacio {
+    grid-column: 1 / -1;
+    padding: 60px 25px;
+    border: 1px solid var(--con-borde);
+    background: #F7FAF5;
+    text-align: center;
+}
+
+.mc-consultoria-tipos__vacio > span {
+    display: block;
+    color: var(--con-verde-2);
+    font-size: 45px;
+}
+
+.mc-consultoria-tipos__vacio h3 {
+    margin: 15px 0;
+    font-size: 29px;
+}
+
+.mc-consultoria-tipos__vacio p {
+    margin-bottom: 0;
+    color: var(--con-texto);
+    font-size: 13px;
+}
+
+/* =====================================================
+   04 · FRASE EDITORIAL
+===================================================== */
+
+.mc-consultoria-frase {
+    padding: 95px 0;
+    background: var(--con-verde);
+    color: white;
+}
+
+.mc-consultoria-frase__grid {
+    display: grid;
+    grid-template-columns: 170px minmax(0,1fr);
+    align-items: center;
+    gap: 40px;
+}
+
+.mc-consultoria-frase__marca {
+    color: #E0D4B1;
+    font-size: clamp(110px, 12vw, 180px);
+    line-height: 1;
+    text-align: center;
+}
+
+.mc-consultoria-frase blockquote {
+    max-width: 980px;
+    margin: 22px 0 0;
+    color: white;
+    font-size: clamp(34px, 4vw, 62px);
+    line-height: 1.25;
+    letter-spacing: -1px;
+}
+
+.mc-consultoria-frase blockquote em {
+    color: #E4D6B2;
+    font-weight: 400;
+}
+
+/* =====================================================
+   05 · PROCESO DE TRABAJO
+===================================================== */
+
+.mc-consultoria-proceso {
+    padding: 115px 0 125px;
+    background: #F5F4EE;
+    scroll-margin-top: 115px;
+}
+
+.mc-consultoria-proceso__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    align-items: stretch;
+    gap: 18px;
+}
+
+.mc-consultoria-paso {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 395px;
+    padding: 27px;
+    border: 1px solid var(--con-borde);
+    background: white;
+    transition:
+        transform .3s ease,
+        background .3s ease;
+}
+
+.mc-consultoria-paso:hover {
+    transform: translateY(-5px);
+    background: #F8FBF6;
+}
+
+.mc-consultoria-paso__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 17px;
+    border-bottom: 1px solid var(--con-borde);
+    color: var(--con-verde-2);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+.mc-consultoria-paso__top > span:last-child {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.mc-consultoria-paso__numero {
+    display: block;
+    margin-top: 30px;
+    color: #D7E5D7;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 92px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -4px;
+}
+
+.mc-consultoria-paso__icono {
+    display: block;
+    margin: 4px 0 9px;
+    color: var(--con-verde-2);
+    font-size: 31px;
+    line-height: 1;
+}
+
+.mc-consultoria-paso h3 {
+    margin-bottom: 13px;
+    color: var(--con-verde);
+    font-size: 34px;
+    line-height: 1.2;
+}
+
+.mc-consultoria-paso p {
+    margin-bottom: 29px;
+    color: var(--con-texto);
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.mc-consultoria-paso__pie {
+    display: block;
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid var(--con-borde);
+    color: var(--con-verde-2);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.25px;
+}
+
+/* =====================================================
+   06 · INVITACIÓN FINAL
+===================================================== */
+
+.mc-consultoria-cta {
+    overflow: hidden;
+    background: #1A4C3F;
+    color: white;
+}
+
+.mc-consultoria-cta__grid {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) minmax(0,.75fr);
+    align-items: stretch;
+    gap: 65px;
+}
+
+.mc-consultoria-cta__contenido {
+    align-self: center;
+    padding: 100px 0;
+}
+
+.mc-consultoria-cta h2 {
+    max-width: 690px;
+    margin: 25px 0;
+    color: white;
+    font-size: clamp(41px, 4.8vw, 69px);
+    line-height: 1.13;
+    letter-spacing: -1.3px;
+}
+
+.mc-consultoria-cta h2 em {
+    color: #E4D6B2;
+}
+
+.mc-consultoria-cta__contenido > p {
+    max-width: 470px;
+    margin-bottom: 29px;
+    color: rgba(255,255,255,.83);
+    font-size: 14px;
+    line-height: 1.95;
+}
+
+.mc-consultoria-cta__visual {
+    position: relative;
+    min-height: 550px;
+    overflow: hidden;
+    isolation: isolate;
+    background: #13382D;
+}
+
+.mc-consultoria-cta__visual > img {
+    position: absolute;
+    z-index: -2;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mc-consultoria-cta__visual::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        transparent 35%,
+        rgba(8,33,25,.75) 100%
+    );
+}
+
+.mc-consultoria-cta__visual-sello {
+    position: absolute;
+    left: 30px;
+    right: 30px;
+    bottom: 27px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    color: white;
+}
+
+.mc-consultoria-cta__visual-sello > span {
+    color: #E6D9B5;
+    font-size: 38px;
+    line-height: 1;
+}
+
+.mc-consultoria-cta__visual-sello strong {
+    color: white;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.mc-consultoria-cta__visual-sello small {
+    color: #E6DED0;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+/* =====================================================
+   RESPONSIVE · COMPUTADORAS MEDIANAS
+===================================================== */
+
+@media (max-width: 1100px) {
+
+    .mc-consultoria-hero,
+    .mc-consultoria-hero__contenedor {
+        min-height: 650px;
+    }
+
+    .mc-consultoria-hero h1 {
+        font-size: clamp(47px, 6vw, 72px);
+    }
+
+    .mc-consultoria-intro__grid {
+        gap: 45px;
+    }
+
+    .mc-consultoria-tipo__visual {
+        height: 265px;
+    }
+
+    .mc-consultoria-cta__grid {
+        gap: 35px;
+    }
+}
+
+/* =====================================================
+   RESPONSIVE · TABLET
+===================================================== */
+
+@media (max-width: 850px) {
+
+    .mc-consultoria-intro {
+        padding: 85px 0;
+    }
+
+    .mc-consultoria-intro__grid,
+    .mc-consultoria-seccion-titulo {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .mc-consultoria-intro__texto {
+        max-width: 650px;
+    }
+
+    .mc-consultoria-tipos {
+        padding: 85px 0;
+    }
+
+    .mc-consultoria-tipos__grid {
+        gap: 15px;
+    }
+
+    .mc-consultoria-tipo__visual {
+        height: 235px;
+    }
+
+    .mc-consultoria-tipo__cuerpo {
+        padding: 23px;
+    }
+
+    .mc-consultoria-frase {
+        padding: 75px 0;
+    }
+
+    .mc-consultoria-frase__grid {
+        grid-template-columns: 90px minmax(0,1fr);
+        gap: 25px;
+    }
+
+    .mc-consultoria-frase__marca {
+        font-size: 95px;
+    }
+
+    .mc-consultoria-proceso {
+        padding: 85px 0;
+    }
+
+    .mc-consultoria-proceso__grid {
+        grid-template-columns: 1fr;
+        gap: 13px;
+    }
+
+    .mc-consultoria-paso {
+        min-height: auto;
+    }
+
+    .mc-consultoria-paso__numero {
+        margin-top: 17px;
+        font-size: 68px;
+    }
+
+    .mc-consultoria-cta__grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .mc-consultoria-cta__contenido {
+        padding: 75px 0;
+    }
+
+    .mc-consultoria-cta__visual {
+        min-height: 340px;
+    }
+}
+
+/* =====================================================
+   RESPONSIVE · CELULARES
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .mc-consultoria-hero,
+    .mc-consultoria-hero__contenedor {
+        min-height: 610px;
+    }
+
+    .mc-consultoria-migas {
+        padding-top: 22px;
+        font-size: 10px;
+    }
+
+    .mc-consultoria-hero__contenido {
+        padding: 42px 0;
+    }
+
+    .mc-consultoria-hero__simbolo {
+        margin: 20px 0 14px;
+        font-size: 35px;
+    }
+
+    .mc-consultoria-hero h1 {
+        font-size: clamp(40px, 10vw, 58px);
+        line-height: 1.13;
+        letter-spacing: -1px;
+    }
+
+    .mc-consultoria-hero__contenido > p {
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .mc-consultoria-hero__acciones {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .mc-consultoria-hero__acciones .mc-consultoria-boton {
+        width: 100%;
+    }
+
+    .mc-consultoria-hero__pie {
+        font-size: 8px;
+    }
+
+    .mc-consultoria-hero__pie span:last-child {
+        display: none;
+    }
+
+    .mc-consultoria-intro {
+        padding: 67px 0;
+    }
+
+    .mc-consultoria-intro__titulo h2 {
+        font-size: 39px;
+        letter-spacing: -1px;
+    }
+
+    .mc-consultoria-intro__texto {
+        padding-left: 20px;
+    }
+
+    .mc-consultoria-tipos {
+        padding: 65px 0 80px;
+    }
+
+    .mc-consultoria-seccion-titulo {
+        margin-bottom: 30px;
+    }
+
+    .mc-consultoria-seccion-titulo h2 {
+        font-size: 39px;
+    }
+
+    .mc-consultoria-tipos__grid {
+        grid-template-columns: 1fr;
+        gap: 23px;
+    }
+
+    .mc-consultoria-tipo__visual {
+        height: 255px;
+    }
+
+    .mc-consultoria-tipo__cuerpo {
+        padding: 25px 21px;
+    }
+
+    .mc-consultoria-tipo__cuerpo h3 {
+        font-size: 37px;
+    }
+
+    .mc-consultoria-tipo__servicios li {
+        font-size: 12px;
+    }
+
+    .mc-consultoria-frase {
+        padding: 65px 0;
+    }
+
+    .mc-consultoria-frase__grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .mc-consultoria-frase__marca {
+        font-size: 57px;
+        text-align: left;
+    }
+
+    .mc-consultoria-frase blockquote {
+        font-size: 33px;
+    }
+
+    .mc-consultoria-proceso {
+        padding: 68px 0 80px;
+    }
+
+    .mc-consultoria-paso {
+        padding: 24px;
+    }
+
+    .mc-consultoria-paso h3 {
+        font-size: 31px;
+    }
+
+    .mc-consultoria-cta__contenido {
+        padding: 72px 0;
+    }
+
+    .mc-consultoria-cta h2 {
+        font-size: 42px;
+        letter-spacing: -1px;
+    }
+
+    .mc-consultoria-cta__contenido .mc-consultoria-boton {
+        width: 100%;
+    }
+
+    .mc-consultoria-cta__visual {
+        min-height: 280px;
+    }
+}
+
+/* =====================================================
+   ACCESIBILIDAD
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .mc-consultoria *,
+    .mc-consultoria *::before,
+    .mc-consultoria *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+
+}

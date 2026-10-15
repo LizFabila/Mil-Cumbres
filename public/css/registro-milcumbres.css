@@ -1,0 +1,987 @@
+
+/* =====================================================
+   MIL CUMBRES · C05 REGISTRO
+   Diseño editorial turístico
+===================================================== */
+
+.mc-registro {
+    --rg-verde: #143D36;
+    --rg-verde-2: #1B6B57;
+    --rg-crema: #F7F4EC;
+    --rg-arena: #E5D8B8;
+    --rg-texto: #63776C;
+    --rg-borde: #D9E2D6;
+
+    width: 100%;
+    color: var(--rg-verde);
+    background: var(--rg-crema);
+    font-family: "Public Sans", sans-serif;
+}
+
+.mc-registro *,
+.mc-registro *::before,
+.mc-registro *::after {
+    box-sizing: border-box;
+}
+
+.mc-registro h1,
+.mc-registro h2,
+.mc-registro blockquote {
+    font-family: "Fraunces", Georgia, serif;
+}
+
+.mc-registro h1,
+.mc-registro h2,
+.mc-registro p {
+    margin-top: 0;
+}
+
+.mc-registro h1 em,
+.mc-registro h2 em {
+    font-weight: 400;
+    font-style: italic;
+}
+
+.mc-registro a {
+    text-decoration: none;
+}
+
+.mc-registro a:focus-visible,
+.mc-registro button:focus-visible,
+.mc-registro input:focus-visible {
+    outline: 3px solid #5AA0D8;
+    outline-offset: 3px;
+}
+
+.mc-registro__layout {
+    display: grid;
+    grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr);
+    align-items: start;
+    max-width: 1700px;
+    margin: 0 auto;
+}
+
+
+/* =====================================================
+   01 · PANEL FOTOGRÁFICO
+===================================================== */
+
+.mc-registro__visual {
+    position: sticky;
+    top: 124px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    height: calc(100vh - 124px);
+    height: calc(100dvh - 124px);
+    min-height: 570px;
+
+    padding: 34px clamp(28px,4vw,68px);
+
+    overflow: hidden;
+    isolation: isolate;
+
+    background: #143D36;
+    color: white;
+}
+
+.mc-registro__imagen,
+.mc-registro__overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.mc-registro__imagen {
+    z-index: -2;
+    object-fit: cover;
+    object-position: center;
+    animation: mcRegistroZoom 18s ease-out both;
+}
+
+.mc-registro__overlay {
+    z-index: -1;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(7,29,23,.65) 0%,
+            rgba(7,29,23,.20) 28%,
+            rgba(7,29,23,.65) 66%,
+            rgba(7,29,23,.94) 100%
+        ),
+        linear-gradient(
+            90deg,
+            rgba(9,32,24,.32),
+            transparent
+        );
+}
+
+
+/* ==========================================
+   ELEMENTOS SUPERIORES
+========================================== */
+
+.mc-registro__visual-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.mc-registro__regresar {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    transition: gap .25s;
+}
+
+.mc-registro__regresar:hover {
+    gap: 20px;
+    color: var(--rg-arena);
+}
+
+.mc-registro__regresar span {
+    font-size: 22px;
+}
+
+.mc-registro__visual-indice {
+    color: #E9E2CD;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+
+/* ==========================================
+   TEXTO EDITORIAL
+========================================== */
+
+.mc-registro__visual-centro {
+    max-width: 650px;
+    padding: 45px 0;
+    animation: mcRegistroEntrada .8s ease-out both;
+}
+
+.mc-registro__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    color: var(--rg-verde-2);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+    line-height: 1.7;
+}
+
+.mc-registro__eyebrow--claro {
+    color: #E9DDBD;
+}
+
+.mc-registro__linea {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 28px;
+    height: 1px;
+    background: currentColor;
+}
+
+.mc-registro__ornamento {
+    display: block;
+    margin: 36px 0 17px;
+    color: var(--rg-arena);
+    font-size: 53px;
+    line-height: 1;
+}
+
+.mc-registro__visual h2 {
+    margin-bottom: 24px;
+    color: white;
+    font-size: clamp(45px,5vw,74px);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -1.8px;
+}
+
+.mc-registro__visual h2 em {
+    display: block;
+    color: #E8DDBD;
+}
+
+.mc-registro__visual-centro > p {
+    max-width: 480px;
+    margin-bottom: 34px;
+    color: rgba(255,255,255,.88);
+    font-size: 14px;
+    line-height: 1.95;
+}
+
+.mc-registro__visual-frase {
+    max-width: 390px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,.35);
+}
+
+.mc-registro__frase-numero {
+    display: block;
+    margin-bottom: 12px;
+    color: #DCCFAC;
+    font-size: 10px;
+    letter-spacing: 1.6px;
+}
+
+.mc-registro__visual-frase blockquote {
+    margin: 0;
+    color: #F7F3E9;
+    font-size: 25px;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+
+/* ==========================================
+   PIE FOTOGRÁFICO
+========================================== */
+
+.mc-registro__visual-footer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,.25);
+    color: rgba(255,255,255,.82);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+}
+
+
+/* =====================================================
+   02 · ÁREA DE REGISTRO
+===================================================== */
+
+.mc-registro__contenido {
+    min-width: 0;
+    padding: 65px clamp(28px,5vw,85px) 65px;
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            rgba(218,228,208,.55),
+            transparent 26%
+        ),
+        var(--rg-crema);
+}
+
+.mc-registro__contenedor {
+    max-width: 690px;
+    margin: 0 auto;
+}
+
+
+/* ==========================================
+   IDENTIDAD
+========================================== */
+
+.mc-registro__marca {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 54px;
+}
+
+.mc-registro__marca-icono {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 47px;
+    height: 47px;
+    border: 1px solid #CADBC8;
+    border-radius: 50%;
+    color: var(--rg-verde-2);
+    font-size: 31px;
+}
+
+.mc-registro__marca strong {
+    display: block;
+    color: var(--rg-verde);
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.mc-registro__marca small {
+    display: block;
+    margin-top: 5px;
+    color: var(--rg-texto);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+}
+
+
+/* ==========================================
+   ENCABEZADO
+========================================== */
+
+.mc-registro__encabezado {
+    margin-bottom: 29px;
+}
+
+.mc-registro__encabezado h1 {
+    margin: 20px 0 22px;
+    color: var(--rg-verde);
+    font-size: clamp(41px,4vw,59px);
+    font-weight: 500;
+    line-height: 1.13;
+    letter-spacing: -1.4px;
+}
+
+.mc-registro__encabezado h1 em {
+    display: block;
+    color: var(--rg-verde-2);
+}
+
+.mc-registro__encabezado p {
+    max-width: 540px;
+    color: var(--rg-texto);
+    font-size: 13px;
+    line-height: 1.95;
+}
+
+
+/* ==========================================
+   INDICADOR DE APARTADOS
+========================================== */
+
+.mc-registro__etapas {
+    display: grid;
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    gap: 10px;
+    margin: 31px 0 38px;
+}
+
+.mc-registro__etapas > span {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+    padding: 12px 9px;
+    border-top: 2px solid #C7D8C7;
+    color: var(--rg-verde);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.mc-registro__etapas b {
+    color: var(--rg-verde-2);
+    font-size: 10px;
+}
+
+
+/* =====================================================
+   FORMULARIO
+===================================================== */
+
+.mc-registro__form {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    margin: 0;
+}
+
+.mc-registro__grupo {
+    display: block;
+    min-width: 0;
+    margin: 0;
+    padding: 0 0 34px;
+    border: 0;
+    border-bottom: 1px solid #D8E1D5;
+}
+
+.mc-registro__grupo legend {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0 0 12px;
+    color: var(--rg-verde);
+    font-family: "Fraunces", Georgia, serif;
+    font-size: clamp(22px,2.5vw,29px);
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.mc-registro__grupo legend span {
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background: #DFEADF;
+    color: var(--rg-verde-2);
+    font-family: "Public Sans",sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.mc-registro__grupo-descripcion {
+    margin-bottom: 23px;
+    color: var(--rg-texto);
+    font-size: 12px;
+    line-height: 1.85;
+}
+
+.mc-registro__grid {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 22px 18px;
+}
+
+.mc-registro__campo {
+    min-width: 0;
+}
+
+.mc-registro__campo--completo {
+    grid-column: 1 / -1;
+}
+
+
+/* ==========================================
+   CAMPOS
+========================================== */
+
+.mc-registro__campo label {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 10px;
+    color: var(--rg-verde);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.mc-registro__campo label small {
+    color: #87978C;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.mc-registro__requerido {
+    color: #B56849;
+    font-weight: 700;
+}
+
+.mc-registro .mc-registro__input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 52px;
+    padding: 13px 15px;
+    border: 1px solid #D1DECE;
+    border-radius: 3px;
+    background: #FFFFFF;
+    color: var(--rg-verde);
+    box-shadow: none;
+    font-family: "Public Sans",sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    transition:
+        border-color .25s,
+        box-shadow .25s;
+}
+
+.mc-registro .mc-registro__input::placeholder {
+    color: #9EABA0;
+}
+
+.mc-registro .mc-registro__input:focus {
+    outline: none;
+    border-color: var(--rg-verde-2);
+    box-shadow: 0 0 0 3px rgba(27,107,87,.10);
+}
+
+.mc-registro .mc-registro__input.es-invalido {
+    border-color: #BC6256;
+    background: #FFFDFB;
+}
+
+.mc-registro__ayuda {
+    display: block;
+    margin-top: 8px;
+    color: #819087;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.mc-registro__error {
+    display: block;
+    margin-top: 9px;
+    color: #A74136;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+
+/* ==========================================
+   CAMPOS DE CONTRASEÑA
+========================================== */
+
+.mc-registro__password {
+    position: relative;
+    min-width: 0;
+}
+
+.mc-registro__password .mc-registro__input {
+    padding-right: 89px;
+}
+
+.mc-registro__ver {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    z-index: 1;
+    min-width: 70px;
+    min-height: 34px;
+    padding: 7px 10px;
+    border: 0;
+    border-radius: 2px;
+    background: #EAF1E7;
+    color: var(--rg-verde);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.mc-registro__ver:hover {
+    background: #D9E9D8;
+}
+
+
+/* =====================================================
+   AVISO DE PRIVACIDAD
+===================================================== */
+
+.mc-registro__privacidad {
+    padding: 23px;
+    border: 1px solid #D6E2D1;
+    border-left: 3px solid var(--rg-verde-2);
+    background: #EAF0E6;
+}
+
+.mc-registro__checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    cursor: pointer;
+}
+
+.mc-registro__checkbox input {
+    width: 19px;
+    height: 19px;
+    margin: 0;
+    flex-shrink: 0;
+    accent-color: var(--rg-verde-2);
+    cursor: pointer;
+}
+
+.mc-registro__checkbox > span {
+    color: var(--rg-verde);
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.mc-registro__checkbox a {
+    color: var(--rg-verde-2);
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.mc-registro__checkbox a:hover {
+    color: var(--rg-verde);
+}
+
+
+/* =====================================================
+   BOTÓN DE REGISTRO
+===================================================== */
+
+.mc-registro__acciones {
+    text-align: center;
+}
+
+.mc-registro__submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    min-height: 59px;
+    padding: 15px 19px 15px 24px;
+    border: 1px solid var(--rg-verde);
+    border-radius: 3px;
+    background: var(--rg-verde);
+    color: white;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background .25s,
+        box-shadow .25s,
+        transform .25s;
+}
+
+.mc-registro__submit:hover {
+    background: var(--rg-verde-2);
+    border-color: var(--rg-verde-2);
+    box-shadow: 0 12px 24px rgba(20,61,54,.15);
+    transform: translateY(-2px);
+}
+
+.mc-registro__submit > span:last-child {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255,255,255,.4);
+    border-radius: 50%;
+    font-size: 21px;
+}
+
+.mc-registro__acciones > p {
+    margin: 13px 0 0;
+    color: #87958B;
+    font-size: 11px;
+}
+
+
+/* =====================================================
+   BLOQUE INICIAR SESIÓN
+===================================================== */
+
+.mc-registro__ingresar {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-top: 43px;
+    padding: 27px;
+    border: 1px solid #D5E2D1;
+    background: #E8F0E6;
+}
+
+.mc-registro__ingresar > span {
+    flex-shrink: 0;
+    color: var(--rg-verde-2);
+    font-size: 37px;
+    line-height: 1;
+}
+
+.mc-registro__ingresar small {
+    display: block;
+    margin-bottom: 11px;
+    color: var(--rg-verde-2);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+.mc-registro__ingresar h2 {
+    margin-bottom: 15px;
+    color: var(--rg-verde);
+    font-size: 27px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.mc-registro__ingresar a {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid currentColor;
+    color: var(--rg-verde);
+    font-size: 12px;
+    font-weight: 700;
+    transition: gap .25s;
+}
+
+.mc-registro__ingresar a:hover {
+    gap: 23px;
+    color: var(--rg-verde-2);
+}
+
+.mc-registro__ingresar a span {
+    font-size: 19px;
+}
+
+
+/* =====================================================
+   PIE INTERNO
+===================================================== */
+
+.mc-registro__pie {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 40px;
+    padding-top: 23px;
+    border-top: 1px solid #D6DED2;
+    color: #829187;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.mc-registro__pie a {
+    color: var(--rg-verde);
+}
+
+.mc-registro__pie a:hover {
+    color: var(--rg-verde-2);
+    text-decoration: underline;
+}
+
+
+/* =====================================================
+   ANIMACIONES
+===================================================== */
+
+@keyframes mcRegistroZoom {
+    from {
+        transform: scale(1.07);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes mcRegistroEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1120px) {
+
+    .mc-registro__layout {
+        grid-template-columns: minmax(0,.78fr) minmax(0,1.22fr);
+    }
+
+    .mc-registro__visual {
+        padding: 28px;
+    }
+
+    .mc-registro__visual h2 {
+        font-size: clamp(40px,4.7vw,58px);
+    }
+
+    .mc-registro__contenido {
+        padding: 47px 35px 60px;
+    }
+
+    .mc-registro__marca {
+        margin-bottom: 40px;
+    }
+
+    .mc-registro__encabezado h1 {
+        font-size: 46px;
+    }
+
+    .mc-registro__visual-footer span:last-child {
+        display: none;
+    }
+}
+
+
+/* =====================================================
+   TABLET PEQUEÑA
+===================================================== */
+
+@media (max-width: 850px) {
+
+    .mc-registro__layout {
+        grid-template-columns: 1fr;
+    }
+
+    .mc-registro__visual {
+        position: relative;
+        top: auto;
+        height: auto;
+        min-height: 360px;
+        padding: 25px 35px;
+    }
+
+    .mc-registro__visual-centro {
+        padding: 45px 0 30px;
+    }
+
+    .mc-registro__ornamento {
+        display: none;
+    }
+
+    .mc-registro__visual h2 {
+        max-width: 650px;
+        margin: 18px 0;
+        font-size: clamp(39px,6vw,55px);
+    }
+
+    .mc-registro__visual-centro > p {
+        margin-bottom: 0;
+        font-size: 13px;
+    }
+
+    .mc-registro__visual-frase {
+        display: none;
+    }
+
+    .mc-registro__contenido {
+        padding: 65px 35px;
+    }
+
+    .mc-registro__contenedor {
+        max-width: 680px;
+    }
+}
+
+
+/* =====================================================
+   CELULARES
+===================================================== */
+
+@media (max-width: 560px) {
+
+    .mc-registro__visual {
+        min-height: 280px;
+        padding: 20px 22px;
+    }
+
+    .mc-registro__visual-indice {
+        font-size: 9px;
+    }
+
+    .mc-registro__regresar {
+        font-size: 11px;
+    }
+
+    .mc-registro__visual-centro {
+        padding: 35px 0 25px;
+    }
+
+    .mc-registro__visual .mc-registro__eyebrow {
+        font-size: 9px;
+        letter-spacing: 1px;
+    }
+
+    .mc-registro__visual h2 {
+        font-size: clamp(34px,9vw,45px);
+        letter-spacing: -1px;
+    }
+
+    .mc-registro__visual-centro > p {
+        display: none;
+    }
+
+    .mc-registro__contenido {
+        padding: 45px 21px 55px;
+    }
+
+    .mc-registro__marca {
+        margin-bottom: 33px;
+    }
+
+    .mc-registro__encabezado h1 {
+        font-size: clamp(39px,9vw,50px);
+        letter-spacing: -1px;
+    }
+
+    .mc-registro__grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .mc-registro__campo--completo {
+        grid-column: auto;
+    }
+
+    .mc-registro__etapas {
+        gap: 5px;
+    }
+
+    .mc-registro__etapas > span {
+        gap: 5px;
+        padding: 10px 3px;
+        font-size: 9px;
+    }
+
+    .mc-registro__etapas b {
+        font-size: 9px;
+    }
+
+    .mc-registro__grupo legend {
+        font-size: 24px;
+    }
+
+    .mc-registro__grupo {
+        padding-bottom: 27px;
+    }
+
+    .mc-registro__privacidad {
+        padding: 19px;
+    }
+
+    .mc-registro__ingresar {
+        gap: 12px;
+        padding: 22px 18px;
+    }
+
+    .mc-registro__ingresar > span {
+        font-size: 27px;
+    }
+
+    .mc-registro__ingresar h2 {
+        font-size: 23px;
+    }
+
+    .mc-registro__pie {
+        margin-top: 34px;
+    }
+}
+
+
+/* =====================================================
+   ACCESIBILIDAD
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .mc-registro *,
+    .mc-registro *::before,
+    .mc-registro *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+
+}

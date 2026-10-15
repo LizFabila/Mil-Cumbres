@@ -11,6 +11,7 @@ use App\Models\Rol;
 use App\Models\TipoOrganizacion;
 use App\Models\Zona;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Datos de ejemplo para ver las vistas con contenido.
@@ -62,6 +63,13 @@ class MilCumbresSeeder extends Seeder
                 'id_rol' => $cliente->id_rol,
             ],
         );
+
+        // Las cuentas de prueba ya vienen con el correo verificado (C15).
+        if (Schema::hasColumn('personas', 'email_verified_at')) {
+            Persona::whereIn('email', ['admin@milcumbres.test', 'cliente@milcumbres.test'])
+                ->whereNull('email_verified_at')
+                ->update(['email_verified_at' => now()]);
+        }
 
         $zonas = collect(['Monte Alto', 'Avándaro', 'Presa Valle de Bravo', 'Centro Histórico', 'El Santuario'])
             ->mapWithKeys(fn ($n) => [$n => Zona::firstOrCreate(['nombre' => $n])->id_zona]);

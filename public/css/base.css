@@ -6,7 +6,7 @@
 
 :root {
     --verde-900: #143d36;   /* texto principal / títulos */
-    --verde-700: #1b6b57;   /* acento: enlaces, botones, etiquetas */
+    --verde-700: #176954;   /* acento: enlaces, botones, etiquetas */
     --verde-600: #23806a;
     --verde-100: #e7f0ec;
     --verde-50:  #f3f7f5;
@@ -16,7 +16,7 @@
     --gris-400:  #ababab;   /* deshabilitado */
     --borde:     #d6e1dc;
     --fondo:     #ffffff;
-    --fondo-alt: #f6f9f7;
+    --fondo-alt: #f3f7f5;
 
     --ambar:     #9a6a12;
     --ambar-bg:  #fbf3e2;
@@ -258,3 +258,15 @@ textarea.control { min-height: 120px; resize: vertical; }
     font-size: .8rem; font-weight: 700; cursor: pointer;
 }
 .ver-contrasena:hover { background: var(--verde-100); }
+
+/* ---------- Requisitos de contraseña segura (C05 / C14) ---------- */
+.requisitos { margin-top: 4px; padding: 10px 12px; border: 1px solid var(--borde); border-radius: var(--radio-sm); background: var(--verde-50); font-size: .8rem; color: var(--gris-700); }
+.requisitos--alerta { border-color: var(--rojo); background: var(--rojo-bg); }
+.requisitos__titulo { margin: 0 0 6px; }
+.requisitos ul { list-style: none; padding: 0; display: grid; gap: 4px; }
+.requisitos li { display: flex; align-items: center; gap: 8px; }
+.requisitos li::before { content: "○"; width: 16px; text-align: center; font-weight: 700; color: var(--gris-500); }
+.requisitos li.cumple { color: var(--verde-700); }
+.requisitos li.cumple::before { content: "✓"; color: var(--verde-700); }
+.requisitos li.no-cumple { color: var(--rojo); }
+.requisitos li.no-cumple::before { content: "✕"; color: var(--rojo); }

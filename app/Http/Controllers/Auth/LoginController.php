@@ -25,11 +25,23 @@ class LoginController extends Controller
         ]);
 
         // La clave "password" es la que Auth compara contra getAuthPassword().
-        if (! Auth::attempt(['email' => $datos['email'], 'password' => $datos['contrasena']])) {
+        if (! Auth::validate(['email' => $datos['email'], 'password' => $datos['contrasena']])) {
             throw ValidationException::withMessages([
                 'email' => 'El correo o la contraseña no son correctos.',
             ]);
         }
+
+        $persona = Auth::getLastAttempted();
+
+        // C15 · Sin correo verificado no se puede iniciar sesión.
+        if (! $persona->hasVerifiedEmail()) {
+            $request->session()->put('correo_por_verificar', $persona->email);
+
+            return redirect()->route('verification.notice')
+                ->withErrors(['email' => 'Antes de iniciar sesión verifica tu correo con el enlace que te enviamos.']);
+        }
+
+        Auth::login($persona);
 
         $request->session()->regenerate();
 
