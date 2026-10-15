@@ -1,0 +1,1327 @@
+
+/* =====================================================
+   MIL CUMBRES · C11 SOLICITAR CONSULTORÍA
+   Formulario editorial de acompañamiento
+===================================================== */
+
+.mc-c11 {
+    --c11-verde: #143D36;
+    --c11-verde-2: #1B6B57;
+    --c11-crema: #FAF8F2;
+    --c11-arena: #E5D8B8;
+    --c11-texto: #5F716B;
+    --c11-borde: #D6E1DC;
+
+    width: 100%;
+    min-width: 0;
+    overflow: clip;
+
+    color: var(--c11-verde);
+    background: var(--c11-crema);
+
+    font-family: "Public Sans", sans-serif;
+}
+
+.mc-c11 *,
+.mc-c11 *::before,
+.mc-c11 *::after {
+    box-sizing: border-box;
+}
+
+.mc-c11 h1,
+.mc-c11 h2,
+.mc-c11 h3,
+.mc-c11 legend {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+}
+
+.mc-c11 h1,
+.mc-c11 h2,
+.mc-c11 h3,
+.mc-c11 p {
+    margin-top: 0;
+}
+
+.mc-c11 h1 em,
+.mc-c11 h2 em,
+.mc-c11 h3 em,
+.mc-c11 legend em {
+    font-style: italic;
+    font-weight: 400;
+}
+
+.mc-c11 a {
+    text-decoration: none;
+}
+
+.mc-c11 a:focus-visible,
+.mc-c11 button:focus-visible,
+.mc-c11 input:focus-visible,
+.mc-c11 textarea:focus-visible {
+    outline: 3px solid #5AA0D8;
+    outline-offset: 3px;
+}
+
+.mc-c11__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+
+    color: var(--c11-verde-2);
+
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.7;
+    letter-spacing: 1.5px;
+}
+
+.mc-c11__eyebrow--claro {
+    color: var(--c11-arena);
+}
+
+.mc-c11__raya {
+    display: inline-block;
+    flex-shrink: 0;
+
+    width: 29px;
+    height: 1px;
+
+    background: currentColor;
+}
+
+
+/* =====================================================
+   01 · PORTADA FOTOGRÁFICA
+===================================================== */
+
+.mc-c11__hero {
+    position: relative;
+    min-height: 590px;
+    isolation: isolate;
+
+    overflow: hidden;
+    background: var(--c11-verde);
+    color: white;
+}
+
+.mc-c11__hero-img,
+.mc-c11__hero-overlay {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+.mc-c11__hero-img {
+    z-index: -2;
+
+    object-fit: cover;
+    object-position: center;
+}
+
+.mc-c11__hero-overlay {
+    z-index: -1;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(8,32,25,.93) 0%,
+            rgba(8,32,25,.76) 52%,
+            rgba(8,32,25,.28) 100%
+        ),
+        linear-gradient(
+            0deg,
+            rgba(8,32,25,.45),
+            transparent 50%
+        );
+}
+
+.mc-c11__hero-contenido {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    min-height: 590px;
+}
+
+
+/* ==========================================
+   MIGAS DE PAN
+========================================== */
+
+.mc-c11__migas {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    padding-top: 33px;
+
+    color: rgba(255,255,255,.78);
+    font-size: 11px;
+}
+
+.mc-c11__migas a {
+    color: white;
+    font-weight: 600;
+}
+
+.mc-c11__migas a:hover {
+    color: var(--c11-arena);
+}
+
+
+/* ==========================================
+   TEXTO PRINCIPAL
+========================================== */
+
+.mc-c11__hero-principal {
+    max-width: 780px;
+    padding: 70px 0;
+}
+
+.mc-c11__hero-simbolo {
+    display: block;
+    margin: 26px 0 12px;
+
+    color: var(--c11-arena);
+
+    font-size: 45px;
+    line-height: 1;
+}
+
+.mc-c11__hero h1 {
+    margin: 0 0 24px;
+
+    color: white;
+    font-size: clamp(49px, 6vw, 82px);
+    line-height: 1.12;
+    letter-spacing: -1.8px;
+}
+
+.mc-c11__hero h1 em {
+    display: block;
+    color: var(--c11-arena);
+}
+
+.mc-c11__hero-principal > p {
+    max-width: 590px;
+    margin-bottom: 0;
+
+    color: rgba(255,255,255,.86);
+
+    font-size: 15px;
+    line-height: 1.95;
+}
+
+.mc-c11__hero-pie {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+
+    padding: 19px 0;
+
+    border-top: 1px solid rgba(255,255,255,.3);
+
+    color: #E9E0CE;
+
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+
+/* =====================================================
+   02 · INTRODUCCIÓN
+===================================================== */
+
+.mc-c11__intro {
+    padding: 94px 0;
+    background: white;
+}
+
+.mc-c11__intro-grid {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    align-items: end;
+    gap: clamp(30px, 6vw, 95px);
+}
+
+.mc-c11__intro h2 {
+    margin: 19px 0 0;
+
+    color: var(--c11-verde);
+
+    font-size: clamp(39px, 4.2vw, 60px);
+    line-height: 1.2;
+    letter-spacing: -1.2px;
+}
+
+.mc-c11__intro h2 em {
+    color: var(--c11-verde-2);
+}
+
+.mc-c11__intro-grid > div:last-child > p {
+    margin-bottom: 24px;
+
+    color: var(--c11-texto);
+
+    font-size: 14px;
+    line-height: 1.95;
+}
+
+.mc-c11__intro-nota {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding-top: 17px;
+
+    border-top: 1px solid var(--c11-borde);
+}
+
+.mc-c11__intro-nota > span:first-child {
+    color: var(--c11-verde-2);
+    font-size: 25px;
+}
+
+.mc-c11__intro-nota > span:last-child {
+    color: var(--c11-verde);
+
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.7;
+}
+
+
+/* =====================================================
+   03 · ÁREA DEL FORMULARIO
+===================================================== */
+
+.mc-c11__contenido {
+    padding: 85px 0 120px;
+    background: #F6F4ED;
+}
+
+.mc-c11__encabezado-form {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 30px;
+
+    margin-bottom: 35px;
+}
+
+.mc-c11__encabezado-form h2 {
+    margin: 17px 0;
+
+    color: var(--c11-verde);
+
+    font-size: clamp(36px, 4vw, 55px);
+    line-height: 1.2;
+    letter-spacing: -1px;
+}
+
+.mc-c11__encabezado-form h2 em {
+    color: var(--c11-verde-2);
+}
+
+.mc-c11__encabezado-form p {
+    max-width: 590px;
+    margin-bottom: 0;
+
+    color: var(--c11-texto);
+
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.mc-c11__form-identificador {
+    flex-shrink: 0;
+
+    color: #7C9184;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+}
+
+
+/* ==========================================
+   LAYOUT
+========================================== */
+
+.mc-c11__form {
+    margin: 0;
+}
+
+.mc-c11__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 335px;
+    align-items: start;
+    gap: 28px;
+}
+
+.mc-c11__principal {
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+
+    min-width: 0;
+}
+
+
+/* =====================================================
+   NAVEGACIÓN DE APARTADOS
+===================================================== */
+
+.mc-c11__indice {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.mc-c11__indice a {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    min-height: 55px;
+    padding: 13px;
+
+    border-top: 2px solid #CADBCB;
+    background: white;
+
+    color: var(--c11-verde);
+
+    font-size: 11px;
+    font-weight: 700;
+
+    transition:
+        border-color .2s,
+        background .2s;
+}
+
+.mc-c11__indice a:hover {
+    border-color: var(--c11-verde-2);
+    background: #EAF2E8;
+}
+
+.mc-c11__indice a span {
+    color: var(--c11-verde-2);
+    font-size: 11px;
+}
+
+
+/* =====================================================
+   PANELES DE FORMULARIO
+===================================================== */
+
+.mc-c11 .mc-c11__panel {
+    display: block;
+    min-width: 0;
+    margin: 0;
+
+    padding: clamp(24px, 3vw, 37px);
+
+    border: 1px solid var(--c11-borde);
+    background: white;
+
+    scroll-margin-top: 145px;
+}
+
+.mc-c11 .mc-c11__legend {
+    display: block;
+    width: 100%;
+
+    padding: 0;
+    margin: 0 0 16px;
+
+    color: var(--c11-verde);
+
+    font-size: clamp(27px, 2.9vw, 35px);
+    line-height: 1.35;
+}
+
+.mc-c11__legend em {
+    color: var(--c11-verde-2);
+}
+
+.mc-c11__numero {
+    display: inline-grid;
+    place-items: center;
+
+    width: 43px;
+    height: 43px;
+
+    margin-right: 12px;
+
+    border-radius: 50%;
+    background: #E5EEE3;
+
+    color: var(--c11-verde-2);
+
+    font-family: "Public Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.mc-c11__descripcion {
+    max-width: 620px;
+    margin-bottom: 27px;
+
+    color: var(--c11-texto);
+
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+
+/* =====================================================
+   04 · TIPOS DE ORGANIZACIÓN
+===================================================== */
+
+.mc-c11__tipos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.mc-c11__tipo {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    min-width: 0;
+    min-height: 105px;
+    padding: 16px;
+
+    border: 1px solid #D7E3D5;
+    border-radius: 4px;
+    background: #FAFCF9;
+
+    cursor: pointer;
+
+    transition:
+        background .25s,
+        border-color .25s,
+        box-shadow .25s;
+}
+
+.mc-c11__tipo:hover {
+    background: #F0F7EE;
+    border-color: #9EBA9F;
+}
+
+.mc-c11__tipo:has(input:checked) {
+    background: #E8F2E5;
+    border-color: var(--c11-verde-2);
+    box-shadow: 0 0 0 1px rgba(27,107,87,.14);
+}
+
+.mc-c11__tipo:focus-within {
+    outline: 3px solid #5AA0D8;
+    outline-offset: 3px;
+}
+
+.mc-c11__tipo input[type="radio"] {
+    flex-shrink: 0;
+
+    width: 18px;
+    height: 18px;
+
+    margin: 0;
+
+    accent-color: var(--c11-verde-2);
+    cursor: pointer;
+}
+
+.mc-c11__tipo-icono {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 35px;
+    height: 35px;
+
+    border-radius: 50%;
+    background: #E5EFE2;
+
+    color: var(--c11-verde-2);
+    font-size: 23px;
+}
+
+.mc-c11__tipo-texto {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 5px;
+
+    min-width: 0;
+}
+
+.mc-c11__tipo-texto strong {
+    color: var(--c11-verde);
+
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+
+    overflow-wrap: anywhere;
+}
+
+.mc-c11__tipo-texto small {
+    color: var(--c11-texto);
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.mc-c11__tipo-indicador {
+    display: none;
+    flex-shrink: 0;
+
+    color: var(--c11-verde-2);
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.mc-c11__tipo:has(input:checked)
+.mc-c11__tipo-indicador {
+    display: block;
+}
+
+.mc-c11__sin-tipos {
+    grid-column: 1 / -1;
+
+    margin: 0;
+    padding: 22px;
+
+    background: #F8F6F0;
+    color: var(--c11-texto);
+
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+
+/* =====================================================
+   05 · CAMPOS DEL FORMULARIO
+===================================================== */
+
+.mc-c11__campos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 19px;
+}
+
+.mc-c11__campo {
+    min-width: 0;
+}
+
+.mc-c11__campo > label {
+    display: block;
+    margin-bottom: 11px;
+
+    color: var(--c11-verde);
+
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.mc-c11__campo > label span {
+    color: #B96B50;
+}
+
+.mc-c11 .mc-c11__control {
+    display: block;
+
+    width: 100%;
+    min-width: 0;
+    min-height: 53px;
+
+    padding: 14px 15px;
+
+    border: 1px solid #D0DED0;
+    border-radius: 3px;
+    background: #FAFCF9;
+
+    color: var(--c11-verde);
+    box-shadow: none;
+
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.65;
+
+    transition:
+        border-color .25s,
+        box-shadow .25s;
+}
+
+.mc-c11 .mc-c11__control::placeholder {
+    color: #94A398;
+}
+
+.mc-c11 .mc-c11__control:focus {
+    border-color: var(--c11-verde-2);
+    box-shadow: 0 0 0 3px rgba(27,107,87,.1);
+}
+
+.mc-c11 .mc-c11__control.es-invalido {
+    border-color: #B75D53;
+    background: #FFFCFB;
+}
+
+.mc-c11 .mc-c11__textarea {
+    min-height: 210px;
+    resize: vertical;
+    white-space: pre-wrap;
+}
+
+.mc-c11__ayuda {
+    display: block;
+    margin-top: 10px;
+
+    color: #819186;
+
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.mc-c11__error {
+    display: block;
+    margin-top: 10px;
+
+    color: #AA4439;
+
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.65;
+}
+
+.mc-c11__campo-pie {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-top: 11px;
+
+    color: #829187;
+
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+
+/* =====================================================
+   CONSEJO INFORMATIVO
+===================================================== */
+
+.mc-c11__consejo {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+
+    margin-top: 23px;
+    padding: 19px 22px;
+
+    border-left: 3px solid #B8CDAF;
+    background: #F1F6EE;
+}
+
+.mc-c11__consejo > span {
+    color: var(--c11-verde-2);
+    font-size: 27px;
+    line-height: 1;
+}
+
+.mc-c11__consejo p {
+    margin-bottom: 0;
+
+    color: var(--c11-texto);
+
+    font-size: 12px;
+    line-height: 1.85;
+}
+
+
+/* =====================================================
+   06 · ENVÍO DE SOLICITUD
+===================================================== */
+
+.mc-c11__enviar {
+    display: flex;
+    flex-direction: column;
+
+    padding: 35px;
+
+    border: 1px solid #C8DCCC;
+    background: #E7F0E5;
+}
+
+.mc-c11__enviar-texto h3 {
+    margin: 13px 0 12px;
+
+    color: var(--c11-verde);
+
+    font-size: clamp(28px, 3vw, 39px);
+    line-height: 1.25;
+}
+
+.mc-c11__enviar-texto h3 em {
+    color: var(--c11-verde-2);
+}
+
+.mc-c11__enviar-texto > p {
+    margin-bottom: 24px;
+
+    color: var(--c11-texto);
+
+    font-size: 12px;
+    line-height: 1.85;
+}
+
+.mc-c11__boton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    width: 100%;
+    min-height: 59px;
+    padding: 15px 19px;
+
+    border: 1px solid var(--c11-verde);
+    border-radius: 3px;
+    background: var(--c11-verde);
+
+    color: white;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.6;
+
+    cursor: pointer;
+
+    transition:
+        background .25s,
+        transform .25s;
+}
+
+.mc-c11__boton:hover {
+    background: var(--c11-verde-2);
+    border-color: var(--c11-verde-2);
+    transform: translateY(-2px);
+}
+
+.mc-c11__boton > span {
+    flex-shrink: 0;
+    font-size: 22px;
+    line-height: 1;
+}
+
+.mc-c11__enviar-nota {
+    display: block;
+    margin-top: 13px;
+
+    color: var(--c11-texto);
+
+    font-size: 10px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+
+/* =====================================================
+   07 · PANEL LATERAL
+===================================================== */
+
+.mc-c11__lateral {
+    position: sticky;
+    top: 130px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    min-width: 0;
+}
+
+
+/* ==========================================
+   PANEL DE CONTACTO
+========================================== */
+
+.mc-c11__contacto {
+    padding: 28px;
+
+    border: 1px solid var(--c11-verde);
+    background: var(--c11-verde);
+
+    color: white;
+}
+
+.mc-c11__contacto-eyebrow {
+    color: var(--c11-arena);
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    line-height: 1.7;
+}
+
+.mc-c11__contacto h2 {
+    margin: 20px 0 16px;
+
+    color: white;
+
+    font-size: 36px;
+    line-height: 1.18;
+}
+
+.mc-c11__contacto h2 em {
+    color: var(--c11-arena);
+}
+
+.mc-c11__contacto > p {
+    margin-bottom: 23px;
+
+    color: rgba(255,255,255,.83);
+
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.mc-c11__correo {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    padding: 17px;
+
+    border: 1px solid rgba(255,255,255,.22);
+    background: rgba(255,255,255,.07);
+}
+
+.mc-c11__correo-icono {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 32px;
+    height: 32px;
+
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 50%;
+
+    color: #E5D9BA;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.mc-c11__correo > div {
+    min-width: 0;
+}
+
+.mc-c11__correo small {
+    display: block;
+    margin-bottom: 9px;
+
+    color: #D5E0D6;
+
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.mc-c11__correo strong {
+    display: block;
+
+    color: white;
+
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.7;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* ==========================================
+   SIGUIENTES PASOS
+========================================== */
+
+.mc-c11__siguientes {
+    padding: 28px;
+
+    border: 1px solid var(--c11-borde);
+    background: white;
+}
+
+.mc-c11__siguientes h3 {
+    margin: 16px 0 26px;
+
+    color: var(--c11-verde);
+
+    font-size: 35px;
+    line-height: 1.2;
+}
+
+.mc-c11__siguientes h3 em {
+    color: var(--c11-verde-2);
+}
+
+.mc-c11__pasos {
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.mc-c11__pasos li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.mc-c11__pasos li > span {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 35px;
+    height: 35px;
+
+    border: 1px solid #CDDECD;
+    border-radius: 50%;
+    background: #EAF2E7;
+
+    color: var(--c11-verde-2);
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.mc-c11__pasos li > div {
+    min-width: 0;
+}
+
+.mc-c11__pasos strong {
+    display: block;
+    margin-bottom: 7px;
+
+    color: var(--c11-verde);
+
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.mc-c11__pasos p {
+    margin-bottom: 0;
+
+    color: var(--c11-texto);
+
+    font-size: 11px;
+    line-height: 1.85;
+}
+
+
+/* ==========================================
+   MODELO REGENERATIVO
+========================================== */
+
+.mc-c11__modelo {
+    padding: 25px;
+
+    border: 1px solid #D1E0CF;
+    background: #EAF1E7;
+}
+
+.mc-c11__modelo > span {
+    display: block;
+    margin-bottom: 13px;
+
+    color: var(--c11-verde-2);
+
+    font-size: 35px;
+    line-height: 1;
+}
+
+.mc-c11__modelo > strong {
+    display: block;
+    margin-bottom: 12px;
+
+    color: var(--c11-verde);
+
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 25px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.mc-c11__modelo p {
+    margin-bottom: 14px;
+
+    color: var(--c11-texto);
+
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.mc-c11__modelo a {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+
+    padding-bottom: 6px;
+
+    border-bottom: 1px solid currentColor;
+
+    color: var(--c11-verde-2);
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.mc-c11__modelo a:hover {
+    color: var(--c11-verde);
+}
+
+
+/* =====================================================
+   RESPONSIVE · COMPUTADORAS MEDIANAS
+===================================================== */
+
+@media (max-width: 1200px) {
+
+    .mc-c11__layout {
+        grid-template-columns: minmax(0,1fr) 300px;
+        gap: 20px;
+    }
+
+    .mc-c11__contacto,
+    .mc-c11__siguientes {
+        padding: 23px;
+    }
+
+    .mc-c11__campos {
+        grid-template-columns: 1fr;
+    }
+
+    .mc-c11__tipos {
+        grid-template-columns: 1fr;
+    }
+
+    .mc-c11__tipo {
+        min-height: 78px;
+    }
+}
+
+
+/* =====================================================
+   RESPONSIVE · TABLET
+===================================================== */
+
+@media (max-width: 950px) {
+
+    .mc-c11__layout {
+        grid-template-columns: 1fr;
+    }
+
+    .mc-c11__lateral {
+        position: static;
+
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0,1fr));
+        align-items: start;
+    }
+
+    .mc-c11__contacto {
+        grid-column: 1 / -1;
+    }
+
+    .mc-c11__contacto h2 {
+        max-width: 540px;
+    }
+
+    .mc-c11__tipos,
+    .mc-c11__campos {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+
+    .mc-c11__intro-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .mc-c11__encabezado-form {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 17px;
+    }
+}
+
+
+/* =====================================================
+   RESPONSIVE · CELULARES
+===================================================== */
+
+@media (max-width: 650px) {
+
+    .mc-c11__hero,
+    .mc-c11__hero-contenido {
+        min-height: 500px;
+    }
+
+    .mc-c11__migas {
+        padding-top: 23px;
+        font-size: 10px;
+    }
+
+    .mc-c11__hero-principal {
+        padding: 35px 0 40px;
+    }
+
+    .mc-c11__hero-simbolo {
+        margin: 18px 0 12px;
+        font-size: 35px;
+    }
+
+    .mc-c11__hero h1 {
+        font-size: clamp(41px, 10vw, 57px);
+        letter-spacing: -1px;
+    }
+
+    .mc-c11__hero-principal > p {
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .mc-c11__hero-pie {
+        font-size: 8px;
+    }
+
+    .mc-c11__hero-pie span:last-child {
+        display: none;
+    }
+
+    .mc-c11__intro {
+        padding: 65px 0;
+    }
+
+    .mc-c11__intro h2 {
+        font-size: 39px;
+    }
+
+    .mc-c11__intro-grid > div:last-child > p {
+        font-size: 13px;
+    }
+
+    .mc-c11__contenido {
+        padding: 58px 0 75px;
+    }
+
+    .mc-c11__encabezado-form h2 {
+        font-size: 38px;
+    }
+
+    .mc-c11__indice {
+        gap: 6px;
+    }
+
+    .mc-c11__indice a {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 7px;
+
+        min-height: 61px;
+        padding: 12px 8px;
+
+        font-size: 10px;
+    }
+
+    .mc-c11 .mc-c11__panel {
+        padding: 24px 19px;
+    }
+
+    .mc-c11 .mc-c11__legend {
+        font-size: 28px;
+        line-height: 1.45;
+    }
+
+    .mc-c11__numero {
+        width: 35px;
+        height: 35px;
+        margin-right: 6px;
+    }
+
+    .mc-c11__descripcion {
+        font-size: 12px;
+    }
+
+    .mc-c11__tipos,
+    .mc-c11__campos,
+    .mc-c11__lateral {
+        grid-template-columns: 1fr;
+    }
+
+    .mc-c11__contacto {
+        grid-column: auto;
+    }
+
+    .mc-c11__tipo {
+        padding: 15px;
+        min-height: 76px;
+    }
+
+    .mc-c11 .mc-c11__textarea {
+        min-height: 185px;
+    }
+
+    .mc-c11__enviar {
+        padding: 26px 21px;
+    }
+
+    .mc-c11__enviar-texto h3 {
+        font-size: 33px;
+    }
+
+    .mc-c11__boton {
+        font-size: 12px;
+    }
+
+    .mc-c11__contacto h2,
+    .mc-c11__siguientes h3 {
+        font-size: 33px;
+    }
+}
+
+
+/* =====================================================
+   ACCESIBILIDAD
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .mc-c11 *,
+    .mc-c11 *::before,
+    .mc-c11 *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+
+}

@@ -1,89 +1,538 @@
-{{-- C01 · Inicio
-     Tablas: catalogo_experiencias, experiencias --}}
+
+{{-- C01 · Inicio rediseñado
+     Tablas: catalogo_experiencias, experiencias
+--}}
+
 @extends('layouts.app')
 
 @section('titulo', 'Inicio')
 
 @section('contenido')
-<section class="hero" style="background-image: url('{{ config('milcumbres.imagenes.hero_inicio') }}')">
-    <div class="contenedor">
-        <span class="eyebrow eyebrow--claro">{{ config('milcumbres.contacto.lugar') }}</span>
-        <h1 class="titulo-display">Descubre Valle de Bravo. Conecta con la naturaleza y deja una huella positiva.</h1>
-        <p>Descubre experiencias de bienestar, naturaleza y cultura diseñadas con comunidades locales.</p>
-        <div class="fila mt-3">
-            <a class="btn btn--primario" href="{{ route('experiencias.index') }}">Ver experiencias</a>
-            <a class="btn btn--secundario" href="{{ route('modelo') }}">Conoce nuestro modelo</a>
-        </div>
-    </div>
-</section>
 
-<section class="seccion">
-    <div class="contenedor">
-        <div class="fila fila--entre fila--abajo">
-            <div>
-                <span class="eyebrow">Tres formas de vivirlo</span>
-                <h2 class="titulo-seccion">¿Qué quieres sentir?</h2>
+@php
+    $mensajesTipo = [
+        'Bienestar' => 'Un momento para respirar, descansar y reconectar.',
+        'Natural' => 'Explora paisajes, senderos y la vida del bosque.',
+        'Cultural' => 'Descubre historias, tradiciones y saberes locales.',
+    ];
+@endphp
+
+<div class="inicio">
+
+    {{-- ======================================= --}}
+    {{-- HERO PRINCIPAL --}}
+    {{-- ======================================= --}}
+
+    <section class="inicio-hero">
+
+        <div class="inicio-hero__foto">
+            <img
+                src="{{ config('milcumbres.imagenes.hero_inicio') }}"
+                alt="Paisaje natural de Valle de Bravo"
+                fetchpriority="high"
+            >
+        </div>
+
+        <div class="inicio-hero__sombra"></div>
+
+        <div class="contenedor inicio-hero__contenido">
+
+            <div class="inicio-hero__texto">
+
+                <div class="inicio-hero__ubicacion">
+                    <span class="inicio-hero__punto"></span>
+                    {{ config('milcumbres.contacto.lugar') }}
+                </div>
+
+                <span class="inicio-hero__etiqueta">
+                    TURISMO REGENERATIVO · MIL CUMBRES
+                </span>
+
+                <h1>
+                    Hay lugares que
+                    <em>no solo se visitan.</em>
+                    Se viven.
+                </h1>
+
+                <p class="inicio-hero__descripcion">
+                    Descubre Valle de Bravo a través de experiencias
+                    de naturaleza, bienestar y cultura.
+                    Conecta con el territorio y descubre
+                    una forma diferente de viajar.
+                </p>
+
+                <div class="inicio-hero__acciones">
+
+                    <a href="{{ route('experiencias.index') }}"
+                       class="inicio-btn inicio-btn--claro">
+                        Explorar experiencias
+                        <span aria-hidden="true">↗</span>
+                    </a>
+
+                    <a href="{{ route('modelo') }}"
+                       class="inicio-hero__enlace">
+                        Conoce nuestra filosofía
+                        <span aria-hidden="true">→</span>
+                    </a>
+
+                </div>
+
             </div>
-            <a href="{{ route('experiencias.index') }}">Todo el catálogo →</a>
+
+            <div class="inicio-hero__nota">
+                <span class="inicio-hero__nota-icono">✳</span>
+                <div>
+                    <strong>Otra manera de descubrir</strong>
+                    <span>
+                        Naturaleza, cultura y bienestar
+                        en un mismo destino.
+                    </span>
+                </div>
+            </div>
+
         </div>
 
-        <div class="grid-3 mt-3">
-            @foreach ($tipos as $tipo)
-                <a class="tipo-tarjeta" href="{{ route('experiencias.index', ['tipo' => $tipo->id_catalogo_exp]) }}">
-                    <img src="{{ config("milcumbres.imagenes.tipo.{$tipo->tipo}", config('milcumbres.imagenes.experiencia_default')) }}"
-                         alt="Experiencias de tipo {{ $tipo->tipo }}" loading="lazy">
-                    <div class="tipo-tarjeta__texto">
-                        <h3>{{ $tipo->tipo }}</h3>
-                        <span>{{ $tipo->experiencias_count }} {{ \Illuminate\Support\Str::plural('experiencia', $tipo->experiencias_count) }}</span>
-                    </div>
+        <a class="inicio-hero__scroll"
+           href="#explorar"
+           aria-label="Ir a las experiencias">
+            <span>DESCUBRE MÁS</span>
+            <span aria-hidden="true">↓</span>
+        </a>
+
+    </section>
+
+
+    {{-- ======================================= --}}
+    {{-- PRESENTACIÓN EDITORIAL --}}
+    {{-- ======================================= --}}
+
+    <section class="inicio-intro">
+
+        <div class="contenedor inicio-intro__grid">
+
+            <div class="inicio-intro__etiqueta">
+                <span class="inicio-kicker">
+                    <span class="inicio-kicker__linea"></span>
+                    BIENVENIDO A MIL CUMBRES
+                </span>
+            </div>
+
+            <div class="inicio-intro__contenido">
+
+                <h2>
+                    El viaje comienza cuando
+                    <em>conectas con el lugar.</em>
+                </h2>
+
+                <p>
+                    Valle de Bravo es mucho más que un destino.
+                    Es un encuentro con paisajes, tradiciones
+                    y experiencias que invitan a descubrir
+                    el entorno desde otra perspectiva.
+                </p>
+
+                <a href="{{ route('modelo') }}"
+                   class="inicio-enlace">
+                    Descubre nuestro modelo
+                    <span aria-hidden="true">↗</span>
                 </a>
-            @endforeach
-        </div>
-    </div>
-</section>
 
-@if ($destacadas->isNotEmpty())
-<section class="seccion seccion--alt">
-    <div class="contenedor">
-        <span class="eyebrow">Recién agregadas</span>
-        <h2 class="titulo-seccion">Experiencias destacadas</h2>
-        <div class="grid-3 mt-3">
-            @foreach ($destacadas as $experiencia)
-                <x-exp-tarjeta :experiencia="$experiencia" />
-            @endforeach
-        </div>
-    </div>
-</section>
-@endif
+            </div>
 
-<section class="seccion">
-    <div class="contenedor">
-        <div class="grid-3">
-            <div class="pilar">
-                <h3>1. Elige</h3>
-                <p class="texto-suave">Explora el catálogo y arma tu visita con una o varias experiencias.</p>
-            </div>
-            <div class="pilar">
-                <h3>2. Solicita</h3>
-                <p class="texto-suave">Envía tu fecha preferida y el número de personas. Te confirmamos disponibilidad.</p>
-            </div>
-            <div class="pilar">
-                <h3>3. Paga y disfruta</h3>
-                <p class="texto-suave">Con la reservación confirmada, sube tu comprobante y listo.</p>
-            </div>
         </div>
-    </div>
-</section>
 
-<section class="seccion seccion--alt">
-    <div class="contenedor bloque-imagen">
-        <img src="{{ config('milcumbres.imagenes.consultoria') }}" alt="Plántulas en vivero comunitario" loading="lazy">
-        <div>
-            <span class="eyebrow">Para empresas y productores</span>
-            <h2 class="titulo-seccion">Consultoría en turismo regenerativo</h2>
-            <p class="texto-suave">Acompañamos a organizaciones y proyectos agrarios a diseñar experiencias que regeneran su territorio.</p>
-            <a class="btn btn--secundario" href="{{ route('consultoria.index') }}">Conocer la consultoría</a>
+    </section>
+
+
+    {{-- ======================================= --}}
+    {{-- CATEGORÍAS DE EXPERIENCIAS --}}
+    {{-- ======================================= --}}
+
+    <section class="inicio-categorias" id="explorar">
+
+        <div class="contenedor">
+
+            <div class="inicio-cabecera">
+
+                <div>
+
+                    <span class="inicio-kicker">
+                        <span class="inicio-kicker__linea"></span>
+                        EXPERIENCIAS PARA TI
+                    </span>
+
+                    <h2>
+                        Encuentra tu forma
+                        <em>de vivir Valle.</em>
+                    </h2>
+
+                </div>
+
+                <div class="inicio-cabecera__derecha">
+
+                    <p>
+                        Cada experiencia es una oportunidad
+                        para descubrir, conectar y crear
+                        recuerdos memorables.
+                    </p>
+
+                    <a href="{{ route('experiencias.index') }}"
+                       class="inicio-enlace">
+                        Ver todas las experiencias
+                        <span aria-hidden="true">↗</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="inicio-categorias__grid">
+
+                @foreach ($tipos as $tipo)
+
+                    <a class="inicio-categoria"
+                       href="{{ route('experiencias.index', ['tipo' => $tipo->id_catalogo_exp]) }}">
+
+                        <img
+                            src="{{ config("milcumbres.imagenes.tipo.{$tipo->tipo}", config('milcumbres.imagenes.experiencia_default')) }}"
+                            alt="Experiencias de {{ $tipo->tipo }}"
+                            loading="lazy"
+                        >
+
+                        <div class="inicio-categoria__sombra"></div>
+
+                        <div class="inicio-categoria__superior">
+
+                            <span class="inicio-categoria__numero">
+                                {{ sprintf('%02d', $loop->iteration) }}
+                            </span>
+
+                            <span class="inicio-categoria__cantidad">
+                                {{ $tipo->experiencias_count }}
+                                {{ \Illuminate\Support\Str::plural('experiencia', $tipo->experiencias_count) }}
+                            </span>
+
+                        </div>
+
+                        <div class="inicio-categoria__inferior">
+
+                            <span class="inicio-categoria__nombre">
+                                {{ $tipo->tipo }}
+                            </span>
+
+                            <p>
+                                {{ $mensajesTipo[$tipo->tipo] ?? 'Descubre nuevas experiencias en Valle de Bravo.' }}
+                            </p>
+
+                            <div class="inicio-categoria__pie">
+                                <span>Explorar categoría</span>
+                                <span class="inicio-categoria__flecha"
+                                      aria-hidden="true">
+                                    ↗
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                @endforeach
+
+            </div>
+
         </div>
-    </div>
-</section>
+
+    </section>
+
+
+    {{-- ======================================= --}}
+    {{-- EXPERIENCIAS DESTACADAS --}}
+    {{-- ======================================= --}}
+
+    @if ($destacadas->isNotEmpty())
+
+        <section class="inicio-destacadas">
+
+            <div class="contenedor">
+
+                <div class="inicio-cabecera">
+
+                    <div>
+
+                        <span class="inicio-kicker">
+                            <span class="inicio-kicker__linea"></span>
+                            DESCUBRE ALGO NUEVO
+                        </span>
+
+                        <h2>
+                            Experiencias que
+                            <em>vale la pena vivir.</em>
+                        </h2>
+
+                    </div>
+
+                    <div class="inicio-cabecera__derecha">
+
+                        <p>
+                            Conoce algunas de nuestras
+                            experiencias más recientes
+                            y encuentra tu próxima aventura.
+                        </p>
+
+                        <a href="{{ route('experiencias.index') }}"
+                           class="inicio-enlace">
+                            Explorar el catálogo
+                            <span aria-hidden="true">↗</span>
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="inicio-destacadas__grid">
+
+                    @foreach ($destacadas as $experiencia)
+
+                        <div class="inicio-destacadas__item">
+                            <x-exp-tarjeta :experiencia="$experiencia" />
+                        </div>
+
+                    @endforeach
+
+                </div>
+
+            </div>
+
+        </section>
+
+    @endif
+
+
+    {{-- ======================================= --}}
+    {{-- NUESTRA FORMA DE VIAJAR --}}
+    {{-- ======================================= --}}
+
+    <section class="inicio-filosofia">
+
+        <div class="contenedor inicio-filosofia__grid">
+
+            <div class="inicio-filosofia__principal">
+
+                <span class="inicio-kicker inicio-kicker--claro">
+                    <span class="inicio-kicker__linea"></span>
+                    NUESTRA FILOSOFÍA
+                </span>
+
+                <h2>
+                    Viajar puede ser
+                    <em>algo extraordinario.</em>
+                </h2>
+
+                <p>
+                    Creemos en una forma de turismo
+                    que promueve el acercamiento con
+                    la naturaleza, el respeto por
+                    las comunidades y la valoración
+                    del territorio.
+                </p>
+
+                <a href="{{ route('modelo') }}"
+                   class="inicio-btn inicio-btn--contorno">
+                    Conoce nuestro modelo
+                    <span aria-hidden="true">↗</span>
+                </a>
+
+            </div>
+
+            <div class="inicio-filosofia__visual">
+
+                <span class="inicio-filosofia__ornamento"
+                      aria-hidden="true">
+                    ✳
+                </span>
+
+                <div class="inicio-filosofia__palabras">
+                    <span>Conocer.</span>
+                    <span>Conectar.</span>
+                    <em>Valorar.</em>
+                </div>
+
+                <span class="inicio-filosofia__pie">
+                    MIL CUMBRES / VALLE DE BRAVO
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    {{-- ======================================= --}}
+    {{-- CÓMO RESERVAR --}}
+    {{-- ======================================= --}}
+
+    <section class="inicio-pasos">
+
+        <div class="contenedor">
+
+            <div class="inicio-pasos__encabezado">
+
+                <span class="inicio-kicker">
+                    <span class="inicio-kicker__linea"></span>
+                    PLANEa TU EXPERIENCIA
+                </span>
+
+                <h2>
+                    Tu próxima aventura
+                    <em>está más cerca.</em>
+                </h2>
+
+                <p>
+                    Reservar una experiencia en Mil Cumbres
+                    es sencillo. Solo sigue estos pasos.
+                </p>
+
+            </div>
+
+            <div class="inicio-pasos__grid">
+
+                <div class="inicio-paso">
+
+                    <span class="inicio-paso__numero">01</span>
+
+                    <div class="inicio-paso__icono"
+                         aria-hidden="true">
+                        ↗
+                    </div>
+
+                    <h3>Explora y elige</h3>
+
+                    <p>
+                        Conoce nuestras experiencias
+                        y selecciona las actividades
+                        que más te interesen.
+                    </p>
+
+                </div>
+
+                <div class="inicio-paso">
+
+                    <span class="inicio-paso__numero">02</span>
+
+                    <div class="inicio-paso__icono"
+                         aria-hidden="true">
+                        ◷
+                    </div>
+
+                    <h3>Solicita tu fecha</h3>
+
+                    <p>
+                        Indica cuándo deseas visitarnos
+                        y cuántas personas participarán.
+                        Confirmaremos la disponibilidad.
+                    </p>
+
+                </div>
+
+                <div class="inicio-paso">
+
+                    <span class="inicio-paso__numero">03</span>
+
+                    <div class="inicio-paso__icono"
+                         aria-hidden="true">
+                        ✓
+                    </div>
+
+                    <h3>Confirma y disfruta</h3>
+
+                    <p>
+                        Una vez confirmada tu solicitud,
+                        registra tu pago y prepárate
+                        para vivir la experiencia.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="inicio-pasos__accion">
+
+                <a href="{{ route('experiencias.index') }}"
+                   class="inicio-btn inicio-btn--verde">
+                    Encuentra tu experiencia
+                    <span aria-hidden="true">↗</span>
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    {{-- ======================================= --}}
+    {{-- CONSULTORÍA --}}
+    {{-- ======================================= --}}
+
+    <section class="inicio-consultoria">
+
+        <div class="contenedor">
+
+            <div class="inicio-consultoria__bloque">
+
+                <div class="inicio-consultoria__imagen">
+
+                    <img
+                        src="{{ config('milcumbres.imagenes.consultoria') }}"
+                        alt="Plántulas y naturaleza para proyectos regenerativos"
+                        loading="lazy"
+                    >
+
+                    <span class="inicio-consultoria__marca">
+                        MIL CUMBRES
+                        <small>TURISMO REGENERATIVO</small>
+                    </span>
+
+                </div>
+
+                <div class="inicio-consultoria__contenido">
+
+                    <span class="inicio-kicker">
+                        <span class="inicio-kicker__linea"></span>
+                        PARA EMPRESAS Y PRODUCTORES
+                    </span>
+
+                    <h2>
+                        Construyamos juntos
+                        <em>un futuro diferente.</em>
+                    </h2>
+
+                    <p>
+                        Acompañamos a organizaciones,
+                        empresas y proyectos agrarios
+                        interesados en desarrollar
+                        experiencias de turismo regenerativo
+                        y fortalecer su relación con
+                        el territorio.
+                    </p>
+
+                    <div class="inicio-consultoria__separador"></div>
+
+                    <a href="{{ route('consultoria.index') }}"
+                       class="inicio-btn inicio-btn--verde">
+                        Descubre nuestras consultorías
+                        <span aria-hidden="true">↗</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
 @endsection

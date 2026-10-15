@@ -1,0 +1,1055 @@
+
+/* =====================================================
+   MIL CUMBRES · C12 ACUSE DE CONSULTORÍA
+   Confirmación editorial y seguimiento
+===================================================== */
+
+.mc-c12 {
+    --c12-verde: #143D36;
+    --c12-acento: #1B6B57;
+    --c12-crema: #FAF8F2;
+    --c12-arena: #E5D8B8;
+    --c12-texto: #5F716B;
+    --c12-borde: #D6E1DC;
+
+    width: 100%;
+    color: var(--c12-verde);
+    background: var(--c12-crema);
+    font-family: "Public Sans", sans-serif;
+}
+
+.mc-c12 *,
+.mc-c12 *::before,
+.mc-c12 *::after {
+    box-sizing: border-box;
+}
+
+.mc-c12 h1,
+.mc-c12 h2,
+.mc-c12 h3 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+}
+
+.mc-c12 h1,
+.mc-c12 h2,
+.mc-c12 h3,
+.mc-c12 p {
+    margin-top: 0;
+}
+
+.mc-c12 h1 em,
+.mc-c12 h2 em,
+.mc-c12 h3 em {
+    font-style: italic;
+    font-weight: 400;
+}
+
+.mc-c12 a {
+    text-decoration: none;
+}
+
+.mc-c12 a:focus-visible,
+.mc-c12 button:focus-visible {
+    outline: 3px solid #5AA0D8;
+    outline-offset: 3px;
+}
+
+.mc-c12__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+
+    color: var(--c12-acento);
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    line-height: 1.6;
+}
+
+.mc-c12__eyebrow--claro {
+    color: var(--c12-arena);
+}
+
+.mc-c12__raya {
+    width: 28px;
+    height: 1px;
+    flex-shrink: 0;
+    background: currentColor;
+}
+
+
+/* =====================================================
+   01 · PORTADA FOTOGRÁFICA
+===================================================== */
+
+.mc-c12__hero {
+    position: relative;
+    min-height: 540px;
+    overflow: hidden;
+    isolation: isolate;
+    color: white;
+    background: var(--c12-verde);
+}
+
+.mc-c12__hero-img,
+.mc-c12__hero-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.mc-c12__hero-img {
+    z-index: -2;
+    object-fit: cover;
+    object-position: center;
+}
+
+.mc-c12__hero-overlay {
+    z-index: -1;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(8,32,25,.94) 0%,
+            rgba(8,32,25,.76) 53%,
+            rgba(8,32,25,.28) 100%
+        ),
+        linear-gradient(
+            0deg,
+            rgba(8,32,25,.52),
+            transparent 45%
+        );
+}
+
+.mc-c12__hero-contenido {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 540px;
+}
+
+
+/* Navegación */
+
+.mc-c12__migas {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 32px;
+    color: rgba(255,255,255,.78);
+    font-size: 11px;
+}
+
+.mc-c12__migas a {
+    color: white;
+    font-weight: 600;
+}
+
+.mc-c12__migas a:hover {
+    color: var(--c12-arena);
+}
+
+
+/* Mensaje principal */
+
+.mc-c12__hero-principal {
+    max-width: 790px;
+    padding: 55px 0;
+}
+
+.mc-c12__hero-simbolo {
+    display: block;
+    margin: 27px 0 16px;
+    color: var(--c12-arena);
+    font-size: 45px;
+    line-height: 1;
+}
+
+.mc-c12__hero h1 {
+    margin-bottom: 24px;
+    color: white;
+    font-size: clamp(48px, 6vw, 82px);
+    line-height: 1.12;
+    letter-spacing: -1.8px;
+}
+
+.mc-c12__hero h1 em {
+    display: block;
+    color: var(--c12-arena);
+}
+
+.mc-c12__hero-principal > p {
+    max-width: 590px;
+    margin-bottom: 0;
+    color: rgba(255,255,255,.87);
+    font-size: 15px;
+    line-height: 1.95;
+}
+
+.mc-c12__hero-pie {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 19px 0;
+    border-top: 1px solid rgba(255,255,255,.3);
+    color: #E6E0CC;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+}
+
+
+/* =====================================================
+   02 · COMPROBANTE
+===================================================== */
+
+.mc-c12__seccion {
+    padding: 85px 0 100px;
+    background: var(--c12-crema);
+}
+
+.mc-c12__comprobante {
+    border: 1px solid var(--c12-borde);
+    background: white;
+    box-shadow: 0 20px 55px rgba(20,61,54,.08);
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   ENCABEZADO DE CONFIRMACIÓN
+===================================================== */
+
+.mc-c12__confirmacion {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    padding: clamp(28px,4vw,52px);
+    border-bottom: 1px solid var(--c12-borde);
+}
+
+.mc-c12__icono-exito {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 70px;
+    height: 70px;
+    border: 1px solid #C6DFC9;
+    border-radius: 50%;
+    background: #E8F4E7;
+    color: #23744A;
+}
+
+.mc-c12__confirmacion-texto {
+    flex: 1;
+    min-width: 0;
+}
+
+.mc-c12__confirmacion h2 {
+    margin: 16px 0;
+    color: var(--c12-verde);
+    font-size: clamp(29px,3.2vw,44px);
+    line-height: 1.2;
+}
+
+.mc-c12__confirmacion h2 em {
+    color: var(--c12-acento);
+}
+
+.mc-c12__confirmacion p {
+    max-width: 640px;
+    margin-bottom: 0;
+    color: var(--c12-texto);
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+
+/* Sello decorativo */
+
+.mc-c12__sello {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    gap: 5px;
+    width: 120px;
+    height: 120px;
+    border: 1px dashed #AFC6B1;
+    border-radius: 50%;
+    color: var(--c12-verde);
+}
+
+.mc-c12__sello > span {
+    color: var(--c12-acento);
+    font-size: 33px;
+    line-height: 1;
+}
+
+.mc-c12__sello strong {
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.mc-c12__sello small {
+    color: var(--c12-texto);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+
+/* =====================================================
+   03 · CUERPO DEL COMPROBANTE
+===================================================== */
+
+.mc-c12__grid {
+    display: grid;
+    grid-template-columns: minmax(0,1.12fr) minmax(0,.88fr);
+    align-items: stretch;
+}
+
+.mc-c12__principal {
+    min-width: 0;
+    padding: clamp(26px,4vw,50px);
+}
+
+.mc-c12__encabezado h2 {
+    margin: 16px 0 30px;
+    color: var(--c12-verde);
+    font-size: clamp(30px,3vw,42px);
+    line-height: 1.2;
+}
+
+.mc-c12__encabezado h2 em {
+    color: var(--c12-acento);
+}
+
+
+/* =====================================================
+   FOLIO DE CONSULTORÍA
+===================================================== */
+
+.mc-c12__folio {
+    padding: clamp(22px,3vw,30px);
+    border: 1px solid var(--c12-verde);
+    background: var(--c12-verde);
+    color: white;
+}
+
+.mc-c12__folio-superior {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    color: #E0D9BC;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.mc-c12__folio-superior > span:last-child {
+    font-size: 27px;
+    line-height: 1;
+}
+
+.mc-c12__folio-numero {
+    display: block;
+    margin: 26px 0;
+    color: white;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: clamp(32px,4.5vw,55px);
+    font-weight: 600;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+    user-select: all;
+}
+
+.mc-c12__folio-inferior {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-top: 19px;
+    border-top: 1px solid rgba(255,255,255,.28);
+}
+
+.mc-c12__folio-inferior > span {
+    max-width: 225px;
+    color: rgba(255,255,255,.79);
+    font-size: 11px;
+    line-height: 1.75;
+}
+
+.mc-c12__copiar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 40px;
+    padding: 9px 14px;
+    border: 1px solid rgba(255,255,255,.55);
+    border-radius: 3px;
+    background: rgba(255,255,255,.09);
+    color: white;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .25s;
+}
+
+.mc-c12__copiar:hover {
+    background: rgba(255,255,255,.22);
+}
+
+.mc-c12__copiar > span {
+    font-size: 19px;
+}
+
+.mc-c12__copiado {
+    margin: 0;
+    color: #E9DFB7;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.mc-c12__copiado:not(:empty) {
+    margin-top: 14px;
+}
+
+
+/* =====================================================
+   DATOS DE LA ORGANIZACIÓN
+===================================================== */
+
+.mc-c12__datos-titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin: 38px 0 16px;
+}
+
+.mc-c12__datos-titulo > span:last-child {
+    color: var(--c12-acento);
+    font-size: 25px;
+}
+
+.mc-c12__datos {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 12px;
+    margin: 0;
+}
+
+.mc-c12__dato {
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid var(--c12-borde);
+    background: #FAFCF9;
+}
+
+.mc-c12__dato--ancho {
+    grid-column: 1 / -1;
+}
+
+.mc-c12__dato dt {
+    margin-bottom: 12px;
+    color: #809287;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.1px;
+}
+
+.mc-c12__dato dd {
+    margin: 0;
+    color: var(--c12-verde);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.mc-c12__dato--estado {
+    border-color: #CDDFCB;
+    background: #EDF4EA;
+}
+
+
+/* =====================================================
+   AVISO IMPORTANTE
+===================================================== */
+
+.mc-c12__aviso {
+    display: flex;
+    align-items: flex-start;
+    gap: 17px;
+    margin-top: 25px;
+    padding: 23px;
+    border: 1px solid #E5DDC9;
+    border-left: 3px solid #C0A36B;
+    background: #FAF6EB;
+}
+
+.mc-c12__aviso-icono {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 31px;
+    height: 31px;
+    border: 1px solid #D3BE94;
+    border-radius: 50%;
+    color: #8D7544;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 19px;
+    font-style: italic;
+}
+
+.mc-c12__aviso strong {
+    display: block;
+    margin-bottom: 10px;
+    color: #675331;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.mc-c12__aviso p {
+    margin-bottom: 0;
+    color: #766C54;
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+
+/* =====================================================
+   04 · PANEL DE SIGUIENTES PASOS
+===================================================== */
+
+.mc-c12__siguientes {
+    min-width: 0;
+    padding: clamp(28px,3.5vw,46px);
+    background: #19473B;
+    color: white;
+}
+
+.mc-c12__siguientes h2 {
+    margin: 18px 0;
+    color: white;
+    font-size: clamp(35px,3.5vw,49px);
+    line-height: 1.18;
+}
+
+.mc-c12__siguientes h2 em {
+    display: block;
+    color: var(--c12-arena);
+}
+
+.mc-c12__siguientes-intro {
+    max-width: 410px;
+    margin-bottom: 45px;
+    color: rgba(255,255,255,.81);
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+
+/* Línea de tiempo */
+
+.mc-c12__pasos {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 43px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.mc-c12__pasos::before {
+    content: "";
+    position: absolute;
+    top: 20px;
+    bottom: 30px;
+    left: 23px;
+    width: 1px;
+    background: rgba(255,255,255,.3);
+}
+
+.mc-c12__paso {
+    position: relative;
+    display: grid;
+    grid-template-columns: 47px minmax(0,1fr);
+    gap: 19px;
+    align-items: start;
+}
+
+.mc-c12__paso-numero {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 47px;
+    height: 47px;
+    border: 1px solid #B7BCA5;
+    border-radius: 50%;
+    background: #19473B;
+    color: #E9DDBD;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.mc-c12__paso-etiqueta {
+    display: block;
+    margin: 6px 0 11px;
+    color: #DBD0AF;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+}
+
+.mc-c12__paso h3 {
+    margin-bottom: 13px;
+    color: white;
+    font-size: 23px;
+    line-height: 1.3;
+}
+
+.mc-c12__paso p {
+    margin-bottom: 0;
+    color: rgba(255,255,255,.79);
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+
+/* Frase de cierre */
+
+.mc-c12__siguientes-cierre {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 60px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,.28);
+}
+
+.mc-c12__siguientes-cierre > span {
+    color: var(--c12-arena);
+    font-size: 29px;
+    line-height: 1;
+}
+
+.mc-c12__siguientes-cierre p {
+    max-width: 350px;
+    margin-bottom: 0;
+    color: #F4ECDD;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 25px;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.mc-c12__siguientes-cierre em {
+    color: var(--c12-arena);
+}
+
+
+/* =====================================================
+   05 · ACCIONES INFERIORES
+===================================================== */
+
+.mc-c12__acciones {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: clamp(28px,4vw,48px);
+    border-top: 1px solid var(--c12-borde);
+}
+
+.mc-c12__acciones h2 {
+    margin: 15px 0 12px;
+    color: var(--c12-verde);
+    font-size: clamp(29px,3vw,40px);
+    line-height: 1.2;
+}
+
+.mc-c12__acciones h2 em {
+    color: var(--c12-acento);
+}
+
+.mc-c12__acciones > div:first-child > p {
+    max-width: 430px;
+    margin-bottom: 0;
+    color: var(--c12-texto);
+    font-size: 13px;
+    line-height: 1.85;
+}
+
+.mc-c12__botones {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 11px;
+}
+
+.mc-c12__boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 17px;
+    min-height: 50px;
+    padding: 13px 18px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 700;
+    transition:
+        background .25s,
+        transform .25s;
+}
+
+.mc-c12__boton:hover {
+    transform: translateY(-2px);
+}
+
+.mc-c12__boton > span {
+    font-size: 19px;
+}
+
+.mc-c12__boton--verde {
+    background: var(--c12-verde);
+    color: white;
+}
+
+.mc-c12__boton--verde:hover {
+    background: var(--c12-acento);
+    color: white;
+}
+
+.mc-c12__boton--borde {
+    border-color: #CCDCCC;
+    background: white;
+    color: var(--c12-verde);
+}
+
+.mc-c12__boton--borde:hover {
+    background: #EAF2E8;
+    color: var(--c12-verde);
+}
+
+.mc-c12__enlace {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    color: var(--c12-acento);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.mc-c12__enlace:hover {
+    color: var(--c12-verde);
+    text-decoration: underline;
+}
+
+
+/* =====================================================
+   06 · DESPEDIDA
+===================================================== */
+
+.mc-c12__despedida {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 75px 20px 0;
+    text-align: center;
+}
+
+.mc-c12__despedida > span {
+    color: var(--c12-acento);
+    font-size: 45px;
+    line-height: 1;
+}
+
+.mc-c12__despedida p {
+    max-width: 680px;
+    margin-bottom: 0;
+    color: var(--c12-verde);
+    font-family: "Fraunces", Georgia, serif;
+    font-size: clamp(28px,3.3vw,45px);
+    line-height: 1.3;
+}
+
+.mc-c12__despedida p em {
+    color: var(--c12-acento);
+}
+
+.mc-c12__despedida small {
+    color: #819187;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1000px) {
+
+    .mc-c12__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mc-c12__principal {
+        padding: 35px;
+    }
+
+    .mc-c12__siguientes {
+        padding: 38px;
+    }
+
+    .mc-c12__siguientes-intro {
+        max-width: 550px;
+    }
+
+    .mc-c12__pasos {
+        gap: 32px;
+    }
+
+    .mc-c12__siguientes-cierre {
+        margin-top: 40px;
+    }
+
+    .mc-c12__acciones {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+
+/* =====================================================
+   CELULARES
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .mc-c12__hero,
+    .mc-c12__hero-contenido {
+        min-height: 470px;
+    }
+
+    .mc-c12__migas {
+        padding-top: 23px;
+        font-size: 10px;
+    }
+
+    .mc-c12__hero-principal {
+        padding: 35px 0;
+    }
+
+    .mc-c12__hero-simbolo {
+        margin: 18px 0 12px;
+        font-size: 34px;
+    }
+
+    .mc-c12__hero h1 {
+        font-size: clamp(43px,10vw,61px);
+        letter-spacing: -1px;
+    }
+
+    .mc-c12__hero-principal > p {
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .mc-c12__hero-pie {
+        font-size: 8px;
+    }
+
+    .mc-c12__hero-pie span:last-child {
+        display: none;
+    }
+
+    .mc-c12__seccion {
+        padding: 54px 0 70px;
+    }
+
+    .mc-c12__confirmacion {
+        gap: 15px;
+        padding: 27px 21px;
+    }
+
+    .mc-c12__icono-exito {
+        width: 48px;
+        height: 48px;
+    }
+
+    .mc-c12__icono-exito svg {
+        width: 26px;
+        height: 26px;
+    }
+
+    .mc-c12__confirmacion h2 {
+        font-size: 28px;
+    }
+
+    .mc-c12__sello {
+        display: none;
+    }
+
+    .mc-c12__principal {
+        padding: 26px 21px;
+    }
+
+    .mc-c12__encabezado h2 {
+        font-size: 32px;
+    }
+
+    .mc-c12__folio {
+        padding: 22px;
+    }
+
+    .mc-c12__folio-numero {
+        font-size: clamp(30px,8vw,42px);
+    }
+
+    .mc-c12__datos {
+        grid-template-columns: 1fr;
+        gap: 9px;
+    }
+
+    .mc-c12__dato,
+    .mc-c12__dato--ancho {
+        grid-column: auto;
+        padding: 19px;
+    }
+
+    .mc-c12__aviso {
+        gap: 12px;
+        padding: 20px 17px;
+    }
+
+    .mc-c12__siguientes {
+        padding: 34px 22px;
+    }
+
+    .mc-c12__siguientes h2 {
+        font-size: 37px;
+    }
+
+    .mc-c12__paso {
+        gap: 13px;
+    }
+
+    .mc-c12__paso h3 {
+        font-size: 21px;
+    }
+
+    .mc-c12__acciones {
+        padding: 30px 21px;
+    }
+
+    .mc-c12__botones {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .mc-c12__boton {
+        width: 100%;
+    }
+
+    .mc-c12__enlace {
+        padding: 11px 0;
+    }
+
+    .mc-c12__despedida {
+        padding-top: 52px;
+    }
+}
+
+
+/* =====================================================
+   ACCESIBILIDAD
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .mc-c12 *,
+    .mc-c12 *::before,
+    .mc-c12 *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+
+}
+
+
+/* =====================================================
+   IMPRESIÓN DEL COMPROBANTE
+===================================================== */
+
+@media print {
+
+    .mc-c12__hero,
+    .mc-c12__acciones,
+    .mc-c12__despedida,
+    .mc-c12__copiar {
+        display: none !important;
+    }
+
+    .mc-c12,
+    .mc-c12__seccion {
+        background: white !important;
+    }
+
+    .mc-c12__seccion {
+        padding: 0 !important;
+    }
+
+    .mc-c12__comprobante {
+        border: 1px solid #DDD;
+        box-shadow: none;
+    }
+
+    .mc-c12__grid {
+        display: block;
+    }
+
+    .mc-c12__principal,
+    .mc-c12__siguientes {
+        padding: 25px;
+    }
+
+    .mc-c12__folio,
+    .mc-c12__siguientes {
+        background: white !important;
+        color: #143D36 !important;
+        border: 1px solid #DDD;
+    }
+
+    .mc-c12__folio *,
+    .mc-c12__siguientes * {
+        color: #143D36 !important;
+    }
+
+    .mc-c12__dato,
+    .mc-c12__paso,
+    .mc-c12__aviso {
+        break-inside: avoid;
+    }
+
+}

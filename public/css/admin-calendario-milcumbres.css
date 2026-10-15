@@ -1,0 +1,1068 @@
+
+/* ==================================================
+   MIL CUMBRES · A05 CALENDARIO ADMINISTRATIVO
+   Agenda mensual y seguimiento de solicitudes
+================================================== */
+
+.mc-a05 {
+    --cal-verde: #143D36;
+    --cal-acento: #1B6B57;
+    --cal-crema: #F6F3EB;
+    --cal-texto: #5F716B;
+    --cal-borde: #DCE5DB;
+
+    width: 100%;
+    min-width: 0;
+    color: var(--cal-verde);
+    font-family: "Public Sans", sans-serif;
+}
+
+.mc-a05 *,
+.mc-a05 *::before,
+.mc-a05 *::after {
+    box-sizing: border-box;
+}
+
+.mc-a05 h1,
+.mc-a05 h2 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+}
+
+.mc-a05 h1,
+.mc-a05 h2,
+.mc-a05 p {
+    margin-top: 0;
+}
+
+.mc-a05 em {
+    font-weight: 400;
+}
+
+.mc-a05 a {
+    text-decoration: none;
+}
+
+.mc-a05 a:focus-visible {
+    outline: 3px solid #5AA0D8;
+    outline-offset: 3px;
+}
+
+.mc-a05__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    line-height: 1.6;
+    color: var(--cal-acento);
+}
+
+.mc-a05__raya {
+    display: inline-block;
+    width: 27px;
+    height: 1px;
+    background: currentColor;
+}
+
+.mc-a05__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+
+/* ==================================================
+   01 · ENCABEZADO
+================================================== */
+
+.mc-a05__hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: linear-gradient(
+        120deg,
+        #102F28 0%,
+        #164638 60%,
+        #28684F 100%
+    );
+    color: white;
+}
+
+.mc-a05__hero::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    right: -110px;
+    top: -185px;
+    width: 430px;
+    height: 430px;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 50%;
+}
+
+.mc-a05__hero::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    right: -20px;
+    top: -105px;
+    width: 260px;
+    height: 260px;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 50%;
+}
+
+.mc-a05__hero-contenido {
+    padding: clamp(26px, 3.5vw, 48px);
+}
+
+.mc-a05__regresar {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 33px;
+    color: #D5E1D6;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.mc-a05__regresar:hover {
+    color: #E8D8B4;
+}
+
+.mc-a05__hero-principal {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.mc-a05__hero .mc-a05__eyebrow {
+    color: #DFD5B6;
+}
+
+.mc-a05__hero h1 {
+    margin: 17px 0 20px;
+    color: #FFFFFF;
+    font-size: clamp(37px, 4vw, 60px);
+    line-height: 1.15;
+    letter-spacing: -1.3px;
+}
+
+.mc-a05__hero h1 em {
+    color: #E5D8B8;
+}
+
+.mc-a05__hero-principal p {
+    max-width: 620px;
+    margin-bottom: 0;
+    color: rgba(255,255,255,.82);
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.mc-a05__hero-sello {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    gap: 8px;
+    width: 142px;
+    height: 142px;
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+}
+
+.mc-a05__hero-sello > span {
+    color: #E5D8B8;
+    font-size: 39px;
+    line-height: 1;
+}
+
+.mc-a05__hero-sello strong {
+    color: white;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.mc-a05__hero-sello small {
+    color: #D5E0D6;
+    font-size: 8px;
+    letter-spacing: .6px;
+}
+
+.mc-a05__hero-pie {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 17px clamp(26px,3.5vw,48px);
+    border-top: 1px solid rgba(255,255,255,.18);
+    color: #E3E0CD;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+}
+
+
+/* ==================================================
+   02 · ESTADÍSTICAS MENSUALES
+================================================== */
+
+.mc-a05__indicadores {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 15px;
+    margin: 21px 0 35px;
+}
+
+.mc-a05__indicador {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 174px;
+    padding: 23px;
+    border: 1px solid var(--cal-borde);
+    background: white;
+    overflow: hidden;
+}
+
+.mc-a05__indicador::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #C8D9CB;
+}
+
+.mc-a05__indicador-etiqueta {
+    position: relative;
+    z-index: 1;
+    color: #7D9084;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+.mc-a05__indicador > strong {
+    position: relative;
+    z-index: 1;
+    display: block;
+    margin: 17px 0 10px;
+    color: var(--cal-verde);
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 49px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.mc-a05__indicador-descripcion {
+    position: relative;
+    z-index: 1;
+    color: var(--cal-texto);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.mc-a05__indicador-icono {
+    position: absolute;
+    right: 16px;
+    top: 45px;
+    color: #E4ECE2;
+    font-size: 63px;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.mc-a05__indicador--total {
+    background: #EAF0E7;
+}
+
+.mc-a05__indicador--total::before {
+    background: var(--cal-acento);
+}
+
+.mc-a05__indicador--pendiente::before {
+    background: #BD8D43;
+}
+
+.mc-a05__indicador--confirmada::before {
+    background: #28784E;
+}
+
+.mc-a05__indicador--completada::before {
+    background: #5875A0;
+}
+
+
+/* ==================================================
+   03 · SECCIÓN DEL CALENDARIO
+================================================== */
+
+.mc-a05__calendario-seccion {
+    overflow: hidden;
+    border: 1px solid var(--cal-borde);
+    background: white;
+}
+
+.mc-a05__calendario-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 31px;
+}
+
+.mc-a05__calendario-titulo h2 {
+    margin: 11px 0 8px;
+    color: var(--cal-verde);
+    font-size: clamp(30px, 3vw, 44px);
+    line-height: 1.2;
+    text-transform: capitalize;
+}
+
+.mc-a05__calendario-titulo h2 em {
+    color: var(--cal-acento);
+}
+
+.mc-a05__calendario-titulo p {
+    margin-bottom: 0;
+    color: var(--cal-texto);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+
+/* ==============================================
+   CONTROLES DEL MES
+============================================== */
+
+.mc-a05__controles {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mc-a05__control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 43px;
+    padding: 10px 16px;
+    border: 1px solid #D6E2D7;
+    border-radius: 3px;
+    background: #F8FAF6;
+    color: var(--cal-verde);
+    font-size: 11px;
+    font-weight: 700;
+    transition: background .2s, color .2s;
+}
+
+.mc-a05__control:hover {
+    background: #E6EFE4;
+    color: var(--cal-verde);
+}
+
+.mc-a05__control--flecha {
+    width: 43px;
+    padding: 0;
+    font-size: 21px;
+}
+
+.mc-a05__control--actual {
+    background: var(--cal-verde);
+    border-color: var(--cal-verde);
+    color: white;
+}
+
+.mc-a05__control--actual:hover {
+    background: var(--cal-acento);
+    color: white;
+}
+
+
+/* ==============================================
+   LEYENDA
+============================================== */
+
+.mc-a05__leyenda {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 19px 30px;
+    border-top: 1px solid var(--cal-borde);
+    border-bottom: 1px solid var(--cal-borde);
+    background: #F8FAF7;
+}
+
+.mc-a05__leyenda-titulo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--cal-acento);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.mc-a05__leyenda-titulo > span {
+    font-size: 22px;
+}
+
+.mc-a05__leyenda-estados {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+
+/* ==================================================
+   04 · TABLA DE CALENDARIO
+================================================== */
+
+.mc-a05__calendario-escritorio {
+    width: 100%;
+}
+
+.mc-a05__tabla {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+.mc-a05__tabla thead {
+    background: #EDF3EA;
+}
+
+.mc-a05__tabla th {
+    padding: 17px 7px;
+    border-right: 1px solid #DCE5DB;
+    border-bottom: 1px solid #DCE5DB;
+    color: #567063;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .6px;
+    text-align: center;
+}
+
+.mc-a05__tabla th:last-child {
+    border-right: none;
+}
+
+.mc-a05__celda {
+    height: 165px;
+    padding: 11px 8px;
+    border-right: 1px solid #E4EAE1;
+    border-bottom: 1px solid #E4EAE1;
+    background: white;
+    text-align: left;
+    vertical-align: top;
+    transition: background .2s;
+}
+
+.mc-a05__celda:last-child {
+    border-right: none;
+}
+
+.mc-a05__celda:hover {
+    background: #F8FBF6;
+}
+
+.mc-a05__celda--fuera {
+    background: #F5F6F2;
+}
+
+.mc-a05__celda--fuera .mc-a05__dia-numero {
+    color: #AAB5AA;
+}
+
+.mc-a05__celda--hoy {
+    background: #F0F7EB;
+    box-shadow: inset 0 0 0 2px #AECFB5;
+}
+
+.mc-a05__dia-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.mc-a05__dia-numero {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    color: var(--cal-verde);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.mc-a05__celda--hoy .mc-a05__dia-numero {
+    border-radius: 50%;
+    background: var(--cal-verde);
+    color: white;
+}
+
+.mc-a05__hoy {
+    color: var(--cal-acento);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: .5px;
+}
+
+
+/* ==================================================
+   EVENTOS DENTRO DEL CALENDARIO
+================================================== */
+
+.mc-a05__eventos {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.mc-a05__evento {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    padding: 10px 9px;
+    border: 1px solid #DFE6DD;
+    border-left: 3px solid #9AA9A0;
+    border-radius: 3px;
+    background: #F7F8F5;
+    color: var(--cal-verde);
+    transition: transform .2s, box-shadow .2s;
+}
+
+.mc-a05__evento:hover {
+    color: var(--cal-verde);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(20,61,54,.12);
+}
+
+.mc-a05__evento-folio {
+    color: inherit;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .2px;
+    overflow-wrap: anywhere;
+}
+
+.mc-a05__evento-nombre {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.mc-a05__evento-personas {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.mc-a05__evento-personas > span {
+    font-size: 15px;
+}
+
+.mc-a05__evento--pendiente {
+    border-color: #EBD8B4;
+    border-left-color: #B6883B;
+    background: #FFF5E3;
+    color: #7C5A24;
+}
+
+.mc-a05__evento--confirmada {
+    border-color: #C8E3CF;
+    border-left-color: #27804C;
+    background: #EAF6EC;
+    color: #21653D;
+}
+
+.mc-a05__evento--completada {
+    border-color: #CDDAED;
+    border-left-color: #567CA6;
+    background: #EFF4FA;
+    color: #385C81;
+}
+
+
+/* ==================================================
+   05 · AGENDA PARA CELULARES
+================================================== */
+
+.mc-a05__agenda-movil {
+    display: none;
+}
+
+.mc-a05__agenda-intro {
+    padding: 20px 0;
+}
+
+.mc-a05__agenda-intro p {
+    margin: 9px 0 0;
+    color: var(--cal-texto);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.mc-a05__agenda-dia {
+    margin-bottom: 24px;
+    border: 1px solid var(--cal-borde);
+    background: white;
+}
+
+.mc-a05__agenda-fecha {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 17px;
+    border-bottom: 1px solid var(--cal-borde);
+    background: #EDF3EB;
+}
+
+.mc-a05__agenda-numero {
+    display: grid;
+    place-items: center;
+    width: 53px;
+    height: 53px;
+    flex-shrink: 0;
+    background: var(--cal-verde);
+    color: white;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 28px;
+}
+
+.mc-a05__agenda-fecha > div:nth-child(2) {
+    flex: 1;
+    min-width: 0;
+}
+
+.mc-a05__agenda-fecha strong {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--cal-verde);
+    font-size: 13px;
+}
+
+.mc-a05__agenda-fecha > div:nth-child(2) > span {
+    color: var(--cal-texto);
+    font-size: 11px;
+    text-transform: capitalize;
+}
+
+.mc-a05__agenda-cantidad {
+    display: grid;
+    place-items: center;
+    min-width: 29px;
+    height: 29px;
+    padding: 0 6px;
+    border-radius: 50%;
+    background: white;
+    color: var(--cal-acento);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.mc-a05__agenda-eventos {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    padding: 15px;
+}
+
+.mc-a05__agenda-evento {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    padding: 18px;
+    border: 1px solid var(--cal-borde);
+    border-left: 4px solid #94A79A;
+    border-radius: 3px;
+    color: var(--cal-verde);
+    background: #FAFBF9;
+}
+
+.mc-a05__agenda-evento:hover {
+    color: var(--cal-verde);
+    background: #F2F7F0;
+}
+
+.mc-a05__agenda-evento-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.mc-a05__agenda-evento-top > strong {
+    color: var(--cal-verde);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.mc-a05__agenda-experiencia {
+    color: var(--cal-verde);
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.mc-a05__agenda-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 17px;
+    color: var(--cal-texto);
+    font-size: 11px;
+}
+
+.mc-a05__agenda-abrir {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid #D8E5D9;
+    color: var(--cal-acento);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.mc-a05__agenda-abrir > span {
+    font-size: 18px;
+}
+
+.mc-a05__vacio {
+    padding: 42px 25px;
+    border: 1px dashed #CADCC9;
+    background: #F7FAF5;
+    text-align: center;
+}
+
+.mc-a05__vacio > span {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--cal-acento);
+    font-size: 39px;
+}
+
+.mc-a05__vacio strong {
+    display: block;
+    margin-bottom: 10px;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.mc-a05__vacio p {
+    margin-bottom: 0;
+    color: var(--cal-texto);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+
+/* ==================================================
+   06 · PIE INFORMATIVO
+================================================== */
+
+.mc-a05__calendario-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 25px;
+    padding: 25px 30px;
+    border-top: 1px solid var(--cal-borde);
+    background: #F8FAF6;
+}
+
+.mc-a05__calendario-footer > div {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+}
+
+.mc-a05__footer-icono {
+    color: var(--cal-acento);
+    font-size: 22px;
+}
+
+.mc-a05__calendario-footer p {
+    max-width: 690px;
+    margin: 0;
+    color: var(--cal-texto);
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+.mc-a05__ver-todas {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0;
+    padding: 11px 0;
+    border-bottom: 1px solid currentColor;
+    color: var(--cal-acento);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.mc-a05__ver-todas:hover {
+    color: var(--cal-verde);
+}
+
+.mc-a05__ver-todas > span {
+    font-size: 18px;
+}
+
+
+/* ==================================================
+   07 · CIERRE
+================================================== */
+
+.mc-a05__cierre {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 13px;
+    padding: 26px 0;
+    color: #819287;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+
+/* ==================================================
+   RESPONSIVE · PANTALLAS MEDIANAS
+================================================== */
+
+@media (max-width: 1250px) {
+
+    .mc-a05__indicadores {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+
+    .mc-a05__indicador {
+        min-height: 155px;
+    }
+
+    .mc-a05__evento {
+        padding: 8px 6px;
+    }
+}
+
+
+/* ==================================================
+   RESPONSIVE · TABLET
+================================================== */
+
+@media (max-width: 1000px) {
+
+    .mc-a05__calendario-escritorio {
+        display: none;
+    }
+
+    .mc-a05__agenda-movil {
+        display: block;
+        padding: 8px 25px 25px;
+    }
+
+    .mc-a05__hero-sello {
+        width: 105px;
+        height: 105px;
+    }
+
+    .mc-a05__hero-sello small {
+        display: none;
+    }
+}
+
+
+/* ==================================================
+   RESPONSIVE · CELULARES
+================================================== */
+
+@media (max-width: 640px) {
+
+    .mc-a05__hero-contenido {
+        padding: 27px 21px;
+    }
+
+    .mc-a05__regresar {
+        margin-bottom: 25px;
+    }
+
+    .mc-a05__hero h1 {
+        font-size: 40px;
+    }
+
+    .mc-a05__hero-principal p {
+        font-size: 12px;
+    }
+
+    .mc-a05__hero-sello {
+        display: none;
+    }
+
+    .mc-a05__hero-pie {
+        padding: 15px 21px;
+        font-size: 8px;
+    }
+
+    .mc-a05__indicadores {
+        gap: 9px;
+        margin-bottom: 21px;
+    }
+
+    .mc-a05__indicador {
+        min-height: 143px;
+        padding: 17px;
+    }
+
+    .mc-a05__indicador-etiqueta {
+        font-size: 8px;
+        letter-spacing: .6px;
+    }
+
+    .mc-a05__indicador > strong {
+        font-size: 42px;
+    }
+
+    .mc-a05__indicador-descripcion {
+        font-size: 10px;
+    }
+
+    .mc-a05__indicador-icono {
+        right: 9px;
+        font-size: 45px;
+    }
+
+    .mc-a05__calendario-header {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 18px;
+        padding: 24px 20px;
+    }
+
+    .mc-a05__calendario-titulo h2 {
+        font-size: 36px;
+    }
+
+    .mc-a05__controles {
+        justify-content: space-between;
+    }
+
+    .mc-a05__control--actual {
+        flex: 1;
+    }
+
+    .mc-a05__leyenda {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 19px 20px;
+    }
+
+    .mc-a05__agenda-movil {
+        padding: 5px 15px 21px;
+    }
+
+    .mc-a05__agenda-eventos {
+        padding: 11px;
+    }
+
+    .mc-a05__agenda-evento {
+        padding: 15px;
+    }
+
+    .mc-a05__calendario-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+        padding: 22px 20px;
+    }
+
+    .mc-a05__cierre {
+        font-size: 9px;
+    }
+}
+
+
+/* ==================================================
+   ACCESIBILIDAD
+================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .mc-a05 *,
+    .mc-a05 *::before,
+    .mc-a05 *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+
+}
+
+
+/* ==================================================
+   IMPRESIÓN
+================================================== */
+
+@media print {
+
+    .mc-a05__hero,
+    .mc-a05__controles,
+    .mc-a05__ver-todas,
+    .mc-a05__cierre {
+        display: none !important;
+    }
+
+    .mc-a05__calendario-escritorio {
+        display: block !important;
+    }
+
+    .mc-a05__agenda-movil {
+        display: none !important;
+    }
+
+    .mc-a05__indicadores {
+        grid-template-columns: repeat(4,1fr);
+    }
+
+    .mc-a05__calendario-seccion {
+        border: 1px solid #CCC;
+    }
+
+    .mc-a05__evento {
+        box-shadow: none !important;
+        break-inside: avoid;
+    }
+
+}
