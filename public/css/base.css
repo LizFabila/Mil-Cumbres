@@ -6,7 +6,7 @@
 
 :root {
     --verde-900: #143d36;   /* texto principal / títulos */
-    --verde-700: #1b6b57;   /* acento: enlaces, botones, etiquetas */
+    --verde-700: #176954;   /* acento: enlaces, botones, etiquetas */
     --verde-600: #23806a;
     --verde-100: #e7f0ec;
     --verde-50:  #f3f7f5;
@@ -16,7 +16,7 @@
     --gris-400:  #ababab;   /* deshabilitado */
     --borde:     #d6e1dc;
     --fondo:     #ffffff;
-    --fondo-alt: #f6f9f7;
+    --fondo-alt: #f3f7f5;
 
     --ambar:     #9a6a12;
     --ambar-bg:  #fbf3e2;

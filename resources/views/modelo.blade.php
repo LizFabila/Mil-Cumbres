@@ -37,7 +37,6 @@
             <div class="modelo-hero__texto">
 
                 <span class="modelo-eyebrow modelo-eyebrow--light">
-                    <span class="modelo-estrella">✳</span>
                     NUESTRA FILOSOFÍA
                 </span>
 
@@ -152,10 +151,6 @@
 
                 <div class="modelo-vision__manifiesto">
 
-                    <span class="modelo-vision__simbolo"
-                          aria-hidden="true">
-                        ✳
-                    </span>
 
                     <span class="modelo-eyebrow modelo-eyebrow--light">
                         NUESTRO PROPÓSITO
@@ -454,9 +449,6 @@
                             saberes tradicionales.
                         </p>
 
-                        <span class="modelo-pilar__decoracion">
-                            ✳
-                        </span>
 
                     </div>
 
@@ -495,9 +487,6 @@
                             de bosques y cuerpos de agua.
                         </p>
 
-                        <span class="modelo-pilar__decoracion">
-                            ✳
-                        </span>
 
                     </div>
 
@@ -537,9 +526,6 @@
                             la identidad local.
                         </p>
 
-                        <span class="modelo-pilar__decoracion">
-                            ✳
-                        </span>
 
                     </div>
 
@@ -561,7 +547,7 @@
         <div class="modelo-final__imagen">
 
             <img
-                src="{{ config('milcumbres.imagenes.hero_inicio') }}"
+                src="{{ config('milcumbres.imagenes.hero_inicio_local') ? asset(config('milcumbres.imagenes.hero_inicio_local')) : config('milcumbres.imagenes.hero_inicio') }}"
                 alt="Paisaje natural de Valle de Bravo"
                 loading="lazy"
             >
@@ -573,7 +559,7 @@
         <div class="contenedor modelo-final__contenido">
 
             <span class="modelo-eyebrow modelo-eyebrow--light">
-                ✳ EL SIGUIENTE PASO ES TUYO
+                EL SIGUIENTE PASO ES TUYO
             </span>
 
             <h2>

@@ -1052,4 +1052,9 @@
         break-inside: avoid;
     }
 
+    /* En papel no se imprimen los pasos siguientes: no son datos del comprobante. */
+    .mc-c12__siguientes {
+        display: none !important;
+    }
+
 }

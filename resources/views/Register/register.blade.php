@@ -67,10 +67,6 @@
                     BIENVENIDO A UNA NUEVA EXPERIENCIA
                 </span>
 
-                <span class="mc-registro__ornamento"
-                      aria-hidden="true">
-                    ✳
-                </span>
 
                 <h2>
                     Tu próxima
@@ -130,10 +126,6 @@
 
                 <div class="mc-registro__marca">
 
-                    <span class="mc-registro__marca-icono"
-                          aria-hidden="true">
-                        ✳
-                    </span>
 
                     <div>
                         <strong>MIL CUMBRES</strong>
@@ -626,9 +618,6 @@
 
                 <div class="mc-registro__ingresar">
 
-                    <span aria-hidden="true">
-                        ✳
-                    </span>
 
                     <div>
 

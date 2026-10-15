@@ -27,7 +27,7 @@
 
         <div class="inicio-hero__foto">
             <img
-                src="{{ config('milcumbres.imagenes.hero_inicio') }}"
+                src="{{ config('milcumbres.imagenes.hero_inicio_local') ? asset(config('milcumbres.imagenes.hero_inicio_local')) : config('milcumbres.imagenes.hero_inicio') }}"
                 alt="Paisaje natural de Valle de Bravo"
                 fetchpriority="high"
             >
@@ -80,7 +80,6 @@
             </div>
 
             <div class="inicio-hero__nota">
-                <span class="inicio-hero__nota-icono">✳</span>
                 <div>
                     <strong>Otra manera de descubrir</strong>
                     <span>
@@ -110,14 +109,14 @@
 
         <div class="contenedor inicio-intro__grid">
 
-            <div class="inicio-intro__etiqueta">
+            <div class="inicio-intro__etiqueta" data-reveal>
                 <span class="inicio-kicker">
                     <span class="inicio-kicker__linea"></span>
                     BIENVENIDO A MIL CUMBRES
                 </span>
             </div>
 
-            <div class="inicio-intro__contenido">
+            <div class="inicio-intro__contenido" data-reveal style="--retardo: 120ms">
 
                 <h2>
                     El viaje comienza cuando
@@ -152,7 +151,7 @@
 
         <div class="contenedor">
 
-            <div class="inicio-cabecera">
+            <div class="inicio-cabecera" data-reveal>
 
                 <div>
 
@@ -190,7 +189,7 @@
 
                 @foreach ($tipos as $tipo)
 
-                    <a class="inicio-categoria"
+                    <a class="inicio-categoria" data-reveal style="--retardo: {{ $loop->index * 110 }}ms"
                        href="{{ route('experiencias.index', ['tipo' => $tipo->id_catalogo_exp]) }}">
 
                         <img
@@ -255,7 +254,7 @@
 
             <div class="contenedor">
 
-                <div class="inicio-cabecera">
+                <div class="inicio-cabecera" data-reveal>
 
                     <div>
 
@@ -279,12 +278,6 @@
                             y encuentra tu próxima aventura.
                         </p>
 
-                        <a href="{{ route('experiencias.index') }}"
-                           class="inicio-enlace">
-                            Explorar el catálogo
-                            <span aria-hidden="true">↗</span>
-                        </a>
-
                     </div>
 
                 </div>
@@ -293,7 +286,7 @@
 
                     @foreach ($destacadas as $experiencia)
 
-                        <div class="inicio-destacadas__item">
+                        <div class="inicio-destacadas__item" data-reveal style="--retardo: {{ $loop->index * 110 }}ms">
                             <x-exp-tarjeta :experiencia="$experiencia" />
                         </div>
 
@@ -316,7 +309,7 @@
 
         <div class="contenedor inicio-filosofia__grid">
 
-            <div class="inicio-filosofia__principal">
+            <div class="inicio-filosofia__principal" data-reveal>
 
                 <span class="inicio-kicker inicio-kicker--claro">
                     <span class="inicio-kicker__linea"></span>
@@ -336,20 +329,10 @@
                     del territorio.
                 </p>
 
-                <a href="{{ route('modelo') }}"
-                   class="inicio-btn inicio-btn--contorno">
-                    Conoce nuestro modelo
-                    <span aria-hidden="true">↗</span>
-                </a>
-
             </div>
 
-            <div class="inicio-filosofia__visual">
+            <div class="inicio-filosofia__visual" data-reveal style="--retardo: 150ms">
 
-                <span class="inicio-filosofia__ornamento"
-                      aria-hidden="true">
-                    ✳
-                </span>
 
                 <div class="inicio-filosofia__palabras">
                     <span>Conocer.</span>
@@ -376,11 +359,11 @@
 
         <div class="contenedor">
 
-            <div class="inicio-pasos__encabezado">
+            <div class="inicio-pasos__encabezado" data-reveal>
 
                 <span class="inicio-kicker">
                     <span class="inicio-kicker__linea"></span>
-                    PLANEa TU EXPERIENCIA
+                    PLANEA TU EXPERIENCIA
                 </span>
 
                 <h2>
@@ -397,7 +380,12 @@
 
             <div class="inicio-pasos__grid">
 
-                <div class="inicio-paso">
+                <div class="inicio-paso" data-reveal style="--retardo: 0ms">
+
+                    <figure class="inicio-paso__foto">
+                        <img src="{{ config('milcumbres.imagenes.pasos.explora') }}"
+                             alt="Paisaje de Valle de Bravo para elegir experiencia" loading="lazy">
+                    </figure>
 
                     <span class="inicio-paso__numero">01</span>
 
@@ -416,7 +404,12 @@
 
                 </div>
 
-                <div class="inicio-paso">
+                <div class="inicio-paso" data-reveal style="--retardo: 140ms">
+
+                    <figure class="inicio-paso__foto">
+                        <img src="{{ config('milcumbres.imagenes.pasos.solicita') }}"
+                             alt="Paisaje de Valle de Bravo para solicitar fecha" loading="lazy">
+                    </figure>
 
                     <span class="inicio-paso__numero">02</span>
 
@@ -435,7 +428,12 @@
 
                 </div>
 
-                <div class="inicio-paso">
+                <div class="inicio-paso" data-reveal style="--retardo: 280ms">
+
+                    <figure class="inicio-paso__foto">
+                        <img src="{{ config('milcumbres.imagenes.pasos.confirma') }}"
+                             alt="Personas disfrutando una actividad al aire libre" loading="lazy">
+                    </figure>
 
                     <span class="inicio-paso__numero">03</span>
 
@@ -481,7 +479,7 @@
 
             <div class="inicio-consultoria__bloque">
 
-                <div class="inicio-consultoria__imagen">
+                <div class="inicio-consultoria__imagen" data-reveal>
 
                     <img
                         src="{{ config('milcumbres.imagenes.consultoria') }}"
@@ -496,7 +494,7 @@
 
                 </div>
 
-                <div class="inicio-consultoria__contenido">
+                <div class="inicio-consultoria__contenido" data-reveal style="--retardo: 120ms">
 
                     <span class="inicio-kicker">
                         <span class="inicio-kicker__linea"></span>

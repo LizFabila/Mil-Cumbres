@@ -71,8 +71,6 @@
 
     <header class="mc-cd-hero">
 
-        <span class="mc-cd-hero__ornamento"
-              aria-hidden="true">✳</span>
 
         <div class="mc-cd-hero__contenido">
 
@@ -105,7 +103,7 @@
                 <div class="mc-cd-hero__etiquetas">
 
                     <span>
-                        ✳ {{ $tipoOrganizacion }}
+                        {{ $tipoOrganizacion }}
                     </span>
 
                     <span>
@@ -188,10 +186,6 @@
 
         <div class="mc-cd-resumen__item">
 
-            <span class="mc-cd-resumen__icono"
-                  aria-hidden="true">
-                ✳
-            </span>
 
             <div>
 
@@ -317,10 +311,6 @@
 
                     </div>
 
-                    <span class="mc-cd-panel__adorno"
-                          aria-hidden="true">
-                        ✳
-                    </span>
 
                 </div>
 
@@ -389,10 +379,6 @@
 
                             <li class="mc-cd-timeline__item">
 
-                                <span class="mc-cd-timeline__punto"
-                                      aria-hidden="true">
-                                    ✳
-                                </span>
 
                                 <article class="mc-cd-timeline__card">
 
@@ -437,7 +423,6 @@
 
                     <div class="mc-cd-timeline-vacia">
 
-                        <span aria-hidden="true">✳</span>
 
                         <h3>
                             El seguimiento comienza aquí.
@@ -568,7 +553,7 @@
             <section class="mc-cd-lateral">
 
                 <span class="mc-cd-lateral__eyebrow">
-                    ✳ INFORMACIÓN DEL SOLICITANTE
+                    INFORMACIÓN DEL SOLICITANTE
                 </span>
 
                 <h2>
@@ -697,7 +682,7 @@
                 <div class="mc-cd-estado__encabezado">
 
                     <span>
-                        ✳ GESTIÓN DEL EXPEDIENTE
+                        GESTIÓN DEL EXPEDIENTE
                     </span>
 
                     <h2>
@@ -813,7 +798,7 @@
     <div class="mc-cd-footer">
 
         <span>
-            ✳ MIL CUMBRES · TURISMO REGENERATIVO
+            MIL CUMBRES · TURISMO REGENERATIVO
         </span>
 
         <span>

@@ -84,7 +84,6 @@
 
                 <div class="mc-a05__hero-sello"
                      aria-hidden="true">
-                    <span>✳</span>
                     <strong>MIL CUMBRES</strong>
                     <small>GESTIÓN DE EXPERIENCIAS</small>
                 </div>
@@ -185,8 +184,6 @@
                 Experiencias completadas
             </span>
 
-            <span class="mc-a05__indicador-icono"
-                  aria-hidden="true">✳</span>
 
         </div>
 
@@ -270,7 +267,6 @@
         <div class="mc-a05__leyenda">
 
             <div class="mc-a05__leyenda-titulo">
-                <span aria-hidden="true">✳</span>
                 ESTADOS DE SOLICITUD
             </div>
 
@@ -438,7 +434,6 @@
 
                 <div class="mc-a05__vacio">
 
-                    <span aria-hidden="true">✳</span>
 
                     <strong>
                         Sin solicitudes este mes.
@@ -610,7 +605,7 @@
     <footer class="mc-a05__cierre">
 
         <span>
-            ✳ MIL CUMBRES
+            MIL CUMBRES
         </span>
 
         <span>

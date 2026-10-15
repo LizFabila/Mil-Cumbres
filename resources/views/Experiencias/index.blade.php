@@ -99,8 +99,6 @@
 
             <div class="mc-cat-hero__detalle">
 
-                <span class="mc-cat-hero__simbolo"
-                      aria-hidden="true">✳</span>
 
                 <strong>
                     Tu próxima historia comienza aquí.
@@ -157,7 +155,7 @@
                 </p>
 
                 <span class="mc-cat-intro__firma">
-                    ✳ &nbsp; DESCUBRE · CONECTA · DISFRUTA
+                    DESCUBRE · CONECTA · DISFRUTA
                 </span>
 
             </div>
@@ -191,10 +189,15 @@
 
                 </div>
 
-                <a href="{{ route('experiencias.index') }}"
-                   class="mc-cat-link">
+                {{-- BOTÓN "TODAS": quita el filtro de categoría --}}
+                <a href="{{ route('experiencias.index') }}#explorar-experiencias"
+                   @class([
+                       'mc-cat-todas',
+                       'mc-cat-todas--activa' => $tipoActivo === ''
+                   ])
+                   @if ($tipoActivo === '') aria-current="true" @endif>
 
-                    Ver todas las experiencias
+                    Todas las experiencias
                     <span aria-hidden="true">↗</span>
 
                 </a>
@@ -325,10 +328,6 @@
 
                         <div class="mc-cat-filtros__titulo">
 
-                            <span class="mc-cat-filtros__icono"
-                                  aria-hidden="true">
-                                ✳
-                            </span>
 
                             <div>
 
@@ -446,7 +445,6 @@
 
                     <div class="mc-cat-sidebar__nota">
 
-                        <span aria-hidden="true">✳</span>
 
                         <strong>
                             Cada viaje tiene
@@ -554,7 +552,7 @@
                         <div class="mc-cat-filtros-activos">
 
                             <span>
-                                ✳ Estás viendo resultados filtrados
+                                Estás viendo resultados filtrados
                             </span>
 
                             <a href="{{ route('experiencias.index') }}#explorar-experiencias">
@@ -574,10 +572,6 @@
 
                         <div class="mc-cat-vacio">
 
-                            <span class="mc-cat-vacio__icono"
-                                  aria-hidden="true">
-                                ✳
-                            </span>
 
                             <h3>
                                 Aún no encontramos
@@ -703,7 +697,6 @@
                                             </div>
 
                                             <div>
-                                                <span aria-hidden="true">✳</span>
                                                 Experiencia local
                                             </div>
 
@@ -785,7 +778,7 @@
         <div class="contenedor mc-cat-final__contenido">
 
             <span class="mc-cat-etiqueta mc-cat-etiqueta--clara">
-                ✳ UNA NUEVA FORMA DE DESCUBRIR
+                UNA NUEVA FORMA DE DESCUBRIR
             </span>
 
             <h2>

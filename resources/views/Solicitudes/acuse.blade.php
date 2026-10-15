@@ -28,7 +28,7 @@
 
         <img
             class="mc-acuse-hero__imagen"
-            src="{{ config('milcumbres.imagenes.hero_inicio') }}"
+            src="{{ config('milcumbres.imagenes.hero_inicio_local') ? asset(config('milcumbres.imagenes.hero_inicio_local')) : config('milcumbres.imagenes.hero_inicio') }}"
             alt="Paisaje natural de Valle de Bravo"
             fetchpriority="high"
         >
@@ -59,7 +59,6 @@
 
             <span class="mc-acuse-eyebrow mc-acuse-eyebrow--claro">
 
-                <span aria-hidden="true">✳</span>
 
                 MIL CUMBRES · TU PRÓXIMA EXPERIENCIA
 
@@ -143,7 +142,6 @@
                     </div>
 
                     <span class="mc-acuse-comprobante__sello">
-                        <span aria-hidden="true">✳</span>
                         MIL CUMBRES
                     </span>
 
@@ -184,9 +182,6 @@
                                     NÚMERO DE FOLIO
                                 </span>
 
-                                <span aria-hidden="true">
-                                    ✳
-                                </span>
 
                             </div>
 
@@ -300,12 +295,6 @@
 
                                     <li>
 
-                                        <span
-                                            class="mc-acuse-experiencias__icono"
-                                            aria-hidden="true"
-                                        >
-                                            ✳
-                                        </span>
 
                                         <span>
                                             {{ $experiencia->nombre }}
@@ -448,9 +437,6 @@
 
                         <div class="mc-acuse-siguientes__cierre">
 
-                            <span aria-hidden="true">
-                                ✳
-                            </span>
 
                             <p>
                                 Tu aventura comienza
@@ -554,7 +540,6 @@
 
             <div class="mc-acuse-despedida">
 
-                <span aria-hidden="true">✳</span>
 
                 <p>
                     Gracias por elegir una forma

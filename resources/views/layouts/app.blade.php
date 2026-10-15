@@ -23,6 +23,9 @@
     {{-- CSS del nuevo menú --}}
     <link rel="stylesheet" href="{{ asset('css/menu-milcumbres.css') }}">
 
+    {{-- Rediseño: paleta, encabezado verde bosque y animaciones --}}
+    <link rel="stylesheet" href="{{ asset('css/rediseno-milcumbres.css') }}">
+
     @stack('estilos')
 </head>
 
@@ -52,14 +55,12 @@
     <div class="mc-hub__ribbon">
         <div class="contenedor mc-hub__ribbon-inner">
 
-            <span>
-                <span class="mc-hub__asterisco">✳</span>
+            <span class="mc-hub__ribbon-marca">
                 MIL CUMBRES · TURISMO REGENERATIVO
             </span>
 
-            <span class="mc-hub__ribbon-location">
-                VALLE DE BRAVO · ESTADO DE MÉXICO
-            </span>
+            {{-- CONTACTO DIRECTO (teléfono, redes, correo) --}}
+            <x-contacto-rapido />
 
         </div>
     </div>
@@ -128,7 +129,7 @@
 
                                 <div>
                                     <span class="mc-hub__eyebrow">
-                                        ✳ DESCUBRE VALLE DE BRAVO
+                                        DESCUBRE VALLE DE BRAVO
                                     </span>
 
                                     <h2>
@@ -265,7 +266,7 @@
                             <div class="mc-hub__consult-content">
 
                                 <span class="mc-hub__eyebrow">
-                                    ✳ CONSULTORÍA REGENERATIVA
+                                    CONSULTORÍA REGENERATIVA
                                 </span>
 
                                 <h2>
@@ -536,6 +537,8 @@
 
 {{-- SCRIPT DEL MENÚ INTERACTIVO --}}
 <script src="{{ asset('js/menu-milcumbres.js') }}" defer></script>
+<script src="{{ asset('js/reveal-milcumbres.js') }}" defer></script>
+<script src="{{ asset('js/acentos-milcumbres.js') }}" defer></script>
 
 @stack('scripts')
 

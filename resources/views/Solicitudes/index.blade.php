@@ -35,7 +35,7 @@
 
         <img
             class="mc-c08__hero-imagen"
-            src="{{ config('milcumbres.imagenes.hero_inicio') }}"
+            src="{{ config('milcumbres.imagenes.hero_inicio_local') ? asset(config('milcumbres.imagenes.hero_inicio_local')) : config('milcumbres.imagenes.hero_inicio') }}"
             alt="Paisaje natural de Valle de Bravo"
             fetchpriority="high"
         >
@@ -59,7 +59,7 @@
 
             <span class="mc-c08__etiqueta
                          mc-c08__etiqueta--clara">
-                ✳ MIL CUMBRES / MI ESPACIO
+                MIL CUMBRES / MI ESPACIO
             </span>
 
             <h1>
@@ -276,10 +276,6 @@
 
                     <div class="mc-c08__vacio">
 
-                        <span class="mc-c08__vacio-icono"
-                              aria-hidden="true">
-                            ✳
-                        </span>
 
                         <h3>
                             Tu próxima historia
@@ -395,7 +391,6 @@
                                             @foreach ($s->experiencias as $exp)
 
                                                 <li>
-                                                    <span aria-hidden="true">✳</span>
                                                     {{ $exp->nombre }}
                                                 </li>
 
@@ -584,10 +579,6 @@
 
                     <div class="mc-c08__vacio">
 
-                        <span class="mc-c08__vacio-icono"
-                              aria-hidden="true">
-                            ✳
-                        </span>
 
                         <h3>
                             Aún no tienes
@@ -731,10 +722,6 @@
 
                                     <summary>
 
-                                        <span class="mc-c08__seguimiento-icono"
-                                              aria-hidden="true">
-                                            ✳
-                                        </span>
 
                                         <span class="mc-c08__seguimiento-texto">
 
@@ -787,10 +774,6 @@
 
                                                     <li>
 
-                                                        <span class="mc-c08__timeline-punto"
-                                                              aria-hidden="true">
-                                                            ✳
-                                                        </span>
 
                                                         <div class="mc-c08__timeline-card">
 
@@ -851,7 +834,7 @@
 
                 <span class="mc-c08__etiqueta
                              mc-c08__etiqueta--clara">
-                    ✳ CONTINÚA DESCUBRIENDO
+                    CONTINÚA DESCUBRIENDO
                 </span>
 
                 <h2>
