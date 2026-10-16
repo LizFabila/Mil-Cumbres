@@ -550,86 +550,152 @@
                 </div>
 
 
-                {{-- FORMULARIO ORIGINAL DE C06 --}}
+                {{-- FORMULARIO DE C06 · EXPERIENCIA DE ESTA FICHA + ADICIONALES --}}
 
                 <form
                     class="mc-detalle-reserva__form"
-                    method="GET"
-                    action="{{ route('solicitudes.create') }}"
+                    method="POST"
+                    action="{{ route('solicitudes.store') }}"
                 >
 
-                    <input
-                        type="hidden"
-                        name="experiencia[]"
-                        value="{{ $experiencia->id_experiencia }}"
+                    @csrf
+
+                    <x-avisos />
+
+                    {{-- EXPERIENCIA ACTUAL --}}
+
+                    <div
+                        class="mc-detalle-reserva__item"
+                        data-precio="{{ (float) $experiencia->precio }}"
                     >
 
-
-                    <div class="mc-detalle-reserva__campo">
-
-                        <label for="mc-detalle-fecha">
-                            Fecha deseada
-                        </label>
+                        <div class="mc-detalle-reserva__item-cabecera">
+                            <strong>{{ $experiencia->nombre }}</strong>
+                            <span>{{ $experiencia->precio_texto }} por persona</span>
+                        </div>
 
                         <input
-                            type="date"
-                            id="mc-detalle-fecha"
-                            name="fecha"
-                            min="{{ now()->addDay()->toDateString() }}"
-                            aria-describedby="mc-detalle-feedback"
-                            required
-                            @guest disabled @endguest
+                            type="hidden"
+                            name="experiencias[]"
+                            value="{{ $experiencia->id_experiencia }}"
                         >
 
-                        <p
-                            class="mc-detalle-reserva__ayuda"
-                            id="mc-detalle-feedback"
-                            aria-live="polite"
-                        >
-                            Selecciona un día con horario
-                            en la programación habitual.
-                        </p>
+                        <div class="mc-detalle-reserva__campo">
+
+                            <label for="mc-detalle-fecha">
+                                Fecha deseada
+                            </label>
+
+                            <input
+                                type="date"
+                                id="mc-detalle-fecha"
+                                name="fechas[{{ $experiencia->id_experiencia }}]"
+                                min="{{ now()->addDay()->toDateString() }}"
+                                aria-describedby="mc-detalle-feedback"
+                                required
+                                @guest disabled @endguest
+                            >
+
+                            <p
+                                class="mc-detalle-reserva__ayuda"
+                                id="mc-detalle-feedback"
+                                aria-live="polite"
+                            >
+                                Selecciona un día con horario
+                                en la programación habitual.
+                            </p>
+
+                        </div>
+
+                        <div class="mc-detalle-reserva__campo">
+
+                            <label for="mc-detalle-personas">
+                                Número de personas
+
+                                @if ($cupoMaximo)
+
+                                    <span>
+                                        Máximo {{ $cupoMaximo }}
+                                    </span>
+
+                                @endif
+
+                            </label>
+
+                            <input
+                                type="number"
+                                id="mc-detalle-personas"
+                                name="personas[{{ $experiencia->id_experiencia }}]"
+                                value="1"
+                                min="1"
+                                required
+
+                                @if ($cupoMaximo)
+                                    max="{{ $cupoMaximo }}"
+                                @endif
+
+                                @guest disabled @endguest
+                            >
+
+                        </div>
+
+                        <div class="mc-detalle-reserva__campo">
+
+                            <label for="mc-detalle-nota">
+                                Información adicional
+                                <span>Opcional</span>
+                            </label>
+
+                            <textarea
+                                id="mc-detalle-nota"
+                                name="notas[{{ $experiencia->id_experiencia }}]"
+                                rows="2"
+                                maxlength="1000"
+                                @guest disabled @endguest
+                            ></textarea>
+
+                        </div>
 
                     </div>
 
+                    {{-- AGREGAR OTRAS EXPERIENCIAS: VA A LA SOLICITUD CON ESTA SELECCIÓN --}}
 
-                    <div class="mc-detalle-reserva__campo">
+                    @auth
 
-                        <label for="mc-detalle-personas">
-                            Número de personas
+                        @if ($tieneHorarios)
 
-                            @if ($cupoMaximo)
+                            <button
+                                type="submit"
+                                class="mc-detalle-reserva__agregar"
+                                id="mc-detalle-agregar"
+                                formnovalidate
+                                formmethod="GET"
+                                formaction="{{ route('solicitudes.create') }}#mc-c06-experiencias"
+                            >
+                                + Agregar otra experiencia
+                            </button>
 
-                                <span>
-                                    Máximo {{ $cupoMaximo }}
-                                </span>
+                        @endif
 
+                    @endauth
+
+                    {{-- TOTAL DE TODAS LAS EXPERIENCIAS SELECCIONADAS --}}
+
+                    <div class="mc-detalle-reserva__total">
+                        <span>
+                            Total estimado
+                        </span>
+                        <strong id="mc-detalle-total">
+                            @if ((float) $experiencia->precio > 0)
+                                ${{ number_format((float) $experiencia->precio, 2) }} MXN
+                            @else
+                                Por confirmar
                             @endif
-
-                        </label>
-
-                        <input
-                            type="number"
-                            id="mc-detalle-personas"
-                            name="personas"
-                            value="1"
-                            min="1"
-                            required
-
-                            @if ($cupoMaximo)
-                                max="{{ $cupoMaximo }}"
-                            @endif
-
-                            @guest disabled @endguest
-                        >
-
-                        <p class="mc-detalle-reserva__ayuda">
-                            Sujeto al cupo del horario
-                            y fecha seleccionados.
-                        </p>
-
+                        </strong>
+                        <small id="mc-detalle-total-detalle">
+                            Precio por persona × participantes.
+                        </small>
                     </div>
-
 
                     {{-- ACCIONES SEGÚN USUARIO --}}
 
@@ -779,6 +845,46 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+
+    // Total de esta experiencia: precio por persona × personas.
+    const totalCampo = document.getElementById('mc-detalle-total');
+    const personasPrincipal = document.getElementById('mc-detalle-personas');
+    const formatoMoneda = new Intl.NumberFormat('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    });
+
+    function recalcularTotal() {
+        if (!totalCampo || !personasPrincipal) return;
+
+        const precio = Number(
+            document.querySelector('.mc-detalle-reserva__item').dataset.precio
+        ) || 0;
+
+        if (precio <= 0) {
+            totalCampo.textContent = 'Por confirmar';
+            return;
+        }
+
+        const cantidad = Math.max(1, Number(personasPrincipal.value) || 1);
+        totalCampo.textContent = formatoMoneda.format(precio * cantidad);
+    }
+
+    if (personasPrincipal) {
+        personasPrincipal.addEventListener('input', recalcularTotal);
+    }
+
+    recalcularTotal();
+
+    // "Agregar otra experiencia" va por GET: el token CSRF no debe viajar en la URL.
+    const botonAgregar = document.getElementById('mc-detalle-agregar');
+    const tokenCampo = document.querySelector('.mc-detalle-reserva__form input[name="_token"]');
+
+    if (botonAgregar && tokenCampo) {
+        botonAgregar.addEventListener('click', function () {
+            tokenCampo.disabled = true;
+        });
+    }
 
     const fecha = document.getElementById('mc-detalle-fecha');
     const mensaje = document.getElementById('mc-detalle-feedback');

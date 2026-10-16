@@ -39,7 +39,7 @@ class PagoController extends Controller
             'fecha' => now(),
         ]);
 
-        return redirect()->route('solicitudes.index')
+        return redirect()->route('solicitudes.acuse', $solicitud)
             ->with('ok', "Recibimos tu comprobante del folio {$solicitud->folio}. Lo revisaremos en menos de 24 h.");
     }
 

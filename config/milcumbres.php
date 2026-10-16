@@ -52,7 +52,7 @@ return [
         // asset('img/archivo.jpg') cuando tengas tus propias fotos.
         'pasos' => [
             'explora' => $u('1470071459604-3b5ec3a7fe05', 900),   // valle al amanecer
-            'solicita' => $u('1500534314209-a25ddb2bd429', 900),  // sierra con neblina
+            'solicita' => $u('1472214103451-9374bd1c798e', 900),  // paisaje verde (también en Nuestro modelo)
             'confirma' => $u('1545205597-3d9d02c29597', 900),     // personas en actividad al aire libre (yoga)
         ],
 

@@ -16,6 +16,9 @@
 @php
     $marcadas = old('experiencias', $seleccionadas);
     $marcadasIds = array_map('intval', (array) $marcadas);
+    $fechasPrevias = (array) old('fechas', $fechas);
+    $personasPrevias = (array) old('personas', $personas);
+    $notasPrevias = (array) old('notas', $notas);
 @endphp
 <div class="mc-c06">
     {{-- ======================================= --}}
@@ -96,7 +99,7 @@
     {{-- ======================================= --}}
     {{-- 03 · FORMULARIO DE SOLICITUD --}}
     {{-- ======================================= --}}
-    <section class="mc-c06__seccion">
+    <section class="mc-c06__seccion" id="mc-c06-formulario">
         <div class="contenedor">
             <x-avisos />
             <form
@@ -148,14 +151,19 @@
                             <p class="mc-c06__descripcion"
                                id="ayuda-exp">
                                 Elige una o varias actividades.
-                                El total se calcula multiplicando
-                                el precio por persona de cada
-                                experiencia por el número
-                                de participantes.
+                                Cada experiencia tiene su propia
+                                fecha, número de personas e
+                                información adicional. El total
+                                suma el precio por persona de
+                                cada una por sus participantes.
                             </p>
                             {{-- LISTADO DE EXPERIENCIAS --}}
                             <div class="mc-c06__opciones">
                                 @forelse ($experiencias as $exp)
+                                    <div
+                                        class="mc-c06__tarjeta"
+                                        data-nombre="{{ $exp->nombre }}"
+                                    >
                                     <label
                                         class="opcion-exp mc-c06__opcion"
                                     >
@@ -214,67 +222,6 @@
                                             {{ $exp->precio_texto }}
                                         </strong>
                                     </label>
-                                @empty
-                                    <div class="mc-c06__vacio">
-                                        <h3>
-                                            No hay experiencias
-                                            para seleccionar.
-                                        </h3>
-                                        <p>
-                                            Consulta el catálogo
-                                            para conocer las actividades
-                                            disponibles.
-                                        </p>
-                                        <a href="{{ route('experiencias.index') }}">
-                                            Volver al catálogo →
-                                        </a>
-                                    </div>
-                                @endforelse
-                            </div>
-                            @error('experiencias')
-                                <span class="error mc-c06__error"
-                                      role="alert">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                            @error('experiencias.*')
-                                <span class="error mc-c06__error"
-                                      role="alert">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </fieldset>
-                        {{-- ================================= --}}
-                        {{-- PASO 02 · FECHAS Y PERSONAS --}}
-                        {{-- ================================= --}}
-                        <fieldset
-                            class="form-grid mc-c06__bloque
-                                   mc-c06__bloque--visita"
-                            id="mc-c06-visita"
-                        >
-                            <legend class="mc-c06__legend completo">
-                                <span class="mc-c06__paso-numero">
-                                    02
-                                </span>
-                                <span>
-                                    Planea
-                                    <em>tu visita.</em>
-                                </span>
-                            </legend>
-                            <p class="mc-c06__descripcion completo">
-                                Indícanos cuándo te gustaría
-                                realizar las actividades
-                                y cuántas personas asistirán.
-                            </p>
-                            {{-- FECHAS INDIVIDUALES POR EXPERIENCIA --}}
-                            <div class="campo completo">
-                                <label>Fecha para cada experiencia</label>
-                                <p class="ayuda">
-                                    Selecciona una fecha en verde para cada experiencia.
-                                    Los días grises no están disponibles.
-                                </p>
-                                <div id="fechas-experiencias" class="pila">
-                                    @foreach ($experiencias as $exp)
                                         <div
                                             class="campo fecha-experiencia"
                                             data-experiencia="{{ $exp->id_experiencia }}"
@@ -289,7 +236,7 @@
                                                 type="text"
                                                 id="fecha_{{ $exp->id_experiencia }}"
                                                 name="fechas[{{ $exp->id_experiencia }}]"
-                                                value="{{ old('fechas.' . $exp->id_experiencia) }}"
+                                                value="{{ old('fechas.' . $exp->id_experiencia, $fechasPrevias[$exp->id_experiencia] ?? '') }}"
                                                 placeholder="Selecciona una fecha"
                                                 readonly
                                                 disabled
@@ -322,6 +269,37 @@
                                                     Verde: disponible · Gris: no disponible
                                                 </p>
                                             </div>
+                                            <div class="mc-c06__campo-extra">
+                                                <label for="personas-{{ $exp->id_experiencia }}">
+                                                    Número de personas
+                                                    <span class="mc-c06__obligatorio">*</span>
+                                                </label>
+                                                <input
+                                                    class="control mc-c06__control personas-exp"
+                                                    type="number"
+                                                    id="personas-{{ $exp->id_experiencia }}"
+                                                    name="personas[{{ $exp->id_experiencia }}]"
+                                                    value="{{ old('personas.' . $exp->id_experiencia, $personasPrevias[$exp->id_experiencia] ?? 1) }}"
+                                                    min="1"
+                                                    max="500"
+                                                    disabled
+                                                >
+                                                @error('personas.' . $exp->id_experiencia)
+                                                    <span class="error mc-c06__error" role="alert">{{ $message }}</span>
+                                                @enderror
+                                                <label for="notas-{{ $exp->id_experiencia }}">
+                                                    Información adicional
+                                                    <span class="mc-c06__opcional">(opcional)</span>
+                                                </label>
+                                                <textarea
+                                                    class="control mc-c06__control mc-c06__textarea notas-exp"
+                                                    id="notas-{{ $exp->id_experiencia }}"
+                                                    name="notas[{{ $exp->id_experiencia }}]"
+                                                    rows="3"
+                                                    maxlength="1000"
+                                                    disabled
+                                                >{{ old('notas.' . $exp->id_experiencia, $notasPrevias[$exp->id_experiencia] ?? '') }}</textarea>
+                                            </div>
                                             <small class="ayuda">
                                                 Días disponibles:
                                                 {{ $exp->disponibilidades->map->dia_texto->unique()->implode(', ') ?: 'Sin horarios disponibles' }}
@@ -330,72 +308,70 @@
                                                 <span class="error">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                    @endforeach
-                                </div>
-                                <p id="mensaje-seleccion" class="ayuda" aria-live="polite">
-                                    Selecciona una experiencia para elegir su fecha.
-                                </p>
+                                    <p
+                                        class="mc-c06__subtotal"
+                                        data-subtotal="{{ $exp->id_experiencia }}"
+                                        hidden
+                                    >
+                                        Subtotal:
+                                        <strong></strong>
+                                    </p>
+                                    </div>
+                                @empty
+                                    <div class="mc-c06__vacio">
+                                        <h3>
+                                            No hay experiencias
+                                            para seleccionar.
+                                        </h3>
+                                        <p>
+                                            Consulta el catálogo
+                                            para conocer las actividades
+                                            disponibles.
+                                        </p>
+                                        <a href="{{ route('experiencias.index') }}">
+                                            Volver al catálogo →
+                                        </a>
+                                    </div>
+                                @endforelse
                             </div>
-                            {{-- PARTICIPANTES --}}
-                            <div class="campo mc-c06__campo">
-                                <label for="cant_persona">
-                                    Número de personas
-                                    <span class="mc-c06__obligatorio">*</span>
-                                </label>
-                                <input
-                                    @class([
-                                        'control',
-                                        'mc-c06__control',
-                                        'es-invalido' =>
-                                            $errors->has('cant_persona')
-                                    ])
-                                    type="number"
-                                    id="cant_persona"
-                                    name="cant_persona"
-                                    value="{{ old('cant_persona', $personas) }}"
-                                    min="1"
-                                    required
-                                >
-                                <span class="ayuda">
-                                    Incluye a todas las personas
-                                    que participarán.
+                            <p id="mensaje-seleccion" class="ayuda" aria-live="polite">
+                                Selecciona una experiencia para elegir su fecha.
+                            </p>
+                            @error('experiencias')
+                                <span class="error mc-c06__error"
+                                      role="alert">
+                                    {{ $message }}
                                 </span>
-                                @error('cant_persona')
-                                    <span class="error mc-c06__error"
-                                          role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                            {{-- NOTA OPCIONAL --}}
-                            <div class="campo completo mc-c06__campo">
-                                <label for="nota">
-                                    Información adicional
-                                    <span class="mc-c06__opcional">
-                                        (opcional)
-                                    </span>
-                                </label>
-                                <textarea
-                                    class="control mc-c06__control
-                                           mc-c06__textarea"
-                                    id="nota"
-                                    name="nota"
-                                    maxlength="1000"
-                                    rows="5"
-                                    placeholder="Cuéntanos si existen alergias, necesidades de movilidad, si viajan con niños o alguna información relevante para tu visita..."
-                                >{{ old('nota') }}</textarea>
-                                <span class="ayuda">
-                                    Puedes escribir cualquier
-                                    detalle que nos ayude
-                                    a preparar tu experiencia.
+                            @enderror
+                            @error('experiencias.*')
+                                <span class="error mc-c06__error"
+                                      role="alert">
+                                    {{ $message }}
                                 </span>
-                                @error('nota')
-                                    <span class="error mc-c06__error"
-                                          role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
+                            @enderror
+                        </fieldset>
+                        {{-- ================================= --}}
+                        {{-- PASO 02 · FECHAS Y PERSONAS --}}
+                        {{-- ================================= --}}
+                        <fieldset
+                            class="form-grid mc-c06__bloque
+                                   mc-c06__bloque--visita"
+                            id="mc-c06-visita"
+                        >
+                            <legend class="mc-c06__legend completo">
+                                <span class="mc-c06__paso-numero">
+                                    02
+                                </span>
+                                <span>
+                                    Planea
+                                    <em>tu visita.</em>
+                                </span>
+                            </legend>
+                            <p class="mc-c06__descripcion completo">
+                                Indícanos cuándo te gustaría
+                                realizar cada actividad y cuántas
+                                personas asistirán a cada una.
+                            </p>
                         </fieldset>
                         {{-- RECORDATORIO --}}
                         <div class="mc-c06__recordatorio">
@@ -444,8 +420,8 @@
                                     <span>
                                         Actividades
                                     </span>
-                                    <strong>
-                                        Según tu selección
+                                    <strong id="resumen-actividades">
+                                        Ninguna todavía
                                     </strong>
                                 </div>
                                 <div class="mc-c06__resumen-fila">
@@ -453,8 +429,8 @@
                                         <span aria-hidden="true">◷</span>
                                         Fechas
                                     </span>
-                                    <strong>
-                                        Según cada experiencia
+                                    <strong id="resumen-fechas">
+                                        Pendiente
                                     </strong>
                                 </div>
                                 {{-- TOTAL ORIGINAL, CONTROLADO POR JS --}}
@@ -621,10 +597,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const bloques = Array.from(
         form.querySelectorAll('.fecha-experiencia')
     );
-    const personas = document.getElementById('cant_persona');
     const total = document.getElementById('total');
     const aviso = document.getElementById('aviso-dia');
     const mensaje = document.getElementById('mensaje-seleccion');
+    const resumenActividades = document.getElementById('resumen-actividades');
+    const resumenFechas = document.getElementById('resumen-fechas');
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0);
     const manana = new Date(
@@ -669,13 +646,82 @@ document.addEventListener('DOMContentLoaded', function () {
         return fecha >= manana &&
             dias.includes(normalizar(nombresDias[fecha.getDay()]));
     }
+    // Total = Σ (precio por persona × personas de esa experiencia).
+    // Cada tarjeta marcada muestra su propio subtotal.
     function actualizarTotal() {
-        const cantidad = Math.max(0, Number(personas.value) || 0);
-        const suma = checks.reduce(function (acumulado, check) {
-            return acumulado +
-                (check.checked ? Number(check.dataset.precio) || 0 : 0);
-        }, 0);
-        total.textContent = formatoMoneda.format(suma * cantidad);
+        let suma = 0;
+        let sinPrecio = false;
+
+        checks.forEach(function (check) {
+            const subtotal = document.querySelector(
+                '[data-subtotal="' + check.value + '"]'
+            );
+
+            if (!check.checked) {
+                if (subtotal) subtotal.hidden = true;
+                return;
+            }
+
+            const precio = Number(check.dataset.precio) || 0;
+            const bloque = bloques.find(b => b.dataset.experiencia === check.value);
+            const campo = bloque ? bloque.querySelector('.personas-exp') : null;
+            const cantidad = Math.max(0, Number(campo ? campo.value : 0) || 0);
+
+            if (precio <= 0) {
+                sinPrecio = true;
+            }
+
+            suma += precio * cantidad;
+
+            if (subtotal) {
+                subtotal.hidden = false;
+                subtotal.querySelector('strong').textContent = precio > 0
+                    ? formatoMoneda.format(precio * cantidad)
+                    : 'Por confirmar';
+            }
+        });
+
+        // Sin precio capturado no se muestra $0: se indica que está por confirmar.
+        total.textContent = sinPrecio
+            ? 'Por confirmar'
+            : formatoMoneda.format(suma);
+
+        actualizarResumen();
+    }
+
+    // Resumen lateral: nombres de las experiencias y su fecha, conforme se marcan.
+    function formatoFecha(valor) {
+        const fecha = leerFecha(valor);
+
+        if (!fecha) return '';
+
+        return fecha.toLocaleDateString('es-MX', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+    }
+
+    function actualizarResumen() {
+        const activas = checks.filter(c => c.checked);
+
+        if (resumenActividades) {
+            resumenActividades.textContent = activas.length
+                ? activas.map(c => c.closest('.mc-c06__tarjeta').dataset.nombre).join(', ')
+                : 'Ninguna todavía';
+        }
+
+        if (resumenFechas) {
+            resumenFechas.textContent = activas.length
+                ? activas.map(function (c) {
+                    const bloque = bloques.find(b => b.dataset.experiencia === c.value);
+                    const valor = bloque ? bloque.querySelector('.calendario-valor').value : '';
+                    const texto = valor ? formatoFecha(valor) : 'falta elegir fecha';
+
+                    return c.closest('.mc-c06__tarjeta').dataset.nombre + ': ' + texto;
+                }).join(' · ')
+                : 'Pendiente';
+        }
     }
     bloques.forEach(function (bloque) {
         const campo = bloque.querySelector('.calendario-valor');
@@ -773,6 +819,8 @@ document.addEventListener('DOMContentLoaded', function () {
             bloque.hidden = !activo;
             campo.disabled = !activo;
             campo.required = activo;
+            bloque.querySelector('.personas-exp').disabled = !activo;
+            bloque.querySelector('.notas-exp').disabled = !activo;
             if (activo) {
                 seleccionadas++;
             } else {
@@ -787,7 +835,12 @@ document.addEventListener('DOMContentLoaded', function () {
     checks.forEach(function (check) {
         check.addEventListener('change', actualizarExperiencias);
     });
-    personas.addEventListener('input', actualizarTotal);
+    bloques.forEach(function (bloque) {
+        bloque.querySelector('.personas-exp')
+            .addEventListener('input', actualizarTotal);
+        bloque.querySelector('.calendario-valor')
+            .addEventListener('change', actualizarResumen);
+    });
     form.addEventListener('submit', function (evento) {
         const seleccionadas = checks.filter(c => c.checked);
         if (!seleccionadas.length) {

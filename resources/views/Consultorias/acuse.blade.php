@@ -516,7 +516,7 @@
                     <div class="mc-c12__botones">
 
                         <a
-                            href="{{ route('solicitudes.index') }}#mis-consultorias"
+                            href="{{ route('solicitudes.index', ['seccion' => 'consultorias']) }}#mis-consultorias"
                             class="mc-c12__boton
                                    mc-c12__boton--verde"
                         >

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class Experiencia extends Model
@@ -60,7 +61,7 @@ class Experiencia extends Model
             'id_solicitud'
         )
             ->using(AsignaExperiencia::class)
-            ->withPivot('fecha_deseada')
+            ->withPivot('fecha_deseada', 'cant_persona', 'nota')
             ->wherePivotNull('deleted_at')
             ->withTimestamps();
     }
@@ -82,7 +83,13 @@ class Experiencia extends Model
 
     protected function precioTexto(): Attribute
     {
-        return Attribute::get(fn () => '$'.number_format((float) $this->precio, 2).' MXN');
+        return Attribute::get(function () {
+            if ((float) $this->precio <= 0) {
+                return 'Precio por confirmar';
+            }
+
+            return '$'.number_format((float) $this->precio, 2).' MXN';
+        });
     }
 
     /** Acepta URL completa (imágenes temporales) o ruta dentro de storage/app/public. */
@@ -139,7 +146,7 @@ class Experiencia extends Model
                 $exceptoSolicitud
             );
         })
-        ->sum('solicitudes.cant_persona');
+        ->sum(DB::raw('COALESCE(asigna_experiencia.cant_persona, solicitudes.cant_persona)'));
 }
 
     public function lugaresDisponibles(Carbon|string $fecha): int

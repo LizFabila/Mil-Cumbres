@@ -21,12 +21,15 @@ class AsignaExperiencia extends Pivot
         'id_solicitud',
         'id_experiencia',
         'fecha_deseada',
+        'cant_persona',
+        'nota',
     ];
 
     protected function casts(): array
     {
         return [
             'fecha_deseada' => 'date',
+            'cant_persona' => 'integer',
         ];
     }
 

@@ -248,11 +248,7 @@
                                 </dt>
 
                                 <dd>
-                                    {{ $solicitud->cant_persona }}
-
-                                    {{ $solicitud->cant_persona == 1
-                                        ? 'persona'
-                                        : 'personas' }}
+                                    Según cada experiencia
                                 </dd>
 
                             </div>
@@ -307,6 +303,19 @@
                                             @if ($fechaExperiencia)
                                                 <small style="display:block; margin-top:4px;">
                                                     Fecha: {{ \Carbon\Carbon::parse($fechaExperiencia)->translatedFormat('l j \d\e F \d\e Y') }}
+                                                </small>
+                                            @endif
+                                            @php
+                                                $personasExperiencia = (int) ($experiencia->pivot->cant_persona ?? $solicitud->cant_persona);
+                                            @endphp
+                                            <small style="display:block; margin-top:4px;">
+                                                {{ $personasExperiencia }}
+                                                {{ $personasExperiencia == 1 ? 'persona' : 'personas' }}
+                                                · ${{ number_format((float) $experiencia->precio * $personasExperiencia, 2) }} MXN
+                                            </small>
+                                            @if ($experiencia->pivot->nota)
+                                                <small style="display:block; margin-top:4px;">
+                                                    Nota: {{ $experiencia->pivot->nota }}
                                                 </small>
                                             @endif
                                         </span>
@@ -533,9 +542,10 @@
                             type="button"
                             class="mc-acuse-imprimir"
                             id="mc-acuse-imprimir"
+                            title="Se abre el diálogo de impresión: elige Guardar como PDF"
                         >
                             <span aria-hidden="true">▤</span>
-                            Imprimir comprobante
+                            Descargar comprobante en PDF
                         </button>
 
                     </div>

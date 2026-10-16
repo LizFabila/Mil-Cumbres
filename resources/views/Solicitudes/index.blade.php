@@ -46,18 +46,6 @@
 
     <section class="mc-c08__hero">
 
-        <img
-
-            class="mc-c08__hero-imagen"
-
-            src="{{ config('milcumbres.imagenes.hero_inicio_local') ? asset(config('milcumbres.imagenes.hero_inicio_local')) : config('milcumbres.imagenes.hero_inicio') }}"
-
-            alt="Paisaje natural de Valle de Bravo"
-
-            fetchpriority="high"
-
-        >
-
         <div class="mc-c08__hero-overlay"></div>
 
         <div class="contenedor mc-c08__hero-contenido">
@@ -290,21 +278,25 @@
 
                  aria-label="Apartados de mis solicitudes">
 
-                <a href="#mis-reservaciones">
+                @if (request('seccion') !== 'consultorias')
+                    <a href="#mis-reservaciones">
+                        <span>01</span>
+                        Mis reservaciones
+                    </a>
+                @endif
 
-                    <span>01</span>
+                @if (request('seccion') !== 'consultorias')
+                    <a href="#mis-pagos">
+                        Mis pagos
+                    </a>
+                @endif
 
-                    Mis reservaciones
-
-                </a>
-
-                <a href="#mis-consultorias">
-
-                    <span>02</span>
-
-                    Mis consultorías
-
-                </a>
+                @if (request('seccion') !== 'reservaciones')
+                    <a href="#mis-consultorias">
+                        <span>02</span>
+                        Mis consultorías
+                    </a>
+                @endif
 
                 <a href="{{ route('experiencias.index') }}">
 
@@ -321,6 +313,8 @@
             {{-- 04 · RESERVACIONES --}}
 
             {{-- ==================================== --}}
+
+            @if (request('seccion') !== 'consultorias')
 
             <section
 
@@ -711,11 +705,116 @@
 
             </section>
 
+            @endif
+
+
+            {{-- ==================================== --}}
+            {{-- 04 · PAGOS --}}
+            {{-- ==================================== --}}
+
+            @if (request('seccion') !== 'consultorias')
+
+            <section
+                class="mc-c08__apartado"
+                id="mis-pagos"
+            >
+
+                <div class="mc-c08__encabezado">
+
+                    <div>
+
+                        <span class="mc-c08__etiqueta">
+
+                            <span class="mc-c08__linea"></span>
+
+                            PAGOS DE MIS EXPERIENCIAS
+
+                        </span>
+
+                        <h2>
+
+                            Mis
+
+                            <em>pagos.</em>
+
+                        </h2>
+
+                        <p>
+
+                            Revisa los pagos registrados para tus
+                            reservaciones y su estado de aprobación.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                @if ($pagos->isEmpty())
+
+                    <div class="mc-c08__vacio">
+
+                        <h3>
+                            Aún no tienes pagos registrados.
+                        </h3>
+
+                        <p>
+                            Cuando una reservación sea confirmada
+                            podrás registrar tu pago desde su tarjeta.
+                        </p>
+
+                    </div>
+
+                @else
+
+                    <div class="mc-c08__pagos">
+
+                        @foreach ($pagos as $pago)
+
+                            <div class="mc-c08__pago">
+
+                                <div>
+                                    <span class="mc-c08__micro">FOLIO</span>
+                                    <strong>{{ $pago->solicitud->folio }}</strong>
+                                </div>
+
+                                <div>
+                                    <span class="mc-c08__micro">FECHA</span>
+                                    <strong>{{ $pago->fecha?->format('d/m/Y') ?? 'Sin fecha' }}</strong>
+                                </div>
+
+                                <div>
+                                    <span class="mc-c08__micro">REFERENCIA</span>
+                                    <strong>{{ $pago->referencia ?: 'Sin referencia' }}</strong>
+                                </div>
+
+                                <div>
+                                    <span class="mc-c08__micro">TOTAL DE LA RESERVACIÓN</span>
+                                    <strong>${{ number_format((float) $pago->solicitud->total, 2) }} MXN</strong>
+                                </div>
+
+                                <x-estado :valor="$pago->estado" />
+
+                            </div>
+
+                        @endforeach
+
+                    </div>
+
+                @endif
+
+            </section>
+
+            @endif
+
+
             {{-- ==================================== --}}
 
             {{-- 05 · CONSULTORÍAS --}}
 
             {{-- ==================================== --}}
+
+            @if (request('seccion') !== 'reservaciones')
 
             <section
 
@@ -1104,6 +1203,8 @@
                 @endif
 
             </section>
+
+            @endif
 
         </div>
 
