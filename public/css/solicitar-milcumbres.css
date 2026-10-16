@@ -660,8 +660,7 @@
 ============================================== */
 
 .mc-c06__lateral {
-    position: sticky;
-    top: 150px;
+    position: static;
     min-width: 0;
     scroll-margin-top: 150px;
 }
