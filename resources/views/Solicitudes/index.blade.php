@@ -891,7 +891,7 @@
 
                                             'mc-c08__estado-consultoria--recibida'
 
-                                                *=*> $c->estado === 'recibida',
+                                                => $c->estado === 'recibida',
 
                                             'mc-c08__estado-consultoria--proceso'
 
