@@ -122,8 +122,12 @@
                                 <span>01</span>
                                 Experiencias
                             </a>
-                            <a href="#mc-c06-resumen">
+                            <a href="#mc-c06-visita">
                                 <span>02</span>
+                                Fechas y personas
+                            </a>
+                            <a href="#mc-c06-resumen">
+                                <span>03</span>
                                 Resumen
                             </a>
                         </nav>
@@ -346,6 +350,29 @@
                                 </span>
                             @enderror
                         </fieldset>
+                        {{-- ================================= --}}
+                        {{-- PASO 02 · FECHAS Y PERSONAS --}}
+                        {{-- ================================= --}}
+                        <fieldset
+                            class="form-grid mc-c06__bloque
+                                   mc-c06__bloque--visita"
+                            id="mc-c06-visita"
+                        >
+                            <legend class="mc-c06__legend completo">
+                                <span class="mc-c06__paso-numero">
+                                    02
+                                </span>
+                                <span>
+                                    Planea
+                                    <em>tu visita.</em>
+                                </span>
+                            </legend>
+                            <p class="mc-c06__descripcion completo">
+                                Indícanos cuándo te gustaría
+                                realizar cada actividad y cuántas
+                                personas asistirán a cada una.
+                            </p>
+                        </fieldset>
                         {{-- RECORDATORIO --}}
                         <div class="mc-c06__recordatorio">
                             <div>
@@ -364,7 +391,7 @@
                         </div>
                     </div>
                     {{-- ================================= --}}
-                    {{-- PASO 02 · RESUMEN LATERAL --}}
+                    {{-- PASO 03 · RESUMEN LATERAL --}}
                     {{-- ================================= --}}
                     <aside
                         class="mc-c06__lateral"
