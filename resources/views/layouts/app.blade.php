@@ -154,7 +154,7 @@
 
                                     <a
                                         class="mc-hub__category"
-                                        href="{{ route('experiencias.index', ['tipo' => $categoria->id_catalogo_exp]) }}"
+                                        href="{{ route('experiencias.index', ['tipo' => $categoria->id_catalogo_exp]) }}#catalogo-resultados"
                                     >
 
                                         <img
@@ -189,18 +189,18 @@
 
                             <div class="mc-hub__quick-links">
 
-                                <a href="{{ route('experiencias.index') }}">
+                                <a href="{{ route('experiencias.index') }}#catalogo-resultados">
                                     <span>Ver todo el catálogo</span>
                                     <span aria-hidden="true">↗</span>
                                 </a>
 
                                 @auth
-                                    <a href="{{ route('solicitudes.create') }}">
+                                    <a href="{{ route('solicitudes.create') }}#mc-c06-formulario">
                                         <span>Solicitar una experiencia</span>
                                         <span aria-hidden="true">↗</span>
                                     </a>
 
-                                    <a href="{{ route('solicitudes.index') }}">
+                                    <a href="{{ route('solicitudes.index', ['seccion' => 'reservaciones']) }}">
                                         <span>Mis reservaciones</span>
                                         <span aria-hidden="true">↗</span>
                                     </a>
@@ -294,7 +294,7 @@
 
                                     @auth
 
-                                        <a href="{{ route('consultoria.create') }}">
+                                        <a href="{{ route('consultoria.create') }}#mc-c11-form">
                                             <span class="mc-hub__option-num">02</span>
                                             <span>
                                                 <strong>Solicitar consultoría</strong>
@@ -303,7 +303,7 @@
                                             <b>↗</b>
                                         </a>
 
-                                        <a href="{{ route('solicitudes.index') }}">
+                                        <a href="{{ route('solicitudes.index', ['seccion' => 'consultorias']) }}">
                                             <span class="mc-hub__option-num">03</span>
                                             <span>
                                                 <strong>Mis consultorías</strong>
@@ -444,7 +444,7 @@
                                     Nueva reservación <span>↗</span>
                                 </a>
 
-                                <a href="{{ route('consultoria.create') }}">
+                                <a href="{{ route('consultoria.create') }}#mc-c11-form">
                                     Solicitar consultoría <span>↗</span>
                                 </a>
 

@@ -86,7 +86,7 @@
                     en Valle de Bravo.
                 </p>
 
-                <a href="#explorar-experiencias"
+                <a href="#catalogo-resultados"
                    class="mc-cat-boton mc-cat-boton--blanco">
 
                     Explorar experiencias
@@ -190,7 +190,7 @@
                 </div>
 
                 {{-- BOTÓN "TODAS": quita el filtro de categoría --}}
-                <a href="{{ route('experiencias.index') }}#explorar-experiencias"
+                <a href="{{ route('experiencias.index') }}#catalogo-resultados"
                    @class([
                        'mc-cat-todas',
                        'mc-cat-todas--activa' => $tipoActivo === ''
@@ -217,7 +217,7 @@
                         href="{{ route('experiencias.index', array_merge(
                             request()->except('tipo', 'page'),
                             ['tipo' => $tipo->id_catalogo_exp]
-                        )) }}#explorar-experiencias"
+                        )) }}#catalogo-resultados"
 
                         @class([
                             'mc-cat-categoria',
@@ -324,123 +324,6 @@
 
                 <aside class="mc-cat-sidebar">
 
-                    <div class="mc-cat-filtros">
-
-                        <div class="mc-cat-filtros__titulo">
-
-
-                            <div>
-
-                                <span class="mc-cat-filtros__subtitulo">
-                                    PERSONALIZA TU BÚSQUEDA
-                                </span>
-
-                                <h3>Encuentra tu plan</h3>
-
-                            </div>
-
-                        </div>
-
-                        <form
-                            method="GET"
-                            action="{{ route('experiencias.index') }}"
-                            class="mc-cat-filtros__form"
-                        >
-
-                            {{-- BUSCADOR --}}
-
-                            <div class="mc-cat-campo">
-
-                                <label for="mc-busqueda">
-                                    ¿Qué te gustaría hacer?
-                                </label>
-
-                                <div class="mc-cat-input-wrap">
-
-                                    <input
-                                        type="search"
-                                        id="mc-busqueda"
-                                        name="q"
-                                        value="{{ $busqueda }}"
-                                        placeholder="Buscar experiencias..."
-                                    >
-
-                                    <span aria-hidden="true">⌕</span>
-
-                                </div>
-
-                            </div>
-
-
-                            {{-- ZONA --}}
-
-                            <div class="mc-cat-campo">
-
-                                <label for="mc-zona">
-                                    ¿Dónde quieres explorar?
-                                </label>
-
-                                <select id="mc-zona" name="zona">
-
-                                    <option value="">
-                                        Todas las zonas
-                                    </option>
-
-                                    @foreach ($zonas as $zona)
-
-                                        <option
-                                            value="{{ $zona->id_zona }}"
-                                            @selected(
-                                                $zonaActiva === (string) $zona->id_zona
-                                            )
-                                        >
-                                            {{ $zona->nombre }}
-                                        </option>
-
-                                    @endforeach
-
-                                </select>
-
-                            </div>
-
-
-                            {{-- CONSERVAR TIPO SELECCIONADO --}}
-
-                            @if ($tipoActivo !== '')
-
-                                <input
-                                    type="hidden"
-                                    name="tipo"
-                                    value="{{ $tipoActivo }}"
-                                >
-
-                            @endif
-
-
-                            <button
-                                type="submit"
-                                class="mc-cat-boton mc-cat-boton--verde"
-                            >
-                                Buscar experiencias
-                                <span aria-hidden="true">↗</span>
-                            </button>
-
-                            @if ($hayFiltros)
-
-                                <a
-                                    href="{{ route('experiencias.index') }}#explorar-experiencias"
-                                    class="mc-cat-filtros__limpiar"
-                                >
-                                    Limpiar todos los filtros
-                                </a>
-
-                            @endif
-
-                        </form>
-
-                    </div>
-
-
                     {{-- BLOQUE EDITORIAL LATERAL --}}
 
                     <div class="mc-cat-sidebar__nota">
@@ -472,7 +355,7 @@
                 {{-- RESULTADOS --}}
                 {{-- ================================= --}}
 
-                <div class="mc-cat-resultados">
+                <div class="mc-cat-resultados" id="catalogo-resultados">
 
                     <div class="mc-cat-resultados__cabecera">
 
@@ -513,7 +396,7 @@
                             href="{{ route(
                                 'experiencias.index',
                                 request()->except('tipo', 'page')
-                            ) }}#explorar-experiencias"
+                            ) }}#catalogo-resultados"
 
                             @class([
                                 'mc-cat-chip',
@@ -529,7 +412,7 @@
                                 href="{{ route('experiencias.index', array_merge(
                                     request()->except('tipo', 'page'),
                                     ['tipo' => $tipo->id_catalogo_exp]
-                                )) }}#explorar-experiencias"
+                                )) }}#catalogo-resultados"
 
                                 @class([
                                     'mc-cat-chip',
@@ -555,7 +438,7 @@
                                 Estás viendo resultados filtrados
                             </span>
 
-                            <a href="{{ route('experiencias.index') }}#explorar-experiencias">
+                            <a href="{{ route('experiencias.index') }}#catalogo-resultados">
                                 Ver todos
                             </a>
 

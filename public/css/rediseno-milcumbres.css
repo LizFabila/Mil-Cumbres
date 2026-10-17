@@ -381,3 +381,134 @@
     margin: 0 -27px 24px;
     object-fit: cover;
 }
+
+/* ---------- Reserva con varias experiencias (ficha) ---------- */
+.mc-detalle-reserva__item {
+    display: grid;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid #D6E1DC;
+}
+
+.mc-detalle-reserva__item-cabecera {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    color: #143D36;
+}
+
+.mc-detalle-reserva__item-cabecera span {
+    color: #5F716B;
+    font-size: 12px;
+}
+
+.mc-detalle-reserva__adicionales {
+    padding: 14px 0 0;
+}
+
+.mc-detalle-reserva__agregar {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px dashed #176954;
+    background: transparent;
+    color: #176954;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.mc-detalle-reserva__agregar:hover {
+    background: #F3F7F5;
+}
+
+.mc-detalle-reserva__opcion {
+    border-bottom: 1px solid #D6E1DC;
+    padding: 12px 0;
+}
+
+.mc-detalle-reserva__opcion-cabecera {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    cursor: pointer;
+}
+
+.mc-detalle-reserva__opcion-cabecera span {
+    display: grid;
+    gap: 2px;
+    color: #143D36;
+}
+
+.mc-detalle-reserva__opcion-cabecera small {
+    color: #5F716B;
+}
+
+.mc-detalle-reserva__extra {
+    display: grid;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.mc-detalle-reserva__extra label {
+    display: grid;
+    gap: 4px;
+    color: #143D36;
+    font-size: 13px;
+}
+
+.mc-detalle-reserva__total {
+    display: grid;
+    gap: 4px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid #D6E1DC;
+}
+
+.mc-detalle-reserva__total span {
+    color: #5F716B;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.mc-detalle-reserva__total strong {
+    color: #143D36;
+    font-size: 26px;
+}
+
+.mc-detalle-reserva__total small {
+    color: #78877D;
+    font-size: 11px;
+}
+
+/* ---------- Experiencias adicionales en la solicitud ---------- */
+.mc-c06__campo-extra {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* ---------- Tarjetas de experiencia con fecha, personas e información ---------- */
+.mc-c06__tarjeta {
+    display: grid;
+    gap: 0;
+}
+
+.mc-c06__tarjeta .fecha-experiencia {
+    margin: 0 0 4px;
+    padding: 16px 20px;
+    border: 1px solid #D6E1DC;
+    border-top: 0;
+    background: #FFFFFF;
+}
+
+.mc-c06__subtotal {
+    margin: 0 0 14px;
+    padding: 0 20px 0;
+    color: #5F716B;
+    font-size: 13px;
+}
+
+.mc-c06__subtotal strong {
+    color: #143D36;
+}

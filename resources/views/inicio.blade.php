@@ -63,7 +63,7 @@
 
                 <div class="inicio-hero__acciones">
 
-                    <a href="{{ route('experiencias.index') }}"
+                    <a href="{{ route('experiencias.index') }}#catalogo-resultados"
                        class="inicio-btn inicio-btn--claro">
                         Explorar experiencias
                         <span aria-hidden="true">↗</span>
@@ -175,7 +175,7 @@
                         recuerdos memorables.
                     </p>
 
-                    <a href="{{ route('experiencias.index') }}"
+                    <a href="{{ route('experiencias.index') }}#catalogo-resultados"
                        class="inicio-enlace">
                         Ver todas las experiencias
                         <span aria-hidden="true">↗</span>
@@ -190,7 +190,7 @@
                 @foreach ($tipos as $tipo)
 
                     <a class="inicio-categoria" data-reveal style="--retardo: {{ $loop->index * 110 }}ms"
-                       href="{{ route('experiencias.index', ['tipo' => $tipo->id_catalogo_exp]) }}">
+                       href="{{ route('experiencias.index', ['tipo' => $tipo->id_catalogo_exp]) }}#catalogo-resultados">
 
                         <img
                             src="{{ config("milcumbres.imagenes.tipo.{$tipo->tipo}", config('milcumbres.imagenes.experiencia_default')) }}"
@@ -456,7 +456,7 @@
 
             <div class="inicio-pasos__accion">
 
-                <a href="{{ route('experiencias.index') }}"
+                <a href="{{ route('experiencias.index') }}#catalogo-resultados"
                    class="inicio-btn inicio-btn--verde">
                     Encuentra tu experiencia
                     <span aria-hidden="true">↗</span>

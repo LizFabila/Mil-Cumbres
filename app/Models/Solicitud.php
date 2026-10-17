@@ -52,7 +52,7 @@ class Solicitud extends Model
             'id_experiencia'
         )
             ->using(AsignaExperiencia::class)
-            ->withPivot('fecha_deseada')
+            ->withPivot('fecha_deseada', 'cant_persona', 'nota')
             ->wherePivotNull('deleted_at')
             ->withTimestamps();
     }
@@ -68,10 +68,12 @@ class Solicitud extends Model
             ->latestOfMany('fecha');
     }
 
-    /** total = suma de precios de las experiencias × número de personas. */
+    /** total = Σ (precio de cada experiencia × personas asignadas a esa experiencia). */
     public function recalcularTotal(): void
     {
-        $this->total = $this->experiencias()->sum('precio') * $this->cant_persona;
+        $this->total = $this->experiencias()->get()->sum(
+            fn ($experiencia) => (float) $experiencia->precio * (int) $experiencia->pivot->cant_persona
+        );
         $this->save();
     }
 
@@ -87,7 +89,7 @@ class Solicitud extends Model
 
     public function puedePagar(): bool
     {
-        return $this->estado === 'confirmada'
+        return in_array($this->estado, ['pendiente', 'confirmada'], true)
             && ! $this->pagos()
                 ->whereIn('estado', ['pendiente', 'aprobado'])
                 ->exists();

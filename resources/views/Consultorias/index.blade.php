@@ -67,7 +67,7 @@
                 <div class="mc-consultoria-hero__acciones">
 
                     <a
-                        href="{{ route('consultoria.create') }}"
+                        href="{{ route('consultoria.create') }}#mc-c11-form"
                         class="mc-consultoria-boton mc-consultoria-boton--crema"
                     >
                         Solicitar consultoría
@@ -335,7 +335,7 @@
                             <a
                                 href="{{ route('consultoria.create', [
                                     'tipo' => $tipo->id_tipo_organizacion
-                                ]) }}"
+                                ]) }}#mc-c11-form"
                                 class="mc-consultoria-tipo__boton"
                             >
 
@@ -614,7 +614,7 @@
                 </p>
 
                 <a
-                    href="{{ route('consultoria.create') }}"
+                    href="{{ route('consultoria.create') }}#mc-c11-form"
                     class="mc-consultoria-boton
                            mc-consultoria-boton--crema"
                 >
