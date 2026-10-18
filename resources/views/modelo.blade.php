@@ -328,9 +328,7 @@
                             máximo por fecha.
                         </p>
                     </div>
-
-                    <span class="modelo-compromiso__icono"
-                          aria-hidden="true">↗</span>
+                    
 
                 </article>
 
@@ -349,8 +347,6 @@
                         </p>
                     </div>
 
-                    <span class="modelo-compromiso__icono"
-                          aria-hidden="true">↗</span>
 
                 </article>
 
@@ -369,8 +365,6 @@
                         </p>
                     </div>
 
-                    <span class="modelo-compromiso__icono"
-                          aria-hidden="true">↗</span>
 
                 </article>
 

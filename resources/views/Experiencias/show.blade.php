@@ -20,6 +20,60 @@
       href="{{ asset('css/detalle-milcumbres.css') }}">
 @endpush
 
+
+@push('estilos')
+<style>
+.mc-detalle-calendario[hidden] { display: none !important; }
+.mc-detalle-calendario {
+    width: 100%;
+    margin-top: 10px;
+    padding: 14px;
+    border: 1px solid #d8e2db;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(0,0,0,.08);
+}
+#mc-detalle-fecha:not(:disabled) { cursor: pointer; background: #fff; }
+.mc-detalle-calendario__cabecera {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 10px; margin-bottom: 14px;
+}
+.mc-detalle-calendario__cabecera strong {
+    text-transform: capitalize; font-family: Arial, sans-serif; font-size: 14px;
+}
+.mc-detalle-calendario__cabecera button {
+    width: 34px; height: 34px; border: 1px solid #d7ded9;
+    border-radius: 8px; background: #f6f8f6; color: #274c39;
+    font-size: 22px; cursor: pointer;
+}
+.mc-detalle-calendario__cabecera button:disabled { opacity: .35; cursor: not-allowed; }
+.mc-detalle-calendario__semana, .mc-detalle-calendario__dias {
+    display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px;
+}
+.mc-detalle-calendario__semana {
+    margin-bottom: 7px; text-align: center; font-size: 12px;
+    font-weight: 700; color: #53635a;
+}
+.mc-detalle-calendario__dias button {
+    width: 100%; min-height: 36px; padding: 0; border: 1px solid transparent;
+    border-radius: 7px; font: 13px Arial, sans-serif;
+}
+.mc-detalle-calendario__dias .dia-disponible {
+    background: #d7f1df; color: #14643a; cursor: pointer;
+}
+.mc-detalle-calendario__dias .dia-disponible:hover { background: #a5dfb9; }
+.mc-detalle-calendario__dias .dia-bloqueado {
+    background: #f2f2f2; color: #aaa; cursor: not-allowed;
+}
+.mc-detalle-calendario__dias .dia-seleccionado {
+    background: #176447; color: #fff; font-weight: 700;
+}
+.mc-detalle-calendario__leyenda {
+    margin: 12px 0 0; font-size: 11px; color: #65736b; text-align: center;
+}
+</style>
+@endpush
+
 @section('contenido')
 
 @php
@@ -587,14 +641,39 @@
                             </label>
 
                             <input
-                                type="date"
+                                type="text"
                                 id="mc-detalle-fecha"
                                 name="fechas[{{ $experiencia->id_experiencia }}]"
-                                min="{{ now()->addDay()->toDateString() }}"
+                                value="{{ old('fechas.' . $experiencia->id_experiencia, '') }}"
+                                placeholder="Selecciona una fecha"
+                                autocomplete="off"
                                 aria-describedby="mc-detalle-feedback"
+                                aria-haspopup="dialog"
+                                aria-expanded="false"
+                                readonly
                                 required
                                 @guest disabled @endguest
                             >
+
+                            {{-- Calendario propio: solo permite días programados --}}
+                            <div class="mc-detalle-calendario" id="mc-detalle-calendario"
+                                 role="dialog" aria-label="Elegir fecha de experiencia" hidden>
+                                <div class="mc-detalle-calendario__cabecera">
+                                    <button type="button" id="mc-detalle-mes-anterior"
+                                            aria-label="Mes anterior">‹</button>
+                                    <strong id="mc-detalle-mes"></strong>
+                                    <button type="button" id="mc-detalle-mes-siguiente"
+                                            aria-label="Mes siguiente">›</button>
+                                </div>
+                                <div class="mc-detalle-calendario__semana" aria-hidden="true">
+                                    <span>L</span><span>M</span><span>M</span><span>J</span>
+                                    <span>V</span><span>S</span><span>D</span>
+                                </div>
+                                <div class="mc-detalle-calendario__dias" id="mc-detalle-dias"></div>
+                                <p class="mc-detalle-calendario__leyenda">
+                                    Verde: día programado · Gris: no disponible
+                                </p>
+                            </div>
 
                             <p
                                 class="mc-detalle-reserva__ayuda"
@@ -888,61 +967,156 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const fecha = document.getElementById('mc-detalle-fecha');
     const mensaje = document.getElementById('mc-detalle-feedback');
+    const calendario = document.getElementById('mc-detalle-calendario');
+    const cuadricula = document.getElementById('mc-detalle-dias');
+    const tituloMes = document.getElementById('mc-detalle-mes');
+    const anterior = document.getElementById('mc-detalle-mes-anterior');
+    const siguiente = document.getElementById('mc-detalle-mes-siguiente');
+    const diasHabilitados = {{ \Illuminate\Support\Js::from($diasHabilitados) }};
 
-    if (!fecha || !mensaje || fecha.disabled) {
-        return;
+    if (!fecha || !mensaje || !calendario || fecha.disabled) return;
+
+    const hoy = new Date();
+    const manana = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() + 1);
+
+    function formatoFecha(f) {
+        return f.getFullYear() + '-' +
+            String(f.getMonth() + 1).padStart(2, '0') + '-' +
+            String(f.getDate()).padStart(2, '0');
     }
 
-    const diasHabilitados =
-        {{ \Illuminate\Support\Js::from($diasHabilitados) }};
+    function leerFecha(valor) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(valor)) return null;
+        const [anio, mes, dia] = valor.split('-').map(Number);
+        const f = new Date(anio, mes - 1, dia);
+        return formatoFecha(f) === valor ? f : null;
+    }
+
+    function esPermitida(f) {
+        return f >= manana && diasHabilitados.includes(f.getDay());
+    }
+
+    const inicial = leerFecha(fecha.value);
+    let anioVisible = inicial && inicial >= manana
+        ? inicial.getFullYear() : manana.getFullYear();
+    let mesVisible = inicial && inicial >= manana
+        ? inicial.getMonth() : manana.getMonth();
 
     function validarFecha() {
-
-        fecha.setCustomValidity('');
-
-        if (!fecha.value) {
-
-            mensaje.textContent =
-                'Selecciona un día con horario en la programación habitual.';
-
-            return;
-        }
-
-        // Mediodía local: evita desfases de fecha por UTC.
-        const seleccion = new Date(fecha.value + 'T12:00:00');
-
-        const dia = seleccion.getDay();
-
-        if (!diasHabilitados.includes(dia)) {
-
-            fecha.setCustomValidity(
-                'Esta experiencia no tiene horario habitual ese día.'
-            );
-
-            mensaje.textContent =
-                'No hay un horario configurado para ese día. ' +
-                'Selecciona uno de los días publicados.';
-
-            mensaje.classList.add(
-                'mc-detalle-reserva__ayuda--error'
-            );
-
-        } else {
-
-            mensaje.textContent =
-                'Este día tiene un horario habitual. ' +
-                'La disponibilidad final se confirmará después.';
-
-            mensaje.classList.remove(
-                'mc-detalle-reserva__ayuda--error'
-            );
-
-        }
-
+        const elegida = leerFecha(fecha.value);
+        const correcta = Boolean(elegida && esPermitida(elegida));
+        fecha.setCustomValidity(correcta ? '' : 'Selecciona una fecha disponible.');
+        mensaje.classList.toggle('mc-detalle-reserva__ayuda--error',
+            Boolean(fecha.value) && !correcta);
+        mensaje.textContent = !fecha.value
+            ? 'Selecciona un día verde del calendario.'
+            : correcta
+                ? 'Día programado. La disponibilidad final se confirmará después.'
+                : 'Esta fecha no está disponible para la experiencia.';
+        return correcta;
     }
 
-    fecha.addEventListener('change', validarFecha);
-    fecha.addEventListener('input', validarFecha);
+    function dibujar() {
+        cuadricula.replaceChildren();
+        const primero = new Date(anioVisible, mesVisible, 1);
+        const ultimo = new Date(anioVisible, mesVisible + 1, 0).getDate();
+        const desplazamiento = (primero.getDay() + 6) % 7;
+        tituloMes.textContent = primero.toLocaleDateString('es-MX', {
+            month: 'long', year: 'numeric'
+        });
+        anterior.disabled = primero <= new Date(
+            manana.getFullYear(), manana.getMonth(), 1
+        );
+
+        for (let i = 0; i < desplazamiento; i++) {
+            cuadricula.appendChild(document.createElement('span'));
+        }
+
+        for (let dia = 1; dia <= ultimo; dia++) {
+            const f = new Date(anioVisible, mesVisible, dia);
+            const permitido = esPermitida(f);
+            const valor = formatoFecha(f);
+            const boton = document.createElement('button');
+            boton.type = 'button';
+            boton.textContent = String(dia);
+            boton.disabled = !permitido;
+            boton.className = permitido ? 'dia-disponible' : 'dia-bloqueado';
+            boton.setAttribute('aria-label', f.toLocaleDateString('es-MX', {
+                weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+            }));
+            if (fecha.value === valor) {
+                boton.classList.add('dia-seleccionado');
+                boton.setAttribute('aria-pressed', 'true');
+            }
+            if (permitido) {
+                boton.addEventListener('click', function () {
+                    fecha.value = valor;
+                    cerrar();
+                    validarFecha();
+                    fecha.dispatchEvent(new Event('change', { bubbles: true }));
+                    fecha.focus();
+                });
+            }
+            cuadricula.appendChild(boton);
+        }
+    }
+
+    function cerrar() {
+        calendario.hidden = true;
+        fecha.setAttribute('aria-expanded', 'false');
+    }
+
+    function alternar() {
+        if (fecha.disabled) return;
+        calendario.hidden = !calendario.hidden;
+        fecha.setAttribute('aria-expanded', String(!calendario.hidden));
+        if (!calendario.hidden) dibujar();
+    }
+
+    fecha.addEventListener('click', alternar);
+    fecha.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            alternar();
+        } else if (e.key === 'Escape') cerrar();
+    });
+    anterior.addEventListener('click', function () {
+        if (anterior.disabled) return;
+        const f = new Date(anioVisible, mesVisible - 1, 1);
+        anioVisible = f.getFullYear();
+        mesVisible = f.getMonth();
+        dibujar();
+    });
+    siguiente.addEventListener('click', function () {
+        const f = new Date(anioVisible, mesVisible + 1, 1);
+        anioVisible = f.getFullYear();
+        mesVisible = f.getMonth();
+        dibujar();
+    });
+    document.addEventListener('click', function (e) {
+        if (!calendario.contains(e.target) && e.target !== fecha) cerrar();
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') cerrar();
+    });
+
+    const formulario = fecha.closest('form');
+    formulario.addEventListener('submit', function (e) {
+        if (!validarFecha()) {
+            e.preventDefault();
+            fecha.reportValidity();
+            fecha.focus();
+        }
+    });
+
+    // El botón GET de agregar otra experiencia no debe exigir fecha.
+    if (botonAgregar) {
+        botonAgregar.addEventListener('click', function () {
+            fecha.setCustomValidity('');
+        });
+    }
+    if (fecha.value && !validarFecha()) fecha.value = '';
+    validarFecha();
 
 });
 </script>
