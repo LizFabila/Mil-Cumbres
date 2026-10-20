@@ -973,11 +973,6 @@ main:has(.acceso) + .pie { margin-top: 0; }
         transform .3s ease;
 }
 
-.inicio-paso:hover {
-    border-color: var(--mc-verde-claro);
-    transform: translateY(-5px);
-}
-
 .inicio-paso__numero {
     display: block;
     margin-bottom: 50px;

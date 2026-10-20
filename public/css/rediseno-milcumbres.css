@@ -322,10 +322,6 @@
     background: linear-gradient(180deg, rgba(20, 61, 54, 0) 45%, rgba(20, 61, 54, .45));
 }
 
-.inicio-paso:hover .inicio-paso__foto img {
-    transform: scale(1.05);
-}
-
 .inicio-paso__numero {
     margin-bottom: 22px;
 }
@@ -337,6 +333,111 @@
 
     .inicio-paso__foto {
         margin: 0 -25px 24px;
+    }
+}
+
+/* ---------- Pasos del inicio: texto destacado, sin efecto de botón ---------- */
+.inicio-paso h3 {
+    position: relative;
+    margin-bottom: 26px;
+    padding-bottom: 16px;
+    color: #143D36;
+    font-size: 24px;
+    letter-spacing: -.01em;
+    line-height: 1.15;
+}
+
+.inicio-paso h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 64px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--mc-verde-claro);
+    transform: scaleX(1);
+    transform-origin: left center;
+    transition: transform .8s ease .3s;
+}
+
+.js-reveal .inicio-paso:not(.is-visible) h3::after {
+    transform: scaleX(0);
+}
+
+.inicio-paso p {
+    color: #3D4F4A;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.inicio-paso__numero {
+    display: inline-block;
+    margin-bottom: 22px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    color: #143D36;
+    background: #DDE8DF;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.inicio-paso__icono {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 26px;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--mc-verde);
+    font-size: 0;
+}
+
+.inicio-paso__icono svg {
+    width: 28px;
+    height: 28px;
+}
+
+.js-reveal .inicio-paso {
+    scale: .94;
+    translate: 0 48px;
+    transition:
+        opacity 1s cubic-bezier(.2, .65, .3, 1) var(--retardo, 0ms),
+        translate 1s cubic-bezier(.2, .65, .3, 1) var(--retardo, 0ms),
+        scale 1s cubic-bezier(.2, .65, .3, 1) var(--retardo, 0ms);
+}
+
+.js-reveal .inicio-paso.is-visible {
+    scale: 1;
+    translate: 0 0;
+}
+
+.js-reveal .inicio-paso.is-visible .inicio-paso__icono {
+    animation: inicio-paso-icono .7s ease both;
+}
+
+@keyframes inicio-paso-icono {
+    from {
+        transform: scale(.6) rotate(-20deg);
+        opacity: 0;
+    }
+    to {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .inicio-paso h3::after,
+    .js-reveal .inicio-paso.is-visible .inicio-paso__icono {
+        transition: none;
+        animation: none;
+    }
+
+    .js-reveal .inicio-paso {
+        scale: none;
+        translate: none;
+        transition: none;
     }
 }
 
