@@ -123,3 +123,8 @@ body.admin { background: var(--fondo-alt); }
     .calendario__celda { min-height: 72px; }
     .evento { font-size: 0; height: 6px; padding: 0; }
 }
+
+/* A10 · Identidad del sitio: el logotipo se muestra completo, sin recortar */
+.vista-imagen--logo { object-fit: contain; padding: 16px; background: #fff; box-sizing: border-box; }
+.casilla { display: flex; align-items: center; gap: 8px; font-size: .92rem; cursor: pointer; }
+.campo small { display: block; margin-top: 4px; color: var(--gris-700); font-size: .8rem; }
