@@ -143,7 +143,7 @@
                     <div class="mc-c12__confirmacion-texto">
 
                         <span class="mc-c12__eyebrow">
-                            01 / SOLICITUD REGISTRADA
+                            SOLICITUD REGISTRADA
                         </span>
 
                         <h2>
@@ -364,7 +364,7 @@
 
                         <span class="mc-c12__eyebrow
                                      mc-c12__eyebrow--claro">
-                            02 / EL PROCESO CONTINÚA
+                            EL PROCESO CONTINÚA
                         </span>
 
                         <h2>
@@ -385,9 +385,6 @@
 
                             <li class="mc-c12__paso">
 
-                                <span class="mc-c12__paso-numero">
-                                    01
-                                </span>
 
                                 <div>
 
@@ -414,9 +411,6 @@
 
                             <li class="mc-c12__paso">
 
-                                <span class="mc-c12__paso-numero">
-                                    02
-                                </span>
 
                                 <div>
 
@@ -444,9 +438,6 @@
 
                             <li class="mc-c12__paso">
 
-                                <span class="mc-c12__paso-numero">
-                                    03
-                                </span>
 
                                 <div>
 
@@ -496,7 +487,7 @@
                     <div>
 
                         <span class="mc-c12__eyebrow">
-                            03 / CONTINÚA EN MIL CUMBRES
+                            CONTINÚA EN MIL CUMBRES
                         </span>
 
                         <h2>

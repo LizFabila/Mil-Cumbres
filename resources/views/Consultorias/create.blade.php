@@ -211,17 +211,14 @@
                              aria-label="Apartados del formulario">
 
                             <a href="#mc-c11-tipo">
-                                <span>01</span>
                                 Organización
                             </a>
 
                             <a href="#mc-c11-datos">
-                                <span>02</span>
                                 Datos generales
                             </a>
 
                             <a href="#mc-c11-proyecto">
-                                <span>03</span>
                                 Tu proyecto
                             </a>
 
@@ -237,9 +234,6 @@
 
                             <legend class="mc-c11__legend">
 
-                                <span class="mc-c11__numero">
-                                    01
-                                </span>
 
                                 <span>
                                     Tipo de
@@ -325,9 +319,6 @@
 
                             <legend class="mc-c11__legend">
 
-                                <span class="mc-c11__numero">
-                                    02
-                                </span>
 
                                 <span>
                                     Conozcamos tu
@@ -452,9 +443,6 @@
 
                             <legend class="mc-c11__legend">
 
-                                <span class="mc-c11__numero">
-                                    03
-                                </span>
 
                                 <span>
                                     Hablemos de
@@ -650,7 +638,6 @@
 
                                 <li>
 
-                                    <span>01</span>
 
                                     <div>
 
@@ -669,7 +656,6 @@
 
                                 <li>
 
-                                    <span>02</span>
 
                                     <div>
 
@@ -689,7 +675,6 @@
 
                                 <li>
 
-                                    <span>03</span>
 
                                     <div>
 

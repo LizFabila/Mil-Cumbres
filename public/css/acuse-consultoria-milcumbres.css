@@ -587,7 +587,7 @@
 .mc-c12__paso {
     position: relative;
     display: grid;
-    grid-template-columns: 47px minmax(0,1fr);
+    grid-template-columns: minmax(0,1fr);
     gap: 19px;
     align-items: start;
 }

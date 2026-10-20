@@ -52,7 +52,7 @@
                 </a>
 
                 <span class="mc-login__visual-numero">
-                    MIL CUMBRES / 01
+                    MIL CUMBRES
                 </span>
 
             </div>

@@ -133,19 +133,16 @@
                 <nav aria-label="Secciones del aviso de privacidad">
 
                     <a href="#priv-responsable">
-                        <span>01</span>
                         Responsable y datos
                         <span aria-hidden="true">↗</span>
                     </a>
 
                     <a href="#priv-finalidades">
-                        <span>02</span>
                         Uso de la información
                         <span aria-hidden="true">↗</span>
                     </a>
 
                     <a href="#priv-derechos">
-                        <span>03</span>
                         Tus derechos
                         <span aria-hidden="true">↗</span>
                     </a>
@@ -206,9 +203,6 @@
 
                     <div class="priv-seccion__encabezado">
 
-                        <span class="priv-seccion__numero">
-                            01 / 03
-                        </span>
 
                         <span class="priv-seccion__categoria">
                             RESPONSABLE DE LA INFORMACIÓN
@@ -240,10 +234,6 @@
                     <div class="priv-datos">
 
                         <div class="priv-dato">
-                            <span class="priv-dato__icono"
-                                  aria-hidden="true">
-                                01
-                            </span>
 
                             <span>
                                 Nombre
@@ -251,10 +241,6 @@
                         </div>
 
                         <div class="priv-dato">
-                            <span class="priv-dato__icono"
-                                  aria-hidden="true">
-                                02
-                            </span>
 
                             <span>
                                 Correo electrónico
@@ -262,10 +248,6 @@
                         </div>
 
                         <div class="priv-dato">
-                            <span class="priv-dato__icono"
-                                  aria-hidden="true">
-                                03
-                            </span>
 
                             <span>
                                 Teléfono
@@ -286,9 +268,6 @@
 
                     <div class="priv-seccion__encabezado">
 
-                        <span class="priv-seccion__numero">
-                            02 / 03
-                        </span>
 
                         <span class="priv-seccion__categoria">
                             FINALIDADES DEL TRATAMIENTO
@@ -314,9 +293,6 @@
 
                         <div class="priv-finalidad">
 
-                            <span class="priv-finalidad__numero">
-                                01
-                            </span>
 
                             <div>
                                 <h3>
@@ -334,9 +310,6 @@
 
                         <div class="priv-finalidad">
 
-                            <span class="priv-finalidad__numero">
-                                02
-                            </span>
 
                             <div>
                                 <h3>
@@ -354,9 +327,6 @@
 
                         <div class="priv-finalidad">
 
-                            <span class="priv-finalidad__numero">
-                                03
-                            </span>
 
                             <div>
                                 <h3>
@@ -386,9 +356,6 @@
 
                     <div class="priv-seccion__encabezado">
 
-                        <span class="priv-seccion__numero">
-                            03 / 03
-                        </span>
 
                         <span class="priv-seccion__categoria">
                             DERECHOS SOBRE TUS DATOS

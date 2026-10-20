@@ -168,10 +168,6 @@
 
                         
 
-                        <span class="mc-detalle-hero__numero"
-                              aria-hidden="true">
-                            01
-                        </span>
 
                     </div>
 
@@ -322,7 +318,7 @@
 
                     <span class="mc-detalle-etiqueta">
                         <span class="mc-detalle-linea"></span>
-                        01 / DESCUBRE
+                        DESCUBRE
                     </span>
 
                     <h2>
@@ -357,7 +353,7 @@
 
                     <span class="mc-detalle-etiqueta">
                         <span class="mc-detalle-linea"></span>
-                        02 / ORGANIZA TU VISITA
+                        ORGANIZA TU VISITA
                     </span>
 
                     <h2>
@@ -402,10 +398,6 @@
                                 <div class="mc-detalle-horario">
 
                                     <div class="mc-detalle-horario__dia">
-
-                                        <span class="mc-detalle-horario__numero">
-                                            {{ sprintf('%02d', $loop->iteration) }}
-                                        </span>
 
                                         <strong>
                                             {{ $d->dia_texto }}
@@ -470,7 +462,7 @@
 
                     <span class="mc-detalle-etiqueta">
                         <span class="mc-detalle-linea"></span>
-                        03 / PREPARA TU VISITA
+                        PREPARA TU VISITA
                     </span>
 
                     <h2>
@@ -522,7 +514,6 @@
                     <div class="mc-detalle-proceso__grid">
 
                         <div>
-                            <span>01</span>
                             <h3>Solicita</h3>
                             <p>
                                 Elige tu fecha preferida
@@ -531,7 +522,6 @@
                         </div>
 
                         <div>
-                            <span>02</span>
                             <h3>Confirma</h3>
                             <p>
                                 Revisaremos la disponibilidad
@@ -540,7 +530,6 @@
                         </div>
 
                         <div>
-                            <span>03</span>
                             <h3>Disfruta</h3>
                             <p>
                                 Registra tu pago cuando

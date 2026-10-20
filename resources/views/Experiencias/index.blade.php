@@ -239,8 +239,7 @@
                         <div class="mc-cat-categoria__superior">
 
                             <span>
-                                {{ sprintf('%02d', $loop->iteration) }}
-                                / EXPLORA
+                                EXPLORA
                             </span>
 
                             <span class="mc-cat-categoria__flecha"

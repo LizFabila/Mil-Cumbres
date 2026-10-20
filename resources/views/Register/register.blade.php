@@ -51,7 +51,7 @@
                 </a>
 
                 <span class="mc-registro__visual-indice">
-                    MIL CUMBRES / 02
+                    MIL CUMBRES
                 </span>
 
             </div>
@@ -83,9 +83,6 @@
 
                 <div class="mc-registro__visual-frase">
 
-                    <span class="mc-registro__frase-numero">
-                        01 / 03
-                    </span>
 
                     <blockquote>
                         Descubre. Conecta.
@@ -168,15 +165,15 @@
                      aria-label="Apartados del registro">
 
                     <span>
-                        <b>01</b> Tus datos
+                        Tus datos
                     </span>
 
                     <span>
-                        <b>02</b> Contacto
+                        Contacto
                     </span>
 
                     <span>
-                        <b>03</b> Seguridad
+                        Seguridad
                     </span>
 
                 </div>
@@ -208,7 +205,6 @@
                     <fieldset class="mc-registro__grupo">
 
                         <legend>
-                            <span>01</span>
                             Información personal
                         </legend>
 
@@ -332,7 +328,6 @@
                     <fieldset class="mc-registro__grupo">
 
                         <legend>
-                            <span>02</span>
                             Información de contacto
                         </legend>
 
@@ -425,7 +420,6 @@
                     <fieldset class="mc-registro__grupo">
 
                         <legend>
-                            <span>03</span>
                             Protege tu cuenta
                         </legend>
 

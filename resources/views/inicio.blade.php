@@ -202,10 +202,6 @@
 
                         <div class="inicio-categoria__superior">
 
-                            <span class="inicio-categoria__numero">
-                                {{ sprintf('%02d', $loop->iteration) }}
-                            </span>
-
                             <span class="inicio-categoria__cantidad">
                                 {{ $tipo->experiencias_count }}
                                 {{ \Illuminate\Support\Str::plural('experiencia', $tipo->experiencias_count) }}
@@ -387,7 +383,6 @@
                              alt="Paisaje de Valle de Bravo para elegir experiencia" loading="lazy">
                     </figure>
 
-                    <span class="inicio-paso__numero">01</span>
 
                     <div class="inicio-paso__icono"
                          aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg></div>
@@ -409,7 +404,6 @@
                              alt="Paisaje de Valle de Bravo para solicitar fecha" loading="lazy">
                     </figure>
 
-                    <span class="inicio-paso__numero">02</span>
 
                     <div class="inicio-paso__icono"
                          aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M8 14h2M12 14h2M8 17h2"/></svg></div>
@@ -431,7 +425,6 @@
                              alt="Personas disfrutando una actividad al aire libre" loading="lazy">
                     </figure>
 
-                    <span class="inicio-paso__numero">03</span>
 
                     <div class="inicio-paso__icono"
                          aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg></div>

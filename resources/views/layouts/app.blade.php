@@ -284,7 +284,6 @@
                                 <div class="mc-hub__option-list">
 
                                     <a href="{{ route('consultoria.index') }}">
-                                        <span class="mc-hub__option-num">01</span>
                                         <span>
                                             <strong>Conoce el servicio</strong>
                                             <small>Descubre nuestra propuesta de consultoría.</small>
@@ -295,7 +294,6 @@
                                     @auth
 
                                         <a href="{{ route('consultoria.create') }}#mc-c11-form">
-                                            <span class="mc-hub__option-num">02</span>
                                             <span>
                                                 <strong>Solicitar consultoría</strong>
                                                 <small>Registra las necesidades de tu organización.</small>
@@ -304,7 +302,6 @@
                                         </a>
 
                                         <a href="{{ route('solicitudes.index', ['seccion' => 'consultorias']) }}">
-                                            <span class="mc-hub__option-num">03</span>
                                             <span>
                                                 <strong>Mis consultorías</strong>
                                                 <small>Consulta estados y comentarios de seguimiento.</small>
@@ -315,7 +312,6 @@
                                     @else
 
                                         <a href="{{ route('registro') }}">
-                                            <span class="mc-hub__option-num">02</span>
                                             <span>
                                                 <strong>Solicitar consultoría</strong>
                                                 <small>Crea una cuenta para enviar tu solicitud.</small>

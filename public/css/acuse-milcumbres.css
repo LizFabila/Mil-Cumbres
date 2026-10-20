@@ -575,7 +575,7 @@
 .mc-acuse-paso {
     position: relative;
     display: grid;
-    grid-template-columns: 47px minmax(0,1fr);
+    grid-template-columns: minmax(0,1fr);
     align-items: start;
     gap: 21px;
 }

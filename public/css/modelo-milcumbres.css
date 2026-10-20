@@ -607,7 +607,7 @@
 
 .modelo-compromiso {
     display: grid;
-    grid-template-columns: 35px minmax(0,1fr) 30px;
+    grid-template-columns: minmax(0,1fr);
     align-items: start;
     gap: 20px;
     padding: 30px 0;
@@ -1015,7 +1015,7 @@
     }
 
     .modelo-compromiso {
-        grid-template-columns: 25px minmax(0,1fr);
+        grid-template-columns: minmax(0,1fr);
         gap: 12px;
     }
 

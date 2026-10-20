@@ -72,7 +72,6 @@
             </div>
 
             <div class="modelo-hero__detalle">
-                <span class="modelo-hero__detalle-num">01</span>
                 <span>
                     MIL CUMBRES
                     <small>UNA FORMA DIFERENTE DE CONOCER</small>
@@ -102,7 +101,7 @@
                 <div>
                     <span class="modelo-eyebrow">
                         <span class="modelo-linea"></span>
-                        01 / LO QUE NOS MUEVE
+                        LO QUE NOS MUEVE
                     </span>
                 </div>
 
@@ -196,7 +195,7 @@
 
                 <span class="modelo-eyebrow">
                     <span class="modelo-linea"></span>
-                    02 / UNA NUEVA PERSPECTIVA
+                    UNA NUEVA PERSPECTIVA
                 </span>
 
                 <h2>
@@ -217,7 +216,6 @@
                 <article class="modelo-evolucion__card
                                 modelo-evolucion__card--sostenible">
 
-                    <span class="modelo-evolucion__numero">01</span>
 
                     <span class="modelo-evolucion__etiqueta">
                         REDUCIR EL IMPACTO
@@ -251,7 +249,6 @@
                 <article class="modelo-evolucion__card
                                 modelo-evolucion__card--regenerativo">
 
-                    <span class="modelo-evolucion__numero">02</span>
 
                     <span class="modelo-evolucion__etiqueta">
                         GENERAR UN IMPACTO POSITIVO
@@ -316,9 +313,6 @@
 
                 <article class="modelo-compromiso">
 
-                    <span class="modelo-compromiso__num">
-                        01
-                    </span>
 
                     <div>
                         <h3>Experiencias responsables</h3>
@@ -334,9 +328,6 @@
 
                 <article class="modelo-compromiso">
 
-                    <span class="modelo-compromiso__num">
-                        02
-                    </span>
 
                     <div>
                         <h3>Participación comunitaria</h3>
@@ -352,9 +343,6 @@
 
                 <article class="modelo-compromiso">
 
-                    <span class="modelo-compromiso__num">
-                        03
-                    </span>
 
                     <div>
                         <h3>Contribución al territorio</h3>
@@ -389,7 +377,7 @@
 
                     <span class="modelo-eyebrow">
                         <span class="modelo-linea"></span>
-                        03 / LO QUE NOS DEFINE
+                        LO QUE NOS DEFINE
                     </span>
 
                     <h2>
@@ -423,9 +411,6 @@
                             loading="lazy"
                         >
 
-                        <span class="modelo-pilar__numero">
-                            01 / 03
-                        </span>
 
                     </div>
 
@@ -461,9 +446,6 @@
                             loading="lazy"
                         >
 
-                        <span class="modelo-pilar__numero">
-                            02 / 03
-                        </span>
 
                     </div>
 
@@ -499,9 +481,6 @@
                             loading="lazy"
                         >
 
-                        <span class="modelo-pilar__numero">
-                            03 / 03
-                        </span>
 
                     </div>
 
