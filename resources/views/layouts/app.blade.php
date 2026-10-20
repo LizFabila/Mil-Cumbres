@@ -349,6 +349,30 @@
 
             <div class="mc-hub__actions">
 
+                @if (auth()->user()?->esAdmin())
+
+                {{-- El administrador no ve el menú de cuenta: solo su nombre y el regreso al panel --}}
+                <span class="mc-hub__account mc-hub__account--admin">
+
+                    <span class="mc-hub__account-icon"
+                          aria-hidden="true">
+                        ♙
+                    </span>
+
+                    <span class="mc-hub__account-label">
+                        {{ auth()->user()->nombre }}
+                    </span>
+
+                </span>
+
+                <a href="{{ route('admin.resumen') }}"
+                   class="mc-hub__panel-link">
+                    <span aria-hidden="true">←</span>
+                    Regresar a panel
+                </a>
+
+                @else
+
                 <div class="mc-hub__group mc-hub__group--account">
 
                     <button
@@ -471,6 +495,8 @@
                     </div>
 
                 </div>
+
+                @endif
 
                 {{-- BOTÓN DESTACADO DEL ENCABEZADO --}}
                 @auth

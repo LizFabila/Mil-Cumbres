@@ -98,4 +98,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/usuarios', [Admin\UsuarioController::class, 'index'])->name('usuarios.index');                   // A09
     Route::patch('/usuarios/{persona}', [Admin\UsuarioController::class, 'update'])->name('usuarios.update');
     Route::delete('/usuarios/{persona}', [Admin\UsuarioController::class, 'destroy'])->name('usuarios.destroy');
+
+    Route::get('/identidad', [Admin\MarcaController::class, 'edit'])->name('marca.edit');                        // A10
+    Route::put('/identidad', [Admin\MarcaController::class, 'update'])->name('marca.update');
 });

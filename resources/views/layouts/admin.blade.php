@@ -85,6 +85,9 @@
         request()->routeIs('admin.usuarios.*')
             => 'Usuarios',
 
+        request()->routeIs('admin.marca.*')
+            => 'Identidad del sitio',
+
         default => 'Administración'
     };
 @endphp
@@ -116,7 +119,7 @@
         <div class="mc-adm-brand">
 
             <div class="mc-adm-brand__logo">
-                <x-logo />
+                <x-logo :href="route('admin.marca.edit')" etiqueta="Editar nombre y logotipo del sitio" />
             </div>
 
             <button
@@ -649,11 +652,9 @@
                 <a
                     href="{{ route('inicio') }}"
                     class="mc-adm-topbar__site"
-                    target="_blank"
-                    rel="noopener noreferrer"
                 >
 
-                    Ver sitio
+                    Ver vista cliente
 
                     <span aria-hidden="true">↗</span>
 
