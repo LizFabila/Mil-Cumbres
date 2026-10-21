@@ -29,9 +29,8 @@
         default => 'Administración',
     };
 @endphp
-
 {{-- Iconos SVG reutilizables: no necesitan librerías externas. --}}
-<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+<svg xmlns="http://www\.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
     <symbol id="mc-i-dashboard" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
     <symbol id="mc-i-request" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5h6M8 10h8M8 14h8M8 18h5"/></symbol>
     <symbol id="mc-i-payment" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></symbol>
@@ -42,10 +41,8 @@
     <symbol id="mc-i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
     <symbol id="mc-i-logout" viewBox="0 0 24 24"><path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M14 8l4 4-4 4M8 12h10"/></symbol>
 </svg>
-
 <div class="mc-adm-shell">
     <button type="button" class="mc-adm-backdrop" aria-label="Cerrar menú administrativo" data-mc-adm-close hidden></button>
-
     <aside class="mc-adm-sidebar" id="mc-admin-sidebar">
         <div class="mc-adm-brand">
             <div class="mc-adm-brand__logo">
@@ -54,13 +51,11 @@
             <button class="mc-adm-sidebar-close" type="button" aria-label="Cerrar menú" data-mc-adm-close>×</button>
             <span class="mc-adm-brand__subtitle">PANEL DE ADMINISTRACIÓN</span>
         </div>
-
         <nav class="mc-adm-nav" aria-label="Administración Mil Cumbres">
             <a href="{{ route('admin.resumen') }}" @class(['mc-adm-nav__link', 'is-active' => request()->routeIs('admin.resumen')])>
                 <span class="mc-adm-nav__icon" aria-hidden="true"><svg><use href="#mc-i-dashboard"/></svg></span>
                 <span class="mc-adm-nav__name">Resumen general</span>
             </a>
-
             <section class="mc-adm-group" aria-label="Gestión de reservaciones y pagos">
                 <h2 class="mc-adm-group__title">GESTIÓN DE RESERVACIONES Y PAGOS</h2>
                 <div class="mc-adm-group__content">
@@ -84,7 +79,6 @@
                     </a>
                 </div>
             </section>
-
             <section class="mc-adm-group" aria-label="Administración del catálogo y usuarios">
                 <h2 class="mc-adm-group__title">ADMINISTRACIÓN DE CATÁLOGO Y USUARIOS</h2>
                 <div class="mc-adm-group__content">
@@ -98,9 +92,7 @@
                     </a>
                 </div>
             </section>
-
         </nav>
-
         <div class="mc-adm-sidebar-bottom">
             <div class="mc-adm-profile">
                 <div class="mc-adm-profile__identity" style="padding:4px 2px 12px;">
@@ -114,7 +106,6 @@
             </form>
         </div>
     </aside>
-
     <div class="mc-adm-workspace">
         <header class="mc-adm-topbar">
             <div class="mc-adm-topbar__left">
@@ -127,55 +118,12 @@
                 <a href="{{ route('inicio') }}" class="mc-adm-topbar__site">Ver vista cliente <span aria-hidden="true">↗</span></a>
             </div>
         </header>
-<<<<<<< HEAD
-
-
-        {{-- FRANJA DE PRESENTACIÓN --}}
-
-        @unless($__env->hasSection('sin-contexto'))
-        <div class="mc-adm-context">
-
-            <span class="mc-adm-context__eyebrow">
-                CENTRO DE CONTROL
-            </span>
-
-            <div class="mc-adm-context__inner">
-
-                <div>
-
-                    <h2>
-                        {{ $tituloActual }}
-                    </h2>
-
-                    <p>
-                        Gestiona la información y las operaciones
-                        de Mil Cumbres desde un solo lugar.
-                    </p>
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-
-        @endunless
-
-        {{-- CONTENIDO DE CADA VISTA --}}
-
-        <main class="mc-adm-main"
-              id="contenido-administrativo">
-
-=======
         <main class="mc-adm-main" id="contenido-administrativo">
->>>>>>> 0fc2fc8 (Mejoras en el diseno del panel administrativo, pagos, calendario y consultorias)
             <x-avisos />
             @yield('contenido')
         </main>
         <footer class="mc-adm-footer"><span>© {{ date('Y') }} Mil Cumbres</span><span>ADMINISTRACIÓN · TURISMO REGENERATIVO</span></footer>
     </div>
-    
 </div>
 <script src="{{ asset('js/admin-menu-milcumbres.js') }}" defer></script>
 @stack('scripts')
