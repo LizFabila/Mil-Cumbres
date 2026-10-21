@@ -1,0 +1,525 @@
+/* =====================================================
+   RESUMEN GENERAL · semáforos y gráficas
+   Tokens de base.css para la paleta del sitio.
+   El verde del semáforo usa un tono propio, más vivo que el
+   verde de marca, para distinguirlo del resto de la página.
+   El color nunca va solo: cada valor lleva etiqueta y rangos.
+===================================================== */
+
+.mc-res {
+    --res-verde: #1EA050;
+    --res-verde-texto: #0B6B33;
+    --res-verde-fondo: #DDF5E6;
+    --res-banda-roja: #EBB9B1;
+    --res-banda-amarilla: #FFFF00;
+    --res-banda-verde: #86D9A8;
+}
+
+.mc-res__encabezado {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 26px;
+}
+
+.mc-res__encabezado h1 {
+    margin: 10px 0 0;
+    font-size: 34px;
+}
+
+.mc-res__encabezado h1 em {
+    color: var(--verde-700);
+    font-style: italic;
+    font-weight: 400;
+}
+
+.mc-res__fecha {
+    color: var(--gris-700);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.mc-res__bloque {
+    min-width: 0;
+    margin-bottom: 22px;
+    padding: 24px;
+    border: 1px solid var(--borde);
+    background: #fff;
+}
+
+.mc-res__bloque-encabezado {
+    margin-bottom: 18px;
+}
+
+.mc-res__bloque-encabezado h2 {
+    margin-bottom: 6px;
+    font-size: 22px;
+}
+
+.mc-res__bloque-encabezado p,
+.mc-res__nota {
+    max-width: 70ch;
+    margin: 0;
+    color: var(--gris-700);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.mc-res__nota {
+    margin-top: 16px;
+    font-size: 13px;
+}
+
+
+/* 01 · SEMÁFOROS */
+
+.mc-res__semaforos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 14px;
+}
+
+.mc-res__semaforo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid var(--borde);
+    border-top: 4px solid var(--gris-500);
+    background: #fff;
+}
+
+.mc-res__semaforo--verde {
+    border-top-color: var(--res-verde);
+}
+
+.mc-res__semaforo--amarillo {
+    border-top-color: #FFFF00;
+}
+
+/* Lo que pide atención inmediata se resalta con fondo */
+.mc-res__semaforo--rojo {
+    border-top-color: var(--rojo);
+    background: var(--rojo-bg);
+}
+
+.mc-res__semaforo-superior {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    color: var(--gris-700);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+}
+
+.mc-res__etiqueta {
+    flex-shrink: 0;
+    padding: 3px 8px;
+    font-size: 11px;
+    letter-spacing: .3px;
+    text-transform: none;
+}
+
+.mc-res__semaforo--verde .mc-res__etiqueta {
+    background: var(--res-verde-fondo);
+    color: var(--res-verde-texto);
+}
+
+.mc-res__semaforo--amarillo .mc-res__etiqueta {
+    background: #FFFF00;
+    color: #143D36;
+}
+
+.mc-res__semaforo--rojo .mc-res__etiqueta {
+    background: var(--rojo);
+    color: #fff;
+}
+
+.mc-res__semaforo--sin_referencia .mc-res__etiqueta {
+    background: #eef0ef;
+    color: var(--gris-700);
+}
+
+.mc-res__semaforo-valor {
+    color: var(--verde-900);
+    font-size: 30px;
+    line-height: 1;
+}
+
+.mc-res__semaforo p {
+    margin: 0;
+    color: var(--gris-700);
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+/* Gráfica de bala del ritmo de ingresos */
+
+.mc-res__bala {
+    position: relative;
+    height: 14px;
+    margin-top: 4px;
+    background: linear-gradient(
+        to right,
+        var(--res-banda-roja) 0 var(--corte-amarillo),
+        var(--res-banda-amarilla) 0 var(--corte-verde),
+        var(--res-banda-verde) 0
+    );
+}
+
+.mc-res__bala-marca {
+    position: absolute;
+    top: -4px;
+    bottom: -4px;
+    width: 4px;
+    margin-left: -2px;
+    background: var(--verde-900);
+}
+
+
+
+
+
+
+
+.mc-res__semaforo a {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* 02 · TENDENCIA (LÍNEA) · estilo simple: rejilla tenue, eje vertical y una sola serie */
+
+.mc-res__bloque-encabezado h2 small {
+    margin-left: 10px;
+    color: var(--gris-700);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.mc-res__linea-area {
+    position: relative;
+    padding-left: 64px;
+}
+
+.mc-res__eje-y {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 56px;
+}
+
+.mc-res__eje-y span {
+    position: absolute;
+    right: 0;
+    transform: translateY(-50%);
+    color: var(--gris-500);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.mc-res__lienzo-linea {
+    position: relative;
+}
+
+.mc-res__rejilla {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #E3EAE6;
+}
+
+.mc-res__linea {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+.mc-res__linea-trazo {
+    fill: none;
+    stroke: #12A4B5;
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+.mc-res__linea-punto {
+    fill: #FFFFFF;
+    stroke: #12A4B5;
+    stroke-width: 2;
+}
+
+.mc-res__linea-punto.is-actual {
+    fill: #12A4B5;
+}
+
+.mc-res__meses {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    margin: 12px 0 0 64px;
+    padding: 0;
+    list-style: none;
+    color: var(--gris-700);
+    font-size: 12px;
+    text-align: center;
+}
+
+.mc-res__meses li.is-actual {
+    color: var(--verde-900);
+    font-weight: 700;
+}
+
+
+/* 03 · PASTEL 3D POR GRUPO
+   El relieve es grosor (sombra apilada), sin perspectiva:
+   las proporciones se mantienen. */
+
+.mc-res__grupos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 28px;
+}
+
+.mc-res__grupo h3 {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 14px;
+    font-size: 16px;
+}
+
+.mc-res__grupo h3 small {
+    color: var(--gris-700);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.mc-res__vacio-grafica {
+    margin: 0 0 12px;
+    color: var(--gris-700);
+    font-size: 13px;
+}
+
+/* PASTEL 3D: el disco oscuro de abajo da el espesor y las porciones
+   se levantan al pasar el cursor. Sin perspectiva, así que los tamaños
+   se conservan. */
+
+.mc-res__pastel-escena {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 18px;
+}
+
+.mc-res__pastel {
+    width: 100%;
+    max-width: 190px;
+    height: auto;
+    overflow: visible;
+    transform-origin: 50% 50%;
+    animation: mc-pastel-entrada .9s cubic-bezier(.2, .9, .25, 1) both;
+}
+
+.mc-res__pared {
+    fill: #1F2D36;
+}
+
+.mc-res__porcion {
+    transition: transform .25s ease;
+}
+
+.mc-res__porcion path {
+    stroke: #FFFFFF;
+    stroke-width: 2;
+}
+
+.mc-res__porcion:hover,
+.mc-res__porcion:focus-within {
+    transform: translate(var(--dx), var(--dy));
+}
+
+.mc-res__porcion-etiqueta {
+    font-size: 13px;
+    font-weight: 700;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    pointer-events: none;
+}
+
+@keyframes mc-pastel-entrada {
+    from {
+        opacity: 0;
+        transform: rotate(-140deg) scale(.5);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mc-res__pastel {
+        animation: none;
+    }
+
+    .mc-res__porcion {
+        transition: none;
+    }
+}
+
+.mc-res__leyenda {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 13px;
+}
+
+.mc-res__leyenda li {
+    display: grid;
+    grid-template-columns: 12px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+}
+
+.mc-res__swatch {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    box-shadow: 0 2px 3px rgba(20, 61, 54, .3);
+}
+
+.mc-res__fila-nombre {
+    color: var(--gris-700);
+}
+
+.mc-res__fila-cifra {
+    color: var(--gris-700);
+    white-space: nowrap;
+}
+
+.mc-res__fila-cifra strong {
+    color: var(--verde-900);
+}
+
+
+/* 04 · COLUMNAS (COMPARACIÓN POR PERIODO) */
+
+.mc-res__columnas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.mc-res__columna {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.mc-res__columna-valor {
+    color: var(--verde-900);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.mc-res__columna-barra {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    max-width: 56px;
+    height: 170px;
+    background: var(--verde-50);
+}
+
+.mc-res__columna-barra span {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-height: 3px;
+    background: linear-gradient(to right, #8FDDE7 0%, #12A4B5 50%, #0B6F7A 100%);
+    box-shadow: 5px 6px 10px rgba(20, 61, 54, .25);
+}
+
+/* Cara superior de la columna */
+.mc-res__columna-barra span::before {
+    content: "";
+    position: absolute;
+    top: -7px;
+    left: 0;
+    right: 0;
+    height: 14px;
+    border-radius: 50%;
+    background: #BFEFF5;
+}
+
+.mc-res__columna-etiqueta {
+    color: var(--gris-700);
+    font-size: 12px;
+    line-height: 1.3;
+    text-align: center;
+}
+
+
+/* Ranking de experiencias en columnas verticales, con relieve violeta */
+
+.mc-res__ranking {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+    align-items: end;
+    gap: 12px;
+    padding: 8px 0 4px;
+}
+
+.mc-res__ranking-vacio {
+    grid-column: 1 / -1;
+}
+
+
+.mc-res__columna-exp .mc-res__columna-barra span {
+    background: linear-gradient(to right, #C4B5F5 0%, #7B61D6 50%, #4A2FB0 100%);
+    box-shadow: 5px 6px 10px rgba(20, 61, 54, .25);
+}
+
+.mc-res__columna-exp .mc-res__columna-barra span::before {
+    background: #DCD3FA;
+}
+
+.mc-res__columna-exp.is-primero .mc-res__columna-barra span {
+    background: linear-gradient(to right, #A893F0 0%, #4A2FB0 50%, #2E1A7A 100%);
+}
+
+
+
+@media (max-width: 560px) {
+    .mc-res__bloque {
+        padding: 18px;
+    }
+
+    .mc-res__meses {
+        font-size: 11px;
+    }
+
+    .mc-res__columna-barra {
+        height: 130px;
+    }
+}

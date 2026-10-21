@@ -666,6 +666,7 @@
 
         {{-- FRANJA DE PRESENTACIÓN --}}
 
+        @unless($__env->hasSection('sin-contexto'))
         <div class="mc-adm-context">
 
             <span class="mc-adm-context__eyebrow">
@@ -692,6 +693,8 @@
 
         </div>
 
+
+        @endunless
 
         {{-- CONTENIDO DE CADA VISTA --}}
 

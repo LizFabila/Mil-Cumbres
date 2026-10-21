@@ -1,5 +1,4 @@
-
-{{-- A08 · Resumen administrativo
+{{-- A08 · Resumen general
      Tablas: solicitudes, pagos, solicitud_consultorias,
      asigna_experiencia, experiencias
 --}}
@@ -8,325 +7,114 @@
 
 @section('titulo', 'Resumen')
 
+@section('sin-contexto', '1')
+
 @push('estilos')
     <link rel="stylesheet"
           href="{{ asset('css/admin-resumen-milcumbres.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset('css/admin-resumen-graficas.css') }}">
 @endpush
 
 @section('contenido')
 
 @php
-    // Se utilizan los datos que ya proporciona el controlador.
     $maxTop = max(1, (int) $top->max('solicitudes'));
-
-    $estados = \App\Models\Solicitud::ESTADOS;
-
-    $totalEstados = collect($estados)->sum(
-        fn ($estado) => (int) ($porEstado[$estado] ?? 0)
-    );
 @endphp
 
-<div class="mc-a08">
+<div class="mc-a08 mc-res">
 
     {{-- ========================================= --}}
-    {{-- 01 · ENCABEZADO DEL DASHBOARD --}}
+    {{-- ENCABEZADO --}}
     {{-- ========================================= --}}
 
-    <header class="mc-a08__hero">
+    <header class="mc-res__encabezado">
 
-        <div class="mc-a08__hero-principal">
+        <div>
 
-            <div class="mc-a08__hero-texto">
+            <span class="mc-a08__eyebrow">
+                <span class="mc-a08__linea"></span>
+                PANEL ADMINISTRATIVO / MIL CUMBRES
+            </span>
 
-                <span class="mc-a08__eyebrow
-                             mc-a08__eyebrow--claro">
-                    <span class="mc-a08__linea"></span>
-                    PANEL ADMINISTRATIVO / MIL CUMBRES
-                </span>
-
-                <h1>
-                    Centro de
-                    <em>operaciones.</em>
-                </h1>
-
-                <p>
-                    Consulta las solicitudes, pagos
-                    y consultorías que requieren atención,
-                    además de las próximas experiencias.
-                </p>
-
-                <div class="mc-a08__fecha">
-
-                    <span aria-hidden="true">◷</span>
-
-                    {{ ucfirst(
-                        now()->translatedFormat(
-                            'l j \d\e F \d\e Y'
-                        )
-                    ) }}
-
-                </div>
-
-            </div>
-
-            <div class="mc-a08__hero-ornamento"
-                 aria-hidden="true">
-
-
-                <strong>
-                    MIL CUMBRES
-                </strong>
-
-                <small>
-                    TURISMO REGENERATIVO
-                </small>
-
-            </div>
+            <h1>
+                Resumen
+                <em>general.</em>
+            </h1>
 
         </div>
 
-        <div class="mc-a08__hero-footer">
-
-            <span>
-                GESTIÓN Y SEGUIMIENTO
-            </span>
-
-            <span>
-                RESUMEN GENERAL
-            </span>
-
+        <div class="mc-res__fecha">
+            {{ ucfirst(now()->translatedFormat('l j \d\e F \d\e Y')) }}
         </div>
 
     </header>
 
 
     {{-- ========================================= --}}
-    {{-- 02 · INDICADORES PRINCIPALES --}}
+    {{-- 01 · SEMÁFOROS --}}
     {{-- ========================================= --}}
 
-    <section class="mc-a08__seccion"
-             aria-labelledby="mc-a08-kpis-titulo">
+    <section class="mc-res__bloque"
+             aria-labelledby="mc-res-atencion">
 
-        <div class="mc-a08__seccion-header">
+        <div class="mc-res__bloque-encabezado">
 
-            <div>
-
-                <span class="mc-a08__eyebrow">
-                    <span class="mc-a08__linea"></span>
-                    01 / INDICADORES
-                </span>
-
-                <h2 id="mc-a08-kpis-titulo">
-                    Estado de la
-                    <em>operación.</em>
-                </h2>
-
-                <p>
-                    Información de solicitudes,
-                    pagos y consultorías registrada
-                    en el sistema.
-                </p>
-
-            </div>
-
-            <span class="mc-a08__seccion-referencia">
-                PANEL DE CONTROL
-            </span>
+            <h2 id="mc-res-atencion">
+                Lo que requiere atención
+            </h2>
 
         </div>
 
+        <div class="mc-res__semaforos">
 
-        <div class="mc-a08__kpis">
+            @foreach ($semaforos as $tarjeta)
 
-            {{-- SOLICITUDES PENDIENTES --}}
+                <article class="mc-res__semaforo mc-res__semaforo--{{ $tarjeta['tono'] }}">
 
-            <article class="mc-a08__kpi mc-a08__kpi--pendientes">
+                    <div class="mc-res__semaforo-superior">
 
-                <div class="mc-a08__kpi-superior">
+                        <span>{{ $tarjeta['titulo'] }}</span>
 
-                    <span>
-                        SOLICITUDES PENDIENTES
-                    </span>
+                        <span class="mc-res__etiqueta">
+                            {{ $tarjeta['etiqueta'] }}
+                        </span>
 
-                    <span class="mc-a08__kpi-icono"
-                          aria-hidden="true">◷</span>
+                    </div>
 
-                </div>
+                    <strong class="mc-res__semaforo-valor">
+                        {{ $tarjeta['valor'] }}
+                    </strong>
 
-                <strong class="mc-a08__kpi-valor">
-                    {{ $kpis['pendientes'] }}
-                </strong>
+                    <p>{{ $tarjeta['ayuda'] }}</p>
 
-                <p>
-                    Solicitudes que requieren revisión.
-                </p>
+                    @isset($tarjeta['escala'])
 
-                <a href="{{ route('admin.solicitudes.index', [
-                    'estado' => 'pendiente'
-                ]) }}">
-                    Revisar solicitudes
-                    <span aria-hidden="true">↗</span>
-                </a>
+                        @php $escala = $tarjeta['escala']; @endphp
 
-            </article>
+                        {{-- Gráfica de bala: valor actual contra los cortes del semáforo --}}
+                        <div class="mc-res__bala"
+                             style="--corte-amarillo: {{ $escala['corte_amarillo'] }}%; --corte-verde: {{ $escala['corte_verde'] }}%"
+                             role="img"
+                             aria-label="Ritmo {{ $escala['valor'] !== null ? $escala['valor'].'%' : 'sin referencia' }}. Verde desde {{ $escala['verde'] }}%, amarillo desde {{ $escala['amarillo'] }}%.">
 
+                            @if ($escala['marcador'] !== null)
+                                <span class="mc-res__bala-marca"
+                                      style="left: {{ $escala['marcador'] }}%"></span>
+                            @endif
 
-            {{-- PAGOS POR REVISAR --}}
+                        </div>
 
-            <article class="mc-a08__kpi mc-a08__kpi--pagos">
+                    @endisset
 
-                <div class="mc-a08__kpi-superior">
+                    <a href="{{ $tarjeta['ruta'] }}">
+                        Revisar
+                        <span aria-hidden="true">↗</span>
+                    </a>
 
-                    <span>
-                        PAGOS POR REVISAR
-                    </span>
+                </article>
 
-                    <span class="mc-a08__kpi-icono"
-                          aria-hidden="true">▤</span>
-
-                </div>
-
-                <strong class="mc-a08__kpi-valor">
-                    {{ $kpis['pagos_por_revisar'] }}
-                </strong>
-
-                <p>
-                    Comprobantes que necesitan validación.
-                </p>
-
-                <a href="{{ route('admin.pagos.index') }}">
-                    Revisar pagos
-                    <span aria-hidden="true">↗</span>
-                </a>
-
-            </article>
-
-
-            {{-- CONSULTORÍAS ABIERTAS --}}
-
-            <article class="mc-a08__kpi mc-a08__kpi--consultorias">
-
-                <div class="mc-a08__kpi-superior">
-
-                    <span>
-                        CONSULTORÍAS ABIERTAS
-                    </span>
-
-
-                </div>
-
-                <strong class="mc-a08__kpi-valor">
-                    {{ $kpis['consultorias_abiertas'] }}
-                </strong>
-
-                <p>
-                    Solicitudes de acompañamiento abiertas.
-                </p>
-
-                <a href="{{ route('admin.consultorias.index') }}">
-                    Ver consultorías
-                    <span aria-hidden="true">↗</span>
-                </a>
-
-            </article>
-
-
-            {{-- CONFIRMADAS DEL MES --}}
-
-            <article class="mc-a08__kpi mc-a08__kpi--confirmadas">
-
-                <div class="mc-a08__kpi-superior">
-
-                    <span>
-                        CONFIRMADAS ESTE MES
-                    </span>
-
-                    <span class="mc-a08__kpi-icono"
-                          aria-hidden="true">✓</span>
-
-                </div>
-
-                <strong class="mc-a08__kpi-valor">
-                    {{ $kpis['confirmadas_mes'] }}
-                </strong>
-
-                <p>
-                    Solicitudes confirmadas durante el mes.
-                </p>
-
-                <span class="mc-a08__kpi-informativo">
-                    REGISTRO MENSUAL
-                </span>
-
-            </article>
-
-
-            {{-- INGRESOS APROBADOS --}}
-
-            <article class="mc-a08__kpi mc-a08__kpi--ingresos">
-
-                <div class="mc-a08__kpi-superior">
-
-                    <span>
-                        INGRESOS APROBADOS DEL MES
-                    </span>
-
-                    <span class="mc-a08__kpi-icono"
-                          aria-hidden="true">$</span>
-
-                </div>
-
-                <strong class="mc-a08__kpi-valor
-                               mc-a08__kpi-valor--moneda">
-
-                    ${{ number_format($kpis['ingresos_mes'], 0) }}
-
-                    <small>MXN</small>
-
-                </strong>
-
-                <p>
-                    Importe de pagos aprobados
-                    durante el mes.
-                </p>
-
-                <span class="mc-a08__kpi-informativo">
-                    TOTAL MENSUAL
-                </span>
-
-            </article>
-
-
-            {{-- VISITANTES PRÓXIMOS --}}
-
-            <article class="mc-a08__kpi mc-a08__kpi--visitantes">
-
-                <div class="mc-a08__kpi-superior">
-
-                    <span>
-                        VISITANTES PRÓXIMOS 30 DÍAS
-                    </span>
-
-                    <span class="mc-a08__kpi-icono"
-                          aria-hidden="true">♧</span>
-
-                </div>
-
-                <strong class="mc-a08__kpi-valor">
-                    {{ $kpis['personas_proximas'] }}
-                </strong>
-
-                <p>
-                    Participantes contemplados
-                    para los próximos 30 días.
-                </p>
-
-                <a href="{{ route('admin.calendario') }}">
-                    Abrir calendario
-                    <span aria-hidden="true">↗</span>
-                </a>
-
-            </article>
+            @endforeach
 
         </div>
 
@@ -334,7 +122,240 @@
 
 
     {{-- ========================================= --}}
-    {{-- 03 · VISITAS Y EXPERIENCIAS --}}
+    {{-- 02 · TENDENCIA DE INGRESOS (LÍNEA) --}}
+    {{-- ========================================= --}}
+
+    <section class="mc-res__bloque"
+             aria-labelledby="mc-res-ingresos">
+
+        <div class="mc-res__bloque-encabezado">
+
+            <h2 id="mc-res-ingresos">
+                Ingresos aprobados
+                <small>últimos 6 meses · MXN</small>
+            </h2>
+
+        </div>
+
+        <div class="mc-res__linea-area">
+
+            <div class="mc-res__eje-y" aria-hidden="true">
+                @foreach ($ejeIngresos as $tick)
+                    <span style="top: {{ $tick['posicion'] }}%">{{ $tick['etiqueta'] }}</span>
+                @endforeach
+            </div>
+
+            <div class="mc-res__lienzo-linea">
+
+                @foreach ($ejeIngresos as $tick)
+                    <span class="mc-res__rejilla"
+                          style="top: {{ $tick['posicion'] }}%"
+                          aria-hidden="true"></span>
+                @endforeach
+
+                <svg class="mc-res__linea"
+                     viewBox="{{ $lineaViewBox }}"
+                     role="img"
+                     aria-labelledby="mc-res-linea-desc">
+
+                    <desc id="mc-res-linea-desc">
+                        Ingresos aprobados por mes en los últimos seis meses.
+                    </desc>
+
+                    <polyline class="mc-res__linea-trazo"
+                              points="{{ $trazoIngresos }}" />
+
+                    @foreach ($ingresosPorMes as $mes)
+
+                        <circle @class(['mc-res__linea-punto', 'is-actual' => $mes['en_curso']])
+                                cx="{{ $mes['x'] }}"
+                                cy="{{ $mes['y'] }}"
+                                r="{{ $mes['en_curso'] ? 6 : 4 }}">
+                            <title>{{ $mes['etiqueta'] }}: ${{ number_format($mes['valor'], 0) }}</title>
+                        </circle>
+
+                    @endforeach
+
+                </svg>
+
+            </div>
+
+        </div>
+
+        <ol class="mc-res__meses">
+
+            @foreach ($ingresosPorMes as $mes)
+
+                <li @class(['is-actual' => $mes['en_curso']])>
+
+                    <span>
+                        {{ $mes['etiqueta'] }}
+                        @if ($mes['en_curso'])
+                            <small>(en curso)</small>
+                        @endif
+                    </span>
+
+                </li>
+
+            @endforeach
+
+        </ol>
+
+    </section>
+
+
+    {{-- ========================================= --}}
+    {{-- 03 · ESTADO DEL TRABAJO (PASTEL 3D) --}}
+    {{-- ========================================= --}}
+
+    <section class="mc-res__bloque"
+             aria-labelledby="mc-res-flujo">
+
+        <div class="mc-res__bloque-encabezado">
+
+            <h2 id="mc-res-flujo">
+                Estado del trabajo
+                <small title="Usa la fecha de última modificación del registro, no la de confirmación">
+                    Confirmadas este mes: {{ $kpis['confirmadas_mes'] }}
+                </small>
+            </h2>
+
+        </div>
+
+        <div class="mc-res__grupos">
+
+            @foreach ($flujo as $grupo => $datos)
+
+                <div class="mc-res__grupo">
+
+                    <h3>
+                        {{ $grupo }}
+                        <small>{{ $datos['total'] }} en total</small>
+                    </h3>
+
+                    @if ($datos['total'] === 0)
+
+                        <p class="mc-res__vacio-grafica">Sin registros.</p>
+
+                    @else
+
+                        <div class="mc-res__pastel-escena" aria-hidden="true">
+
+                            <svg class="mc-res__pastel" viewBox="0 0 200 212">
+
+                                {{-- Espesor del pastel: el disco oscuro queda debajo --}}
+                                <circle class="mc-res__pared" cx="100" cy="112" r="90" />
+
+                                @foreach ($datos['porciones'] as $p)
+
+                                    @if ($p['d'])
+
+                                        <g class="mc-res__porcion"
+                                           style="--dx: {{ $p['dx'] }}px; --dy: {{ $p['dy'] }}px">
+
+                                            <path d="{{ $p['d'] }}"
+                                                  fill="{{ $p['color'] }}">
+                                                <title>{{ ucfirst(str_replace('_', ' ', $p['estado'])) }}: {{ $p['total'] }} ({{ $p['porcentaje'] }}%)</title>
+                                            </path>
+
+                                            @if ($p['etiqueta'])
+                                                <text class="mc-res__porcion-etiqueta"
+                                                      x="{{ $p['lx'] }}"
+                                                      y="{{ $p['ly'] }}"
+                                                      fill="{{ $p['texto'] }}">{{ $p['etiqueta'] }}</text>
+                                            @endif
+
+                                        </g>
+
+                                    @endif
+
+                                @endforeach
+
+                            </svg>
+
+                        </div>
+
+                    @endif
+
+                    <ul class="mc-res__leyenda">
+
+                        @foreach ($datos['porciones'] as $item)
+
+                            <li>
+
+                                <span class="mc-res__swatch"
+                                      style="background: {{ $item['color'] }}"
+                                      aria-hidden="true"></span>
+
+                                <span class="mc-res__fila-nombre">
+                                    {{ ucfirst(str_replace('_', ' ', $item['estado'])) }}
+                                </span>
+
+                                <span class="mc-res__fila-cifra">
+                                    <strong>{{ $item['total'] }}</strong>
+                                    · {{ $item['porcentaje'] }}%
+                                </span>
+
+                            </li>
+
+                        @endforeach
+
+                    </ul>
+
+                </div>
+
+            @endforeach
+
+        </div>
+
+    </section>
+
+
+    {{-- ========================================= --}}
+    {{-- 04 · VISITANTES PRÓXIMOS (COLUMNAS) --}}
+    {{-- ========================================= --}}
+
+    <section class="mc-res__bloque"
+             aria-labelledby="mc-res-visitantes">
+
+        <div class="mc-res__bloque-encabezado">
+
+            <h2 id="mc-res-visitantes">
+                Visitantes en los próximos 30 días
+                <small>{{ $kpis['personas_proximas'] }} {{ $kpis['personas_proximas'] == 1 ? 'persona' : 'personas' }}</small>
+            </h2>
+
+        </div>
+
+        <ol class="mc-res__columnas">
+
+            @foreach ($visitantesPorPeriodo as $periodo)
+
+                <li class="mc-res__columna">
+
+                    <span class="mc-res__columna-valor">
+                        {{ $periodo['valor'] }}
+                    </span>
+
+                    <div class="mc-res__columna-barra">
+                        <span style="height: {{ $periodo['ancho'] }}%"></span>
+                    </div>
+
+                    <span class="mc-res__columna-etiqueta">
+                        {{ $periodo['etiqueta'] }}
+                    </span>
+
+                </li>
+
+            @endforeach
+
+        </ol>
+
+    </section>
+
+
+    {{-- ========================================= --}}
+    {{-- 05 · VISITAS Y EXPERIENCIAS --}}
     {{-- ========================================= --}}
 
     <section class="mc-a08__analisis"
@@ -352,7 +373,7 @@
                 <div>
 
                     <span class="mc-a08__eyebrow">
-                        02 / PRÓXIMAS ACTIVIDADES
+                        01 / PRÓXIMAS ACTIVIDADES
                     </span>
 
                     <h2>
@@ -488,7 +509,7 @@
 
 
         {{-- =============================== --}}
-        {{-- EXPERIENCIAS MÁS SOLICITADAS --}}
+        {{-- EXPERIENCIAS MÁS SOLICITADAS (COLUMNAS VERTICALES) --}}
         {{-- =============================== --}}
 
         <div class="mc-a08__panel"
@@ -499,18 +520,13 @@
                 <div>
 
                     <span class="mc-a08__eyebrow">
-                        03 / EXPERIENCIAS
+                        02 / EXPERIENCIAS
                     </span>
 
                     <h2>
                         Las más
                         <em>solicitadas.</em>
                     </h2>
-
-                    <p>
-                        Comparación de experiencias
-                        según sus registros de solicitudes.
-                    </p>
 
                 </div>
 
@@ -520,14 +536,14 @@
             </div>
 
 
-            <div class="mc-a08__ranking">
+            <div class="mc-a08__ranking mc-res__ranking">
 
                 @forelse ($top as $exp)
 
                     @php
                         $cantidad = (int) $exp->solicitudes;
 
-                        $porcentaje = max(
+                        $altura = max(
                             0,
                             min(
                                 100,
@@ -538,42 +554,29 @@
                         );
                     @endphp
 
-                    <div class="mc-a08__ranking-item">
+                    <div @class([
+                        'mc-res__columna',
+                        'mc-res__columna-exp',
+                        'is-primero' => $loop->first,
+                    ])>
 
-                        <div class="mc-a08__ranking-superior">
+                        <div class="mc-res__columna-barra"
+                             role="img"
+                             aria-label="{{ $exp->nombre }}: {{ $cantidad }} solicitudes">
 
-                            <span class="mc-a08__ranking-numero">
-                                {{ sprintf('%02d', $loop->iteration) }}
-                            </span>
-
-                            <span class="mc-a08__ranking-nombre">
-                                {{ $exp->nombre }}
-                            </span>
-
-                            <strong>
-                                {{ $cantidad }}
-                            </strong>
+                            <span style="height: {{ $altura }}%"></span>
 
                         </div>
 
-                        <div
-                            class="mc-a08__barra"
-                            role="progressbar"
-                            aria-label="Solicitudes de {{ $exp->nombre }} respecto a la experiencia más solicitada"
-                            aria-valuenow="{{ $porcentaje }}"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                        >
-
-                            <span style="width: {{ $porcentaje }}%"></span>
-
-                        </div>
+                        <span class="mc-res__columna-etiqueta">
+                            {{ $exp->nombre }}
+                        </span>
 
                     </div>
 
                 @empty
 
-                    <div class="mc-a08__vacio">
+                    <div class="mc-a08__vacio mc-res__ranking-vacio">
 
 
                         <strong>
@@ -612,119 +615,7 @@
 
 
     {{-- ========================================= --}}
-    {{-- 04 · SOLICITUDES POR ESTADO --}}
-    {{-- ========================================= --}}
-
-    <section class="mc-a08__estados">
-
-        <div class="mc-a08__estados-intro">
-
-            <div>
-
-                <span class="mc-a08__eyebrow">
-                    <span class="mc-a08__linea"></span>
-                    04 / SEGUIMIENTO
-                </span>
-
-                <h2>
-                    Distribución de
-                    <em>solicitudes.</em>
-                </h2>
-
-                <p>
-                    Consulta cuántas solicitudes
-                    se encuentran en cada estado.
-                </p>
-
-            </div>
-
-            <div class="mc-a08__estados-total">
-
-                <strong>
-                    {{ $totalEstados }}
-                </strong>
-
-                <span>
-                    TOTAL EN LA DISTRIBUCIÓN
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <div class="mc-a08__estados-grid">
-
-            @foreach ($estados as $estado)
-
-                @php
-                    $cantidadEstado = (int) (
-                        $porEstado[$estado] ?? 0
-                    );
-
-                    $porcentajeEstado = $totalEstados > 0
-                        ? round(
-                            $cantidadEstado / $totalEstados * 100
-                        )
-                        : 0;
-                @endphp
-
-                <div class="mc-a08__estado">
-
-                    <div class="mc-a08__estado-superior">
-
-                        <x-estado :valor="$estado" />
-
-                        <strong>
-                            {{ $cantidadEstado }}
-                        </strong>
-
-                    </div>
-
-                    <div
-                        class="mc-a08__estado-barra"
-                        role="progressbar"
-                        aria-label="Porcentaje de solicitudes en estado {{ str_replace('_', ' ', $estado) }}"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                        aria-valuenow="{{ $porcentajeEstado }}"
-                    >
-
-                        <span
-                            style="width: {{ $porcentajeEstado }}%"
-                        ></span>
-
-                    </div>
-
-                    <small>
-                        {{ $porcentajeEstado }}% del total
-                    </small>
-
-                </div>
-
-            @endforeach
-
-        </div>
-
-        <div class="mc-a08__estados-footer">
-
-            <span>
-                Los valores corresponden a los datos
-                calculados por el sistema.
-            </span>
-
-            <a href="{{ route('admin.solicitudes.index') }}">
-                Gestionar solicitudes
-                <span aria-hidden="true">↗</span>
-            </a>
-
-        </div>
-
-    </section>
-
-
-    {{-- ========================================= --}}
-    {{-- 05 · ACCESOS RÁPIDOS --}}
+    {{-- 06 · ACCESOS RÁPIDOS --}}
     {{-- ========================================= --}}
 
     <section class="mc-a08__accesos">
@@ -732,7 +623,7 @@
         <div class="mc-a08__accesos-header">
 
             <span class="mc-a08__eyebrow">
-                05 / NAVEGACIÓN
+                03 / NAVEGACIÓN
             </span>
 
             <h2>
@@ -807,7 +698,7 @@
 
 
     {{-- ========================================= --}}
-    {{-- 06 · PIE DEL RESUMEN --}}
+    {{-- 07 · PIE DEL RESUMEN --}}
     {{-- ========================================= --}}
 
     <footer class="mc-a08__footer">
