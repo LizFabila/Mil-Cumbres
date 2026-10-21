@@ -598,7 +598,7 @@
 
 .priv-finalidad {
     display: grid;
-    grid-template-columns: 45px minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: 20px;
 
     padding: 26px 0;
@@ -967,7 +967,7 @@
     }
 
     .priv-finalidad {
-        grid-template-columns: 28px 1fr;
+        grid-template-columns: 1fr;
         gap: 12px;
     }
 

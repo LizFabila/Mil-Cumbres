@@ -124,7 +124,7 @@
                         <div>
 
                             <span class="mc-acuse-eyebrow">
-                                01 / SOLICITUD REGISTRADA
+                                SOLICITUD REGISTRADA
                             </span>
 
                             <h2>
@@ -354,7 +354,7 @@
                         <span class="mc-acuse-eyebrow
                                      mc-acuse-eyebrow--claro">
 
-                            02 / EL CAMINO CONTINÚA
+                            EL CAMINO CONTINÚA
 
                         </span>
 
@@ -373,9 +373,6 @@
 
                             <li class="mc-acuse-paso">
 
-                                <span class="mc-acuse-paso__numero">
-                                    01
-                                </span>
 
                                 <div>
 
@@ -400,9 +397,6 @@
 
                             <li class="mc-acuse-paso">
 
-                                <span class="mc-acuse-paso__numero">
-                                    02
-                                </span>
 
                                 <div>
 
@@ -428,9 +422,6 @@
 
                             <li class="mc-acuse-paso">
 
-                                <span class="mc-acuse-paso__numero">
-                                    03
-                                </span>
 
                                 <div>
 
@@ -510,7 +501,7 @@
                     <div class="mc-acuse-acciones__texto">
 
                         <span class="mc-acuse-eyebrow">
-                            03 / CONTINÚA TU EXPERIENCIA
+                            CONTINÚA TU EXPERIENCIA
                         </span>
 
                         <h3>

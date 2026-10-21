@@ -61,7 +61,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/solicitudes/{solicitud}/pago', [PagoController::class, 'create'])->name('pagos.create'); // C09
     Route::post('/solicitudes/{solicitud}/pago', [PagoController::class, 'store'])->name('pagos.store');
-
+    
     Route::get('/consultoria/solicitar', [ConsultoriaController::class, 'create'])->name('consultoria.create'); // C11
     Route::post('/consultoria/solicitar', [ConsultoriaController::class, 'store'])->name('consultoria.store');
     Route::get('/consultoria/{consultoria}/acuse', [ConsultoriaController::class, 'acuse'])->name('consultoria.acuse'); // C12
@@ -78,7 +78,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/solicitudes', [Admin\SolicitudController::class, 'index'])->name('solicitudes.index');           // A01
     Route::get('/solicitudes/{solicitud}', [Admin\SolicitudController::class, 'show'])->name('solicitudes.show');  // A02
     Route::patch('/solicitudes/{solicitud}/estado', [Admin\SolicitudController::class, 'estado'])->name('solicitudes.estado');
-
+    Route::delete('/solicitudes/{solicitud}', [Admin\SolicitudController::class, 'destroy'])
+    ->name('solicitudes.destroy');
+    
     Route::get('/pagos', [Admin\PagoController::class, 'index'])->name('pagos.index');                            // A03
     Route::patch('/pagos/{pago}', [Admin\PagoController::class, 'update'])->name('pagos.update');
 
@@ -96,4 +98,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/usuarios', [Admin\UsuarioController::class, 'index'])->name('usuarios.index');                   // A09
     Route::patch('/usuarios/{persona}', [Admin\UsuarioController::class, 'update'])->name('usuarios.update');
     Route::delete('/usuarios/{persona}', [Admin\UsuarioController::class, 'destroy'])->name('usuarios.destroy');
+
+    Route::get('/identidad', [Admin\MarcaController::class, 'edit'])->name('marca.edit');                        // A10
+    Route::put('/identidad', [Admin\MarcaController::class, 'update'])->name('marca.update');
 });

@@ -753,8 +753,7 @@
 ============================================== */
 
 .mc-detalle-reserva {
-    position: sticky;
-    top: 150px;
+    position: static;
     min-width: 0;
     overflow: hidden;
     border: 1px solid #DCE4DA;

@@ -323,17 +323,14 @@
                 <div class="mc-c09__pasos">
 
                     <span>
-                        <b>01</b>
                         Realiza tu transferencia
                     </span>
 
                     <span>
-                        <b>02</b>
                         Sube el comprobante
                     </span>
 
                     <span>
-                        <b>03</b>
                         Espera la revisión
                     </span>
 
@@ -352,7 +349,7 @@
 
                             <span class="mc-c09__etiqueta
                                          mc-c09__etiqueta--clara">
-                                01 / TRANSFERENCIA BANCARIA
+                                TRANSFERENCIA BANCARIA
                             </span>
 
 
@@ -502,7 +499,7 @@
 
                             <span class="mc-c09__etiqueta">
                                 <span class="mc-c09__linea"></span>
-                                02 / REGISTRO DE PAGO
+                                REGISTRO DE PAGO
                             </span>
 
                             <h3>

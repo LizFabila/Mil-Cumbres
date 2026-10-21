@@ -174,7 +174,7 @@
 
                     <span class="mc-consultoria-eyebrow">
                         <span class="mc-consultoria-raya"></span>
-                        01 / NUESTROS SERVICIOS
+                        NUESTROS SERVICIOS
                     </span>
 
                     <h2>
@@ -224,12 +224,6 @@
                             >
 
                             <div class="mc-consultoria-tipo__sombra"></div>
-
-                            <span class="mc-consultoria-tipo__numero">
-                                {{ sprintf('%02d', $loop->iteration) }}
-                                <span aria-hidden="true">/</span>
-                                {{ sprintf('%02d', $tipos->count()) }}
-                            </span>
 
                             <span class="mc-consultoria-tipo__categoria">
                                 {{ $esAgrario
@@ -428,7 +422,7 @@
 
                     <span class="mc-consultoria-eyebrow">
                         <span class="mc-consultoria-raya"></span>
-                        02 / NUESTRA METODOLOGÍA
+                        NUESTRA METODOLOGÍA
                     </span>
 
                     <h2>
@@ -461,17 +455,11 @@
 
                     <div class="mc-consultoria-paso__top">
 
-                        <span>
-                            ETAPA 01
-                        </span>
 
                         <span aria-hidden="true">↗</span>
 
                     </div>
 
-                    <span class="mc-consultoria-paso__numero">
-                        01
-                    </span>
 
                     <span class="mc-consultoria-paso__icono"
                           aria-hidden="true">
@@ -505,17 +493,11 @@
 
                     <div class="mc-consultoria-paso__top">
 
-                        <span>
-                            ETAPA 02
-                        </span>
 
                         <span aria-hidden="true">↗</span>
 
                     </div>
 
-                    <span class="mc-consultoria-paso__numero">
-                        02
-                    </span>
 
                     <span class="mc-consultoria-paso__icono"
                           aria-hidden="true">
@@ -549,17 +531,11 @@
 
                     <div class="mc-consultoria-paso__top">
 
-                        <span>
-                            ETAPA 03
-                        </span>
 
                         <span aria-hidden="true">↗</span>
 
                     </div>
 
-                    <span class="mc-consultoria-paso__numero">
-                        03
-                    </span>
 
 
                     <h3>

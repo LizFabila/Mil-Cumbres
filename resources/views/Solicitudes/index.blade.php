@@ -186,7 +186,7 @@
 
                     <span class="mc-c08__estadistica-top">
 
-                        01 / EXPERIENCIAS
+                        EXPERIENCIAS
 
                         <span aria-hidden="true">↗</span>
 
@@ -224,7 +224,7 @@
 
                     <span class="mc-c08__estadistica-top">
 
-                        02 / CONSULTORÍAS
+                        CONSULTORÍAS
 
                         <span aria-hidden="true">↗</span>
 
@@ -280,7 +280,6 @@
 
                 @if (request('seccion') !== 'consultorias')
                     <a href="#mis-reservaciones">
-                        <span>01</span>
                         Mis reservaciones
                     </a>
                 @endif
@@ -293,7 +292,6 @@
 
                 @if (request('seccion') !== 'reservaciones')
                     <a href="#mis-consultorias">
-                        <span>02</span>
                         Mis consultorías
                     </a>
                 @endif
@@ -332,7 +330,7 @@
 
                             <span class="mc-c08__linea"></span>
 
-                            01 / EXPERIENCIAS TURÍSTICAS
+                            EXPERIENCIAS TURÍSTICAS
 
                         </span>
 
@@ -832,7 +830,7 @@
 
                             <span class="mc-c08__linea"></span>
 
-                            02 / ACOMPAÑAMIENTO Y CONSULTORÍA
+                            ACOMPAÑAMIENTO Y CONSULTORÍA
 
                         </span>
 

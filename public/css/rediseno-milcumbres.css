@@ -613,3 +613,42 @@
 .mc-c06__subtotal strong {
     color: #143D36;
 }
+
+/* ---------- Administrador en la vista del cliente: nombre + "Regresar a panel" ---------- */
+.mc-hub__account--admin {
+    cursor: default;
+}
+
+.mc-hub__panel-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 47px;
+    padding: 12px 16px;
+    border: 1px solid var(--verde);
+    border-radius: 3px;
+    color: var(--verde) !important;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: background .25s, color .25s;
+}
+
+.mc-hub__panel-link:hover {
+    background: var(--verde);
+    color: #fff !important;
+}
+
+@media (min-width: 1121px) {
+    .mc-hub__panel-link {
+        border-color: rgba(255, 255, 255, .45);
+        color: #fff !important;
+    }
+
+    .mc-hub__panel-link:hover {
+        border-color: var(--lima);
+        background: transparent;
+        color: var(--lima) !important;
+    }
+}

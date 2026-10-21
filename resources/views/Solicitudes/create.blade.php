@@ -119,15 +119,12 @@
                         <nav class="mc-c06__pasos-nav"
                              aria-label="Secciones de la solicitud">
                             <a href="#mc-c06-experiencias">
-                                <span>01</span>
                                 Experiencias
                             </a>
                             <a href="#mc-c06-visita">
-                                <span>02</span>
                                 Fechas y personas
                             </a>
                             <a href="#mc-c06-resumen">
-                                <span>03</span>
                                 Resumen
                             </a>
                         </nav>
@@ -140,9 +137,6 @@
                             aria-describedby="ayuda-exp"
                         >
                             <legend class="mc-c06__legend">
-                                <span class="mc-c06__paso-numero">
-                                    01
-                                </span>
                                 <span>
                                     Selecciona tus
                                     <em>experiencias.</em>
@@ -359,9 +353,6 @@
                             id="mc-c06-visita"
                         >
                             <legend class="mc-c06__legend completo">
-                                <span class="mc-c06__paso-numero">
-                                    02
-                                </span>
                                 <span>
                                     Planea
                                     <em>tu visita.</em>
