@@ -51,4 +51,17 @@ class MarcaController extends Controller
 
         return redirect()->route('admin.marca.edit')->with('ok', 'Identidad del sitio actualizada.');
     }
+
+    /** Regresa al logotipo original y borra el personalizado. */
+    public function restaurarLogo(): RedirectResponse
+    {
+        $config = ConfiguracionSitio::firstOrCreate([], ['nombre' => 'Mil Cumbres']);
+
+        if ($config->logo) {
+            Storage::disk('public')->delete($config->logo);
+            $config->update(['logo' => null]);
+        }
+
+        return redirect()->route('admin.marca.edit')->with('ok', 'Se restauró el logotipo original.');
+    }
 }

@@ -69,7 +69,7 @@
     <div class="contenedor mc-hub__bar">
 
         <div class="mc-hub__brand">
-            <x-logo />
+            <x-logo :href="false" />
         </div>
 
         {{-- BOTÓN MÓVIL --}}
