@@ -77,7 +77,6 @@
         @method('PUT')
 
         <section class="mc-a10__tarjeta">
-            <span class="mc-a10__paso"></span>
             <h2>Nombre y lema</h2>
 
             <div class="mc-a10__campo">
@@ -96,7 +95,6 @@
         </section>
 
         <section class="mc-a10__tarjeta">
-            <span class="mc-a10__paso"></span>
             <h2>Logotipo</h2>
 
             <input class="mc-a10__archivo" type="file" id="logo_archivo" name="logo_archivo"
