@@ -1095,3 +1095,46 @@
     }
 
 }
+
+/* Encabezado compacto de Gestión de pagos */
+
+.mc-a03__cabecera-principal {
+    padding: 25px 35px;
+    gap: 15px;
+}
+
+.mc-a03__cabecera h1 {
+    margin: 10px 0 12px;
+    font-size: clamp(32px, 3.5vw, 46px);
+    line-height: 1.15;
+}
+
+.mc-a03__cabecera-principal p {
+    max-width: 720px;
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+.mc-a03__cabecera-pie {
+    padding: 12px 35px;
+}
+
+/* Eliminar adornos circulares del encabezado */
+.mc-a03__cabecera::before,
+.mc-a03__cabecera-marca {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .mc-a03__cabecera-principal {
+        padding: 22px 20px;
+    }
+
+    .mc-a03__cabecera h1 {
+        font-size: 35px;
+    }
+
+    .mc-a03__cabecera-pie {
+        padding: 12px 20px;
+    }
+}

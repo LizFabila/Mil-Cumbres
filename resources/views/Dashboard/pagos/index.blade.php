@@ -33,9 +33,7 @@
         <div class="mc-a03__cabecera-principal">
 
             <div>
-                <span class="mc-a03__eyebrow">
-                    ADMINISTRACIÓN / CONTROL FINANCIERO
-                </span>
+                
 
                 <h1>
                     Gestión de
@@ -50,26 +48,9 @@
                 </p>
             </div>
 
-            <div class="mc-a03__cabecera-marca"
-                 aria-hidden="true">
-                <span>03</span>
-                <small>PAGOS · MIL CUMBRES</small>
-            </div>
-
         </div>
 
-        <div class="mc-a03__cabecera-pie">
-
-            <span>
-                REVISIÓN Y VALIDACIÓN DE COMPROBANTES
-            </span>
-
-            <a href="{{ route('admin.resumen') }}">
-                <span aria-hidden="true">←</span>
-                Volver al resumen
-            </a>
-
-        </div>
+       
 
     </header>
 

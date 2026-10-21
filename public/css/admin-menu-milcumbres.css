@@ -1,924 +1,1986 @@
 
+
 /* ==============================================
+
    MIL CUMBRES · LAYOUT ADMINISTRATIVO
-============================================== */
+
+\============================================== */
+
+
 
 .mc-admin-body {
+
     --adm-dark: #102F28;
+
     --adm-green: #1B6B57;
+
     --adm-gold: #E0D5B1;
+
     --adm-cream: #F5F4EF;
+
     --adm-muted: #64766B;
+
     --adm-border: #DEE6DE;
 
+
+
     margin: 0;
+
     background: var(--adm-cream);
+
 }
+
+
 
 .mc-admin-body,
+
 .mc-admin-body button,
+
 .mc-admin-body input,
+
 .mc-admin-body select {
+
     font-family: "Public Sans", sans-serif;
+
 }
+
+
 
 .mc-adm-shell,
+
 .mc-adm-shell *,
+
 .mc-adm-shell *::before,
+
 .mc-adm-shell *::after {
+
     box-sizing: border-box;
+
 }
+
+
 
 .mc-adm-shell {
+
     display: grid;
+
     grid-template-columns: 276px minmax(0, 1fr);
+
     min-height: 100vh;
+
     width: 100%;
+
 }
+
+
 
 .mc-adm-shell a {
+
     text-decoration: none;
+
 }
+
+
 
 .mc-adm-shell a:focus-visible,
+
 .mc-adm-shell button:focus-visible,
+
 .mc-adm-shell summary:focus-visible {
+
     outline: 3px solid #5AA0D8;
+
     outline-offset: 3px;
+
 }
+
+
 
 .mc-adm-backdrop[hidden] {
+
     display: none !important;
+
 }
 
 
+
+
+
 /* ==============================================
+
    SIDEBAR
-============================================== */
+
+\============================================== */
+
+
 
 .mc-adm-sidebar {
+
     position: sticky;
+
     top: 0;
 
+
+
     display: flex;
+
     flex-direction: column;
 
+
+
     width: 276px;
+
     height: 100vh;
+
     height: 100dvh;
 
+
+
     min-width: 0;
+
     overflow-y: auto;
 
+
+
     background:
+
         radial-gradient(
+
             circle at 15% 5%,
+
             rgba(255,255,255,.06),
+
             transparent 32%
+
         ),
+
         #102F28;
 
+
+
     color: white;
+
     z-index: 1200;
 
+
+
     scrollbar-width: thin;
+
     scrollbar-color: #557466 transparent;
+
 }
 
 
+
+
+
 /* ==============================================
+
    IDENTIDAD
-============================================== */
+
+\============================================== */
+
+
 
 .mc-adm-brand {
+
     position: relative;
+
     padding: 28px 22px 21px;
+
     border-bottom: 1px solid rgba(255,255,255,.13);
+
 }
+
+
 
 .mc-adm-brand__logo {
+
     display: inline-flex;
+
     align-items: center;
+
     max-width: 100%;
+
     padding: 13px 14px;
+
     border-radius: 4px;
+
     background: #FAF9F4;
+
 }
+
+
 
 .mc-adm-brand__logo a {
+
     color: #143D36;
+
 }
+
+
 
 .mc-adm-brand__subtitle {
+
     display: block;
+
     margin-top: 18px;
+
     color: #D9D4BC;
+
     font-size: 9px;
+
     font-weight: 700;
+
     letter-spacing: 1.6px;
+
 }
 
+
+
 .mc-adm-sidebar-close {
+
     display: none;
+
 }
+
+
+
 
 
 /* ==============================================
+
    PRESENTACIÓN DEL PANEL
-============================================== */
+
+\============================================== */
+
+
 
 .mc-adm-intro {
+
     margin: 20px 17px 15px;
+
     padding: 22px 18px;
+
+
 
     border: 1px solid rgba(255,255,255,.17);
 
+
+
     background: rgba(255,255,255,.05);
+
 }
+
+
 
 .mc-adm-intro__label {
+
     display: block;
+
     margin-bottom: 14px;
+
     color: #D9D2B6;
+
     font-size: 9px;
+
     font-weight: 700;
+
     letter-spacing: 1.5px;
+
 }
+
+
 
 .mc-adm-intro strong {
+
     display: block;
+
     color: white;
+
     font-family: "Fraunces", Georgia, serif;
+
     font-size: 25px;
+
     font-weight: 500;
+
     line-height: 1.2;
+
 }
+
+
 
 .mc-adm-intro em {
+
     display: block;
+
     color: #DFD2AE;
+
     font-weight: 400;
+
 }
 
+
+
 .mc-adm-intro p {
+
     margin: 13px 0 0;
+
     color: #BCCDC2;
+
     font-size: 11px;
+
     line-height: 1.8;
+
 }
+
+
+
 
 
 /* ==============================================
+
    NAVEGACIÓN
-============================================== */
+
+\============================================== */
+
+
 
 .mc-adm-nav {
+
     display: flex;
+
     flex-direction: column;
+
     gap: 5px;
+
     padding: 12px;
+
 }
+
+
 
 .mc-adm-nav__link {
+
     display: flex;
+
     align-items: center;
+
     gap: 12px;
 
+
+
     min-height: 46px;
+
     padding: 10px 13px;
 
+
+
     border: 1px solid transparent;
+
     border-radius: 5px;
+
+
 
     color: #D6E2D9;
+
     background: transparent;
 
+
+
     font-size: 12px;
+
     font-weight: 600;
 
+
+
     transition:
+
         color .2s ease,
+
         background .2s ease,
+
         transform .2s ease;
+
 }
+
+
 
 .mc-adm-nav__link:hover {
+
     color: white;
+
     background: rgba(255,255,255,.10);
+
 }
+
+
 
 .mc-adm-nav__link.is-active,
+
 .mc-adm-nav__link.is-active:hover {
+
     color: white;
+
     border-color: rgba(255,255,255,.12);
+
     background: #29634F;
+
 }
 
+
+
 .mc-adm-nav__icon {
+
     display: grid;
+
     place-items: center;
 
+
+
     width: 28px;
+
     height: 28px;
+
     flex-shrink: 0;
 
+
+
     border-radius: 5px;
+
+
 
     background: rgba(255,255,255,.08);
 
+
+
     color: #E5D8B8;
+
     font-size: 18px;
+
     line-height: 1;
+
 }
+
+
 
 .mc-adm-nav__link.is-active .mc-adm-nav__icon {
+
     background: rgba(255,255,255,.17);
+
     color: #F4E9C8;
+
 }
+
+
 
 .mc-adm-nav__name {
+
     flex: 1;
+
     min-width: 0;
+
 }
+
+
 
 .mc-adm-nav__arrow {
+
     font-size: 19px;
+
     color: #E7D8B2;
+
 }
 
+
+
 .mc-adm-nav__count {
+
     display: grid;
+
     place-items: center;
 
+
+
     min-width: 24px;
+
     height: 24px;
+
     padding: 0 5px;
+
+
 
     border-radius: 6px;
 
+
+
     background: #E7D7AB;
+
     color: #143D36;
 
+
+
     font-size: 10px;
+
     font-weight: 800;
+
 }
+
+
+
 
 
 /* ==============================================
+
    GRUPOS DESPLEGABLES
-============================================== */
+
+\============================================== */
+
+
 
 .mc-adm-group {
+
     margin-top: 15px;
+
 }
 
+
+
 .mc-adm-group__title {
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
+
     gap: 12px;
+
+
 
     padding: 13px 14px;
 
+
+
     color: #D4CFAE;
+
     font-size: 10px;
+
     font-weight: 700;
+
     letter-spacing: 1.7px;
 
+
+
     cursor: pointer;
+
     list-style: none;
+
 }
+
+
 
 .mc-adm-group__title::-webkit-details-marker {
+
     display: none;
+
 }
+
+
 
 .mc-adm-group__title::marker {
+
     content: "";
+
 }
+
+
 
 .mc-adm-group__title:hover {
+
     color: white;
+
 }
+
+
 
 .mc-adm-group__chevron {
+
     font-size: 20px;
+
     line-height: 1;
+
     transition: transform .25s;
+
 }
+
+
 
 .mc-adm-group[open] .mc-adm-group__chevron {
+
     transform: rotate(180deg);
+
 }
+
+
 
 .mc-adm-group__content {
+
     display: flex;
+
     flex-direction: column;
+
     gap: 4px;
+
 }
+
+
 
 .mc-adm-group__content .mc-adm-nav__link {
+
     padding-left: 17px;
+
 }
 
+
+
 .mc-adm-group--quick {
+
     padding-top: 12px;
+
     border-top: 1px solid rgba(255,255,255,.12);
+
 }
+
+
+
 
 
 /* ==============================================
+
    ACCIONES RÁPIDAS
-============================================== */
+
+\============================================== */
+
+
 
 .mc-adm-quick-actions {
+
     display: flex;
+
     flex-direction: column;
+
     gap: 5px;
+
     padding: 5px 5px 12px;
+
 }
 
+
+
 .mc-adm-quick-actions a {
+
     display: flex;
+
     align-items: center;
+
     gap: 11px;
+
+
 
     padding: 10px 9px;
 
+
+
     color: #D5E0D6;
+
     font-size: 11px;
+
     line-height: 1.5;
 
+
+
     border-radius: 4px;
+
 }
+
+
 
 .mc-adm-quick-actions a:hover {
+
     background: rgba(255,255,255,.09);
+
     color: white;
+
 }
 
+
+
 .mc-adm-quick-actions a > span {
+
     display: grid;
+
     place-items: center;
 
+
+
     width: 25px;
+
     height: 25px;
+
+
 
     flex-shrink: 0;
 
+
+
     border-radius: 4px;
+
     background: rgba(255,255,255,.10);
+
     color: #E8D8B4;
 
+
+
     font-size: 16px;
+
 }
 
 
+
+
+
 /* ==============================================
+
    SECCIÓN INFERIOR
-============================================== */
+
+\============================================== */
+
+
 
 .mc-adm-sidebar-bottom {
+
     margin-top: auto;
+
     padding: 20px 12px 14px;
+
 }
+
+
 
 .mc-adm-sidebar-message {
+
     margin-bottom: 15px;
+
     padding: 19px;
 
+
+
     background: #1D493B;
+
     border: 1px solid rgba(255,255,255,.12);
+
 }
+
+
 
 .mc-adm-sidebar-message > span {
+
     display: block;
+
     margin-bottom: 13px;
+
     color: #E4D7B2;
+
     font-size: 30px;
+
 }
+
+
 
 .mc-adm-sidebar-message strong {
+
     display: block;
+
     margin-bottom: 9px;
+
     color: white;
+
     font-family: "Fraunces", Georgia, serif;
+
     font-size: 22px;
+
     font-weight: 500;
+
 }
 
+
+
 .mc-adm-sidebar-message p {
+
     margin: 0;
+
     color: #C5D5CB;
+
     font-size: 11px;
+
     line-height: 1.8;
+
 }
+
+
+
 
 
 /* ==============================================
+
    PERFIL DESPLEGABLE
-============================================== */
+
+\============================================== */
+
+
 
 .mc-adm-profile {
+
     border-top: 1px solid rgba(255,255,255,.18);
+
     padding-top: 15px;
+
 }
 
+
+
 .mc-adm-profile > summary {
+
     display: flex;
+
     align-items: center;
+
     gap: 11px;
+
+
 
     padding: 10px 5px;
 
+
+
     color: white;
+
     cursor: pointer;
+
     list-style: none;
+
 }
+
+
 
 .mc-adm-profile > summary::-webkit-details-marker {
+
     display: none;
+
 }
+
+
 
 .mc-adm-profile > summary::marker {
+
     content: "";
+
 }
 
+
+
 .mc-adm-profile__avatar {
+
     display: grid;
+
     place-items: center;
+
     flex-shrink: 0;
 
+
+
     width: 39px;
+
     height: 39px;
+
+
 
     border-radius: 50%;
 
+
+
     color: #143D36;
+
     background: #E3D4AF;
 
+
+
     font-family: "Fraunces", Georgia, serif;
+
     font-size: 20px;
+
     font-weight: 700;
+
 }
+
+
 
 .mc-adm-profile__identity {
+
     display: flex;
+
     flex-direction: column;
+
     min-width: 0;
+
     flex: 1;
+
     gap: 4px;
+
 }
+
+
 
 .mc-adm-profile__identity strong {
+
     color: white;
+
     font-size: 11px;
+
     font-weight: 700;
+
     overflow-wrap: anywhere;
+
 }
+
+
 
 .mc-adm-profile__identity small {
+
     color: #AFC4B8;
+
     font-size: 10px;
+
 }
+
+
 
 .mc-adm-profile__chevron {
+
     color: #D6DBCB;
+
     font-size: 19px;
+
     transition: transform .25s;
+
 }
+
+
 
 .mc-adm-profile[open] .mc-adm-profile__chevron {
+
     transform: rotate(180deg);
+
 }
+
+
 
 .mc-adm-profile__options {
+
     padding: 8px 4px;
+
 }
 
+
+
 .mc-adm-profile__options a,
+
 .mc-adm-profile__options button {
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
+
     gap: 10px;
 
+
+
     width: 100%;
+
     min-height: 42px;
+
+
 
     padding: 11px 12px;
 
+
+
     background: transparent;
+
     border: 0;
+
     border-radius: 4px;
 
+
+
     color: #EDF2E9;
+
     font-size: 11px;
+
     font-weight: 600;
+
     text-align: left;
+
     cursor: pointer;
+
 }
+
+
 
 .mc-adm-profile__options a:hover,
+
 .mc-adm-profile__options button:hover {
+
     color: white;
+
     background: rgba(255,255,255,.09);
+
 }
+
+
 
 .mc-adm-profile__options form {
+
     margin: 0;
+
 }
 
 
+
+
+
 /* ==============================================
+
    ÁREA DE TRABAJO
-============================================== */
+
+\============================================== */
+
+
 
 .mc-adm-workspace {
+
     display: flex;
+
     flex-direction: column;
+
     min-width: 0;
+
     min-height: 100vh;
+
     background: #F5F5F0;
+
 }
 
 
+
+
+
 /* ==============================================
+
    BARRA SUPERIOR
-============================================== */
+
+\============================================== */
+
+
 
 .mc-adm-topbar {
+
     position: sticky;
+
     top: 0;
+
     z-index: 100;
 
+
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
+
     gap: 25px;
 
+
+
     min-height: 78px;
+
     padding: 15px clamp(22px, 3vw, 44px);
+
+
 
     border-bottom: 1px solid var(--adm-border);
 
+
+
     background: rgba(255,255,255,.96);
+
     backdrop-filter: blur(12px);
+
 }
+
+
 
 .mc-adm-topbar__left {
+
     display: flex;
+
     align-items: center;
+
     gap: 15px;
+
     min-width: 0;
+
 }
+
+
 
 .mc-adm-topbar__location {
+
     display: flex;
+
     flex-direction: column;
+
     gap: 6px;
+
     min-width: 0;
+
 }
+
+
 
 .mc-adm-topbar__location > span {
+
     color: #7E9185;
+
     font-size: 9px;
+
     font-weight: 700;
+
     letter-spacing: 1.4px;
+
 }
+
+
 
 .mc-adm-topbar__location strong {
+
     color: #143D36;
+
     font-size: 16px;
+
     font-weight: 700;
+
 }
+
+
 
 .mc-adm-topbar__actions {
+
     display: flex;
+
     align-items: center;
+
     gap: 11px;
+
 }
+
+
 
 .mc-adm-topbar__indicator {
+
     display: inline-flex;
+
     align-items: center;
+
     gap: 10px;
 
+
+
     min-height: 42px;
+
     padding: 9px 12px;
 
+
+
     border: 1px solid #E0E8DE;
+
     border-radius: 5px;
 
+
+
     color: #143D36;
+
     background: #F7F9F5;
 
+
+
     font-size: 11px;
+
     font-weight: 600;
+
 }
+
+
 
 .mc-adm-topbar__indicator:hover {
+
     color: #143D36;
+
     background: #ECF2E9;
+
 }
+
+
 
 .mc-adm-topbar__indicator-icon {
+
     color: #1B6B57;
+
     font-size: 20px;
+
 }
+
+
 
 .mc-adm-topbar__indicator strong {
+
     margin-left: 4px;
+
     color: #1B6B57;
+
 }
 
+
+
 .mc-adm-topbar__site {
+
     display: inline-flex;
+
     align-items: center;
+
     justify-content: space-between;
+
     gap: 13px;
 
+
+
     min-height: 42px;
+
     padding: 11px 16px;
+
+
 
     border-radius: 4px;
 
+
+
     background: #143D36;
+
     color: white;
+
+
 
     font-size: 11px;
+
     font-weight: 700;
+
 }
+
+
 
 .mc-adm-topbar__site:hover {
+
     background: #1B6B57;
+
     color: white;
+
 }
+
+
 
 .mc-adm-topbar__site span {
+
     font-size: 17px;
+
 }
+
+
 
 .mc-adm-mobile-toggle {
+
     display: none;
+
 }
 
 
+
+
+
 /* ==============================================
+
    FRANJA DE CONTEXTO
-============================================== */
+
+\============================================== */
+
+
 
 .mc-adm-context {
+
     position: relative;
+
     overflow: hidden;
+
     padding: 28px clamp(22px, 3vw, 44px);
+
     background: #E9EEE6;
+
     border-bottom: 1px solid #D8E2D6;
+
 }
+
+
 
 .mc-adm-context__eyebrow {
+
     color: #1B6B57;
+
     font-size: 9px;
+
     font-weight: 700;
+
     letter-spacing: 1.4px;
+
 }
+
+
 
 .mc-adm-context__inner {
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
+
     gap: 15px;
+
 }
+
+
 
 .mc-adm-context h2 {
+
     margin: 9px 0 7px;
+
     color: #143D36;
+
     font-family: "Fraunces", Georgia, serif;
+
     font-size: clamp(25px, 2.7vw, 36px);
+
     font-weight: 500;
+
     line-height: 1.2;
+
 }
+
+
 
 .mc-adm-context p {
+
     margin: 0;
+
     color: var(--adm-muted);
+
     font-size: 12px;
+
     line-height: 1.7;
+
 }
 
+
+
 .mc-adm-context__symbol {
+
     color: #CDDCC9;
+
     font-size: 75px;
+
     line-height: 1;
+
 }
+
+
+
 
 
 /* ==============================================
+
    CONTENIDO PRINCIPAL
-============================================== */
+
+\============================================== */
+
+
 
 .mc-adm-main {
+
     flex: 1;
+
     width: 100%;
+
     min-width: 0;
+
+
 
     padding: 32px clamp(20px, 3vw, 44px) 55px;
 
+
+
     background: #F5F5F0;
+
 }
 
+
+
 /* Evita desbordes de columnas y tablas */
+
 .mc-adm-main > * {
+
     max-width: 100%;
+
 }
+
+
+
 
 
 /* ==============================================
+
    PIE
-============================================== */
+
+\============================================== */
+
+
 
 .mc-adm-footer {
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
+
     flex-wrap: wrap;
+
     gap: 15px;
+
+
 
     padding: 20px clamp(20px, 3vw, 44px);
 
+
+
     border-top: 1px solid var(--adm-border);
 
+
+
     color: #849388;
+
     background: #F8F9F5;
 
+
+
     font-size: 10px;
+
     font-weight: 600;
+
     letter-spacing: .8px;
+
 }
 
 
+
+
+
 /* ==============================================
+
    RESPONSIVE - TABLET Y MÓVIL
-============================================== */
+
+\============================================== */
+
+
 
 @media (max-width: 1080px) {
 
+
+
     .mc-adm-shell {
+
         grid-template-columns: minmax(0,1fr);
+
     }
+
+
 
     .mc-adm-sidebar {
+
         position: fixed;
+
         top: 0;
+
         left: 0;
+
         bottom: 0;
 
+
+
         width: min(320px, 87vw);
+
         height: 100dvh;
 
+
+
         transform: translateX(-105%);
+
         transition: transform .3s ease;
 
+
+
         box-shadow: 12px 0 35px rgba(0,0,0,.20);
+
     }
+
+
 
     .mc-admin-body.mc-adm-menu-open .mc-adm-sidebar {
+
         transform: translateX(0);
+
     }
+
+
 
     .mc-adm-sidebar-close {
+
         position: absolute;
+
         top: 22px;
+
         right: 14px;
 
+
+
         display: grid;
+
         place-items: center;
 
+
+
         width: 34px;
+
         height: 34px;
 
+
+
         background: rgba(255,255,255,.10);
+
         border: 1px solid rgba(255,255,255,.2);
+
         border-radius: 4px;
 
+
+
         color: white;
+
         font-size: 23px;
+
         cursor: pointer;
+
     }
+
+
 
     .mc-adm-backdrop:not([hidden]) {
+
         position: fixed;
+
         inset: 0;
+
         z-index: 1100;
 
+
+
         display: block;
+
         width: 100%;
+
         height: 100%;
 
+
+
         border: 0;
+
         background: rgba(9,27,22,.65);
+
         cursor: pointer;
+
     }
 
+
+
     .mc-adm-mobile-toggle {
+
         display: flex;
+
         flex-direction: column;
+
         justify-content: center;
+
         gap: 5px;
+
+
 
         flex-shrink: 0;
 
+
+
         width: 43px;
+
         height: 43px;
+
+
 
         padding: 10px;
 
+
+
         border: 1px solid #D9E4DA;
+
         border-radius: 4px;
 
+
+
         background: #F4F7F2;
+
         cursor: pointer;
+
     }
+
+
 
     .mc-adm-mobile-toggle span {
+
         display: block;
+
         width: 100%;
+
         height: 2px;
+
         background: #143D36;
+
     }
+
+
 
     .mc-adm-topbar {
+
         min-height: 70px;
+
     }
 
+
+
     .mc-adm-workspace {
+
         width: 100%;
+
     }
+
 }
 
 
+
+
+
 /* ==============================================
+
    MÓVILES
-============================================== */
+
+\============================================== */
+
+
 
 @media (max-width: 680px) {
 
+
+
     .mc-adm-topbar {
+
         padding: 12px 16px;
+
         gap: 10px;
+
     }
+
+
 
     .mc-adm-topbar__location > span {
+
         display: none;
+
     }
+
+
 
     .mc-adm-topbar__location strong {
+
         font-size: 14px;
+
     }
+
+
 
     .mc-adm-topbar__indicator {
+
         display: none;
+
     }
+
+
 
     .mc-adm-topbar__site {
+
         min-height: 40px;
+
         padding: 10px 12px;
+
         font-size: 10px;
+
     }
+
+
 
     .mc-adm-context {
+
         padding: 24px 20px;
+
     }
+
+
 
     .mc-adm-context h2 {
+
         font-size: 29px;
+
     }
+
+
 
     .mc-adm-context__symbol {
+
         display: none;
+
     }
+
+
 
     .mc-adm-main {
+
         padding: 22px 15px 40px;
+
     }
 
+
+
     .mc-adm-footer {
+
         padding: 20px 15px;
+
     }
+
 }
 
 
+
+
+
 /* ==============================================
+
    ACCESIBILIDAD
-============================================== */
+
+\============================================== */
+
+
 
 @media (prefers-reduced-motion: reduce) {
 
+
+
     .mc-adm-shell *,
+
     .mc-adm-shell *::before,
+
     .mc-adm-shell *::after {
+
         transition: none !important;
+
         animation: none !important;
+
     }
 
+
+
+}
+
+
+/* ===== Renovación visual del menú administrativo ===== */
+.mc-admin-body { --adm-dark:#244D40; --adm-green:#36715C; --adm-gold:#E5DCC0; }
+.mc-adm-shell { grid-template-columns:252px minmax(0,1fr); }
+.mc-adm-sidebar {
+  width:252px; background:linear-gradient(165deg,#E7F0E9 0%,#D8E8DD 100%);
+  color:#244D40; scrollbar-color:#A7C4B1 transparent;
+}
+.mc-adm-brand { padding:20px 17px 15px; border-bottom:1px solid #BED3C4; }
+.mc-adm-brand__logo { padding:8px; background:#fff; border-radius:10px; }
+.mc-adm-brand__subtitle { margin-top:11px; color:#537767; font-size:10px; letter-spacing:1px; }
+.mc-adm-nav { gap:5px; padding:14px 10px; }
+.mc-adm-nav__link { color:#285344; border-radius:9px; min-height:44px; font-size:12px; padding:8px 10px; }
+.mc-adm-nav__link:hover { color:#173F32; background:#C9DFD0; }
+.mc-adm-nav__link.is-active,.mc-adm-nav__link.is-active:hover {
+  color:#fff; background:#36715C; border-color:#36715C;
+}
+.mc-adm-nav__icon { width:30px; height:30px; background:#CFE2D4; color:#285C48; border-radius:8px; }
+.mc-adm-nav__icon svg,.mc-adm-quick-actions svg,.mc-adm-logout svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.mc-adm-nav__link.is-active .mc-adm-nav__icon { background:rgba(255,255,255,.18); color:#fff; }
+.mc-adm-nav__count { background:#F2E3BA; color:#284C3E; }
+.mc-adm-group { margin-top:7px; }
+.mc-adm-group__title { color:#507462; font-size:10px; letter-spacing:1px; padding:11px 12px; }
+.mc-adm-group__title:hover { color:#214B3C; }
+.mc-adm-group__content .mc-adm-nav__link { padding-left:10px; }
+.mc-adm-group--quick { border-top:1px solid #BDD3C4; padding-top:8px; }
+.mc-adm-quick-actions a { color:#305C4A; border-radius:8px; }
+.mc-adm-quick-actions a:hover { background:#C9DFD0; color:#173F32; }
+.mc-adm-quick-actions a > span { background:#CFE2D4; color:#285C48; }
+.mc-adm-sidebar-bottom { margin-top:auto; padding:13px 12px 18px; border-top:1px solid #BDD3C4; }
+.mc-adm-profile { border-top:0; padding-top:0; }
+.mc-adm-profile > summary { color:#234B3C; cursor:default; padding:6px 3px 12px; }
+.mc-adm-profile__identity strong { color:#234B3C; }
+.mc-adm-profile__identity small { color:#638170; }
+.mc-adm-profile__avatar { background:#BBD6C5; color:#214B3C; }
+.mc-adm-logout { margin:0; }
+.mc-adm-logout button {
+  display:flex; align-items:center; justify-content:center; gap:10px; width:100%;
+  padding:12px; border:1px solid #D5A7A2; border-radius:9px;
+  background:#FBE9E6; color:#A3342C; font-size:12px; font-weight:700; cursor:pointer;
+}
+.mc-adm-logout button:hover { background:#F5D5D1; }
+.mc-adm-topbar { min-height:67px; padding-top:10px; padding-bottom:10px; }
+.mc-adm-main { padding-top:25px; }
+.mc-adm-mobile-toggle { border-radius:8px; }
+@media (max-width:1080px) {
+  .mc-adm-shell { grid-template-columns:minmax(0,1fr); }
+  .mc-adm-sidebar { width:min(300px,87vw); }
+  .mc-adm-sidebar-close { background:#D1E3D6; color:#234B3C; border-color:#BBD2C2; }
+}
+
+/* Ajuste solicitado: verde medio y secciones siempre visibles. */
+.mc-adm-sidebar {
+    background: linear-gradient(165deg, #B9D5C3 0%, #A8C9B6 100%);
+    color: #173F32;
+    scrollbar-color: #719B82 transparent;
+}
+.mc-adm-brand { border-bottom-color: #93B9A2; }
+.mc-adm-brand__subtitle { color: #315D49; }
+.mc-adm-nav__link { color: #1C4938; }
+.mc-adm-nav__link:hover { background: #91BDA3; color: #103A2B; }
+.mc-adm-nav__link.is-active,
+.mc-adm-nav__link.is-active:hover { background: #245A45; color: #fff; border-color: #245A45; }
+.mc-adm-nav__icon { background: #9FC4AC; color: #1B503B; }
+.mc-adm-nav__link.is-active .mc-adm-nav__icon { background: rgba(255,255,255,.17); color:#fff; }
+.mc-adm-group { margin-top: 13px; }
+.mc-adm-group__title {
+    display:block; margin:0; padding:12px 10px 8px;
+    color:#245541; font-size:10px; line-height:1.5; font-weight:800;
+    letter-spacing:.65px; cursor:default;
+}
+.mc-adm-group__content { display:flex; flex-direction:column; gap:5px; padding:0; }
+.mc-adm-sidebar-bottom { border-top-color:#8EB59C; background:rgba(27,80,56,.06); }
+.mc-adm-profile__identity strong { color:#173F32; }
+.mc-adm-profile__identity small { color:#315D49; }
+.mc-adm-logout button { background:#FBE9E6; color:#A3342C; }
+
+/* Nombre del administrador más grande */
+
+.mc-adm-profile__identity strong {
+    display: block;
+    font-size: 14px !important;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #173f32;
+}
+
+/* Cargo del administrador */
+
+.mc-adm-profile__identity small {
+    display: block;
+    font-size: 12px !important;
+    margin-top: 3px;
+    color: #426b59;
+}
+
+/* Encabezado compacto de Gestión de pagos */
+
+.mc-a03__cabecera-principal {
+    padding: 25px 35px;
+    gap: 15px;
+}
+
+.mc-a03__cabecera h1 {
+    margin: 10px 0 12px;
+    font-size: clamp(32px, 3.5vw, 46px);
+    line-height: 1.15;
+}
+
+.mc-a03__cabecera-principal p {
+    max-width: 720px;
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+.mc-a03__cabecera-pie {
+    padding: 12px 35px;
+}
+
+/* Eliminar adornos circulares del encabezado */
+.mc-a03__cabecera::before,
+.mc-a03__cabecera-marca {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .mc-a03__cabecera-principal {
+        padding: 22px 20px;
+    }
+
+    .mc-a03__cabecera h1 {
+        font-size: 35px;
+    }
+
+    .mc-a03__cabecera-pie {
+        padding: 12px 20px;
+    }
 }

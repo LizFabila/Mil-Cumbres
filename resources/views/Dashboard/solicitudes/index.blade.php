@@ -25,7 +25,7 @@
         <a href="{{ route('admin.solicitudes.index', [...request()->except('page'), 'estado' => $estado]) }}"
            @class(['activo' => ($filtros['estado'] ?? null) === $estado])>
             {{ ucfirst($estado) }}
-            <small>{{ $conteos[$estado] ?? 0 }}</small>
+            <small>{{ (int) ($conteos[$estado] ?? 0) }}</small>
         </a>
     @endforeach
 </nav>

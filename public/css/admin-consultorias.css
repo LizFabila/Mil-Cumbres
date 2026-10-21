@@ -1234,3 +1234,86 @@
     }
 
 }
+
+/* ==========================================
+   CONSULTORÍAS - DISEÑO UNIFICADO
+   Encabezado compacto y tarjetas iguales
+========================================== */
+
+/* Encabezado verde compacto */
+.mc-a04__hero-inner {
+    display: block;
+    padding: 25px 35px;
+}
+
+.mc-a04__hero-principal {
+    max-width: 800px;
+}
+
+.mc-a04__hero h1 {
+    max-width: none;
+    margin: 10px 0 12px;
+    font-size: clamp(32px, 3.5vw, 46px);
+    line-height: 1.15;
+    letter-spacing: -1px;
+}
+
+.mc-a04__hero-principal > p {
+    max-width: 720px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+.mc-a04__hero-footer {
+    padding: 12px 35px;
+}
+
+/* Eliminar elementos decorativos */
+.mc-a04__hero::before,
+.mc-a04__hero::after,
+.mc-a04__hero-ornamento,
+.mc-a04__hero-aside {
+    display: none;
+}
+
+/* Las tres tarjetas con el mismo diseño */
+.mc-a04__indicador,
+.mc-a04__indicador--destacado {
+    border: 1px solid var(--a04-borde);
+    border-top: 3px solid var(--a04-verde-2);
+    background: #ffffff;
+}
+
+.mc-a04__indicador-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 16px;
+    margin-bottom: 23px;
+    color: var(--a04-verde-2);
+    font-family: "Public Sans", Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: 1px;
+}
+
+/* Ajustes para celulares */
+@media (max-width: 640px) {
+    .mc-a04__hero-inner {
+        padding: 22px 20px;
+    }
+
+    .mc-a04__hero h1 {
+        font-size: 35px;
+    }
+
+    .mc-a04__hero-footer {
+        padding: 12px 20px;
+    }
+
+    .mc-a04__indicador-top {
+        font-size: 10px;
+    }
+}

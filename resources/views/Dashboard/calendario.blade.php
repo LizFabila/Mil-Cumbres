@@ -54,19 +54,12 @@
 
         <div class="mc-a05__hero-contenido">
 
-            <a href="{{ route('admin.resumen') }}"
-               class="mc-a05__regresar">
-                ← Volver al resumen
-            </a>
+            
 
             <div class="mc-a05__hero-principal">
 
                 <div>
 
-                    <span class="mc-a05__eyebrow">
-                        <span class="mc-a05__raya"></span>
-                        ADMINISTRACIÓN / OPERACIÓN
-                    </span>
 
                     <h1>
                         Calendario
@@ -82,27 +75,11 @@
 
                 </div>
 
-                <div class="mc-a05__hero-sello"
-                     aria-hidden="true">
-                    <strong>MIL CUMBRES</strong>
-                    <small>GESTIÓN DE EXPERIENCIAS</small>
-                </div>
-
             </div>
 
         </div>
 
-        <div class="mc-a05__hero-pie">
-
-            <span>
-                ORGANIZACIÓN DE EXPERIENCIAS
-            </span>
-
-            <span>
-                {{ mb_strtoupper($mes->translatedFormat('F Y')) }}
-            </span>
-
-        </div>
+        
 
     </header>
 

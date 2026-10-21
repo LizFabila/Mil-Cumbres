@@ -35,79 +35,34 @@
     {{-- 01 · ENCABEZADO --}}
     {{-- ====================================== --}}
 
-    <section class="mc-a04__hero">
+    
+<section class="mc-a04__hero">
 
-        <div class="mc-a04__hero-ornamento"
-             aria-hidden="true">
-        </div>
+    <div class="mc-a04__hero-inner">
 
-        <div class="mc-a04__hero-inner">
+        <div class="mc-a04__hero-principal">
 
-            <div class="mc-a04__hero-principal">
+            
 
-                <div class="mc-a04__breadcrumb">
+            <h1>
+                Gestión de <em>consultorías.</em>
+            </h1>
 
-                    <a href="{{ route('admin.resumen') }}">
-                        Panel administrativo
-                    </a>
-
-                    <span>/</span>
-
-                    <span>Consultorías</span>
-
-                </div>
-
-                <span class="mc-a04__eyebrow mc-a04__eyebrow--claro">
-                    <span class="mc-a04__linea"></span>
-                    A04 / GESTIÓN DE CONSULTORÍAS
-                </span>
-
-                <h1>
-                    Proyectos que
-                    <em>transforman territorios.</em>
-                </h1>
-
-                <p>
-                    Administra las solicitudes de empresas
-                    y organizaciones agrarias. Consulta
-                    los expedientes y da seguimiento
-                    a cada proyecto desde un mismo lugar.
-                </p>
-
-            </div>
-
-            <div class="mc-a04__hero-aside">
-
-
-                <span>
-                    MIL CUMBRES
-                </span>
-
-                <strong>
-                    Gestión con propósito.
-                </strong>
-
-                <small>
-                    TURISMO REGENERATIVO
-                </small>
-
-            </div>
+            <p>
+                Consulta y administra las solicitudes de consultoría
+                de empresas y organizaciones agrarias. Revisa sus
+                expedientes y da seguimiento a cada proyecto desde
+                un solo lugar.
+            </p>
 
         </div>
 
-        <div class="mc-a04__hero-footer">
+    </div>
 
-            <span>
-                CONSULTORÍAS / ORGANIZACIONES / SEGUIMIENTO
-            </span>
+    
 
-            <span>
-                MIL CUMBRES · ADMINISTRACIÓN
-            </span>
+</section>
 
-        </div>
-
-    </section>
 
 
     {{-- ====================================== --}}
@@ -124,10 +79,9 @@
             <div class="mc-a04__indicador-top">
 
                 <span>
-                    01 / SOLICITUDES
+                    SOLICITUDES
                 </span>
 
-                <span aria-hidden="true">↗</span>
 
             </div>
 
@@ -151,10 +105,9 @@
             <div class="mc-a04__indicador-top">
 
                 <span>
-                    02 / VISTA ACTUAL
+                    VISTA ACTUAL
                 </span>
 
-                <span aria-hidden="true">◉</span>
 
             </div>
 
@@ -177,7 +130,7 @@
             <div class="mc-a04__indicador-top">
 
                 <span>
-                    03 / SEGUIMIENTO
+                    SEGUIMIENTO
                 </span>
 
 
