@@ -504,3 +504,27 @@
     .mc-a10__boton--principal { transition: none; }
     .mc-a10__boton--principal:hover { transform: none; }
 }
+
+
+/* ---------- Vista previa: las dos tarjetas con la misma medida ---------- */
+.mc-a10__muestra {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 22px;
+}
+
+.mc-a10__muestra--cliente { background: var(--i-verde); }
+
+.mc-a10__muestra .mc-a10__muestra-marca {
+    min-height: 0;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.mc-a10__muestra--cliente .mc-a10__muestra-marca { background: transparent; }
+.mc-a10__muestra--panel .mc-a10__muestra-marca img { padding: 6px 10px; }
+
+.mc-a10__muestra figcaption { margin-top: 0; }
+.mc-a10__muestra--cliente figcaption { color: rgba(255, 255, 255, .7); }
