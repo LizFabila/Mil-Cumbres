@@ -21,10 +21,10 @@
 <div class="mc-c09">
 
     {{-- ========================================== --}}
-    {{-- 01 · PORTADA --}}
+    {{-- 01 · PORTADA COMPACTA (frases originales, poco espacio) --}}
     {{-- ========================================== --}}
 
-    <section class="mc-c09__hero">
+    <section class="mc-c09__hero mc-c09__hero--compacto">
 
         <img
             src="{{ config('milcumbres.imagenes.hero_catalogo') }}"
@@ -39,17 +39,13 @@
 
             <nav class="mc-c09__migas"
                  aria-label="Ruta de navegación">
-
                 <a href="{{ route('inicio') }}">Inicio</a>
                 <span>/</span>
-
                 <a href="{{ route('solicitudes.index') }}">
                     Mis solicitudes
                 </a>
-
                 <span>/</span>
                 <span>Registrar pago</span>
-
             </nav>
 
             <span class="mc-c09__etiqueta
@@ -86,7 +82,7 @@
     {{-- 02 · CONTENIDO --}}
     {{-- ========================================== --}}
 
-    <section class="mc-c09__contenido">
+    <section class="mc-c09__contenido mc-c09__contenido--subido">
 
         <div class="contenedor">
 
@@ -94,19 +90,20 @@
 
 
             {{-- ====================================== --}}
-            {{-- IDENTIFICACIÓN DE SOLICITUD --}}
+            {{-- LO QUE SOLICITASTE (en primera plana) --}}
             {{-- ====================================== --}}
 
-            <div class="mc-c09__identificacion">
+            <article class="mc-c09__pedido" aria-labelledby="mc-c09-pedido-titulo">
 
-                <div class="mc-c09__identificacion-principal">
+                {{-- Columna verde: folio, estado y monto --}}
+                <aside class="mc-c09__pedido-lateral">
 
-                    <span class="mc-c09__etiqueta">
+                    <span class="mc-c09__etiqueta mc-c09__etiqueta--clara">
                         <span class="mc-c09__linea"></span>
                         INFORMACIÓN DE TU RESERVACIÓN
                     </span>
 
-                    <h2>
+                    <h2 id="mc-c09-pedido-titulo">
                         Tu solicitud,
                         <em>identificada.</em>
                     </h2>
@@ -117,102 +114,97 @@
                         que deseas pagar.
                     </p>
 
-                </div>
+                    <div class="mc-c09__pedido-folio">
+                        <span>FOLIO DE SOLICITUD</span>
 
+                        <strong id="mc-c09-folio">{{ $solicitud->folio }}</strong>
 
-                <div class="mc-c09__identificacion-folio">
+                        <div class="mc-c09__pedido-folio-acciones">
+                            <button
+                                type="button"
+                                class="mc-c09__copiar"
+                                data-mc-c09-copiar="mc-c09-folio"
+                                aria-label="Copiar folio de solicitud"
+                            >
+                                <span aria-hidden="true">⧉</span>
+                                Copiar folio
+                            </button>
 
-                    <span>FOLIO DE SOLICITUD</span>
+                            <span @class([
+                                'mc-c09__estado',
+                                'mc-c09__estado--' . $solicitud->estado,
+                            ])>
+                                {{ ucfirst(str_replace('_', ' ', $solicitud->estado)) }}
+                            </span>
 
-                    <strong id="mc-c09-folio">
-                        {{ $solicitud->folio }}
-                    </strong>
-
-                    <button
-                        type="button"
-                        class="mc-c09__copiar"
-                        data-mc-c09-copiar="mc-c09-folio"
-                        aria-label="Copiar folio de solicitud"
-                    >
-                        <span aria-hidden="true">⧉</span>
-                        Copiar folio
-                    </button>
-
-                    <span class="mc-c09__copiado"
-                          aria-live="polite"
-                          role="status"></span>
-
-                </div>
-
-            </div>
-
-
-            {{-- ====================================== --}}
-            {{-- RESUMEN DE LA SOLICITUD --}}
-            {{-- ====================================== --}}
-
-            <div class="mc-c09__resumen">
-
-                <div class="mc-c09__resumen-item">
-
-                    <span class="mc-c09__resumen-icono"
-                          aria-hidden="true">
-                        ◷
-                    </span>
-
-                    <div>
-                        <small>FECHA DESEADA</small>
-
-                        <strong>
-                            {{ $solicitud->fecha_deseada
-                                ->translatedFormat('j M Y') }}
-                        </strong>
+                            <span class="mc-c09__copiado"
+                                  aria-live="polite"
+                                  role="status"></span>
+                        </div>
                     </div>
 
-                </div>
-
-
-                <div class="mc-c09__resumen-item
-                            mc-c09__resumen-item--experiencias">
-
-
-                    <div>
-
-                        <small>EXPERIENCIAS SELECCIONADAS</small>
-
-                        <strong>
-                            {{ $solicitud->experiencias
-                                ->pluck('nombre')
-                                ->implode(' + ') }}
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-                <div class="mc-c09__resumen-item
-                            mc-c09__resumen-item--monto">
-
-                    <span class="mc-c09__resumen-icono"
-                          aria-hidden="true">
-                        $
-                    </span>
-
-                    <div>
-
-                        <small>MONTO REGISTRADO</small>
-
+                    <div class="mc-c09__pedido-total">
+                        <span>MONTO A PAGAR</span>
                         <strong>
                             ${{ number_format($solicitud->total, 2) }}
-                            MXN
+                            <small>MXN</small>
                         </strong>
-
                     </div>
+
+                </aside>
+
+                {{-- Columna blanca: experiencias solicitadas --}}
+                <div class="mc-c09__pedido-detalle">
+
+                    <div class="mc-c09__pedido-detalle-titulo">
+                        <h3>Lo que solicitaste</h3>
+                        <span>
+                            {{ $solicitud->experiencias->count() }}
+                            {{ $solicitud->experiencias->count() === 1 ? 'experiencia' : 'experiencias' }}
+                        </span>
+                    </div>
+
+                    <ul class="mc-c09__pedido-lista">
+                        @foreach ($solicitud->experiencias as $experiencia)
+                            @php
+                                $personas = (int) ($experiencia->pivot->cant_persona ?: $solicitud->cant_persona);
+                                $fecha = $experiencia->pivot->fecha_deseada ?? $solicitud->fecha_deseada;
+                            @endphp
+
+                            <li class="mc-c09__pedido-item">
+                                <img src="{{ $experiencia->imagen_url }}" alt="">
+
+                                <div class="mc-c09__pedido-item-info">
+                                    <strong>{{ $experiencia->nombre }}</strong>
+
+                                    <div class="mc-c09__pedido-chips">
+                                        <span>
+                                            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+                                            {{ $fecha?->translatedFormat('j M Y') ?? 'Fecha por definir' }}
+                                        </span>
+                                        <span>
+                                            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5M16 4.8a3.3 3.3 0 0 1 0 6.4M18 14.8c2 .7 3.2 2.5 3.5 5.2"/></svg>
+                                            {{ $personas }} {{ $personas === 1 ? 'persona' : 'personas' }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="mc-c09__pedido-item-precio">
+                                    <strong>${{ number_format($experiencia->precio * $personas, 2) }}</strong>
+                                    <small>${{ number_format($experiencia->precio, 2) }} × {{ $personas }}</small>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    <p class="mc-c09__pedido-nota">
+                        <span aria-hidden="true">↓</span>
+                        Si todo es correcto, continúa con los datos bancarios y sube tu comprobante.
+                    </p>
 
                 </div>
 
-            </div>
+            </article>
 
 
             {{-- ====================================== --}}
