@@ -1,0 +1,57 @@
+/* =====================================================
+   A09 · CARTERA DE CLIENTES
+   Usa tokens de base.css y las clases de admin.css
+   (.kpis, .kpi, .pestanas, .tabla).
+===================================================== */
+
+.cartera-seccion {
+    margin-bottom: 32px;
+}
+
+.cartera-seccion__cabecera {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--borde);
+}
+
+.cartera-seccion__cabecera h2 {
+    margin: 0;
+    font-family: var(--fuente-titulo);
+    font-size: 1.4rem;
+}
+
+.cartera-grupos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: start;
+}
+
+.cartera-grupo h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 10px;
+    font-size: 1rem;
+}
+
+.cartera-grupo__total {
+    display: inline-block;
+    min-width: 28px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--verde-900);
+    color: #fff;
+    font-size: .8rem;
+    text-align: center;
+}
+
+@media (max-width: 900px) {
+    .cartera-grupos {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
