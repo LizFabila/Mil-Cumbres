@@ -31,6 +31,12 @@ return [
         'clabe' => '000000000000000000',
     ],
 
+    // Cartera de clientes (A09). Un cliente con este número de solicitudes o más
+    // es "frecuente"; con menos, "esporádico". Mínimo 2.
+    'cartera' => [
+        'umbral_frecuente' => 3,
+    ],
+
     'imagenes' => [
         // Foto propia del inicio: colocar el archivo en public/img/hero-inicio.jpg.
         // Mientras no exista, se usa la imagen de respaldo (sierra con neblina).
