@@ -14,11 +14,13 @@
 @push('estilos')
 <link rel="stylesheet"
       href="{{ asset('css/acuse-milcumbres.css') }}">
+<link rel="stylesheet"
+      href="{{ asset('css/acuse-celebracion-milcumbres.css') }}">
 @endpush
 
 @section('contenido')
 
-<div class="mc-acuse">
+<div class="mc-acuse" data-celebrar="{{ $solicitud->folio }}">
 
     {{-- ====================================== --}}
     {{-- 01 · PORTADA FOTOGRÁFICA --}}
@@ -381,30 +383,6 @@
                                     </span>
 
                                     <h4>
-                                        Revisamos disponibilidad
-                                    </h4>
-
-                                    <p>
-                                        Revisaremos la fecha
-                                        solicitada. El plazo indicado
-                                        de respuesta es menor a 24 horas.
-                                    </p>
-
-                                </div>
-
-                            </li>
-
-
-                            <li class="mc-acuse-paso">
-
-
-                                <div>
-
-                                    <span class="mc-acuse-paso__etiqueta">
-                                        SEGUNDO PASO
-                                    </span>
-
-                                    <h4>
                                         Registras tu pago
                                     </h4>
 
@@ -426,7 +404,7 @@
                                 <div>
 
                                     <span class="mc-acuse-paso__etiqueta">
-                                        TERCER PASO
+                                        SEGUNDO PASO
                                     </span>
 
                                     <h4>
@@ -490,6 +468,119 @@
                     </div>
 
                 </div>
+
+
+                {{-- ================================= --}}
+                {{-- PREPÁRATE PARA TU VISITA --}}
+                {{-- ================================= --}}
+
+                @php
+                    $conRequisitos = $solicitud->experiencias
+                        ->filter(fn ($e) => filled($e->requisitos));
+                @endphp
+
+                <section class="mc-acuse-prepara"
+                         aria-labelledby="mc-acuse-prepara-titulo">
+
+                    <div class="mc-acuse-prepara__encabezado">
+
+                        <span class="mc-acuse-eyebrow">
+                            ANTES DE SALIR
+                        </span>
+
+                        <h3 id="mc-acuse-prepara-titulo">
+                            Prepárate para
+                            <em>tu visita.</em>
+                        </h3>
+
+                        <p>
+                            Las experiencias se realizan al aire libre y en zona
+                            de montaña. Con esta lista llegarás listo para
+                            disfrutar con seguridad.
+                        </p>
+
+                    </div>
+
+                    <ul class="mc-acuse-prepara__lista">
+
+                        <li>
+                            <span class="mc-acuse-prepara__icono" aria-hidden="true">🥾</span>
+                            <div>
+                                <strong>Botas o calzado de montaña</strong>
+                                <p>Con suela antiderrapante y que ya hayas usado antes. Evita sandalias y zapatos nuevos.</p>
+                            </div>
+                        </li>
+
+                        <li>
+                            <span class="mc-acuse-prepara__icono" aria-hidden="true">🧥</span>
+                            <div>
+                                <strong>Ropa en capas</strong>
+                                <p>Las mañanas en la montaña son frías y el clima cambia rápido. Lleva chamarra ligera e impermeable.</p>
+                            </div>
+                        </li>
+
+                        <li>
+                            <span class="mc-acuse-prepara__icono" aria-hidden="true">💧</span>
+                            <div>
+                                <strong>Agua y algo de comer</strong>
+                                <p>Al menos 1 litro de agua por persona y un snack ligero. Usa botella reutilizable.</p>
+                            </div>
+                        </li>
+
+                        <li>
+                            <span class="mc-acuse-prepara__icono" aria-hidden="true">🧢</span>
+                            <div>
+                                <strong>Protección solar</strong>
+                                <p>Gorra o sombrero, lentes de sol y bloqueador. A esta altitud el sol quema más.</p>
+                            </div>
+                        </li>
+
+                        <li>
+                            <span class="mc-acuse-prepara__icono" aria-hidden="true">🎒</span>
+                            <div>
+                                <strong>Mochila pequeña</strong>
+                                <p>Que te deje las manos libres. Incluye repelente, medicamentos personales y una bolsa para tu basura.</p>
+                            </div>
+                        </li>
+
+                        <li>
+                            <span class="mc-acuse-prepara__icono" aria-hidden="true">🪪</span>
+                            <div>
+                                <strong>Identificación y tu folio</strong>
+                                <p>Ten a la mano tu folio <b>{{ $solicitud->folio }}</b> y una identificación. Llega 15 minutos antes.</p>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                    @if ($conRequisitos->isNotEmpty())
+
+                        <div class="mc-acuse-prepara__requisitos">
+
+                            <strong class="mc-acuse-prepara__subtitulo">
+                                Requisitos de tus experiencias
+                            </strong>
+
+                            <ul>
+                                @foreach ($conRequisitos as $exp)
+                                    <li>
+                                        <span>{{ $exp->nombre }}</span>
+                                        <p>{{ $exp->requisitos }}</p>
+                                    </li>
+                                @endforeach
+                            </ul>
+
+                        </div>
+
+                    @endif
+
+                    <p class="mc-acuse-prepara__nota">
+                        <span aria-hidden="true">🌱</span>
+                        Cuidamos la montaña juntos: no dejes basura, no salgas
+                        de los senderos y no alimentes a la fauna.
+                    </p>
+
+                </section>
 
 
                 {{-- ================================= --}}
@@ -579,6 +670,8 @@
 {{-- ====================================== --}}
 
 @push('scripts')
+
+<script src="{{ asset('js/acuse-celebracion.js') }}" defer></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

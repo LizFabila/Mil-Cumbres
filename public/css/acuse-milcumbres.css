@@ -562,16 +562,6 @@
     counter-reset: none;
 }
 
-.mc-acuse-pasos::before {
-    content: "";
-    position: absolute;
-    top: 13px;
-    bottom: 22px;
-    left: 23px;
-    width: 1px;
-    background: rgba(255,255,255,.26);
-}
-
 .mc-acuse-paso {
     position: relative;
     display: grid;
