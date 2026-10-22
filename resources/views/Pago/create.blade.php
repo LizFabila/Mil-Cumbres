@@ -553,10 +553,47 @@
                                     required
                                 >
 
-                                <span class="mc-c09__ayuda">
-                                    Introduce la referencia
-                                    que aparece en tu comprobante.
-                                </span>
+                                
+                                    {{-- AYUDA PARA IDENTIFICAR LA REFERENCIA BANCARIA --}}
+
+                                    <details class="mc-c09__guia-referencia">
+
+                                        <summary>
+                                            <span aria-hidden="true">ⓘ</span>
+
+                                            ¿Dónde encuentro mi referencia bancaria?
+
+                                            <span class="mc-c09__guia-flecha"
+                                                aria-hidden="true">⌄</span>
+                                        </summary>
+
+                                        <div class="mc-c09__guia-contenido">
+
+                                            <p>
+                                                Busca en tu comprobante de transferencia
+                                                el apartado llamado
+                                                <strong>"Referencia bancaria"</strong>
+                                                o <strong>"Número de referencia"</strong>.
+                                                Su ubicación puede variar según el banco.
+                                            </p>
+
+                                            <img
+                                                src="{{ asset('img/ejemplo-referencia-bancaria.png') }}"
+                                                alt="Ejemplo de un comprobante de transferencia con la referencia bancaria resaltada en verde."
+                                                loading="lazy"
+                                                width="900"
+                                                height="920"
+                                            >
+
+                                            <small>
+                                                * Imagen ilustrativa. Utiliza únicamente
+                                                la referencia real de tu transferencia.
+                                            </small>
+
+                                        </div>
+
+                                    </details>
+
 
                                 @error('referencia')
 

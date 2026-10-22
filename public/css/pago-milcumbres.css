@@ -1312,3 +1312,78 @@
     }
 
 }
+
+
+/* AYUDA DESPLEGABLE · REFERENCIA BANCARIA */
+
+.mc-c09__guia-referencia {
+    margin-top: 15px;
+    border: 1px solid #D3E1D3;
+    border-radius: 5px;
+    background: #F8FBF7;
+    overflow: hidden;
+}
+
+.mc-c09__guia-referencia summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    color: #143D36;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+}
+
+.mc-c09__guia-referencia summary::-webkit-details-marker {
+    display: none;
+}
+
+.mc-c09__guia-referencia summary:focus-visible {
+    outline: 3px solid #5AA0D8;
+    outline-offset: -3px;
+}
+
+.mc-c09__guia-referencia summary > span:first-child {
+    color: #1B6B57;
+    font-size: 18px;
+}
+
+.mc-c09__guia-flecha {
+    margin-left: auto;
+    font-size: 21px;
+    transition: transform .2s;
+}
+
+.mc-c09__guia-referencia[open] .mc-c09__guia-flecha {
+    transform: rotate(180deg);
+}
+
+.mc-c09__guia-contenido {
+    padding: 17px;
+    border-top: 1px solid #D3E1D3;
+}
+
+.mc-c09__guia-contenido p {
+    margin: 0 0 15px;
+    color: #5F716B;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.mc-c09__guia-contenido img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.mc-c09__guia-contenido small {
+    display: block;
+    margin-top: 12px;
+    color: #70877A;
+    font-size: 10px;
+    line-height: 1.7;
+}
+
