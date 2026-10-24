@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -64,6 +65,45 @@ class Experiencia extends Model
             ->withPivot('fecha_deseada', 'cant_persona', 'nota')
             ->wherePivotNull('deleted_at')
             ->withTimestamps();
+    }
+
+    /** Calificaciones que los clientes dieron a esta experiencia. */
+    public function calificaciones(): HasMany
+    {
+        return $this->hasMany(Calificacion::class, 'id_experiencia', 'id_experiencia');
+    }
+
+    /**
+     * Datos del bloque público de opiniones en el detalle de la experiencia.
+     *  - El promedio usa todas las calificaciones no ocultas y se muestra
+     *    a partir del mínimo configurado.
+     *  - Los testimonios solo incluyen opiniones publicadas con permiso del cliente.
+     */
+    public function resumenOpiniones(int $testimonios = 6): array
+    {
+        $vigentes = Calificacion::query()
+            ->where('id_experiencia', $this->id_experiencia)
+            ->vigentes();
+        $metricas = Calificacion::metricas($vigentes);
+
+        $aspectos = AspectoCalificacion::ordenados()->get()->map(fn ($a) => [
+            'nombre' => $a->nombre,
+            'promedio' => CalificacionAspecto::where('id_aspecto', $a->id_aspecto)
+                ->whereIn('id_calificacion', (clone $vigentes)->select('id_calificacion'))
+                ->avg('puntuacion'),
+        ])->filter(fn ($a) => $a['promedio'] !== null)->values();
+
+        return [
+            'metricas' => $metricas,
+            'mostrarPromedio' => $metricas['total'] >= (int) config('milcumbres.calificaciones.minimo_para_promedio', 3),
+            'aspectos' => $aspectos,
+            'testimonios' => $this->calificaciones()->publicadas()
+                ->whereNotNull('comentario')
+                ->with(['persona', 'asignacion'])
+                ->latest()
+                ->take($testimonios)
+                ->get(),
+        ];
     }
 
 

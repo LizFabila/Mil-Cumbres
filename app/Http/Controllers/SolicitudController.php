@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Calificacion;
 use App\Models\Experiencia;
 use App\Models\Pago;
 use App\Models\Solicitud;
@@ -215,13 +216,21 @@ public function index(Request $request): View
         ->groupBy('id_solicitud_consultoria');
 
 
+    // 3b. CALIFICACIONES QUE YA DIO EL USUARIO (por experiencia de cada solicitud)
+
+    $calificacionesMias = Calificacion::where('id_persona', $request->user()->id_persona)
+        ->get()
+        ->keyBy('id_asigna_exp');
+
+
     // 4. ENVIAR DATOS A LA VISTA
 
     return view('Solicitudes.index', compact(
         'solicitudes',
         'consultorias',
         'seguimientos',
-        'pagos'
+        'pagos',
+        'calificacionesMias'
     ));
 }
 

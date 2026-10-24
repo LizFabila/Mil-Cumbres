@@ -76,4 +76,16 @@ return [
             'Cultural' => $u('1518105779142-d975f22f1b0a', 900),
         ],
     ],
+
+    // Calificaciones de experiencias (tablas calificaciones, calificacion_aspectos
+    // y aspectos_calificacion).
+    'calificaciones' => [
+        // Días para calificar, contados desde la fecha de la experiencia
+        // o desde que la solicitud se marcó como completada (lo que ocurra después).
+        'dias_para_calificar' => 30,
+        // Días en que el cliente puede editar su calificación después de enviarla.
+        'dias_para_editar' => 7,
+        // Mínimo de calificaciones publicadas para mostrar el promedio en el sitio.
+        'minimo_para_promedio' => 3,
+    ],
 ];

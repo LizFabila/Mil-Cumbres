@@ -29,13 +29,24 @@
 
     document.documentElement.classList.add('js-reveal');
 
+    var UMBRAL = 0.12;
+
     var observador = new IntersectionObserver(function (entradas, obs) {
         entradas.forEach(function (entrada) {
             if (!entrada.isIntersecting) return;
+
+            // Un elemento más alto que la pantalla nunca llega a mostrar el 12 %
+            // de sí mismo (p. ej. "Mis solicitudes" con muchas reservaciones),
+            // así que se revela en cuanto empieza a entrar.
+            var altoPantalla = entrada.rootBounds ? entrada.rootBounds.height : window.innerHeight;
+            var esMuyAlto = entrada.boundingClientRect.height * UMBRAL > altoPantalla;
+
+            if (entrada.intersectionRatio < UMBRAL && !esMuyAlto) return;
+
             entrada.target.classList.add('is-visible');
             obs.unobserve(entrada.target);
         });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: [0, UMBRAL], rootMargin: '0px 0px -40px 0px' });
 
     elementos.forEach(function (el) { observador.observe(el); });
 })();

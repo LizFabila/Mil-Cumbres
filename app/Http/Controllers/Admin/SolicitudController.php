@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Solicitud;
+use App\Notifications\InvitacionCalificar;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use Throwable;
 
 class SolicitudController extends Controller
 {
@@ -72,12 +74,31 @@ class SolicitudController extends Controller
             'estado' => ['required', Rule::in(Solicitud::ESTADOS)],
         ]);
 
+        $seCompleta = $datos['estado'] === 'completada' && $solicitud->estado !== 'completada';
+
         $solicitud->update($datos);
 
-        return back()->with(
-            'ok',
-            "Solicitud {$solicitud->folio} marcada como {$datos['estado']}."
-        );
+        $mensaje = "Solicitud {$solicitud->folio} marcada como {$datos['estado']}.";
+
+        // Al completarse, se invita al cliente a calificar las experiencias que ya vivió.
+        if ($seCompleta && $solicitud->persona) {
+            $solicitud->load('experiencias');
+
+            if (InvitacionCalificar::experienciasVividas($solicitud)->isEmpty()) {
+                $mensaje .= ' No se envió la invitación para calificar porque la fecha de la experiencia aún no llega;'
+                    .' el cliente verá el aviso en «Mis solicitudes» a partir de esa fecha.';
+            } else {
+                try {
+                    $solicitud->persona->notify(new InvitacionCalificar($solicitud));
+                    $mensaje .= ' Se envió al cliente la invitación para calificar.';
+                } catch (Throwable $e) {
+                    report($e);
+                    $mensaje .= ' No se pudo enviar el correo de invitación; el cliente verá el aviso en «Mis solicitudes».';
+                }
+            }
+        }
+
+        return back()->with('ok', $mensaje);
     }
 
     /** Retirar una solicitud cancelada del panel administrativo */

@@ -490,9 +490,16 @@
 
                     </div>
 
-                    
+
 
                 </article>
+
+
+                {{-- ================================= --}}
+                {{-- OPINIONES VERIFICADAS (C16) --}}
+                {{-- ================================= --}}
+
+                @include('Calificaciones._opiniones', ['experiencia' => $experiencia])
 
 
                 {{-- ================================= --}}

@@ -607,6 +607,10 @@
 
                                 </dl>
 
+                                {{-- CALIFICAR LAS EXPERIENCIAS VIVIDAS (C16) --}}
+
+                                @include('Calificaciones._invitacion', ['solicitud' => $s])
+
                                 {{-- ACCIONES DE LA SOLICITUD --}}
 
                                 <div class="mc-c08__reserva-acciones">

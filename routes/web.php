@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RecuperarContrasenaController;
 use App\Http\Controllers\Auth\RegistroController;
 use App\Http\Controllers\Auth\VerificarCorreoController;
+use App\Http\Controllers\CalificacionController;
 use App\Http\Controllers\ConsultoriaController;
 use App\Http\Controllers\ExperienciaController;
 use App\Http\Controllers\InicioController;
@@ -65,6 +66,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/consultoria/solicitar', [ConsultoriaController::class, 'create'])->name('consultoria.create'); // C11
     Route::post('/consultoria/solicitar', [ConsultoriaController::class, 'store'])->name('consultoria.store');
     Route::get('/consultoria/{consultoria}/acuse', [ConsultoriaController::class, 'acuse'])->name('consultoria.acuse'); // C12
+
+    // Solo en entorno local: ver el formulario sin reglas y sin guardar.
+    Route::get('/calificar/vista-previa', [CalificacionController::class, 'vistaPrevia'])->name('calificaciones.vista-previa');
+    Route::get('/calificar/{asignacion}', [CalificacionController::class, 'create'])
+        ->whereNumber('asignacion')->name('calificaciones.create');                                     // C16
+    Route::post('/calificar/{asignacion}', [CalificacionController::class, 'store'])
+        ->whereNumber('asignacion')->name('calificaciones.store');
 });
 
 /*
@@ -102,4 +110,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/identidad', [Admin\MarcaController::class, 'edit'])->name('marca.edit');                        // A10
     Route::put('/identidad', [Admin\MarcaController::class, 'update'])->name('marca.update');
     Route::delete('/identidad/logo', [Admin\MarcaController::class, 'restaurarLogo'])->name('marca.logo.restaurar');
+
+    Route::get('/opiniones', [Admin\CalificacionController::class, 'index'])->name('calificaciones.index');       // A11
+    Route::patch('/opiniones/{calificacion}/estado', [Admin\CalificacionController::class, 'estado'])->name('calificaciones.estado');
+    Route::patch('/opiniones/{calificacion}/respuesta', [Admin\CalificacionController::class, 'respuesta'])->name('calificaciones.respuesta');
 });

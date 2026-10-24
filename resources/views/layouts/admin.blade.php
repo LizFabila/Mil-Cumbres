@@ -17,6 +17,7 @@
 @php
     $pendientes = \App\Models\Solicitud::where('estado', 'pendiente')->count();
     $pagosPendientes = \App\Models\Pago::where('estado', 'pendiente')->count();
+    $opinionesPorAtender = \App\Models\Calificacion::requierenAtencion()->count();
     $tituloActual = match (true) {
         request()->routeIs('admin.resumen') => 'Panel general',
         request()->routeIs('admin.solicitudes.*') => 'Solicitudes',
@@ -26,6 +27,7 @@
         request()->routeIs('admin.experiencias.*') => 'Experiencias',
         request()->routeIs('admin.usuarios.*') => 'Usuarios',
         request()->routeIs('admin.marca.*') => 'Identidad del sitio',
+        request()->routeIs('admin.calificaciones.*') => 'Opiniones',
         default => 'Administración',
     };
 @endphp
@@ -37,6 +39,7 @@
     <symbol id="mc-i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M8 14h3M14 14h3"/></symbol>
     <symbol id="mc-i-chat" viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-8 8 9 9 0 0 1-4-.9L3 20l1.5-4A8 8 0 1 1 20 11.5Z"/><path d="M8 10h8M8 14h5"/></symbol>
     <symbol id="mc-i-leaf" viewBox="0 0 24 24"><path d="M20 4C9 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-5 12-16ZM4 20c3-6 7-9 12-12"/></symbol>
+    <symbol id="mc-i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z"/></symbol>
     <symbol id="mc-i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M17 5a3 3 0 0 1 0 6M17 14a5 5 0 0 1 4 5v1"/></symbol>
     <symbol id="mc-i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
     <symbol id="mc-i-logout" viewBox="0 0 24 24"><path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M14 8l4 4-4 4M8 12h10"/></symbol>
@@ -76,6 +79,11 @@
                     <a href="{{ route('admin.consultorias.index') }}" @class(['mc-adm-nav__link', 'is-active' => request()->routeIs('admin.consultorias.*')])>
                         <span class="mc-adm-nav__icon" aria-hidden="true"><svg><use href="#mc-i-chat"/></svg></span>
                         <span class="mc-adm-nav__name">Consultorías</span>
+                    </a>
+                    <a href="{{ route('admin.calificaciones.index') }}" @class(['mc-adm-nav__link', 'is-active' => request()->routeIs('admin.calificaciones.*')])>
+                        <span class="mc-adm-nav__icon" aria-hidden="true"><svg><use href="#mc-i-star"/></svg></span>
+                        <span class="mc-adm-nav__name">Opiniones</span>
+                        @if($opinionesPorAtender > 0)<span class="mc-adm-nav__count">{{ $opinionesPorAtender }}</span>@endif
                     </a>
                 </div>
             </section>

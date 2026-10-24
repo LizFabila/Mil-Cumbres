@@ -1,0 +1,330 @@
+/* ==================================================
+   MIL CUMBRES · A11 OPINIONES DE CLIENTES
+   Métricas (promedio, CSAT, NPS), promedio por aspecto
+   y moderación de calificaciones.
+================================================== */
+
+.mc-a11 {
+    --a11-verde: #143D36;
+    --a11-verde-2: #1B6B57;
+    --a11-texto: #5F716B;
+    --a11-borde: #DCE5DB;
+    --a11-ambar: #D69A2D;
+    --a11-ambar-bg: #FBF3E2;
+    --a11-rojo: #B5473A;
+    --a11-rojo-bg: #FBECEA;
+
+    display: grid;
+    gap: 22px;
+    color: var(--a11-verde);
+}
+
+.mc-a11 .admin-cabecera {
+    margin-bottom: 0;
+}
+
+.mc-a11__oculto {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* ---------- Indicadores ---------- */
+
+.mc-a11__kpis {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.mc-a11__kpi {
+    display: grid;
+    gap: 4px;
+    padding: 18px 20px;
+    border: 1px solid var(--a11-borde);
+    border-radius: 8px;
+    background: #FFFFFF;
+    color: var(--a11-verde);
+    text-decoration: none !important;
+}
+
+.mc-a11__kpi span {
+    color: var(--a11-texto);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.mc-a11__kpi strong {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+}
+
+.mc-a11__kpi small {
+    color: var(--a11-texto);
+    font-size: 12px;
+}
+
+a.mc-a11__kpi:hover {
+    border-color: var(--a11-verde-2);
+}
+
+.mc-a11__kpi--alerta {
+    border-color: #ECC9C3;
+    background: var(--a11-rojo-bg);
+}
+
+.mc-a11__kpi--alerta strong {
+    color: var(--a11-rojo);
+}
+
+/* ---------- Promedio por aspecto ---------- */
+
+.mc-a11__aspectos h2 {
+    margin: 0 0 14px;
+    font-size: 15px;
+}
+
+.mc-a11__aspecto {
+    display: grid;
+    grid-template-columns: minmax(150px, 220px) minmax(0, 1fr) 36px;
+    gap: 14px;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 14px;
+}
+
+.mc-a11__aspecto strong {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.mc-a11__pista {
+    display: block;
+    height: 10px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #EEF3F0;
+}
+
+.mc-a11__pista span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--a11-verde-2);
+}
+
+/* ---------- Lista de opiniones ---------- */
+
+.mc-a11__lista {
+    display: grid;
+    gap: 14px;
+}
+
+.mc-a11__opinion {
+    display: grid;
+    gap: 14px;
+    padding: 20px 22px;
+    border: 1px solid var(--a11-borde);
+    border-radius: 8px;
+    background: #FFFFFF;
+}
+
+.mc-a11__opinion--bajo {
+    border-left: 4px solid var(--a11-rojo);
+}
+
+.mc-a11__opinion-cabeza {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px 18px;
+}
+
+.mc-a11__opinion-cabeza > div:first-child {
+    display: grid;
+    gap: 3px;
+}
+
+.mc-a11__opinion-cabeza strong {
+    font-size: 16px;
+}
+
+.mc-a11__opinion-cabeza small {
+    color: var(--a11-texto);
+    font-size: 13px;
+}
+
+.mc-a11__estrellas {
+    color: var(--a11-ambar);
+    font-size: 17px;
+    letter-spacing: 1px;
+}
+
+.mc-a11__estrellas .vacia {
+    color: #D7DDD9;
+}
+
+.mc-a11__etiquetas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.mc-a11__chip {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #EEF0EF;
+    color: var(--a11-texto);
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.mc-a11__chip--pendiente {
+    background: var(--a11-ambar-bg);
+    color: #8A5C10;
+}
+
+.mc-a11__chip--publicada {
+    background: #E3F0EA;
+    color: var(--a11-verde-2);
+}
+
+.mc-a11__chip--bajo {
+    background: var(--a11-rojo-bg);
+    color: var(--a11-rojo);
+}
+
+.mc-a11__comentario {
+    margin: 0;
+    color: #33463F;
+    font-size: 15px;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+.mc-a11__comentario--vacio {
+    color: var(--a11-texto);
+    font-style: italic;
+}
+
+.mc-a11__datos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    margin: 0;
+    font-size: 13px;
+}
+
+.mc-a11__datos div {
+    display: flex;
+    gap: 6px;
+}
+
+.mc-a11__datos dt {
+    color: var(--a11-texto);
+}
+
+.mc-a11__datos dd {
+    margin: 0;
+    font-weight: 700;
+}
+
+.mc-a11__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid #EEF2EE;
+}
+
+.mc-a11__moderar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+}
+
+.mc-a11__responder {
+    flex: 1 1 320px;
+    max-width: 520px;
+}
+
+.mc-a11__responder summary {
+    color: var(--a11-verde-2);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: right;
+}
+
+.mc-a11__responder form {
+    display: grid;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.mc-a11__responder button {
+    justify-self: end;
+}
+
+.mc-a11__respuesta {
+    margin: 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--a11-verde-2);
+    border-radius: 0 6px 6px 0;
+    background: #F3F7F5;
+    color: var(--a11-texto);
+    font-size: 13px;
+}
+
+.mc-a11__respuesta strong {
+    color: var(--a11-verde-2);
+}
+
+.mc-a11__vacio {
+    text-align: center;
+}
+
+.mc-a11__vacio p {
+    margin: 6px 0 0;
+    color: var(--a11-texto);
+}
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 1100px) {
+    .mc-a11__kpis {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .mc-a11__kpis {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .mc-a11__aspecto {
+        grid-template-columns: minmax(0, 1fr) 36px;
+    }
+
+    .mc-a11__aspecto .mc-a11__pista {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    .mc-a11__responder summary {
+        text-align: left;
+    }
+}
