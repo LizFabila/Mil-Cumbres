@@ -68,38 +68,89 @@ class SolicitudController extends Controller
     }
 
     /** Cambiar el estado de una solicitud */
-    public function estado(Request $request, Solicitud $solicitud): RedirectResponse
-    {
-        $datos = $request->validate([
-            'estado' => ['required', Rule::in(Solicitud::ESTADOS)],
+    
+/** Cambiar el estado de una solicitud */
+public function estado(
+    Request $request,
+    Solicitud $solicitud
+): RedirectResponse {
+
+    $datos = $request->validate([
+        'estado' => [
+            'required',
+            Rule::in(Solicitud::ESTADOS)
+        ],
+    ]);
+
+    // Verificar si existe un pago aprobado.
+    $pagoAprobado = $solicitud->pagos()
+        ->where('estado', 'aprobado')
+        ->exists();
+
+    // Impedir la confirmación sin un pago aprobado.
+    if (
+        $datos['estado'] === 'confirmada' &&
+        $solicitud->estado !== 'confirmada' &&
+        ! $pagoAprobado
+    ) {
+        return back()->withErrors([
+            'estado' =>
+                'Antes de confirmar esta solicitud, ' .
+                'se debe aprobar el pago correspondiente. ' .
+                'Verifica el comprobante en el módulo de pagos.'
         ]);
+    }
 
-        $seCompleta = $datos['estado'] === 'completada' && $solicitud->estado !== 'completada';
+    $seCompleta =
+        $datos['estado'] === 'completada' &&
+        $solicitud->estado !== 'completada';
 
-        $solicitud->update($datos);
+    $solicitud->update($datos);
 
-        $mensaje = "Solicitud {$solicitud->folio} marcada como {$datos['estado']}.";
+    $mensaje = "Solicitud {$solicitud->folio} marcada como {$datos['estado']}.";
 
-        // Al completarse, se invita al cliente a calificar las experiencias que ya vivió.
-        if ($seCompleta && $solicitud->persona) {
-            $solicitud->load('experiencias');
+    // Al completarse, invitar al cliente a calificar.
+    if ($seCompleta && $solicitud->persona) {
 
-            if (InvitacionCalificar::experienciasVividas($solicitud)->isEmpty()) {
-                $mensaje .= ' No se envió la invitación para calificar porque la fecha de la experiencia aún no llega;'
-                    .' el cliente verá el aviso en «Mis solicitudes» a partir de esa fecha.';
-            } else {
-                try {
-                    $solicitud->persona->notify(new InvitacionCalificar($solicitud));
-                    $mensaje .= ' Se envió al cliente la invitación para calificar.';
-                } catch (Throwable $e) {
-                    report($e);
-                    $mensaje .= ' No se pudo enviar el correo de invitación; el cliente verá el aviso en «Mis solicitudes».';
-                }
+        $solicitud->load('experiencias');
+
+        if (
+            InvitacionCalificar::experienciasVividas(
+                $solicitud
+            )->isEmpty()
+        ) {
+
+            $mensaje .=
+                ' No se envió la invitación para calificar ' .
+                'porque la fecha de la experiencia aún no llega;' .
+                ' el cliente verá el aviso en «Mis solicitudes» ' .
+                'a partir de esa fecha.';
+
+        } else {
+
+            try {
+
+                $solicitud->persona->notify(
+                    new InvitacionCalificar($solicitud)
+                );
+
+                $mensaje .=
+                    ' Se envió al cliente la invitación para calificar.';
+
+            } catch (Throwable $e) {
+
+                report($e);
+
+                $mensaje .=
+                    ' No se pudo enviar el correo de invitación;' .
+                    ' el cliente verá el aviso en «Mis solicitudes».';
             }
         }
-
-        return back()->with('ok', $mensaje);
     }
+
+    return back()->with('ok', $mensaje);
+}
+
 
     /** Retirar una solicitud cancelada del panel administrativo */
     public function destroy(Solicitud $solicitud): RedirectResponse
