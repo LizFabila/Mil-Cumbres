@@ -62,7 +62,7 @@ class Experiencia extends Model
             'id_solicitud'
         )
             ->using(AsignaExperiencia::class)
-            ->withPivot('fecha_deseada', 'cant_persona', 'nota')
+            ->withPivot('fecha_deseada', 'cant_persona', 'nota', 'id_disponibilidad')
             ->wherePivotNull('deleted_at')
             ->withTimestamps();
     }
@@ -161,36 +161,77 @@ class Experiencia extends Model
             ->max(fn ($d) => $d->pivot->cupo);
     }
 
-    /** Personas ya apartadas en solicitudes vigentes (no canceladas) para esa fecha. */
-    public function personasReservadas(
-    Carbon|string $fecha,
-    ?int $exceptoSolicitud = null
-): int {
-    $fecha = Carbon::parse($fecha)->toDateString();
+    /** Cupo de un horario concreto (el que se guardó en la tabla de disponibilidad). */
+    public function cupoParaHorario(int $idDisponibilidad): int
+    {
+        $disp = $this->disponibilidades->firstWhere('id_disponibilidad', $idDisponibilidad);
 
-    return (int) $this->solicitudes()
-        ->where('solicitudes.estado', '!=', 'cancelada')
-        ->where(function ($query) use ($fecha) {
-            $query->where(function ($query) use ($fecha) {
-                $query->whereNotNull('asigna_experiencia.fecha_deseada')
-                    ->whereDate('asigna_experiencia.fecha_deseada', $fecha);
-            })->orWhere(function ($query) use ($fecha) {
-                $query->whereNull('asigna_experiencia.fecha_deseada')
-                    ->whereDate('solicitudes.fecha_deseada', $fecha);
-            });
-        })
-        ->when($exceptoSolicitud, function ($query) use ($exceptoSolicitud) {
-            $query->where(
-                'solicitudes.id_solicitud',
-                '!=',
-                $exceptoSolicitud
-            );
-        })
-        ->sum(DB::raw('COALESCE(asigna_experiencia.cant_persona, solicitudes.cant_persona)'));
-}
+        return $disp ? (int) $disp->pivot->cupo : 0;
+    }
+
+    /**
+     * Personas ya apartadas en solicitudes vigentes (no canceladas) para esa fecha.
+     * Si se indica un horario, cuenta solo las reservaciones de ese horario.
+     */
+    public function personasReservadas(
+        Carbon|string $fecha,
+        ?int $exceptoSolicitud = null,
+        ?int $idDisponibilidad = null
+    ): int {
+        $fecha = Carbon::parse($fecha)->toDateString();
+
+        return (int) $this->solicitudes()
+            ->where('solicitudes.estado', '!=', 'cancelada')
+            ->where(function ($query) use ($fecha) {
+                $query->where(function ($query) use ($fecha) {
+                    $query->whereNotNull('asigna_experiencia.fecha_deseada')
+                        ->whereDate('asigna_experiencia.fecha_deseada', $fecha);
+                })->orWhere(function ($query) use ($fecha) {
+                    $query->whereNull('asigna_experiencia.fecha_deseada')
+                        ->whereDate('solicitudes.fecha_deseada', $fecha);
+                });
+            })
+            ->when($exceptoSolicitud, function ($query) use ($exceptoSolicitud) {
+                $query->where('solicitudes.id_solicitud', '!=', $exceptoSolicitud);
+            })
+            ->when($idDisponibilidad, function ($query) use ($idDisponibilidad) {
+                $query->where('asigna_experiencia.id_disponibilidad', $idDisponibilidad);
+            })
+            ->sum(DB::raw('COALESCE(asigna_experiencia.cant_persona, solicitudes.cant_persona)'));
+    }
 
     public function lugaresDisponibles(Carbon|string $fecha): int
     {
         return max(0, $this->cupoParaFecha($fecha) - $this->personasReservadas($fecha));
+    }
+
+    public function lugaresParaHorario(Carbon|string $fecha, int $idDisponibilidad): int
+    {
+        return max(0, $this->cupoParaHorario($idDisponibilidad) - $this->personasReservadas($fecha, null, $idDisponibilidad));
+    }
+
+    /**
+     * Revisa que el horario pertenezca a la experiencia, caiga en el día de la fecha
+     * y tenga lugares para el número de personas. Devuelve el mensaje de error o null.
+     */
+    public function errorDeReserva(int $idDisponibilidad, Carbon|string $fecha, int $personas): ?string
+    {
+        $disp = $this->disponibilidades->firstWhere('id_disponibilidad', $idDisponibilidad);
+
+        if (! $disp) {
+            return "Elige un horario válido para {$this->nombre}.";
+        }
+
+        if ($disp->dias_semana !== Disponibilidad::diaDeFecha(Carbon::parse($fecha))) {
+            return "El horario elegido de {$this->nombre} no corresponde al día de la fecha.";
+        }
+
+        $libres = $this->lugaresParaHorario($fecha, $idDisponibilidad);
+
+        if ($personas > $libres) {
+            return "{$this->nombre} solo tiene {$libres} lugares en ese horario para esa fecha.";
+        }
+
+        return null;
     }
 }

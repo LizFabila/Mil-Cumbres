@@ -393,14 +393,16 @@
 
                         <div class="mc-detalle-horarios">
 
-                            @foreach ($horarios as $d)
+                            {{-- Un día por bloque; si hay varios horarios el mismo día, se listan debajo. --}}
+                            @foreach ($horarios->groupBy('dias_semana') as $grupoDia)
+                            @foreach ($grupoDia as $d)
 
-                                <div class="mc-detalle-horario">
+                                <div class="mc-detalle-horario{{ $loop->first ? '' : ' mc-detalle-horario--continua' }}">
 
                                     <div class="mc-detalle-horario__dia">
 
                                         <strong>
-                                            {{ $d->dia_texto }}
+                                            @if ($loop->first){{ $d->dia_texto }}@endif
                                         </strong>
 
                                     </div>
@@ -430,6 +432,7 @@
 
                                 </div>
 
+                            @endforeach
                             @endforeach
 
                         </div>
@@ -684,12 +687,41 @@
 
                         <div class="mc-detalle-reserva__campo">
 
+                            <label for="mc-detalle-horario">
+                                Horario
+                                <span>*</span>
+                            </label>
+
+                            <select
+                                id="mc-detalle-horario"
+                                name="horarios[{{ $experiencia->id_experiencia }}]"
+                                required
+                                @guest disabled @endguest
+                            >
+                                <option value="">Elige primero una fecha</option>
+                                @foreach ($horarios as $d)
+                                    <option
+                                        value="{{ $d->id_disponibilidad }}"
+                                        data-dia="{{ strtolower($d->dias_semana) }}"
+                                        data-cupo="{{ $d->pivot->cupo }}"
+                                        @selected(old('horarios.' . $experiencia->id_experiencia) == $d->id_disponibilidad)
+                                    >
+                                        {{ $d->dia_texto }} · {{ $d->horario }} (máx. {{ $d->pivot->cupo }} personas)
+                                    </option>
+                                @endforeach
+                            </select>
+
+                        </div>
+
+                        <div class="mc-detalle-reserva__campo">
+
                             <label for="mc-detalle-personas">
                                 Número de personas
+                                <span>*</span>
 
                                 @if ($cupoMaximo)
 
-                                    <span>
+                                    <span id="mc-detalle-max">
                                         Máximo {{ $cupoMaximo }}
                                     </span>
 
@@ -1111,6 +1143,58 @@ document.addEventListener('DOMContentLoaded', function () {
             fecha.setCustomValidity('');
         });
     }
+    // Horario: aparecen solo los de la fecha elegida; el cupo del horario limita las personas.
+    const horarioSel = document.getElementById('mc-detalle-horario');
+    const personasInput = document.getElementById('mc-detalle-personas');
+    const maxTexto = document.getElementById('mc-detalle-max');
+    const cupoGeneral = {{ (int) $cupoMaximo }};
+    const opcionesHorario = horarioSel
+        ? Array.from(horarioSel.options).filter(o => o.value).map(o => o.cloneNode(true))
+        : [];
+
+    function ajustarPersonas() {
+        if (!horarioSel || !personasInput) return;
+        const elegida = horarioSel.selectedOptions[0];
+        const cupo = elegida && elegida.dataset.cupo ? Number(elegida.dataset.cupo) : cupoGeneral;
+        if (cupo > 0) {
+            personasInput.max = cupo;
+            if (Number(personasInput.value) > cupo) personasInput.value = cupo;
+            if (maxTexto) maxTexto.textContent = 'Máximo ' + cupo;
+        }
+        recalcularTotal();
+    }
+
+    function filtrarHorarios() {
+        if (!horarioSel) return;
+        const fechaElegida = leerFecha(fecha.value);
+        const dia = fechaElegida ? nombresDias[fechaElegida.getDay()] : null;
+        const previa = horarioSel.value;
+        const coinciden = dia ? opcionesHorario.filter(o => o.dataset.dia === dia) : [];
+
+        horarioSel.replaceChildren();
+        horarioSel.add(new Option(
+            dia ? (coinciden.length ? 'Elige un horario' : 'Sin horarios ese día') : 'Elige primero una fecha',
+            ''
+        ));
+        coinciden.forEach(o => horarioSel.add(o.cloneNode(true)));
+
+        if (coinciden.length === 1) {
+            horarioSel.value = coinciden[0].value;
+        } else if (coinciden.some(o => o.value === previa)) {
+            horarioSel.value = previa;
+        }
+        ajustarPersonas();
+    }
+
+    const nombresDias = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado']
+        .map(n => n.toLowerCase());
+
+    if (horarioSel) {
+        fecha.addEventListener('change', filtrarHorarios);
+        horarioSel.addEventListener('change', ajustarPersonas);
+        filtrarHorarios();
+    }
+
     if (fecha.value && !validarFecha()) fecha.value = '';
     validarFecha();
 

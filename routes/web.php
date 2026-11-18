@@ -101,6 +101,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::resource('experiencias', Admin\ExperienciaController::class)->except('show');                          // A06 / A07
 
+    Route::resource('zonas', Admin\ZonaController::class)->except('show');                                        // Zonas (catálogo)
+
+    Route::get('/reservas/nueva', [Admin\ReservaController::class, 'create'])->name('reservas.create');           // Reservar a nombre de un cliente
+    Route::post('/reservas', [Admin\ReservaController::class, 'store'])->name('reservas.store');
+
     Route::get('/resumen', [Admin\ResumenController::class, 'index'])->name('resumen');                           // A08
 
     Route::get('/usuarios', [Admin\UsuarioController::class, 'index'])->name('usuarios.index');                   // A09

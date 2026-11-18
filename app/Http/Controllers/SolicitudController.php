@@ -26,6 +26,7 @@ class SolicitudController extends Controller
             'fechas' => (array) $request->query('fechas', []),
             'personas' => (array) $request->query('personas', []),
             'notas' => (array) $request->query('notas', []),
+            'horarios' => (array) $request->query('horarios', []),
         ]);
     }
 
@@ -44,7 +45,11 @@ class SolicitudController extends Controller
             'personas.*' => ['required', 'integer', 'min:1', 'max:500'],
             'notas' => ['nullable', 'array'],
             'notas.*' => ['nullable', 'string', 'max:1000'],
+            'horarios' => ['required', 'array'],
+            'horarios.*' => ['required', 'integer'],
         ], [
+            'horarios.required' => 'Elige un horario para cada experiencia.',
+            'horarios.*.required' => 'Elige un horario para cada experiencia.',
             'experiencias.required' => 'Elige al menos una experiencia.',
             'fechas.required' => 'Selecciona una fecha para cada experiencia.',
             'fechas.*.required' => 'Debes elegir una fecha para cada experiencia.',
@@ -61,6 +66,8 @@ class SolicitudController extends Controller
         $personas = $datos['personas'];
         $notas = $datos['notas'] ?? [];
 
+        $horarios = $datos['horarios'];
+
         foreach ($experiencias as $exp) {
             $id = $exp->id_experiencia;
             $fecha = $fechas[$id] ?? null;
@@ -72,19 +79,15 @@ class SolicitudController extends Controller
                 ]);
             }
 
-            $cupo = $exp->cupoParaFecha($fecha);
-
-            if ($cupo <= 0) {
+            if (!isset($horarios[$id])) {
                 throw ValidationException::withMessages([
-                    "fechas.$id" => "{$exp->nombre} no tiene horario disponible ese día de la semana.",
+                    "horarios.$id" => "Elige un horario para {$exp->nombre}.",
                 ]);
             }
 
-            $libres = $cupo - $exp->personasReservadas($fecha);
-
-            if ($cantidad > $libres) {
+            if ($error = $exp->errorDeReserva((int) $horarios[$id], $fecha, $cantidad)) {
                 throw ValidationException::withMessages([
-                    "personas.$id" => "{$exp->nombre} solo tiene {$libres} lugares disponibles para esa fecha.",
+                    "horarios.$id" => $error,
                 ]);
             }
         }
@@ -103,6 +106,7 @@ class SolicitudController extends Controller
             $fechas,
             $personas,
             $notas,
+            $horarios,
             $primeraFecha,
             $cantPersonas
         ) {
@@ -123,6 +127,7 @@ class SolicitudController extends Controller
                     'fecha_deseada' => $fechas[$id],
                     'cant_persona' => (int) $personas[$id],
                     'nota' => $notas[$id] ?? null,
+                    'id_disponibilidad' => (int) $horarios[$id],
                 ];
             }
 

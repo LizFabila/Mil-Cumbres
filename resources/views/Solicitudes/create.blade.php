@@ -19,6 +19,7 @@
     $fechasPrevias = (array) old('fechas', $fechas);
     $personasPrevias = (array) old('personas', $personas);
     $notasPrevias = (array) old('notas', $notas);
+    $horariosPrevios = (array) old('horarios', $horarios ?? []);
 @endphp
 <div class="mc-c06">
     {{-- ======================================= --}}
@@ -262,6 +263,33 @@
                                                 <p class="calendario-ayuda">
                                                     Verde: disponible · Gris: no disponible
                                                 </p>
+                                            </div>
+                                            <div class="campo">
+                                                <label for="horario_{{ $exp->id_experiencia }}">
+                                                    Horario
+                                                    <span class="mc-c06__obligatorio">*</span>
+                                                </label>
+                                                <select
+                                                    class="control mc-c06__control horario-exp"
+                                                    id="horario_{{ $exp->id_experiencia }}"
+                                                    name="horarios[{{ $exp->id_experiencia }}]"
+                                                    disabled
+                                                >
+                                                    <option value="">Elige primero una fecha</option>
+                                                    @foreach ($exp->disponibilidades as $d)
+                                                        <option
+                                                            value="{{ $d->id_disponibilidad }}"
+                                                            data-dia="{{ strtolower($d->dias_semana) }}"
+                                                            data-cupo="{{ $d->pivot->cupo }}"
+                                                            @selected((string) ($horariosPrevios[$exp->id_experiencia] ?? '') === (string) $d->id_disponibilidad)
+                                                        >
+                                                            {{ $d->dia_texto }} · {{ $d->horario }} (máx. {{ $d->pivot->cupo }} personas)
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('horarios.' . $exp->id_experiencia)
+                                                    <span class="error mc-c06__error" role="alert">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                             <div class="mc-c06__campo-extra">
                                                 <label for="personas-{{ $exp->id_experiencia }}">
@@ -637,6 +665,53 @@ document.addEventListener('DOMContentLoaded', function () {
         return fecha >= manana &&
             dias.includes(normalizar(nombresDias[fecha.getDay()]));
     }
+
+    // Horarios: solo se muestran los de la fecha elegida. Si hay uno, queda seleccionado.
+    function filtrarHorarios(bloque) {
+        const select = bloque.querySelector('.horario-exp');
+        if (!select) return;
+        if (!bloque._horarios) {
+            bloque._horarios = Array.from(select.options)
+                .filter(o => o.value)
+                .map(o => o.cloneNode(true));
+        }
+        const fecha = leerFecha(bloque.querySelector('.calendario-valor').value);
+        const dia = fecha ? normalizar(nombresDias[fecha.getDay()]) : null;
+        const previa = select.value;
+        const coinciden = dia
+            ? bloque._horarios.filter(o => normalizar(o.dataset.dia) === dia)
+            : [];
+
+        select.innerHTML = '';
+        select.add(new Option(
+            dia ? (coinciden.length ? 'Elige un horario' : 'Sin horarios ese día') : 'Elige primero una fecha',
+            ''
+        ));
+        coinciden.forEach(o => select.add(o.cloneNode(true)));
+
+        if (coinciden.length === 1) {
+            select.value = coinciden[0].value;
+        } else if (coinciden.some(o => o.value === previa)) {
+            select.value = previa;
+        }
+        ajustarMaxPersonas(bloque);
+    }
+
+    // El cupo del horario elegido limita el número de personas.
+    function ajustarMaxPersonas(bloque) {
+        const select = bloque.querySelector('.horario-exp');
+        const personas = bloque.querySelector('.personas-exp');
+        if (!select || !personas) return;
+        const opcion = select.selectedOptions[0];
+        const cupo = opcion && opcion.dataset.cupo ? Number(opcion.dataset.cupo) : 0;
+        if (cupo > 0) {
+            personas.max = cupo;
+            if (Number(personas.value) > cupo) personas.value = cupo;
+        } else {
+            personas.removeAttribute('max');
+        }
+        actualizarTotal();
+    }
     // Total = Σ (precio por persona × personas de esa experiencia).
     // Cada tarjeta marcada muestra su propio subtotal.
     function actualizarTotal() {
@@ -812,12 +887,16 @@ document.addEventListener('DOMContentLoaded', function () {
             campo.required = activo;
             bloque.querySelector('.personas-exp').disabled = !activo;
             bloque.querySelector('.notas-exp').disabled = !activo;
+            const horario = bloque.querySelector('.horario-exp');
+            if (horario) horario.disabled = !activo;
             if (activo) {
                 seleccionadas++;
+                filtrarHorarios(bloque);
             } else {
                 campo.value = '';
                 campo.setCustomValidity('');
                 calendario.hidden = true;
+                if (horario) horario.value = '';
             }
         });
         mensaje.hidden = seleccionadas > 0;
@@ -827,10 +906,15 @@ document.addEventListener('DOMContentLoaded', function () {
         check.addEventListener('change', actualizarExperiencias);
     });
     bloques.forEach(function (bloque) {
+        bloque.querySelector('.horario-exp')
+            .addEventListener('change', function () { ajustarMaxPersonas(bloque); });
         bloque.querySelector('.personas-exp')
             .addEventListener('input', actualizarTotal);
         bloque.querySelector('.calendario-valor')
-            .addEventListener('change', actualizarResumen);
+            .addEventListener('change', function () {
+                filtrarHorarios(bloque);
+                actualizarResumen();
+            });
     });
     form.addEventListener('submit', function (evento) {
         const seleccionadas = checks.filter(c => c.checked);
@@ -853,6 +937,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
             campo.setCustomValidity('');
+
+            const horario = bloque.querySelector('.horario-exp');
+            if (horario && !horario.value) {
+                evento.preventDefault();
+                aviso.textContent =
+                    'Elige un horario para cada experiencia.';
+                horario.reportValidity();
+                return;
+            }
         }
         aviso.textContent = '';
     });

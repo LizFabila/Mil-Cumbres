@@ -89,7 +89,7 @@
                     <h2 class="mb-0">Horarios y cupo</h2>
                     <button class="btn btn--secundario btn--chico" type="button" id="agregar-horario">+ Agregar horario</button>
                 </div>
-                <p class="ayuda">Un horario por día. El cupo es el máximo de personas por fecha.</p>
+                <p class="ayuda">Puedes agregar varios horarios, incluso el mismo día (por ejemplo, 9:00–14:00 y 16:00–18:00). El cupo es el máximo de personas por fecha.</p>
                 @error('horarios.*') <span class="error">{{ $message }}</span> @enderror
 
                 <div id="horarios">

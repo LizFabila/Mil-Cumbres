@@ -54,15 +54,24 @@ class SolicitudController extends Controller
         ]);
 
         // Cupo restante por experiencia en la fecha solicitada.
-        $cupos = $solicitud->experiencias->mapWithKeys(fn ($exp) => [
-            $exp->id_experiencia => [
-                'cupo' => $exp->cupoParaFecha($solicitud->fecha_deseada),
-                'ocupado' => $exp->personasReservadas(
-                    $solicitud->fecha_deseada,
-                    $solicitud->id_solicitud
-                ),
-            ],
-        ]);
+        // Cupo del horario elegido para cada experiencia (o del día, si la reservación es anterior a los horarios).
+        $cupos = $solicitud->experiencias->mapWithKeys(function ($exp) use ($solicitud) {
+            $fecha = $exp->pivot->fecha_deseada ?? $solicitud->fecha_deseada;
+            $horario = $exp->pivot->id_disponibilidad;
+
+            return [
+                $exp->id_experiencia => [
+                    'cupo' => $horario
+                        ? $exp->cupoParaHorario((int) $horario)
+                        : $exp->cupoParaFecha($fecha),
+                    'ocupado' => $exp->personasReservadas(
+                        $fecha,
+                        $solicitud->id_solicitud,
+                        $horario ? (int) $horario : null
+                    ),
+                ],
+            ];
+        });
 
         return view('Dashboard.solicitudes.show', compact('solicitud', 'cupos'));
     }

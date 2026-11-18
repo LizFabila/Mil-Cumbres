@@ -22,6 +22,7 @@ class AsignaExperiencia extends Pivot
     protected $fillable = [
         'id_solicitud',
         'id_experiencia',
+        'id_disponibilidad',
         'fecha_deseada',
         'cant_persona',
         'nota',

@@ -571,6 +571,13 @@
     background: #F5F8F3;
 }
 
+/* Horario extra del mismo día: va pegado al de arriba, sin repetir el día. */
+.mc-detalle-horario--continua {
+    min-height: 0;
+    padding-top: 12px;
+    border-top: 0;
+}
+
 .mc-detalle-horario__dia {
     display: flex;
     align-items: center;

@@ -25,6 +25,8 @@
         request()->routeIs('admin.calendario') => 'Calendario',
         request()->routeIs('admin.consultorias.*') => 'Consultorías',
         request()->routeIs('admin.experiencias.*') => 'Experiencias',
+        request()->routeIs('admin.zonas.*') => 'Zonas',
+        request()->routeIs('admin.reservas.*') => 'Añadir reservación',
         request()->routeIs('admin.usuarios.*') => 'Usuarios',
         request()->routeIs('admin.marca.*') => 'Identidad del sitio',
         request()->routeIs('admin.calificaciones.*') => 'Opiniones',
@@ -93,6 +95,14 @@
                     <a href="{{ route('admin.experiencias.index') }}" @class(['mc-adm-nav__link', 'is-active' => request()->routeIs('admin.experiencias.*')])>
                         <span class="mc-adm-nav__icon" aria-hidden="true"><svg><use href="#mc-i-leaf"/></svg></span>
                         <span class="mc-adm-nav__name">Experiencias</span>
+                    </a>
+                    <a href="{{ route('admin.zonas.index') }}" @class(['mc-adm-nav__link', 'is-active' => request()->routeIs('admin.zonas.*')])>
+                        <span class="mc-adm-nav__icon" aria-hidden="true"><svg><use href="#mc-i-leaf"/></svg></span>
+                        <span class="mc-adm-nav__name">Zonas</span>
+                    </a>
+                    <a href="{{ route('admin.reservas.create') }}" @class(['mc-adm-nav__link', 'is-active' => request()->routeIs('admin.reservas.*')])>
+                        <span class="mc-adm-nav__icon" aria-hidden="true"><svg><use href="#mc-i-request"/></svg></span>
+                        <span class="mc-adm-nav__name">Añadir reservación</span>
                     </a>
                     <a href="{{ route('admin.usuarios.index') }}" @class(['mc-adm-nav__link', 'is-active' => request()->routeIs('admin.usuarios.*')])>
                         <span class="mc-adm-nav__icon" aria-hidden="true"><svg><use href="#mc-i-users"/></svg></span>
