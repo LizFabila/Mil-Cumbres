@@ -18,7 +18,13 @@ class InicioController extends Controller
             ->take(3)
             ->get();
 
-        return view('inicio', compact('tipos', 'destacadas'));
+        // Carrusel del hero: experiencias con horario programado, en el mismo orden que el catálogo.
+        $carrusel = Experiencia::with(['zona', 'catalogo'])
+            ->whereHas('disponibilidades')
+            ->orderBy('nombre')
+            ->get();
+
+        return view('inicio', compact('tipos', 'destacadas', 'carrusel'));
     }
 
     /** C13 · Nuestro modelo */

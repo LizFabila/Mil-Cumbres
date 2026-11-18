@@ -23,9 +23,13 @@
     {{-- HERO PRINCIPAL --}}
     {{-- ======================================= --}}
 
-    <section class="inicio-hero">
+    <section class="inicio-hero"
+             data-hero-carrusel
+             aria-roledescription="carrusel"
+             aria-label="Bienvenida y experiencias disponibles">
 
-        <div class="inicio-hero__foto">
+        {{-- Fotos: la primera es la portada original; después, una por experiencia --}}
+        <div class="inicio-hero__foto is-activa" data-diapositiva="0">
             <img
                 src="{{ config('milcumbres.imagenes.hero_inicio_local') ? asset(config('milcumbres.imagenes.hero_inicio_local')) : config('milcumbres.imagenes.hero_inicio') }}"
                 alt="Paisaje natural de Valle de Bravo"
@@ -33,9 +37,24 @@
             >
         </div>
 
+        @foreach ($carrusel as $experiencia)
+            <div class="inicio-hero__foto" data-diapositiva="{{ $loop->iteration }}" aria-hidden="true">
+                <img src="{{ $experiencia->imagen_url }}" alt="" loading="lazy" decoding="async">
+            </div>
+        @endforeach
+
         <div class="inicio-hero__sombra"></div>
 
         <div class="contenedor inicio-hero__contenido">
+
+          <div class="inicio-hero__paneles">
+
+          {{-- Diapositiva 0: bienvenida (sin cambios) --}}
+          <div class="inicio-hero__panel is-activo"
+               data-diapositiva="0"
+               role="group"
+               aria-roledescription="diapositiva"
+               aria-label="Bienvenida">
 
             <div class="inicio-hero__texto">
 
@@ -88,6 +107,99 @@
                     </span>
                 </div>
             </div>
+
+          </div>
+
+          {{-- Diapositivas de experiencias --}}
+          @foreach ($carrusel as $experiencia)
+            @php
+                $urlDetalle = route('experiencias.show', [$experiencia->id_experiencia, $experiencia->slug]);
+            @endphp
+            <div class="inicio-hero__panel"
+                 data-diapositiva="{{ $loop->iteration }}"
+                 role="group"
+                 aria-roledescription="diapositiva"
+                 aria-label="{{ $experiencia->nombre }}"
+                 hidden>
+
+                <div class="inicio-hero__texto">
+
+                    <div class="inicio-hero__ubicacion">
+                        <span class="inicio-hero__punto"></span>
+                        {{ $experiencia->zona?->nombre ?? config('milcumbres.contacto.lugar') }}
+                    </div>
+
+                    <span class="inicio-hero__etiqueta">
+                        EXPERIENCIA {{ mb_strtoupper($experiencia->catalogo?->tipo ?? '') }} · MIL CUMBRES
+                    </span>
+
+                    <h2 class="inicio-hero__titulo">{{ $experiencia->nombre }}</h2>
+
+                    @if ($experiencia->resumen)
+                        <p class="inicio-hero__descripcion">
+                            {{ \Illuminate\Support\Str::limit($experiencia->resumen, 170) }}
+                        </p>
+                    @endif
+
+                    <div class="inicio-hero__acciones">
+
+                        <a href="{{ $urlDetalle }}#reservar-experiencia"
+                           class="inicio-btn inicio-btn--claro">
+                            Reservar
+                            <span aria-hidden="true">↗</span>
+                        </a>
+
+                        <a href="{{ $urlDetalle }}"
+                           class="inicio-hero__enlace">
+                            Ver detalles
+                            <span aria-hidden="true">→</span>
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="inicio-hero__nota">
+                    <div>
+                        <strong>{{ $experiencia->precio_texto }}</strong>
+                        <span>
+                            @if ((float) $experiencia->precio > 0) Por persona · @endif
+                            {{ $experiencia->duracion_texto }}
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+          @endforeach
+
+          </div>
+
+          @if ($carrusel->isNotEmpty())
+            {{-- Controles del carrusel --}}
+            <div class="inicio-hero__controles">
+                <button type="button" class="inicio-hero__control" data-hero-anterior aria-label="Diapositiva anterior">
+                    <span aria-hidden="true">←</span>
+                </button>
+
+                <div class="inicio-hero__indicadores" role="tablist" aria-label="Elegir diapositiva">
+                    <button type="button" class="inicio-hero__indicador is-activo" data-hero-ir="0" role="tab"
+                            aria-selected="true" aria-label="Bienvenida"><span></span></button>
+                    @foreach ($carrusel as $experiencia)
+                        <button type="button" class="inicio-hero__indicador" data-hero-ir="{{ $loop->iteration }}" role="tab"
+                                aria-selected="false" aria-label="{{ $experiencia->nombre }}"><span></span></button>
+                    @endforeach
+                </div>
+
+                <button type="button" class="inicio-hero__control" data-hero-siguiente aria-label="Diapositiva siguiente">
+                    <span aria-hidden="true">→</span>
+                </button>
+
+                <button type="button" class="inicio-hero__control inicio-hero__control--pausa" data-hero-pausa
+                        aria-label="Pausar carrusel" aria-pressed="false">
+                    <span class="inicio-hero__icono-pausa" aria-hidden="true"></span>
+                </button>
+            </div>
+          @endif
 
         </div>
 
@@ -521,3 +633,11 @@
 </div>
 
 @endsection
+
+@push('estilos')
+    <link rel="stylesheet" href="{{ asset('css/inicio-carrusel-milcumbres.css') }}">
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('js/inicio-carrusel.js') }}" defer></script>
+@endpush
