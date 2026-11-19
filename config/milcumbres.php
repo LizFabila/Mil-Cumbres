@@ -44,6 +44,11 @@ return [
         'umbral_frecuente' => 3,
     ],
 
+    // Reseñas de ejemplo en el inicio, solo para revisar el diseño. Se muestran
+    // marcadas como «Ejemplo» y únicamente si todavía no hay opiniones reales.
+    // En el servidor de producción debe quedar en RESENAS_EJEMPLO=false.
+    'resenas_ejemplo' => (bool) env('RESENAS_EJEMPLO', true),
+
     'imagenes' => [
         // Foto propia del inicio: colocar el archivo en public/img/hero-inicio.jpg.
         // Mientras no exista, se usa la imagen de respaldo (sierra con neblina).

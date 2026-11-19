@@ -1,0 +1,852 @@
+/* Inicio: invitación a reservar, quiénes somos, galería, equipo, colaboradores y reseñas.
+   Prefijo ini2- para no mezclarse con las clases de la portada. */
+
+.ini2-reservar {
+    padding: 0 0 clamp(48px, 7vw, 84px);
+    background: #fff;
+}
+
+.ini2-reservar__caja {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px 32px;
+    padding: clamp(24px, 4vw, 40px);
+    border-radius: var(--radio-lg, 14px);
+    background: var(--verde-bosque, #143D36);
+    color: #fff;
+}
+
+.ini2-reservar__caja h2 {
+    margin: 0 0 6px;
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    font-weight: 600;
+    color: #fff;
+}
+
+.ini2-reservar__caja p {
+    margin: 0;
+    max-width: 560px;
+    color: rgba(255, 255, 255, .82);
+    line-height: 1.6;
+}
+
+/* ---------- Cabeceras de sección ---------- */
+
+.ini2-cabecera {
+    max-width: 680px;
+    margin: 0 0 clamp(28px, 4vw, 44px);
+}
+
+.ini2-cabecera h2 {
+    margin: 10px 0 10px;
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--verde-bosque, #143D36);
+}
+
+.ini2-cabecera h2 em {
+    font-style: italic;
+    color: var(--azul, #2F6690);
+}
+
+.ini2-cabecera p {
+    margin: 0;
+    color: var(--gris-texto, #5F716B);
+    line-height: 1.7;
+}
+
+.ini2-cabecera--fila {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    max-width: none;
+}
+
+/* ---------- ¿Quiénes somos? ---------- */
+
+.ini2-quienes {
+    padding: clamp(56px, 8vw, 96px) 0;
+    background: var(--verde-suave, #F3F7F5);
+}
+
+.ini2-tarjetas {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.ini2-tarjeta {
+    position: relative;
+    padding: 28px 26px 30px;
+    border-radius: var(--radio, 10px);
+    background: #fff;
+    border-top: 4px solid var(--verde, #176954);
+    box-shadow: var(--sombra);
+}
+
+.ini2-tarjeta:nth-child(2) { border-top-color: var(--azul, #2F6690); }
+.ini2-tarjeta:nth-child(3) { border-top-color: var(--verde-bosque, #143D36); }
+
+.ini2-tarjeta__numero {
+    display: block;
+    margin-bottom: 14px;
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: 1.1rem;
+    color: var(--gris-texto, #5F716B);
+}
+
+.ini2-tarjeta h3 {
+    margin: 0 0 10px;
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: 1.45rem;
+    color: var(--verde-bosque, #143D36);
+}
+
+.ini2-tarjeta p {
+    margin: 0;
+    color: var(--gris-texto, #5F716B);
+    line-height: 1.7;
+}
+
+.ini2-tarjeta ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 8px;
+}
+
+.ini2-tarjeta li {
+    position: relative;
+    padding-left: 22px;
+    color: var(--verde-bosque, #143D36);
+}
+
+.ini2-tarjeta li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .55em;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--lima, #00DD00);
+    box-shadow: 0 0 0 3px rgba(0, 221, 0, .18);
+}
+
+/* Historia en línea de tiempo */
+
+.ini2-historia {
+    margin-top: clamp(40px, 6vw, 64px);
+}
+
+.ini2-historia h3 {
+    margin: 0 0 22px;
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: 1.6rem;
+    color: var(--verde-bosque, #143D36);
+}
+
+.ini2-linea {
+    position: relative;
+    margin: 0;
+    padding: 0 0 0 28px;
+    list-style: none;
+    display: grid;
+    gap: 22px;
+    border-left: 2px solid var(--borde-suave, #D6E1DC);
+}
+
+.ini2-linea li {
+    position: relative;
+}
+
+.ini2-linea li::before {
+    content: "";
+    position: absolute;
+    left: -36px;
+    top: 6px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--verde, #176954);
+    box-shadow: 0 0 0 4px #fff;
+}
+
+.ini2-linea strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 1.05rem;
+    color: var(--verde-bosque, #143D36);
+}
+
+.ini2-linea span {
+    color: var(--gris-texto, #5F716B);
+    line-height: 1.6;
+}
+
+/* ---------- Galería (carrusel) ---------- */
+
+.ini2-galeria {
+    padding: clamp(56px, 8vw, 96px) 0 clamp(40px, 6vw, 72px);
+    background: #fff;
+}
+
+.ini2-galeria .ini2-cabecera {
+    margin-bottom: clamp(24px, 3vw, 36px);
+}
+
+.ini2-controles {
+    display: flex;
+    gap: 10px;
+}
+
+.ini2-controles button {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid var(--borde-suave, #D6E1DC);
+    background: #fff;
+    color: var(--verde-bosque, #143D36);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+}
+
+.ini2-controles button:hover,
+.ini2-controles button:focus-visible {
+    background: var(--verde, #176954);
+    border-color: var(--verde, #176954);
+    color: #fff;
+}
+
+.ini2-carrusel {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 4px max(16px, calc((100vw - 1120px) / 2)) 14px;
+    scrollbar-width: thin;
+}
+
+.ini2-carrusel:focus-visible {
+    outline: 3px solid var(--azul, #2F6690);
+    outline-offset: 4px;
+}
+
+.ini2-carrusel__foto {
+    flex: 0 0 auto;
+    width: min(360px, 78vw);
+    margin: 0;
+    scroll-snap-align: start;
+    border-radius: var(--radio-lg, 14px);
+    overflow: hidden;
+    background: var(--verde-suave, #F3F7F5);
+    box-shadow: var(--sombra);
+}
+
+.ini2-carrusel__foto img {
+    display: block;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform .6s ease;
+}
+
+.ini2-carrusel__foto:hover img {
+    transform: scale(1.04);
+}
+
+.ini2-carrusel__foto figcaption {
+    padding: 14px 16px 16px;
+    font-size: .95rem;
+    color: var(--verde-bosque, #143D36);
+    font-weight: 600;
+}
+
+/* ---------- Equipo ---------- */
+
+.ini2-equipo {
+    padding: clamp(56px, 8vw, 96px) 0;
+    background: var(--verde-suave, #F3F7F5);
+}
+
+.ini2-equipo__grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.ini2-miembro {
+    padding: 28px 24px;
+    border-radius: var(--radio, 10px);
+    background: #fff;
+    box-shadow: var(--sombra);
+}
+
+.ini2-miembro__inicial {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 16px;
+    border-radius: 50%;
+    background: var(--verde-bosque, #143D36);
+    color: var(--lima, #00DD00);
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.ini2-miembro h3 {
+    margin: 0 0 8px;
+    font-size: 1.15rem;
+    color: var(--verde-bosque, #143D36);
+}
+
+.ini2-miembro p {
+    margin: 0;
+    color: var(--gris-texto, #5F716B);
+    line-height: 1.65;
+    font-size: .95rem;
+}
+
+.ini2-colaboradores {
+    margin-top: clamp(36px, 5vw, 56px);
+    padding: clamp(24px, 4vw, 36px);
+    border-radius: var(--radio-lg, 14px);
+    background: #fff;
+    border: 1px dashed var(--borde-suave, #D6E1DC);
+}
+
+.ini2-colaboradores h3 {
+    margin: 0 0 8px;
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: 1.5rem;
+    color: var(--verde-bosque, #143D36);
+}
+
+.ini2-colaboradores p {
+    margin: 0 0 16px;
+    max-width: 640px;
+    color: var(--gris-texto, #5F716B);
+    line-height: 1.65;
+}
+
+.ini2-chips {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.ini2-chips li {
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: var(--verde-suave, #F3F7F5);
+    color: var(--verde-bosque, #143D36);
+    font-size: .92rem;
+    font-weight: 600;
+}
+
+/* ---------- Reseñas ---------- */
+
+.ini2-resenas {
+    padding: clamp(56px, 8vw, 96px) 0;
+    background: #fff;
+}
+
+.ini2-resenas__grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.ini2-resena {
+    margin: 0;
+    padding: 26px 24px 22px;
+    border-radius: var(--radio, 10px);
+    background: var(--verde-suave, #F3F7F5);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.ini2-resena__estrellas {
+    color: var(--ambar, #9a6a12);
+    letter-spacing: 3px;
+    font-size: 1.05rem;
+}
+
+.ini2-resena p {
+    margin: 0;
+    flex: 1;
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: 1.12rem;
+    line-height: 1.6;
+    color: var(--verde-bosque, #143D36);
+    font-style: italic;
+}
+
+.ini2-resena footer {
+    display: grid;
+    gap: 2px;
+    font-size: .92rem;
+}
+
+.ini2-resena footer span {
+    color: var(--gris-texto, #5F716B);
+}
+
+.ini2-resenas__vacio {
+    max-width: 560px;
+    margin: 0;
+    padding: 22px 0;
+    color: var(--gris-texto, #5F716B);
+    line-height: 1.6;
+}
+
+/* ---------- Ajustes en pantallas pequeñas ---------- */
+
+@media (max-width: 640px) {
+    .ini2-carrusel__foto img {
+        height: 240px;
+    }
+
+    .ini2-reservar__caja .inicio-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ini2-carrusel {
+        scroll-behavior: auto;
+    }
+
+    .ini2-carrusel__foto img {
+        transition: none;
+    }
+}
+
+/* ---------- Animaciones al bajar la página ----------
+   Solo se ocultan si el script corre (clase ini2-js en <html>); sin JS todo se ve. */
+
+.ini2-js [data-ini2] {
+    opacity: 0;
+    transform: translateY(56px);
+    transition: opacity .9s cubic-bezier(.2, .7, .2, 1), transform .9s cubic-bezier(.2, .7, .2, 1);
+    transition-delay: var(--retardo, 0ms);
+}
+
+.ini2-js [data-ini2].is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* Tarjetas: se elevan y ganan sombra al pasar el cursor. */
+.ini2-js [data-ini2].is-visible.ini2-elevable {
+    transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease, opacity .9s ease;
+    transition-delay: 0s;
+}
+
+.ini2-js [data-ini2].is-visible.ini2-elevable:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 22px 44px rgba(20, 61, 54, .18);
+}
+
+.ini2-miembro__inicial {
+    transition: transform .4s cubic-bezier(.2, .7, .2, 1), background .3s ease;
+}
+
+.ini2-miembro:hover .ini2-miembro__inicial {
+    transform: scale(1.12) rotate(-6deg);
+    background: var(--verde, #176954);
+}
+
+.ini2-tarjeta:hover .ini2-tarjeta__numero {
+    color: var(--verde, #176954);
+}
+
+/* ---------- Logos de colaboradores ---------- */
+
+.ini2-logos {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    margin-top: 22px;
+}
+
+.ini2-logo {
+    display: grid;
+    place-items: center;
+    height: 96px;
+    padding: 12px;
+    border-radius: var(--radio, 10px);
+    background: #fff;
+    border: 1px dashed var(--borde-suave, #D6E1DC);
+    color: var(--gris-texto, #5F716B);
+    font-size: .9rem;
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.ini2-logo:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sombra);
+}
+
+.ini2-logo img {
+    max-width: 80%;
+    max-height: 56px;
+    object-fit: contain;
+    filter: grayscale(1);
+    transition: filter .3s ease;
+}
+
+.ini2-logo:hover img {
+    filter: none;
+}
+
+/* ---------- Reseñas de ejemplo ---------- */
+
+.ini2-resenas__aviso {
+    margin: 0 0 18px;
+    padding: 10px 14px;
+    border-radius: var(--radio, 10px);
+    background: var(--ambar-bg, #fbf3e2);
+    color: var(--ambar, #9a6a12);
+    font-size: .92rem;
+}
+
+.ini2-resena__ejemplo {
+    display: inline-block;
+    width: fit-content;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--ambar-bg, #fbf3e2);
+    color: var(--ambar, #9a6a12);
+    font-style: normal;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+/* ---------- Misión, visión y valores (tarjetas con paso) ---------- */
+
+.ini2-pasos-tarjetas {
+    display: grid;
+    gap: 26px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    margin-top: 12px;
+}
+
+.ini2-paso-card {
+    --c: var(--verde, #176954);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 24px 26px;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: var(--sombra);
+    overflow: hidden;
+    padding-top: 0;
+}
+
+.ini2-paso-card--vision { --c: var(--azul, #2F6690); }
+.ini2-paso-card--valores { --c: var(--verde-bosque, #143D36); }
+
+/* Cabecera de color con borde diagonal, como en la referencia. */
+.ini2-paso-card__cabecera {
+    width: calc(100% + 48px);
+    height: 118px;
+    margin: 0 -24px;
+    background: var(--c);
+    clip-path: polygon(0 0, 100% 0, 100% 58%, 0 100%);
+}
+
+/* Icono dentro de un círculo blanco que cruza la cabecera. */
+.ini2-paso-card__icono {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 66px;
+    height: 66px;
+    margin-top: -46px;
+    border-radius: 50%;
+    background: #fff;
+    border: 4px solid var(--c);
+    color: var(--c);
+    box-shadow: 0 6px 16px rgba(20, 61, 54, .15);
+    transition: transform .45s cubic-bezier(.2, .7, .2, 1);
+}
+
+.ini2-paso-card h3 {
+    margin: 18px 0 10px;
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: 1.5rem;
+    color: var(--c);
+}
+
+.ini2-paso-card p {
+    margin: 0 0 14px;
+    color: var(--gris-texto, #5F716B);
+    line-height: 1.65;
+    font-size: .95rem;
+}
+
+.ini2-paso-card__lista {
+    margin: 0 0 14px;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 6px;
+    color: var(--gris-texto, #5F716B);
+    font-size: .95rem;
+}
+
+.ini2-paso-card__paso {
+    margin-top: auto;
+    padding-top: 10px;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--c);
+}
+
+/* Al pasar el cursor: el icono gira y la tarjeta se eleva (ver regla de hover de ini2-elevable). */
+.ini2-paso-card:hover .ini2-paso-card__icono {
+    transform: scale(1.1) rotate(-8deg);
+}
+
+@media (max-width: 640px) {
+    .ini2-pasos-tarjetas {
+        gap: 22px;
+    }
+}
+
+/* ---------- Nuestra historia: línea de tiempo con etapas alternadas ---------- */
+
+.ini2-historia {
+    margin-top: clamp(56px, 8vw, 88px);
+}
+
+.ini2-historia__titulo {
+    margin: 0 0 34px;
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: clamp(1.5rem, 2.6vw, 1.9rem);
+    color: var(--verde-bosque, #143D36);
+    text-align: center;
+}
+
+/* Filas: etapa de arriba | eje con la barra | etapa de abajo. */
+.ini2-linea-tiempo {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: auto 72px auto;
+    column-gap: 22px;
+}
+
+.ini2-linea-tiempo__barra {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    align-self: center;
+    height: 4px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--verde, #176954), var(--azul, #2F6690), var(--verde-bosque, #143D36), var(--verde, #176954));
+    opacity: .4;
+}
+
+/* Cada etapa se reparte en sus columnas; el contenedor de etapa no ocupa caja propia. */
+.ini2-hito {
+    display: contents;
+}
+
+.ini2-hito:nth-of-type(1) > * { grid-column: 1; }
+.ini2-hito:nth-of-type(2) > * { grid-column: 2; }
+.ini2-hito:nth-of-type(3) > * { grid-column: 3; }
+.ini2-hito:nth-of-type(4) > * { grid-column: 4; }
+
+.ini2-hito--arriba > .ini2-hito__contenido { grid-row: 1; align-self: end; }
+.ini2-hito--abajo > .ini2-hito__contenido { grid-row: 3; align-self: start; }
+
+.ini2-hito__contenido {
+    text-align: center;
+    padding: 0 6px 6px;
+}
+
+.ini2-hito__numero {
+    display: block;
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--c, var(--verde, #176954));
+}
+
+.ini2-hito h4 {
+    margin: 10px 0 6px;
+    font-size: 1.12rem;
+    color: var(--verde-bosque, #143D36);
+}
+
+.ini2-hito p {
+    margin: 0 auto;
+    max-width: 230px;
+    color: var(--gris-texto, #5F716B);
+    font-size: .92rem;
+    line-height: 1.6;
+}
+
+/* Eje: punto sobre la barra con su tallo hacia la etapa. */
+.ini2-hito__eje {
+    grid-row: 2;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ini2-hito__nodo {
+    position: relative;
+    z-index: 1;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--c, var(--verde, #176954));
+    border: 4px solid #fff;
+    box-shadow: 0 0 0 2px var(--c, var(--verde, #176954)), 0 6px 14px rgba(20, 61, 54, .2);
+}
+
+.ini2-hito__tallo {
+    position: absolute;
+    left: 50%;
+    width: 2px;
+    height: 34px;
+    transform: translateX(-50%);
+    background: var(--c, var(--verde, #176954));
+}
+
+.ini2-hito--arriba .ini2-hito__tallo { bottom: 50%; }
+.ini2-hito--abajo .ini2-hito__tallo { top: 50%; }
+
+/* El punto aparece con un pequeño rebote cuando entra en pantalla. */
+.ini2-js .ini2-hito__eje.is-visible .ini2-hito__nodo {
+    animation: ini2-nodo .6s cubic-bezier(.2, .8, .2, 1) both;
+}
+
+@keyframes ini2-nodo {
+    0% { transform: scale(.2); }
+    70% { transform: scale(1.25); }
+    100% { transform: scale(1); }
+}
+
+/* Pantallas pequeñas: una columna con la línea a la izquierda. */
+@media (max-width: 760px) {
+    .ini2-linea-tiempo {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+        row-gap: 30px;
+    }
+
+    .ini2-linea-tiempo__barra {
+        display: none;
+    }
+
+    .ini2-hito {
+        display: grid;
+        grid-template-columns: 26px 1fr;
+        column-gap: 16px;
+        padding-left: 0;
+    }
+
+    .ini2-hito > .ini2-hito__eje {
+        grid-column: 1;
+        grid-row: 1;
+        justify-content: flex-start;
+        padding-top: 4px;
+    }
+
+    .ini2-hito > .ini2-hito__contenido {
+        grid-column: 2;
+        grid-row: 1;
+        align-self: start;
+        text-align: left;
+        padding: 0;
+    }
+
+    .ini2-hito__tallo {
+        display: none;
+    }
+
+    .ini2-hito p {
+        margin: 0;
+        max-width: none;
+    }
+}
+
+/* ---------- Equipo con foto ---------- */
+
+.ini2-miembro {
+    padding: 0 0 26px;
+    overflow: hidden;
+}
+
+.ini2-miembro h3 {
+    margin: 18px 24px 8px;
+}
+
+.ini2-miembro p {
+    margin: 0 24px;
+}
+
+.ini2-miembro__foto {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    background: linear-gradient(135deg, var(--verde-suave, #F3F7F5), #dce8e2);
+    border-bottom: 1px solid var(--borde-suave, #D6E1DC);
+    color: var(--gris-texto, #5F716B);
+    font-size: .85rem;
+    letter-spacing: .04em;
+    overflow: hidden;
+}
+
+.ini2-miembro__foto img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .6s ease;
+}
+
+.ini2-miembro:hover .ini2-miembro__foto img {
+    transform: scale(1.06);
+}
+
+/* ---------- Galería: sombras visibles (el contenedor ya no las recorta) ---------- */
+
+.ini2-carrusel {
+    padding-top: 16px;
+    padding-bottom: 48px;
+}
+
+.ini2-carrusel__foto {
+    box-shadow: 0 18px 36px rgba(20, 61, 54, .24);
+}
