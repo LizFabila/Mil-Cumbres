@@ -656,6 +656,38 @@
                             </div>
 
 
+                            {{-- CONSENTIMIENTO EXPRESO · DATOS FINANCIEROS --}}
+
+                            <div class="mc-c09__consentimiento">
+
+                                <label class="mc-c09__consentimiento-label">
+
+                                    <input
+                                        type="checkbox"
+                                        name="consentimiento"
+                                        value="1"
+                                        required
+                                        @checked(old('consentimiento'))
+                                    >
+
+                                    <span>
+                                        Autorizo a Mil Cumbres a tratar mis datos financieros
+                                        (referencia bancaria y comprobante de transferencia)
+                                        para validar este pago, conforme al
+                                        <a href="{{ route('privacidad') }}#datos">aviso de privacidad</a>.
+                                    </span>
+
+                                </label>
+
+                                @error('consentimiento')
+                                    <span class="mc-c09__error error" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+
+                            </div>
+
+
                             {{-- ENVÍO DEL COMPROBANTE --}}
 
                             <div class="mc-c09__form-pie">
@@ -925,6 +957,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 });
+</script>
+
+<script>
+    // Conserva la referencia bancaria si la persona va a leer el aviso de privacidad
+    // y regresa. El archivo del comprobante no se puede conservar por seguridad del navegador.
+    (function () {
+        var input = document.querySelector('[name="referencia"]');
+        if (!input) return;
+        var CLAVE = 'mc_pago_referencia_{{ $solicitud->id_solicitud }}';
+        try { if (!input.value) input.value = sessionStorage.getItem(CLAVE) || ''; } catch (e) {}
+        input.addEventListener('input', function () {
+            try { sessionStorage.setItem(CLAVE, input.value); } catch (e) {}
+        });
+        if (input.form) input.form.addEventListener('submit', function () {
+            try { sessionStorage.removeItem(CLAVE); } catch (e) {}
+        });
+    })();
 </script>
 
 @endpush

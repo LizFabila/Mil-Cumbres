@@ -557,11 +557,16 @@
 
                                 <a
                                     href="{{ route('privacidad') }}"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
                                 >
                                     aviso de privacidad
                                 </a>.
+
+                                <small class="mc-registro__checkbox-nota">
+                                    Al marcar esta casilla consientes el tratamiento
+                                    de tus datos para las finalidades necesarias.
+                                    Para tus datos financieros te pediremos tu
+                                    consentimiento expreso en la pantalla de pago.
+                                </small>
                             </span>
 
                         </label>
@@ -698,4 +703,31 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 <script src="{{ asset('js/validar-contrasena.js') }}" defer></script>
+
+<script>
+    // Conserva lo escrito en el registro si la persona va a leer el aviso de privacidad
+    // en la misma pestaña y luego regresa. Las contraseñas nunca se guardan.
+    (function () {
+        var form = document.querySelector('form[action="{{ route('registro.store') }}"]');
+        if (!form) return;
+        var CLAVE = 'mc_registro_borrador';
+        var campos = ['nombre', 'ap', 'am', 'email', 'telefono'];
+        var guardado = {};
+        try { guardado = JSON.parse(sessionStorage.getItem(CLAVE) || '{}'); } catch (e) {}
+
+        campos.forEach(function (nombre) {
+            var input = form.elements[nombre];
+            if (!input) return;
+            if (!input.value && guardado[nombre]) input.value = guardado[nombre];
+            input.addEventListener('input', function () {
+                guardado[nombre] = input.value;
+                try { sessionStorage.setItem(CLAVE, JSON.stringify(guardado)); } catch (e) {}
+            });
+        });
+
+        form.addEventListener('submit', function () {
+            try { sessionStorage.removeItem(CLAVE); } catch (e) {}
+        });
+    })();
+</script>
 @endpush

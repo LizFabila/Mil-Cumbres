@@ -1806,3 +1806,43 @@
         border-top: 1px dashed var(--c09-borde);
     }
 }
+
+
+/* =====================================================
+   CONSENTIMIENTO EXPRESO · DATOS FINANCIEROS
+===================================================== */
+
+.mc-c09__consentimiento {
+    margin: 4px 0 22px;
+    padding: 16px 18px;
+    border: 1px solid #D9E1D8;
+    background: #F7F9F5;
+}
+
+.mc-c09__consentimiento-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.mc-c09__consentimiento-label input {
+    width: 19px;
+    height: 19px;
+    margin: 2px 0 0;
+    flex-shrink: 0;
+    accent-color: #1B6B57;
+    cursor: pointer;
+}
+
+.mc-c09__consentimiento-label span {
+    color: #143D36;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.mc-c09__consentimiento-label a {
+    color: #1B6B57;
+    font-weight: 700;
+    text-decoration: underline;
+}

@@ -27,8 +27,10 @@ class PagoController extends Controller
         $datos = $request->validate([
             'referencia' => ['required', 'string', 'max:50', 'unique:pagos,referencia'],
             'comprobante' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:4096'],
+            'consentimiento' => ['accepted'],
         ], [
             'referencia.unique' => 'Esa referencia bancaria ya fue registrada.',
+            'consentimiento.accepted' => 'Debes autorizar el tratamiento de tus datos financieros para enviar el comprobante.',
         ]);
 
         Pago::create([
@@ -37,6 +39,8 @@ class PagoController extends Controller
             'comprobante' => $request->file('comprobante')->store('comprobantes', 'public'),
             'estado' => 'pendiente',
             'fecha' => now(),
+            // Consentimiento expreso para tratar datos financieros (referencia y comprobante).
+            'consentimiento_financiero_at' => now(),
         ]);
 
         return redirect()->route('solicitudes.acuse', $solicitud)

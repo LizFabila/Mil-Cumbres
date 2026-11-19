@@ -21,7 +21,7 @@ class Persona extends Authenticatable implements MustVerifyEmail
     protected $table = 'personas';
     protected $primaryKey = 'id_persona';
 
-    protected $fillable = ['nombre', 'ap', 'am', 'email', 'telefono', 'contrasena', 'id_rol'];
+    protected $fillable = ['nombre', 'ap', 'am', 'email', 'telefono', 'contrasena', 'id_rol', 'aviso_aceptado_at', 'aviso_version'];
 
     protected $hidden = ['contrasena'];
 
@@ -33,6 +33,7 @@ class Persona extends Authenticatable implements MustVerifyEmail
         return [
             'contrasena' => 'hashed',
             'email_verified_at' => 'datetime',
+            'aviso_aceptado_at' => 'datetime',
         ];
     }
 

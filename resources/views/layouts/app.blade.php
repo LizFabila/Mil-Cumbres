@@ -557,6 +557,10 @@
 </footer>
 
 
+{{-- AVISO DE COOKIES --}}
+<x-aviso-cookies />
+
+
 {{-- SCRIPT DEL MENÚ INTERACTIVO --}}
 <script src="{{ asset('js/menu-milcumbres.js') }}" defer></script>
 <script src="{{ asset('js/reveal-milcumbres.js') }}" defer></script>

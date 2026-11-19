@@ -16,12 +16,13 @@ class Pago extends Model
     protected $table = 'pagos';
     protected $primaryKey = 'id_pago';
 
-    protected $fillable = ['comprobante', 'id_solicitud', 'estado', 'fecha', 'referencia'];
+    protected $fillable = ['comprobante', 'id_solicitud', 'estado', 'fecha', 'referencia', 'consentimiento_financiero_at'];
 
     protected function casts(): array
     {
         return [
             'fecha' => 'datetime',
+            'consentimiento_financiero_at' => 'datetime',
         ];
     }
 

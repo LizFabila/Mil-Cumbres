@@ -13,6 +13,13 @@ $u = fn (string $id, int $w = 1600) => "https://images.unsplash.com/photo-{$id}?
 
 return [
 
+    // Versión vigente del aviso de privacidad (fecha de su última actualización).
+    // Cámbiala cada vez que se modifique el texto del aviso: se guarda junto con
+    // la aceptación de cada persona para saber qué versión aceptó.
+    'aviso_privacidad' => [
+        'version' => '2026-11-18',
+    ],
+
     'contacto' => [
         'lugar' => 'Valle de Bravo',
         'correo' => 'milcumbresmx@gmail.com',

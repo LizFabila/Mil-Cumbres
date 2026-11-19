@@ -43,6 +43,9 @@ class RegistroController extends Controller
         $persona = Persona::create([
             ...collect($datos)->except(['aviso'])->all(),
             'id_rol' => $rolCliente->id_rol,
+            // Constancia de aceptación del aviso de privacidad: cuándo y qué versión.
+            'aviso_aceptado_at' => now(),
+            'aviso_version' => config('milcumbres.aviso_privacidad.version'),
         ]);
 
         // Envía el correo de verificación (C15). La sesión se abre hasta que la persona verifique.
