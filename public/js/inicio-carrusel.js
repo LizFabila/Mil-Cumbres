@@ -1,6 +1,6 @@
 // C01 · Carrusel del hero de inicio.
 // Diapositiva 0 = portada original; después, una por experiencia en el orden del catálogo.
-// Avanza sola cada 7 s (también con el mouse encima) y se puede pausar con su botón.
+// Avanza sola cada 3 s (también con el mouse encima) y se puede pausar con su botón.
 (function () {
     const hero = document.querySelector('[data-hero-carrusel]');
     if (!hero) return;
@@ -11,7 +11,7 @@
     const botonPausa = hero.querySelector('[data-hero-pausa]');
     if (paneles.length < 2) return;
 
-    const INTERVALO = 7000;
+    const INTERVALO = 3000;
     const menosMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     let actual = 0;

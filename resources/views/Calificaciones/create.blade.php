@@ -202,10 +202,10 @@
                             <dt>Fecha</dt>
                             <dd>{{ $fecha ? $fecha->translatedFormat('j \d\e F \d\e Y') : 'Sin fecha' }}</dd>
                         </div>
-                        @if ($experiencia->zona)
+                        @if ($experiencia->zonas_texto)
                             <div>
                                 <dt>Zona</dt>
-                                <dd>{{ $experiencia->zona->nombre }}</dd>
+                                <dd>{{ $experiencia->zonas_texto }}</dd>
                             </div>
                         @endif
                         <div>

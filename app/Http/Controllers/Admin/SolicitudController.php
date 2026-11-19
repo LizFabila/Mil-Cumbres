@@ -49,6 +49,7 @@ class SolicitudController extends Controller
         $solicitud->load([
             'persona',
             'experiencias.zona',
+            'experiencias.zonas',
             'experiencias.disponibilidades',
             'pagos' => fn ($q) => $q->latest('fecha'),
         ]);

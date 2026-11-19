@@ -20,7 +20,7 @@ class ExperienciaController extends Controller
     /** A06 · Experiencias */
     public function index(): View
     {
-        $experiencias = Experiencia::with(['zona', 'catalogo'])
+        $experiencias = Experiencia::with(['zona', 'zonas', 'catalogo'])
             ->withCount('disponibilidades')
             ->orderBy('nombre')
             ->paginate(15);
@@ -40,6 +40,7 @@ class ExperienciaController extends Controller
 
         DB::transaction(function () use ($request, $datos) {
             $experiencia = Experiencia::create($this->conImagen($request, $datos));
+            $experiencia->sincronizarZonas($datos['zonas']);
             $this->guardarHorarios($experiencia, $datos['horarios'] ?? []);
         });
 
@@ -49,7 +50,7 @@ class ExperienciaController extends Controller
     /** A07 · Editor (edición) */
     public function edit(Experiencia $experiencia): View
     {
-        $experiencia->load('disponibilidades');
+        $experiencia->load(['disponibilidades', 'zonas']);
 
         return view('Dashboard.experiencias.form', $this->datosFormulario($experiencia));
     }
@@ -60,6 +61,7 @@ class ExperienciaController extends Controller
 
         DB::transaction(function () use ($request, $datos, $experiencia) {
             $experiencia->update($this->conImagen($request, $datos, $experiencia));
+            $experiencia->sincronizarZonas($datos['zonas']);
             $this->guardarHorarios($experiencia, $datos['horarios'] ?? []);
         });
 
@@ -94,7 +96,9 @@ class ExperienciaController extends Controller
     {
         return $request->validate([
             'nombre' => ['required', 'string', 'max:100'],
-            'id_zona' => ['required', 'exists:zonas,id_zona,deleted_at,NULL'],
+            'zonas' => ['required', 'array', 'min:1'],
+            'zonas.*' => ['integer', 'distinct', 'exists:zonas,id_zona,deleted_at,NULL'],
+            'zona_principal' => ['nullable', 'integer'],
             'id_catalogo_exp' => ['required', 'exists:catalogo_experiencias,id_catalogo_exp,deleted_at,NULL'],
             'resumen' => ['nullable', 'string', 'max:2000'],
             'temporada' => ['nullable', 'string', 'max:50'],
@@ -110,13 +114,20 @@ class ExperienciaController extends Controller
             'horarios.*.cupo' => ['required', 'integer', 'min:1', 'max:65535'],
         ], [
             'horarios.*.fin.after' => 'La hora de fin debe ser mayor que la de inicio.',
+            'zonas.required' => 'Elige al menos una zona.',
+            'zonas.min' => 'Elige al menos una zona.',
         ]);
     }
 
     /** Archivo subido > URL escrita > imagen que ya tenía. */
     private function conImagen(Request $request, array $datos, ?Experiencia $actual = null): array
     {
-        $campos = collect($datos)->except(['imagen_url', 'imagen_archivo', 'horarios'])->all();
+        $campos = collect($datos)->except(['imagen_url', 'imagen_archivo', 'horarios', 'zonas', 'zona_principal'])->all();
+
+        // Zona principal: la marcada como principal si está entre las elegidas; si no, la primera.
+        $zonas = array_map('intval', $datos['zonas']);
+        $principal = (int) ($datos['zona_principal'] ?? 0);
+        $campos['id_zona'] = in_array($principal, $zonas, true) ? $principal : $zonas[0];
 
         if ($request->hasFile('imagen_archivo')) {
             if ($actual?->imagen && ! str_starts_with($actual->imagen, 'http')) {

@@ -235,7 +235,7 @@
                 <div>
                     <small>UBICACIÓN</small>
                     <strong>
-                        {{ $experiencia->zona?->nombre ?? 'Valle de Bravo' }}
+                        {{ $experiencia->zonas_texto ?: 'Valle de Bravo' }}
                     </strong>
                 </div>
 

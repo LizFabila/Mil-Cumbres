@@ -57,7 +57,7 @@
                         <tr>
                             <td>
                                 <strong>{{ $exp->nombre }}</strong>
-                                <div class="texto-chico texto-suave">{{ $exp->zona?->nombre }} · {{ $exp->duracion_texto }}</div>
+                                <div class="texto-chico texto-suave">{{ $exp->zonas_texto }} · {{ $exp->duracion_texto }}</div>
                             </td>
                             <td class="num">${{ number_format($exp->precio, 2) }}</td>
                             <td>

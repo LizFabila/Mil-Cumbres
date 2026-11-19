@@ -6,7 +6,7 @@
         <h3>{{ $experiencia->nombre }}</h3>
         <p class="texto-suave texto-chico mb-0">{{ \Illuminate\Support\Str::limit($experiencia->resumen, 110) }}</p>
         <div class="exp-tarjeta__meta">
-            <span>{{ $experiencia->zona?->nombre }} · {{ $experiencia->duracion_texto }}</span>
+            <span>{{ $experiencia->zonas_texto }} · {{ $experiencia->duracion_texto }}</span>
             <strong>${{ number_format($experiencia->precio, 0) }}</strong>
         </div>
     </div>

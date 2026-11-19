@@ -27,7 +27,7 @@
                     <div class="texto-chico"><a href="{{ route('experiencias.show', [$exp, $exp->slug]) }}" target="_blank">Ver en sitio ↗</a></div>
                 </td>
                 <td>{{ $exp->catalogo?->tipo }}</td>
-                <td>{{ $exp->zona?->nombre }}</td>
+                <td>{{ $exp->zonas_texto }}</td>
                 <td>{{ $exp->duracion_texto }}</td>
                 <td class="num">${{ number_format($exp->precio, 2) }}</td>
                 <td class="num">

@@ -42,16 +42,28 @@
                     @error('id_catalogo_exp') <span class="error">{{ $message }}</span> @enderror
                 </div>
 
-                <div class="campo">
-                    <label for="id_zona">Zona</label>
-                    <select @class(['control', 'es-invalido' => $errors->has('id_zona')]) id="id_zona" name="id_zona" required>
-                        <option value="">Elige…</option>
-                        @foreach ($zonas as $z)
-                            <option value="{{ $z->id_zona }}" @selected(old('id_zona', $experiencia->id_zona) == $z->id_zona)>{{ $z->nombre }}</option>
-                        @endforeach
-                    </select>
-                    @error('id_zona') <span class="error">{{ $message }}</span> @enderror
-                </div>
+                @php
+                    // Zonas marcadas: las enviadas, las que ya tiene o, en experiencias anteriores, su zona principal.
+                    $zonasMarcadas = array_map('intval', old('zonas', $experiencia->exists
+                        ? ($experiencia->zonas->isNotEmpty() ? $experiencia->zonas->pluck('id_zona')->all() : array_filter([$experiencia->id_zona]))
+                        : []));
+                @endphp
+                <fieldset class="campo completo zonas-campo">
+                    <legend>Zonas <small class="texto-suave">· marca todas en las que se realiza</small></legend>
+                    <input type="hidden" name="zona_principal" value="{{ old('zona_principal', $experiencia->id_zona) }}">
+                    <div @class(['zonas-opciones', 'es-invalido' => $errors->has('zonas') || $errors->has('zonas.*')])>
+                        @forelse ($zonas as $z)
+                            <label class="zona-opcion">
+                                <input type="checkbox" name="zonas[]" value="{{ $z->id_zona }}" @checked(in_array($z->id_zona, $zonasMarcadas, true))>
+                                <span>{{ $z->nombre }}</span>
+                            </label>
+                        @empty
+                            <p class="ayuda">Aún no hay zonas. <a href="{{ route('admin.zonas.create') }}">Agrega una zona</a>.</p>
+                        @endforelse
+                    </div>
+                    @error('zonas') <span class="error">{{ $message }}</span> @enderror
+                    @error('zonas.*') <span class="error">{{ $message }}</span> @enderror
+                </fieldset>
 
                 <div class="campo completo">
                     <label for="resumen">Resumen</label>

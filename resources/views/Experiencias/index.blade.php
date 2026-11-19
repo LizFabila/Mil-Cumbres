@@ -532,13 +532,13 @@
 
                                     <div class="mc-cat-card__contenido">
 
-                                        @if ($experiencia->zona)
+                                        @if ($experiencia->zonas_texto)
 
                                             <span class="mc-cat-card__ubicacion">
 
                                                 <span aria-hidden="true">⌖</span>
 
-                                                {{ $experiencia->zona->nombre }}
+                                                {{ $experiencia->zonas_texto }}
 
                                             </span>
 

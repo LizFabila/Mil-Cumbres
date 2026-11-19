@@ -170,7 +170,7 @@
 
 /* Barra que avanza mientras la diapositiva está en pantalla */
 .inicio-hero.is-reproduciendo .inicio-hero__indicador.is-activo span::after {
-    animation: inicioHeroAvance var(--hero-intervalo, 7s) linear both;
+    animation: inicioHeroAvance var(--hero-intervalo, 3s) linear both;
 }
 
 @keyframes inicioHeroAvance {

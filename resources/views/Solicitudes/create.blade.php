@@ -191,7 +191,7 @@
                                                 {{ $exp->nombre }}
                                             </strong>
                                             <small>
-                                                {{ $exp->zona?->nombre ?? 'Zona por confirmar' }}
+                                                {{ $exp->zonas_texto ?: 'Zona por confirmar' }}
                                                 ·
                                                 {{ $exp->duracion_texto }}
                                             </small>

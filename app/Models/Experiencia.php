@@ -32,9 +32,55 @@ class Experiencia extends Model
         ];
     }
 
+    /** Zona principal (la primera que se eligió). */
     public function zona(): BelongsTo
     {
         return $this->belongsTo(Zona::class, 'id_zona', 'id_zona');
+    }
+
+    /** Todas las zonas donde se realiza la experiencia (tabla asigna_zona). */
+    public function zonas(): BelongsToMany
+    {
+        return $this->belongsToMany(Zona::class, 'asigna_zona', 'id_experiencia', 'id_zona')
+            ->using(AsignaZona::class)
+            ->withPivot('id_asigna_zona')
+            ->wherePivotNull('deleted_at')
+            ->withTimestamps()
+            ->orderBy('zonas.nombre');
+    }
+
+    /** "Avándaro · Monte Alto"; si aún no tiene zonas asignadas, usa la principal. */
+    protected function zonasTexto(): Attribute
+    {
+        return Attribute::get(function () {
+            $nombres = $this->zonas->pluck('nombre');
+
+            if ($nombres->isEmpty() && $this->zona) {
+                $nombres = collect([$this->zona->nombre]);
+            }
+
+            return $nombres->implode(' · ');
+        });
+    }
+
+    /**
+     * Guarda las zonas elegidas respetando el borrado lógico:
+     * reactiva o crea las elegidas y da de baja (deleted_at) las que se quitaron.
+     */
+    public function sincronizarZonas(array $ids): void
+    {
+        $ids = array_values(array_unique(array_map('intval', $ids)));
+
+        foreach ($ids as $idZona) {
+            AsignaZona::firstOrCreate(['id_experiencia' => $this->id_experiencia, 'id_zona' => $idZona]);
+        }
+
+        AsignaZona::where('id_experiencia', $this->id_experiencia)
+            ->whereNotIn('id_zona', $ids)
+            ->get()
+            ->each->delete();
+
+        $this->unsetRelation('zonas');
     }
 
     public function catalogo(): BelongsTo

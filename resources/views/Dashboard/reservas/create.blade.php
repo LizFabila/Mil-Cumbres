@@ -21,6 +21,17 @@
             ])->values(),
         ],
     ]);
+
+    // Datos de cada cliente para llenar el formulario al elegirlo.
+    $datosClientes = $clientes->mapWithKeys(fn ($c) => [
+        $c->id_persona => [
+            'nombre' => $c->nombre,
+            'ap' => $c->ap,
+            'am' => $c->am,
+            'email' => $c->email,
+            'telefono' => $c->telefono,
+        ],
+    ]);
 @endphp
 
 @section('contenido')
@@ -59,7 +70,11 @@
                     @error('cliente_id') <span class="error">{{ $message }}</span> @enderror
                 </div>
 
-                <p class="completo ayuda">Si el cliente no está en la lista, llena estos datos. Se registrará como cliente nuevo.</p>
+                <p class="completo ayuda" id="ayuda-cliente"
+                   data-nuevo="Si el cliente no está en la lista, llena estos datos. Se registrará como cliente nuevo. Si escribes el correo de un cliente registrado, sus datos se llenan solos."
+                   data-existente="Datos del cliente seleccionado. Para registrar a otra persona, elige «Registrar uno nuevo» en la lista.">
+                    Si el cliente no está en la lista, llena estos datos. Se registrará como cliente nuevo.
+                </p>
 
                 <div class="campo">
                     <label for="nuevo_nombre">Nombre <span class="req" aria-hidden="true">*</span></label>
@@ -185,5 +200,6 @@
 
 @push('scripts')
     <script>window.EXPERIENCIAS = @json($datosExperiencias);</script>
+    <script>window.CLIENTES = @json($datosClientes);</script>
     <script src="{{ asset('js/reserva-admin.js') }}" defer></script>
 @endpush

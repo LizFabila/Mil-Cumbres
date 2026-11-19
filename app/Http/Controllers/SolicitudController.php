@@ -18,7 +18,7 @@ class SolicitudController extends Controller
     /** C06 · Solicitar experiencia (puede llegar con ?experiencia=&fecha=&personas= desde C03) */
     public function create(Request $request): View
     {
-        $experiencias = Experiencia::with(['zona', 'catalogo', 'disponibilidades'])->orderBy('nombre')->get();
+        $experiencias = Experiencia::with(['zona', 'zonas', 'catalogo', 'disponibilidades'])->orderBy('nombre')->get();
 
         return view('Solicitudes.create', [
             'experiencias' => $experiencias,

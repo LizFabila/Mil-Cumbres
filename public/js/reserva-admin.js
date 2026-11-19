@@ -1,3 +1,55 @@
+// Cliente: al elegir uno existente se llenan sus datos y quedan bloqueados.
+// Si se escribe el correo de un cliente registrado, se selecciona ese cliente.
+(function () {
+    const selector = document.getElementById('cliente_id');
+    if (!selector) return;
+
+    const clientes = window.CLIENTES || {};
+    const ayuda = document.getElementById('ayuda-cliente');
+    const campos = {
+        nombre: document.getElementById('nuevo_nombre'),
+        ap: document.getElementById('nuevo_ap'),
+        am: document.getElementById('nuevo_am'),
+        email: document.getElementById('nuevo_email'),
+        telefono: document.getElementById('nuevo_telefono'),
+    };
+    const obligatorias = document.querySelectorAll('label[for="nuevo_nombre"] .req, label[for="nuevo_ap"] .req, label[for="nuevo_email"] .req');
+
+    function aplicar(limpiar) {
+        const cliente = clientes[selector.value];
+        Object.keys(campos).forEach(function (k) {
+            const campo = campos[k];
+            if (!campo) return;
+            if (cliente) {
+                campo.value = cliente[k] || '';
+            } else if (limpiar) {
+                campo.value = '';
+            }
+            campo.readOnly = !!cliente;
+            campo.style.background = cliente ? '#f3f7f5' : '';
+        });
+        obligatorias.forEach(function (r) { r.hidden = !!cliente; });
+        if (ayuda) ayuda.textContent = cliente ? ayuda.dataset.existente : ayuda.dataset.nuevo;
+    }
+
+    selector.addEventListener('change', function () { aplicar(true); });
+
+    // Correo ya registrado: elige al cliente automáticamente.
+    if (campos.email) {
+        campos.email.addEventListener('change', function () {
+            if (selector.value) return;
+            const correo = campos.email.value.trim().toLowerCase();
+            const id = Object.keys(clientes).find(function (k) { return (clientes[k].email || '').toLowerCase() === correo; });
+            if (id) {
+                selector.value = id;
+                aplicar(true);
+            }
+        });
+    }
+
+    aplicar(false);
+})();
+
 // Añadir reservación (admin): mismas reglas que el cliente.
 // - La fecha solo permite los días en que la experiencia tiene horario, desde mañana.
 // - El horario aparece según la fecha elegida.
@@ -76,6 +128,18 @@
             fila._mes = { anio: f.getFullYear(), mes: f.getMonth() };
             dibujarCalendario(fila);
         });
+
+        // Iniciales de los días (la semana empieza en lunes).
+        const semana = document.createElement('div');
+        semana.style.cssText = 'display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px';
+        ['L', 'M', 'M', 'J', 'V', 'S', 'D'].forEach(function (inicial, k) {
+            const celda = document.createElement('abbr');
+            celda.textContent = inicial;
+            celda.title = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'][k];
+            celda.style.cssText = 'text-align:center;font-size:12px;font-weight:700;color:#5F716B;text-decoration:none;padding:2px 0';
+            semana.appendChild(celda);
+        });
+        pop.appendChild(semana);
 
         const cuadricula = document.createElement('div');
         cuadricula.style.cssText = 'display:grid;grid-template-columns:repeat(7,1fr);gap:4px';
@@ -207,7 +271,7 @@
             }
         }
         llenarHorarios(fila, '');
-        if (!exp.value) fecha.placeholder = 'Elige primero la experiencia';
+        fecha.placeholder = exp.value ? 'Elige una fecha' : 'Elige primero la experiencia';
     }
 
     function iniciarFila(fila, primera) {

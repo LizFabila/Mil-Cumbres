@@ -126,7 +126,7 @@
 
                     <div class="inicio-hero__ubicacion">
                         <span class="inicio-hero__punto"></span>
-                        {{ $experiencia->zona?->nombre ?? config('milcumbres.contacto.lugar') }}
+                        {{ $experiencia->zonas_texto ?: config('milcumbres.contacto.lugar') }}
                     </div>
 
                     <span class="inicio-hero__etiqueta">

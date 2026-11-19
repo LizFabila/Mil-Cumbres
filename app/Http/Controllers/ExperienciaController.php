@@ -20,9 +20,10 @@ class ExperienciaController extends Controller
             'q' => ['nullable', 'string', 'max:100'],
         ]);
 
-        $experiencias = Experiencia::with(['zona', 'catalogo'])
+        $experiencias = Experiencia::with(['zona', 'zonas', 'catalogo'])
             ->when($filtros['tipo'] ?? null, fn ($q, $tipo) => $q->where('id_catalogo_exp', $tipo))
-            ->when($filtros['zona'] ?? null, fn ($q, $zona) => $q->where('id_zona', $zona))
+            ->when($filtros['zona'] ?? null, fn ($q, $zona) => $q->where(fn ($w) => $w->where('id_zona', $zona)
+                ->orWhereHas('zonas', fn ($z) => $z->where('zonas.id_zona', $zona))))
             ->when($filtros['q'] ?? null, fn ($q, $texto) => $q->where('nombre', 'like', "%{$texto}%"))
             ->orderBy('nombre')
             ->paginate(9)
@@ -44,7 +45,7 @@ class ExperienciaController extends Controller
             return redirect()->route('experiencias.show', [$experiencia, $experiencia->slug], 301);
         }
 
-        $experiencia->load(['zona', 'catalogo', 'disponibilidades' => fn ($q) => $q
+        $experiencia->load(['zona', 'zonas', 'catalogo', 'disponibilidades' => fn ($q) => $q
             ->orderByRaw("FIELD(dias_semana, 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')")
             ->orderBy('hora_inicio')]);
 

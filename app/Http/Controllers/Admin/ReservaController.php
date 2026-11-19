@@ -24,7 +24,7 @@ class ReservaController extends Controller
             'experiencias' => Experiencia::with(['zona', 'disponibilidades'])->orderBy('nombre')->get(),
             'clientes' => Persona::whereHas('rol', fn ($r) => $r->where('nombre', Rol::CLIENTE))
                 ->orderBy('nombre')
-                ->get(['id_persona', 'nombre', 'ap', 'email']),
+                ->get(['id_persona', 'nombre', 'ap', 'am', 'email', 'telefono']),
         ]);
     }
 
@@ -36,16 +36,19 @@ class ReservaController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $conCliente = Rule::excludeIf(fn () => $request->filled('cliente_id'));
+
         $datos = $request->validate([
             'cliente_id' => ['nullable', Rule::exists('personas', 'id_persona')
                 ->whereNull('deleted_at')
                 ->where('id_rol', Rol::where('nombre', Rol::CLIENTE)->value('id_rol'))],
-            'nuevo_nombre' => ['required_without:cliente_id', 'nullable', 'string', 'max:60'],
-            'nuevo_ap' => ['required_without:cliente_id', 'nullable', 'string', 'max:60'],
-            'nuevo_am' => ['nullable', 'string', 'max:60'],
-            'nuevo_email' => ['required_without:cliente_id', 'nullable', 'email', 'max:120',
+            // Con un cliente existente, sus datos se muestran solo como referencia y no se validan.
+            'nuevo_nombre' => [$conCliente, 'required', 'string', 'max:60'],
+            'nuevo_ap' => [$conCliente, 'required', 'string', 'max:60'],
+            'nuevo_am' => [$conCliente, 'nullable', 'string', 'max:60'],
+            'nuevo_email' => [$conCliente, 'required', 'email', 'max:120',
                 Rule::unique('personas', 'email')->whereNull('deleted_at')],
-            'nuevo_telefono' => ['nullable', 'digits:10'],
+            'nuevo_telefono' => [$conCliente, 'nullable', 'digits:10'],
 
             'items' => ['required', 'array', 'min:1'],
             'items.*.id_experiencia' => ['required', 'integer', 'distinct',
@@ -56,9 +59,12 @@ class ReservaController extends Controller
             'items.*.nota' => ['nullable', 'string', 'max:1000'],
         ], [
             'items.*.id_disponibilidad.required' => 'Elige un horario para cada experiencia.',
-            'nuevo_nombre.required_without' => 'Indica el nombre del cliente o elige uno existente.',
-            'nuevo_ap.required_without' => 'Indica el apellido del cliente o elige uno existente.',
-            'nuevo_email.required_without' => 'Indica el correo del cliente o elige uno existente.',
+            'items.*.id_experiencia.required' => 'Elige la experiencia de cada fila.',
+            'items.*.fecha.required' => 'Elige la fecha de cada experiencia.',
+            'nuevo_nombre.required' => 'Indica el nombre del cliente o elige uno existente.',
+            'nuevo_ap.required' => 'Indica el apellido del cliente o elige uno existente.',
+            'nuevo_email.required' => 'Indica el correo del cliente o elige uno existente.',
+            'nuevo_email.unique' => 'Ese correo ya pertenece a un cliente registrado: elígelo en «Cliente existente».',
             'items.*.id_experiencia.distinct' => 'Una experiencia solo puede aparecer una vez en la reservación.',
             'items.*.fecha.after' => 'La fecha debe ser posterior a hoy.',
         ]);

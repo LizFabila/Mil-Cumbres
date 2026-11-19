@@ -14,7 +14,7 @@ class ZonaController extends Controller
     /** Zonas: catálogo que se usa al crear cada experiencia. */
     public function index(): View
     {
-        $zonas = Zona::withCount('experiencias')->orderBy('nombre')->get();
+        $zonas = Zona::withCount('experienciasAsignadas as experiencias_count')->orderBy('nombre')->get();
 
         return view('Dashboard.zonas.index', compact('zonas'));
     }
@@ -48,7 +48,7 @@ class ZonaController extends Controller
     /** Borrado lógico, solo si ninguna experiencia activa usa la zona. */
     public function destroy(Zona $zona): RedirectResponse
     {
-        $enUso = $zona->experiencias()->count();
+        $enUso = $zona->experienciasAsignadas()->count();
 
         if ($enUso > 0) {
             return back()->withErrors([
