@@ -9,6 +9,10 @@
     const fotos = Array.from(hero.querySelectorAll('.inicio-hero__foto'));
     const indicadores = Array.from(hero.querySelectorAll('[data-hero-ir]'));
     const botonPausa = hero.querySelector('[data-hero-pausa]');
+    const menu = hero.querySelector('[data-hero-menu]');
+    const botonMenu = menu && menu.querySelector('[data-hero-menu-boton]');
+    const itemsMenu = menu ? Array.from(menu.querySelectorAll('[data-hero-ver]')) : [];
+    const nombreActual = menu && menu.querySelector('[data-hero-menu-actual]');
     if (paneles.length < 2) return;
 
     const INTERVALO = 3000;
@@ -35,12 +39,24 @@
             b.classList.toggle('is-activo', k === i);
             b.setAttribute('aria-selected', k === i ? 'true' : 'false');
         });
+        // Marca en el menú lateral la experiencia que se está viendo.
+        itemsMenu.forEach(function (a) {
+            const actualMenu = parseInt(a.dataset.heroVer, 10) === i;
+            a.classList.toggle('is-actual', actualMenu);
+            if (actualMenu) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+        });
+        if (nombreActual) {
+            const item = itemsMenu.find(function (a) { return parseInt(a.dataset.heroVer, 10) === i; });
+            nombreActual.textContent = item ? item.dataset.nombre : 'Bienvenida';
+            nombreActual.style.animation = 'none'; void nombreActual.offsetWidth; nombreActual.style.animation = '';
+        }
         // Reinicia la barra de avance del indicador activo.
         const barra = indicadores[i] && indicadores[i].querySelector('span');
         if (barra) { barra.style.animation = 'none'; void barra.offsetWidth; barra.style.animation = ''; }
     }
 
-    function reproduciendo() { return !pausadoPorUsuario && !enEspera; }
+    let menuAbierto = false;
+    function reproduciendo() { return !pausadoPorUsuario && !enEspera && !menuAbierto; }
 
     function programar() {
         clearTimeout(temporizador);
@@ -84,6 +100,40 @@
     hero.addEventListener('focusin', function (e) { if (e.target.matches(':focus-visible')) esperar(true); });
     hero.addEventListener('focusout', function (e) { if (!hero.contains(e.relatedTarget)) esperar(document.hidden); });
     document.addEventListener('visibilitychange', function () { esperar(document.hidden); });
+
+    // Menú lateral de experiencias.
+    // Pasar el mouse (o el foco) por una experiencia la muestra en el carrusel; el clic abre su detalle.
+    // Con el menú abierto el carrusel se detiene para que se pueda leer con calma.
+    if (menu && botonMenu) {
+        function abrirMenu(abrir) {
+            menuAbierto = abrir;
+            menu.classList.toggle('is-abierto', abrir);
+            botonMenu.setAttribute('aria-expanded', abrir ? 'true' : 'false');
+            botonMenu.setAttribute('aria-label', abrir ? 'Cerrar menú de experiencias' : 'Abrir menú de experiencias');
+            programar();
+        }
+
+        botonMenu.addEventListener('click', function () { abrirMenu(!menuAbierto); });
+
+        itemsMenu.forEach(function (a) {
+            function mostrar() {
+                const i = parseInt(a.dataset.heroVer, 10);
+                if (i !== actual) ir(i);
+            }
+            a.addEventListener('mouseenter', mostrar);
+            a.addEventListener('focus', mostrar);
+        });
+
+        // Se cierra con Escape o al hacer clic fuera del menú.
+        menu.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && menuAbierto) { abrirMenu(false); botonMenu.focus(); }
+        });
+        document.addEventListener('click', function (e) {
+            if (menuAbierto && !menu.contains(e.target)) abrirMenu(false);
+        });
+
+        botonMenu.setAttribute('aria-label', 'Abrir menú de experiencias');
+    }
 
     actualizarBotonPausa();
     marcar(0);

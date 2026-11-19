@@ -19,7 +19,7 @@ class InicioController extends Controller
             ->get();
 
         // Carrusel del hero: experiencias con horario programado, en el mismo orden que el catálogo.
-        $carrusel = Experiencia::with(['zona', 'zonas', 'catalogo'])
+        $carrusel = Experiencia::with(['zona', 'zonas', 'catalogo', 'disponibilidades'])
             ->whereHas('disponibilidades')
             ->orderBy('nombre')
             ->get();

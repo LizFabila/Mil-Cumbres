@@ -114,9 +114,19 @@
                     @include('Dashboard.experiencias._horario', ['i' => '__I__', 'h' => []])
                 </template>
             </section>
+
+            {{-- Botones al final del formulario, después de los horarios --}}
+            <section class="panel acciones-form">
+                <p class="ayuda mb-0">Revisa los datos, las zonas y los horarios antes de guardar.</p>
+                <div class="acciones-form__botones">
+                    <a class="btn btn--texto" href="{{ route('admin.experiencias.index') }}">Cancelar</a>
+                    <button class="btn btn--primario" type="submit">{{ $editando ? 'Guardar cambios' : 'Crear experiencia' }}</button>
+                </div>
+            </section>
         </div>
 
-        <div>
+        {{-- La imagen acompaña al desplazarse para no dejar espacio vacío --}}
+        <div class="columna-fija">
             <section class="panel pila">
                 <h2 class="mb-0">Imagen</h2>
                 <img class="vista-imagen" id="vista-imagen" src="{{ $experiencia->imagen_url }}" alt="Vista previa">
@@ -134,11 +144,6 @@
                            placeholder="https://images.unsplash.com/…">
                     @error('imagen_url') <span class="error">{{ $message }}</span> @enderror
                 </div>
-            </section>
-
-            <section class="panel">
-                <button class="btn btn--primario btn--bloque" type="submit">{{ $editando ? 'Guardar cambios' : 'Crear experiencia' }}</button>
-                <a class="btn btn--texto btn--bloque" href="{{ route('admin.experiencias.index') }}">Cancelar</a>
             </section>
         </div>
     </div>

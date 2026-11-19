@@ -1,0 +1,504 @@
+/* =====================================================
+   C01 · Menú lateral de experiencias en el hero
+   Cerrado: riel angosto con «Experiencias» y el nombre de la
+   experiencia que se ve en el banner, escritos en vertical.
+   Abierto: lista numerada por tipo con nombre, zona, precio y duración.
+   También reduce el espacio vacío del hero.
+===================================================== */
+.inicio-hero {
+    --menu-riel: 76px;
+    --menu-ancho: 380px;
+    /* Margen izquierdo del texto para que nunca quede debajo del riel */
+    --hero-izq: max(24px, calc(var(--menu-riel) + 32px - max(0px, (100vw - 1120px) / 2)));
+}
+
+/* Menos espacio vacío arriba y abajo del texto.
+   La bienvenida es la diapositiva más alta y marca la altura de todo el banner,
+   así que su título baja un poco de tamaño y el banner se ajusta al contenido. */
+.inicio-hero,
+.inicio-hero__contenido {
+    min-height: 0;
+}
+
+.inicio-hero__contenido {
+    padding-top: 22px;
+    padding-bottom: 104px;
+    padding-left: var(--hero-izq);
+}
+
+.inicio-hero h1,
+.inicio-hero__titulo {
+    font-size: clamp(44px, 4.6vw, 66px);
+    margin-bottom: 20px;
+}
+
+.inicio-hero__descripcion {
+    margin-bottom: 26px;
+}
+
+.inicio-hero__controles {
+    left: var(--hero-izq);
+}
+
+/* Diapositivas de experiencias: mismo espacio arriba del texto que abajo, hasta los controles */
+.inicio-hero__panel:not([data-diapositiva="0"]) .inicio-hero__texto {
+    position: relative;
+    top: -34px;
+}
+
+@media (max-width: 1100px) {
+    .inicio-hero__panel:not([data-diapositiva="0"]) .inicio-hero__texto {
+        top: 0;
+    }
+}
+
+/* Datos rápidos de cada experiencia en el banner */
+.inicio-hero__datos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 0;
+    margin: -6px 0 34px;
+    padding: 0;
+}
+
+.inicio-hero__datos div {
+    padding: 2px 26px 2px 0;
+}
+
+.inicio-hero__datos div + div {
+    padding-left: 26px;
+    border-left: 1px solid rgba(255, 255, 255, .25);
+}
+
+.inicio-hero__datos dt {
+    margin-bottom: 5px;
+    color: var(--lima, #00DD00);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.inicio-hero__datos dd {
+    margin: 0;
+    color: #fff;
+    font-family: var(--fuente-titulo);
+    font-size: 19px;
+}
+
+@media (max-width: 540px) {
+    .inicio-hero__datos div {
+        padding-right: 16px;
+    }
+
+    .inicio-hero__datos div + div {
+        padding-left: 16px;
+    }
+
+    .inicio-hero__datos dd {
+        font-size: 16px;
+    }
+}
+
+/* ---------- Riel / panel ---------- */
+.hero-menu {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    width: var(--menu-riel);
+    overflow: hidden;
+    border-right: 1px solid rgba(255, 255, 255, .14);
+    background: rgba(9, 31, 25, .62);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    color: #fff;
+    transition: width .45s cubic-bezier(.22, .8, .24, 1), background .45s ease, box-shadow .45s ease;
+}
+
+.hero-menu.is-abierto {
+    width: min(var(--menu-ancho), calc(100% - 24px));
+    background: rgba(9, 31, 25, .95);
+    box-shadow: 30px 0 70px rgba(0, 0, 0, .4);
+}
+
+/* ---------- Botón: todo el riel abre el menú ---------- */
+.hero-menu__boton {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: var(--menu-riel);
+    min-height: 0;
+    padding: 22px 0 26px;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+/* Icono de tres líneas que se vuelve X */
+.hero-menu__hamburguesa {
+    display: grid;
+    flex-shrink: 0;
+    place-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--lima, #00DD00);
+    transition: transform .3s ease;
+}
+
+.hero-menu__hamburguesa i {
+    display: block;
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background: #0b2a22;
+    transition: transform .3s ease, opacity .2s ease, width .3s ease;
+}
+
+.hero-menu__hamburguesa i:nth-child(2) {
+    width: 12px;
+}
+
+.hero-menu__boton:hover .hero-menu__hamburguesa i:nth-child(2) {
+    width: 18px;
+}
+
+.hero-menu.is-abierto .hero-menu__hamburguesa i:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.hero-menu.is-abierto .hero-menu__hamburguesa i:nth-child(2) {
+    opacity: 0;
+}
+
+.hero-menu.is-abierto .hero-menu__hamburguesa i:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Textos verticales del riel */
+.hero-menu__rotulo,
+.hero-menu__actual {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+}
+
+.hero-menu__rotulo {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+}
+
+.hero-menu__total {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border: 1px solid rgba(255, 255, 255, .4);
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* Nombre de la experiencia en pantalla, al pie del riel */
+.hero-menu__actual {
+    position: relative;
+    margin-top: auto;
+    min-height: 0;
+    overflow: hidden;
+    padding-bottom: 0;
+    color: var(--lima, #00DD00);
+    font-family: var(--fuente-titulo);
+    font-size: 17px;
+    font-style: italic;
+    text-overflow: ellipsis;
+    animation: heroMenuNombre .5s ease both;
+}
+
+.hero-menu__actual::after {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 34px;
+    margin-bottom: 12px;
+    background: rgba(255, 255, 255, .45);
+    vertical-align: middle;
+}
+
+@keyframes heroMenuNombre {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Abierto: el botón se vuelve cabecera horizontal */
+.hero-menu.is-abierto .hero-menu__boton {
+    flex: 0 0 auto;
+    flex-direction: row;
+    gap: 14px;
+    width: 100%;
+    padding: 22px 26px 18px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, .12);
+}
+
+.hero-menu.is-abierto .hero-menu__rotulo {
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-family: var(--fuente-titulo);
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.hero-menu.is-abierto .hero-menu__actual {
+    display: none;
+}
+
+.hero-menu__boton:focus-visible,
+.hero-menu__item:focus-visible,
+.hero-menu__todas:focus-visible {
+    outline: 2px solid var(--lima, #00DD00);
+    outline-offset: -2px;
+}
+
+/* ---------- Lista (solo abierto) ---------- */
+.hero-menu__cuerpo {
+    display: none;
+    flex: 1;
+    min-height: 0;
+    padding: 6px 0 18px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, .25) transparent;
+}
+
+.hero-menu.is-abierto .hero-menu__cuerpo {
+    display: block;
+    animation: heroMenuCuerpo .35s ease .15s both;
+}
+
+@keyframes heroMenuCuerpo {
+    from { opacity: 0; transform: translateX(-12px); }
+    to { opacity: 1; transform: none; }
+}
+
+.hero-menu__intro {
+    margin: 10px 26px 4px;
+    color: rgba(255, 255, 255, .6);
+    font-size: 12.5px;
+}
+
+.hero-menu__tipo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 16px 26px 4px;
+    color: var(--lima, #00DD00);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Línea que llena el espacio entre el tipo y su número */
+.hero-menu__tipo::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, .14);
+    order: 1;
+}
+
+.hero-menu__tipo small {
+    order: 2;
+    color: rgba(255, 255, 255, .5);
+    font-size: 10.5px;
+    letter-spacing: 0;
+}
+
+.hero-menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.hero-menu__item {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 9px 22px 9px 26px;
+    color: #fff;
+    text-decoration: none;
+    transition: background .2s ease;
+}
+
+.hero-menu__numero {
+    flex-shrink: 0;
+    width: 20px;
+    color: rgba(255, 255, 255, .4);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    font-variant-numeric: tabular-nums;
+    transition: color .2s ease;
+}
+
+.hero-menu__datos {
+    display: grid;
+    flex: 1;
+    min-width: 0;
+    gap: 3px;
+}
+
+.hero-menu__datos strong {
+    font-family: var(--fuente-titulo);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.2;
+    transition: color .2s ease;
+}
+
+.hero-menu__datos small {
+    color: rgba(255, 255, 255, .58);
+    font-size: 11.5px;
+    line-height: 1.4;
+}
+
+.hero-menu__flecha {
+    align-self: center;
+    color: var(--lima, #00DD00);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity .2s ease, transform .25s ease;
+}
+
+.hero-menu__item:hover,
+.hero-menu__item:focus-visible {
+    background: rgba(255, 255, 255, .06);
+}
+
+.hero-menu__item:hover .hero-menu__flecha,
+.hero-menu__item:focus-visible .hero-menu__flecha,
+.hero-menu__item.is-actual .hero-menu__flecha {
+    opacity: 1;
+    transform: none;
+}
+
+/* La experiencia que se ve en el banner queda marcada */
+.hero-menu__item.is-actual {
+    background: rgba(0, 221, 0, .08);
+}
+
+.hero-menu__item.is-actual::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 0;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: var(--lima, #00DD00);
+}
+
+.hero-menu__item.is-actual .hero-menu__numero,
+.hero-menu__item:hover .hero-menu__numero {
+    color: var(--lima, #00DD00);
+}
+
+.hero-menu__todas {
+    display: flex;
+    justify-content: space-between;
+    margin: 18px 26px 0;
+    padding: 12px 16px;
+    border: 1px solid rgba(255, 255, 255, .3);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .4px;
+    text-decoration: none;
+    transition: background .2s ease, border-color .2s ease;
+}
+
+.hero-menu__todas:hover {
+    border-color: var(--lima, #00DD00);
+    background: rgba(0, 221, 0, .1);
+}
+
+/* ---------- Tableta y teléfono: botón arriba que abre la lista ---------- */
+@media (max-width: 768px) {
+    .inicio-hero {
+        --hero-izq: 24px;
+    }
+
+    .inicio-hero__contenido {
+        padding-top: 84px;
+    }
+
+    .hero-menu {
+        top: 16px;
+        bottom: auto;
+        left: 16px;
+        width: auto;
+        max-height: calc(100% - 32px);
+        border: 1px solid rgba(255, 255, 255, .22);
+        border-radius: 28px;
+    }
+
+    .hero-menu__boton {
+        flex: 0 0 auto;
+        flex-direction: row;
+        gap: 10px;
+        width: auto;
+        padding: 6px 16px 6px 6px;
+    }
+
+    .hero-menu__hamburguesa {
+        width: 36px;
+        height: 36px;
+    }
+
+    .hero-menu__rotulo {
+        writing-mode: horizontal-tb;
+        transform: none;
+        letter-spacing: 2px;
+    }
+
+    .hero-menu__actual {
+        display: none;
+    }
+
+    .hero-menu.is-abierto {
+        right: 16px;
+        width: auto;
+        border-radius: 18px;
+    }
+
+    .hero-menu.is-abierto .hero-menu__boton {
+        padding: 12px 16px;
+    }
+
+    .hero-menu.is-abierto .hero-menu__rotulo {
+        font-size: 21px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-menu,
+    .hero-menu * {
+        transition: none !important;
+        animation: none !important;
+    }
+}

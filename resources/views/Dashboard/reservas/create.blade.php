@@ -52,7 +52,8 @@
 <form method="POST" action="{{ route('admin.reservas.store') }}" novalidate>
     @csrf
 
-    <div class="detalle-admin">
+    {{-- Una sola columna a todo lo ancho: sin columna lateral vacía --}}
+    <div class="detalle-admin detalle-admin--uno">
         <div>
             <section class="panel form-grid">
                 <h2 class="completo mb-0">Cliente</h2>
@@ -185,13 +186,14 @@
                     </div>
                 </template>
             </section>
-        </div>
 
-        <div>
-            <section class="panel">
-                <button class="btn btn--primario btn--bloque" type="submit">Registrar reservación</button>
-                <a class="btn btn--texto btn--bloque" href="{{ route('admin.solicitudes.index') }}">Cancelar</a>
-                <p class="ayuda"><span class="req" aria-hidden="true">*</span> Campo obligatorio. En cliente nuevo, nombre, apellido y correo son obligatorios si no eliges un cliente existente.</p>
+            {{-- Botones al final, después de las experiencias --}}
+            <section class="panel acciones-form">
+                <p class="ayuda mb-0"><span class="req" aria-hidden="true">*</span> Campo obligatorio. En cliente nuevo, nombre, apellido y correo son obligatorios si no eliges un cliente existente.</p>
+                <div class="acciones-form__botones">
+                    <a class="btn btn--texto" href="{{ route('admin.solicitudes.index') }}">Cancelar</a>
+                    <button class="btn btn--primario" type="submit">Registrar reservación</button>
+                </div>
             </section>
         </div>
     </div>

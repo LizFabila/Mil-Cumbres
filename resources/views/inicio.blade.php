@@ -45,6 +45,63 @@
 
         <div class="inicio-hero__sombra"></div>
 
+        {{-- Menú lateral de experiencias.
+             Cerrado: riel con la palabra «Experiencias» y el nombre de la que se ve en el banner.
+             Abierto: lista numerada por tipo con nombre, zona, precio y duración.
+             Pasar el mouse por una experiencia la muestra en el banner; el clic abre su detalle. --}}
+        @if ($carrusel->isNotEmpty())
+            @php
+                $ordenTipos = array_keys($mensajesTipo);
+                $menuGrupos = $carrusel
+                    ->groupBy(fn ($e) => $e->catalogo?->tipo ?? 'Otras', true)
+                    ->sortBy(fn ($g, $tipo) => ($p = array_search($tipo, $ordenTipos, true)) === false ? 99 : $p);
+            @endphp
+            <nav class="hero-menu" data-hero-menu aria-label="Experiencias disponibles">
+                <button type="button" class="hero-menu__boton" data-hero-menu-boton
+                        aria-expanded="false" aria-controls="hero-menu-cuerpo">
+                    <span class="hero-menu__hamburguesa" aria-hidden="true"><i></i><i></i><i></i></span>
+                    <span class="hero-menu__rotulo">Experiencias</span>
+                    <span class="hero-menu__total" aria-hidden="true">{{ $carrusel->count() }}</span>
+                    <span class="hero-menu__actual" aria-hidden="true" data-hero-menu-actual>Bienvenida</span>
+                </button>
+
+                <div class="hero-menu__cuerpo" id="hero-menu-cuerpo">
+                    <p class="hero-menu__intro">Elige tu próxima experiencia</p>
+
+                    @foreach ($menuGrupos as $tipo => $grupo)
+                        <div class="hero-menu__grupo">
+                            <p class="hero-menu__tipo">
+                                <span>{{ $tipo }}</span>
+                            </p>
+                            <ul>
+                                @foreach ($grupo as $indice => $experiencia)
+                                    <li>
+                                        <a class="hero-menu__item"
+                                           href="{{ route('experiencias.show', [$experiencia->id_experiencia, $experiencia->slug]) }}"
+                                           data-hero-ver="{{ $indice + 1 }}"
+                                           data-nombre="{{ $experiencia->nombre }}">
+                                            <span class="hero-menu__datos">
+                                                <strong>{{ $experiencia->nombre }}</strong>
+                                                <small>
+                                                    {{ $experiencia->zonas_texto ?: config('milcumbres.contacto.lugar') }}
+                                                    · {{ $experiencia->precio_texto }} · {{ preg_replace('/\s*\(.*\)$/', '', $experiencia->duracion_texto) }}
+                                                </small>
+                                            </span>
+                                            <span class="hero-menu__flecha" aria-hidden="true">→</span>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endforeach
+
+                    <a class="hero-menu__todas" href="{{ route('experiencias.index') }}">
+                        Ver catálogo completo <span aria-hidden="true">→</span>
+                    </a>
+                </div>
+            </nav>
+        @endif
+
         <div class="contenedor inicio-hero__contenido">
 
           <div class="inicio-hero__paneles">
@@ -140,6 +197,29 @@
                             {{ \Illuminate\Support\Str::limit($experiencia->resumen, 170) }}
                         </p>
                     @endif
+
+                    {{-- Datos rápidos: duración, días con horario y temporada --}}
+                    @php
+                        $diasHero = $experiencia->disponibilidades->pluck('dia_texto')->unique()->values();
+                    @endphp
+                    <dl class="inicio-hero__datos">
+                        <div>
+                            <dt>Duración</dt>
+                            <dd>{{ preg_replace('/\s*\(.*\)$/', '', $experiencia->duracion_texto) }}</dd>
+                        </div>
+                        @if ($diasHero->isNotEmpty())
+                            <div>
+                                <dt>Días</dt>
+                                <dd>{{ $diasHero->count() > 1 ? $diasHero->slice(0, -1)->implode(', ').' y '.$diasHero->last() : $diasHero->first() }}</dd>
+                            </div>
+                        @endif
+                        @if ($experiencia->temporada)
+                            <div>
+                                <dt>Temporada</dt>
+                                <dd>{{ $experiencia->temporada }}</dd>
+                            </div>
+                        @endif
+                    </dl>
 
                     <div class="inicio-hero__acciones">
 
@@ -558,6 +638,7 @@
 
 @push('estilos')
     <link rel="stylesheet" href="{{ asset('css/inicio-carrusel-milcumbres.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/inicio-menu-hero.css') }}">
     <link rel="stylesheet" href="{{ asset('css/inicio-secciones-milcumbres.css') }}">
 @endpush
 
