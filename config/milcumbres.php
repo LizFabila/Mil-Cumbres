@@ -68,10 +68,12 @@ return [
 
         // Tarjetas de "Tu próxima aventura" (inicio). Cambia cualquier URL por
         // asset('img/archivo.jpg') cuando tengas tus propias fotos.
+        // Fotos propias de Mil Cumbres para las tarjetas de "Cómo reservar".
+        // Ruta relativa a la raíz del sitio (no usar asset() aquí: la config se carga antes del generador de URL).
         'pasos' => [
-            'explora' => $u('1470071459604-3b5ec3a7fe05', 900),   // valle al amanecer
-            'solicita' => $u('1472214103451-9374bd1c798e', 900),  // paisaje verde (también en Nuestro modelo)
-            'confirma' => $u('1545205597-3d9d02c29597', 900),     // personas en actividad al aire libre (yoga)
+            'explora' => is_file(public_path('img/pasos/explora.jpg')) ? '/img/pasos/explora.jpg' : $u('1470071459604-3b5ec3a7fe05', 900),
+            'solicita' => is_file(public_path('img/pasos/solicita.jpg')) ? '/img/pasos/solicita.jpg' : $u('1472214103451-9374bd1c798e', 900),
+            'confirma' => is_file(public_path('img/pasos/confirma.jpg')) ? '/img/pasos/confirma.jpg' : $u('1545205597-3d9d02c29597', 900),
         ],
 
         // Tarjetas de "Nuestra metodología" (consultoría).

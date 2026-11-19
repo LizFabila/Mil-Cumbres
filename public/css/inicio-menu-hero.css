@@ -502,3 +502,20 @@
         animation: none !important;
     }
 }
+
+/* Flecha pequeña junto al círculo verde: indica que el menú se despliega. */
+.hero-menu__flechita {
+    display: block;
+    width: 8px;
+    height: 8px;
+    margin-top: -6px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(45deg);
+    transition: transform .3s ease;
+}
+
+.hero-menu.is-abierto .hero-menu__flechita {
+    margin-top: 0;
+    transform: rotate(-135deg);
+}

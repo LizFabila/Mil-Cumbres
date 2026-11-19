@@ -136,9 +136,63 @@
 
             {{-- PRESENTACIÓN PRINCIPAL --}}
 
-            <div class="mc-detalle-hero__grid">
+            <div class="mc-detalle-hero__grid mc-detalle-hero__grid--texto-izq">
 
-                {{-- IMAGEN PROTAGONISTA --}}
+                {{-- PRESENTACIÓN DE LA ACTIVIDAD (IZQUIERDA) --}}
+
+                <div class="mc-detalle-hero__contenido">
+
+                    <span class="mc-detalle-etiqueta">
+                        <span class="mc-detalle-linea"></span>
+                        UNA EXPERIENCIA MIL CUMBRES
+                    </span>
+
+                    <h1>
+                        {{ $experiencia->nombre }}
+                    </h1>
+
+                    <div class="mc-detalle-hero__separador"></div>
+
+                    <p class="mc-detalle-hero__resumen">
+                        {{ $experiencia->resumen ?: 'Descubre esta experiencia en Valle de Bravo.' }}
+                    </p>
+
+                    {{-- DATOS IMPORTANTES INTEGRADOS --}}
+
+                    <div class="mc-detalle-hero__datos">
+
+                        <div class="mc-detalle-hero__dato">
+                            <small>UBICACIÓN</small>
+                            <strong>{{ $experiencia->zonas_texto ?: 'Valle de Bravo' }}</strong>
+                        </div>
+
+                        <div class="mc-detalle-hero__dato">
+                            <small>DURACIÓN</small>
+                            <strong>{{ $experiencia->duracion_texto }}</strong>
+                        </div>
+
+                        <div class="mc-detalle-hero__dato">
+                            <small>TEMPORADA</small>
+                            <strong>{{ $experiencia->temporada ?: 'Todo el año' }}</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="mc-detalle-hero__requisitos">
+                        <small>REQUISITOS</small>
+                        <p>{{ $experiencia->requisitos ?: 'Sin requisitos especiales.' }}</p>
+                    </div>
+
+                    <a href="#reservar-experiencia"
+                       class="mc-detalle-boton mc-detalle-boton--verde">
+                        Planea tu experiencia
+                        <span aria-hidden="true">↘</span>
+                    </a>
+
+                </div>
+
+
+                {{-- IMAGEN PROTAGONISTA (DERECHA) --}}
 
                 <div class="mc-detalle-hero__visual">
 
@@ -151,62 +205,12 @@
                     <div class="mc-detalle-hero__degradado"></div>
 
                     <div class="mc-detalle-hero__superior">
-
-                        
-
                         @if ($experiencia->catalogo)
-
                             <span class="mc-detalle-hero__categoria">
                                 {{ $experiencia->catalogo->tipo }}
                             </span>
-
                         @endif
-
                     </div>
-
-                    <div class="mc-detalle-hero__inferior">
-
-                        
-
-
-                    </div>
-
-                </div>
-
-
-                {{-- PRESENTACIÓN DE LA ACTIVIDAD --}}
-
-                <div class="mc-detalle-hero__contenido">
-
-                    <span class="mc-detalle-etiqueta">
-                        <span class="mc-detalle-linea"></span>
-                        UNA EXPERIENCIA MIL CUMBRES
-                    </span>
-
-                    
-
-                    <h1>
-                        {{ $experiencia->nombre }}
-                    </h1>
-
-                    <div class="mc-detalle-hero__separador"></div>
-
-                    <p class="mc-detalle-hero__resumen">
-                        {{ $experiencia->resumen ?: 'Descubre esta experiencia en Valle de Bravo.' }}
-                    </p>
-
-                    
-
-                    <a href="#reservar-experiencia"
-                       class="mc-detalle-boton mc-detalle-boton--verde">
-
-                        Planea tu experiencia
-
-                        <span aria-hidden="true">↘</span>
-
-                    </a>
-
-                    
 
                 </div>
 
@@ -218,345 +222,12 @@
 
 
     {{-- ====================================== --}}
-    {{-- 02 · DATOS PRINCIPALES --}}
+    {{-- 03 · RESERVACIÓN (a todo el ancho) --}}
     {{-- ====================================== --}}
 
-    <section class="mc-detalle-datos">
+    <section class="mc-detalle-reservar">
 
-        <div class="contenedor mc-detalle-datos__grid">
-
-            <div class="mc-detalle-dato">
-
-                <span class="mc-detalle-dato__icono"
-                      aria-hidden="true">
-                    ⌖
-                </span>
-
-                <div>
-                    <small>UBICACIÓN</small>
-                    <strong>
-                        {{ $experiencia->zonas_texto ?: 'Valle de Bravo' }}
-                    </strong>
-                </div>
-
-            </div>
-
-
-            <div class="mc-detalle-dato">
-
-                <span class="mc-detalle-dato__icono"
-                      aria-hidden="true">
-                    ◷
-                </span>
-
-                <div>
-                    <small>DURACIÓN</small>
-                    <strong>
-                        {{ $experiencia->duracion_texto }}
-                    </strong>
-                </div>
-
-            </div>
-
-
-            <div class="mc-detalle-dato">
-
-
-                <div>
-                    <small>TEMPORADA</small>
-                    <strong>
-                        {{ $experiencia->temporada ?: 'Todo el año' }}
-                    </strong>
-                </div>
-
-            </div>
-
-
-            
-
-        </div>
-
-    </section>
-
-
-    {{-- ====================================== --}}
-    {{-- 03 · INFORMACIÓN Y RESERVACIÓN --}}
-    {{-- ====================================== --}}
-
-    <section class="mc-detalle-principal">
-
-        <div class="contenedor mc-detalle-principal__grid">
-
-            {{-- COLUMNA DE INFORMACIÓN --}}
-
-            <div class="mc-detalle-contenido">
-
-                {{-- ENLACES INTERNOS --}}
-
-                <nav class="mc-detalle-navegacion"
-                     aria-label="Información de la experiencia">
-
-                    <a href="#sobre-experiencia">
-                        Descripción
-                    </a>
-
-                    <a href="#horarios-experiencia">
-                        Horarios
-                    </a>
-
-                    <a href="#antes-experiencia">
-                        Antes de ir
-                    </a>
-
-                </nav>
-
-
-                {{-- DESCRIPCIÓN --}}
-
-                <article class="mc-detalle-seccion"
-                         id="sobre-experiencia">
-
-                    <span class="mc-detalle-etiqueta">
-                        <span class="mc-detalle-linea"></span>
-                        DESCUBRE
-                    </span>
-
-                    <h2>
-                        Una experiencia
-                        <em>para recordar.</em>
-                    </h2>
-
-                    <p class="mc-detalle-seccion__texto">
-                        {{ $experiencia->resumen ?: 'Explora esta experiencia y conoce sus detalles.' }}
-                    </p>
-
-                    <div class="mc-detalle-frase">
-
-
-                        <p>
-                            Cada lugar tiene algo que contar.
-                            Descubre nuevas formas de conectar
-                            con el territorio.
-                        </p>
-
-                    </div>
-
-                </article>
-
-
-                {{-- ================================= --}}
-                {{-- HORARIOS --}}
-                {{-- ================================= --}}
-
-                <article class="mc-detalle-seccion"
-                         id="horarios-experiencia">
-
-                    <span class="mc-detalle-etiqueta">
-                        <span class="mc-detalle-linea"></span>
-                        ORGANIZA TU VISITA
-                    </span>
-
-                    <h2>
-                        Encuentra el momento
-                        <em>ideal para venir.</em>
-                    </h2>
-
-                    <p class="mc-detalle-seccion__texto">
-                        Conoce los días y horarios habituales
-                        de esta experiencia. La disponibilidad
-                        para una fecha específica se revisará
-                        al enviar tu solicitud.
-                    </p>
-
-                    @if (!$tieneHorarios)
-
-                        <div class="mc-detalle-sin-horarios">
-
-                            <span aria-hidden="true">
-                                ◷
-                            </span>
-
-                            <div>
-                                <strong>
-                                    Horarios por publicar
-                                </strong>
-
-                                <p>
-                                    Todavía no se han registrado
-                                    horarios para esta experiencia.
-                                </p>
-                            </div>
-
-                        </div>
-
-                    @else
-
-                        <div class="mc-detalle-horarios">
-
-                            {{-- Un día por bloque; si hay varios horarios el mismo día, se listan debajo. --}}
-                            @foreach ($horarios->groupBy('dias_semana') as $grupoDia)
-                            @foreach ($grupoDia as $d)
-
-                                <div class="mc-detalle-horario{{ $loop->first ? '' : ' mc-detalle-horario--continua' }}">
-
-                                    <div class="mc-detalle-horario__dia">
-
-                                        <strong>
-                                            @if ($loop->first){{ $d->dia_texto }}@endif
-                                        </strong>
-
-                                    </div>
-
-                                    <div class="mc-detalle-horario__hora">
-
-                                        <small>HORARIO</small>
-
-                                        <strong>
-                                            {{ $d->horario }}
-                                        </strong>
-
-                                    </div>
-
-                                    <div class="mc-detalle-horario__cupo">
-
-                                        <small>
-                                            CUPO POR FECHA
-                                        </small>
-
-                                        <strong>
-                                            {{ $d->pivot->cupo }}
-                                            personas
-                                        </strong>
-
-                                    </div>
-
-                                </div>
-
-                            @endforeach
-                            @endforeach
-
-                        </div>
-
-                        <div class="mc-detalle-horarios__aviso">
-
-                            <span aria-hidden="true">ⓘ</span>
-
-                            <p>
-                                Los horarios corresponden
-                                a la programación habitual.
-                                El cupo indicado es la capacidad
-                                máxima, no los lugares libres
-                                en tiempo real.
-                            </p>
-
-                        </div>
-
-                    @endif
-
-                </article>
-
-
-                {{-- ================================= --}}
-                {{-- REQUISITOS --}}
-                {{-- ================================= --}}
-
-                <article class="mc-detalle-seccion"
-                         id="antes-experiencia">
-
-                    <span class="mc-detalle-etiqueta">
-                        <span class="mc-detalle-linea"></span>
-                        PREPARA TU VISITA
-                    </span>
-
-                    <h2>
-                        Todo lo que necesitas
-                        <em>saber antes de ir.</em>
-                    </h2>
-
-                    <div class="mc-detalle-preparacion">
-
-                        <div class="mc-detalle-preparacion__icono"
-                             aria-hidden="true">
-                        </div>
-
-                        <div>
-
-                            <h3>
-                                Requisitos y recomendaciones
-                            </h3>
-
-                            <p>
-                                {{ $experiencia->requisitos ?: 'Sin requisitos especiales.' }}
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-
-                </article>
-
-
-                {{-- ================================= --}}
-                {{-- OPINIONES VERIFICADAS (C16) --}}
-                {{-- ================================= --}}
-
-                @include('Calificaciones._opiniones', ['experiencia' => $experiencia])
-
-
-                {{-- ================================= --}}
-                {{-- PROCESO DE RESERVACIÓN --}}
-                {{-- ================================= --}}
-
-                <section class="mc-detalle-proceso">
-
-                    <span class="mc-detalle-etiqueta">
-                        <span class="mc-detalle-linea"></span>
-                        ASÍ FUNCIONA
-                    </span>
-
-                    <h2>
-                        Tres pasos para
-                        <em>vivir tu experiencia.</em>
-                    </h2>
-
-                    <div class="mc-detalle-proceso__grid">
-
-                        <div>
-                            <h3>Solicita</h3>
-                            <p>
-                                Elige tu fecha preferida
-                                y el número de personas.
-                            </p>
-                        </div>
-
-                        <div>
-                            <h3>Confirma</h3>
-                            <p>
-                                Revisaremos la disponibilidad
-                                y confirmaremos tu solicitud.
-                            </p>
-                        </div>
-
-                        <div>
-                            <h3>Disfruta</h3>
-                            <p>
-                                Registra tu pago cuando
-                                corresponda y prepara tu visita.
-                            </p>
-                        </div>
-
-                    </div>
-
-                </section>
-
-            </div>
-
-
-            {{-- ================================= --}}
-            {{-- PANEL LATERAL DE RESERVACIÓN --}}
-            {{-- ================================= --}}
+        <div class="contenedor">
 
             <aside class="mc-detalle-reserva"
                    id="reservar-experiencia"
@@ -572,11 +243,6 @@
                         Tu próxima
                         <em>experiencia.</em>
                     </h2>
-
-                    <p>
-                        Selecciona una fecha preferida
-                        y el número de participantes.
-                    </p>
 
                 </div>
 
@@ -603,6 +269,41 @@
                 </div>
 
 
+                {{-- DÍA, HORARIO Y CUPO (debajo del precio) --}}
+
+                @if ($tieneHorarios)
+
+                    <div class="mc-detalle-horarios">
+
+                        @foreach ($horarios->groupBy('dias_semana') as $grupoDia)
+                        @foreach ($grupoDia as $d)
+
+                            <div class="mc-detalle-horario{{ $loop->first ? '' : ' mc-detalle-horario--continua' }}">
+
+                                <div class="mc-detalle-horario__dia">
+                                    <strong>@if ($loop->first){{ $d->dia_texto }}@endif</strong>
+                                </div>
+
+                                <div class="mc-detalle-horario__hora">
+                                    <small>HORARIO</small>
+                                    <strong>{{ $d->horario }}</strong>
+                                </div>
+
+                                <div class="mc-detalle-horario__cupo">
+                                    <small>CUPO POR FECHA</small>
+                                    <strong>{{ $d->pivot->cupo }} personas</strong>
+                                </div>
+
+                            </div>
+
+                        @endforeach
+                        @endforeach
+
+                    </div>
+
+                @endif
+
+
                 {{-- FORMULARIO DE C06 · EXPERIENCIA DE ESTA FICHA + ADICIONALES --}}
 
                 <form
@@ -621,11 +322,6 @@
                         class="mc-detalle-reserva__item"
                         data-precio="{{ (float) $experiencia->precio }}"
                     >
-
-                        <div class="mc-detalle-reserva__item-cabecera">
-                            <strong>{{ $experiencia->nombre }}</strong>
-                            <span>{{ $experiencia->precio_texto }} por persona</span>
-                        </div>
 
                         <input
                             type="hidden"
@@ -706,7 +402,7 @@
                                         data-cupo="{{ $d->pivot->cupo }}"
                                         @selected(old('horarios.' . $experiencia->id_experiencia) == $d->id_disponibilidad)
                                     >
-                                        {{ $d->dia_texto }} · {{ $d->horario }} (máx. {{ $d->pivot->cupo }} personas)
+                                        {{ $d->dia_texto }} · {{ $d->horario }}
                                     </option>
                                 @endforeach
                             </select>
@@ -896,48 +592,6 @@
 
     </section>
 
-
-    {{-- ====================================== --}}
-    {{-- 04 · INVITACIÓN FINAL --}}
-    {{-- ====================================== --}}
-
-    <section class="mc-detalle-final">
-
-        <div class="contenedor mc-detalle-final__grid">
-
-            <div>
-
-                <span class="mc-detalle-etiqueta
-                             mc-detalle-etiqueta--clara">
-
-                    SIGUE DESCUBRIENDO
-                </span>
-
-                <h2>
-                    Hay mucho más
-                    <em>por explorar.</em>
-                </h2>
-
-                <p>
-                    Descubre otras experiencias
-                    de naturaleza, bienestar
-                    y cultura en Valle de Bravo.
-                </p>
-
-            </div>
-
-            <a href="{{ route('experiencias.index') }}"
-               class="mc-detalle-boton mc-detalle-boton--claro">
-
-                Explorar más experiencias
-
-                <span aria-hidden="true">↗</span>
-
-            </a>
-
-        </div>
-
-    </section>
 
 </div>
 
@@ -1195,9 +849,32 @@ document.addEventListener('DOMContentLoaded', function () {
         filtrarHorarios();
     }
 
+
     if (fecha.value && !validarFecha()) fecha.value = '';
     validarFecha();
 
+});
+
+// Límite de personas al escribir con teclado: nunca por encima del cupo (atributo max).
+// Va aparte para que funcione aunque el bloque del calendario no se ejecute.
+document.addEventListener('DOMContentLoaded', function () {
+    const personas = document.getElementById('mc-detalle-personas');
+    if (!personas) return;
+
+    function limitar() {
+        if (personas.value === '') return;
+        const max = Number(personas.max) || 0;
+        let n = Math.floor(Number(personas.value) || 0);
+        if (max > 0 && n > max) n = max;
+        if (n < 1) n = 1;
+        if (String(n) !== personas.value) personas.value = n;
+    }
+
+    personas.addEventListener('input', limitar);
+    personas.addEventListener('blur', function () {
+        if (!personas.value) personas.value = 1;
+        limitar();
+    });
 });
 </script>
 

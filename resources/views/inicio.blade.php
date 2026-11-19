@@ -60,9 +60,8 @@
                 <button type="button" class="hero-menu__boton" data-hero-menu-boton
                         aria-expanded="false" aria-controls="hero-menu-cuerpo">
                     <span class="hero-menu__hamburguesa" aria-hidden="true"><i></i><i></i><i></i></span>
+                    <span class="hero-menu__flechita" aria-hidden="true"></span>
                     <span class="hero-menu__rotulo">Experiencias</span>
-                    <span class="hero-menu__total" aria-hidden="true">{{ $carrusel->count() }}</span>
-                    <span class="hero-menu__actual" aria-hidden="true" data-hero-menu-actual>Bienvenida</span>
                 </button>
 
                 <div class="hero-menu__cuerpo" id="hero-menu-cuerpo">
@@ -428,6 +427,9 @@
                 ['g4', 'Explicación del paisaje en campo'],
                 ['g5', 'Un día de río'],
                 ['g6', 'Frutos del bosque'],
+                ['g7', 'Flores silvestres del bosque'],
+                ['g8', 'Registro de lo que encontramos'],
+                ['g9', 'Observación de cerca'],
             ] as [$archivo, $texto])
                 <figure class="ini2-carrusel__foto">
                     <img src="{{ asset('img/galeria/'.$archivo.'.jpg') }}" alt="{{ $texto }}" loading="lazy" decoding="async">
@@ -450,15 +452,15 @@
 
             <div class="ini2-equipo__grid">
                 @foreach ([
-                    ['Guías naturalistas', 'Acompañan los recorridos, enseñan a observar la fauna y la flora, y cuidan al grupo en el sendero.'],
-                    ['Anfitriones', 'Reciben a cada visitante y procuran que su experiencia sea cómoda y memorable.'],
-                    ['Coordinación', 'Organizan horarios, cupos y detalles para que cada reservación salga como se planeó.'],
-                    ['Consultoría regenerativa', 'Acompañan a organizaciones y comunidades que quieren crecer con respeto al territorio.'],
-                ] as [$rol, $descripcion])
+                    ['Guías naturalistas', 'Acompañan los recorridos, enseñan a observar la fauna y la flora, y cuidan al grupo en el sendero.', 'guia'],
+                    ['Anfitriones', 'Reciben a cada visitante y procuran que su experiencia sea cómoda y memorable.', 'anfitrion'],
+                    ['Coordinación', 'Organizan horarios, cupos y detalles para que cada reservación salga como se planeó.', 'coordinacion'],
+                    ['Consultoría regenerativa', 'Acompañan a organizaciones y comunidades que quieren crecer con respeto al territorio.', 'consultoria'],
+                ] as [$rol, $descripcion, $foto])
                     <article class="ini2-miembro ini2-elevable" data-ini2 style="--retardo: {{ $loop->index * 110 }}ms">
-                        {{-- Foto del integrante: reemplazar este bloque por <img src="..." alt="{{ $rol }}"> --}}
-                        <div class="ini2-miembro__foto" role="img" aria-label="Foto pendiente">
-                            <span>Foto pendiente</span>
+                        {{-- Foto de referencia; se puede sustituir por la foto real del integrante. --}}
+                        <div class="ini2-miembro__foto">
+                            <img src="{{ asset('img/equipo/'.$foto.'.jpg') }}" alt="{{ $rol }} de Mil Cumbres" loading="lazy" decoding="async">
                         </div>
                         <h3>{{ $rol }}</h3>
                         <p>{{ $descripcion }}</p>
