@@ -111,6 +111,29 @@ public function estado(
         ]);
     }
 
+    // Una reservación confirmada aparta su horario: no se pueden confirmar dos en el mismo horario y fecha.
+    if ($datos['estado'] === 'confirmada' && $solicitud->estado !== 'confirmada') {
+        $solicitud->loadMissing('experiencias.disponibilidades');
+
+        foreach ($solicitud->experiencias as $exp) {
+            $horario = $exp->pivot->id_disponibilidad;
+            $fecha = $exp->pivot->fecha_deseada ?? $solicitud->fecha_deseada;
+
+            // Sin horario guardado (reservaciones anteriores) ocupa el día completo: choca con cualquier horario apartado.
+            $ocupado = $horario
+                ? $exp->horarioApartado((int) $horario, $fecha, $solicitud->id_solicitud)
+                : ! empty($exp->horariosApartados($solicitud->id_solicitud)[\Illuminate\Support\Carbon::parse($fecha)->toDateString()] ?? []);
+
+            if ($ocupado) {
+                return back()->withErrors([
+                    'estado' => "No se puede confirmar: el horario de «{$exp->nombre}» del "
+                        . \Illuminate\Support\Carbon::parse($fecha)->format('d/m/Y')
+                        . ' ya está apartado por otra reservación confirmada.',
+                ]);
+            }
+        }
+    }
+
     $seCompleta =
         $datos['estado'] === 'completada' &&
         $solicitud->estado !== 'completada';

@@ -221,6 +221,9 @@
                                             class="campo fecha-experiencia"
                                             data-experiencia="{{ $exp->id_experiencia }}"
                                             data-dias="{{ $exp->disponibilidades->pluck('dias_semana')->unique()->implode(',') }}"
+                                            @php $apartadosExp = $exp->horariosApartados(); @endphp
+                                            data-apartados='@json((object) $apartadosExp)'
+                                            data-sin-horarios='@json($exp->fechasSinHorarios($apartadosExp))'
                                             hidden
                                         >
                                             <label for="fecha_{{ $exp->id_experiencia }}">
@@ -661,9 +664,15 @@ document.addEventListener('DOMContentLoaded', function () {
             .map(normalizar)
             .filter(Boolean);
     }
-    function fechaPermitida(fecha, dias) {
+    // Datos de reservaciones confirmadas: fechas sin horarios libres y horarios apartados por fecha.
+    function leerJson(texto, vacio) {
+        try { return JSON.parse(texto || '') || vacio; } catch (e) { return vacio; }
+    }
+    function fechaPermitida(fecha, dias, bloque) {
+        const sinHorarios = bloque ? leerJson(bloque.dataset.sinHorarios, []) : [];
         return fecha >= manana &&
-            dias.includes(normalizar(nombresDias[fecha.getDay()]));
+            dias.includes(normalizar(nombresDias[fecha.getDay()])) &&
+            !sinHorarios.includes(fechaTexto(fecha));
     }
 
     // Horarios: solo se muestran los de la fecha elegida. Si hay uno, queda seleccionado.
@@ -678,8 +687,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const fecha = leerFecha(bloque.querySelector('.calendario-valor').value);
         const dia = fecha ? normalizar(nombresDias[fecha.getDay()]) : null;
         const previa = select.value;
+        // Se ocultan los horarios apartados por una reservación confirmada en esa fecha.
+        const apartados = fecha ? (leerJson(bloque.dataset.apartados, {})[fechaTexto(fecha)] || []) : [];
         const coinciden = dia
-            ? bloque._horarios.filter(o => normalizar(o.dataset.dia) === dia)
+            ? bloque._horarios.filter(o => normalizar(o.dataset.dia) === dia && !apartados.includes(Number(o.value)))
             : [];
 
         select.innerHTML = '';
@@ -825,7 +836,7 @@ document.addEventListener('DOMContentLoaded', function () {
             for (let dia = 1; dia <= ultimoDia; dia++) {
                 const fecha = new Date(anioVisible, mesVisible, dia);
                 const valor = fechaTexto(fecha);
-                const disponible = fechaPermitida(fecha, dias);
+                const disponible = fechaPermitida(fecha, dias, bloque);
                 const boton = document.createElement('button');
                 boton.type = 'button';
                 boton.textContent = dia;
@@ -928,7 +939,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const campo = bloque.querySelector('.calendario-valor');
             const fecha = leerFecha(campo.value);
             const dias = diasPermitidos(bloque);
-            if (!fecha || !fechaPermitida(fecha, dias)) {
+            if (!fecha || !fechaPermitida(fecha, dias, bloque)) {
                 evento.preventDefault();
                 aviso.textContent =
                     'Selecciona una fecha disponible para cada experiencia.';

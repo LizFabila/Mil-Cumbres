@@ -9,6 +9,9 @@
     // Datos por experiencia para el formulario: foto, días disponibles y horarios con su cupo.
     $datosExperiencias = $experiencias->mapWithKeys(fn ($e) => [
         $e->id_experiencia => [
+            // Reservaciones confirmadas: horarios apartados por fecha y fechas sin horarios libres.
+            'apartados' => (object) ($apartados = $e->horariosApartados()),
+            'sinHorarios' => $e->fechasSinHorarios($apartados),
             'nombre' => $e->nombre,
             'imagen' => $e->imagen_url,
             'dias' => $e->disponibilidades->pluck('dias_semana')->map(fn ($d) => strtolower($d))->unique()->values(),

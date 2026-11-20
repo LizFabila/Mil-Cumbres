@@ -246,6 +246,66 @@ class Experiencia extends Model
             ->sum(DB::raw('COALESCE(asigna_experiencia.cant_persona, solicitudes.cant_persona)'));
     }
 
+    /** Estados en los que una reservación aparta su horario para los demás clientes. */
+    public const ESTADOS_QUE_APARTAN = ['confirmada', 'completada'];
+
+    /**
+     * Horarios apartados por reservaciones confirmadas, de hoy en adelante.
+     * Devuelve ['2026-11-22' => [3, 5], ...] (fecha => ids de disponibilidad).
+     */
+    public function horariosApartados(?int $exceptoSolicitud = null): array
+    {
+        return $this->solicitudes()
+            ->whereIn('solicitudes.estado', self::ESTADOS_QUE_APARTAN)
+            ->whereRaw('DATE(COALESCE(asigna_experiencia.fecha_deseada, solicitudes.fecha_deseada)) >= ?', [now()->toDateString()])
+            ->when($exceptoSolicitud, fn ($q) => $q->where('solicitudes.id_solicitud', '!=', $exceptoSolicitud))
+            ->get()
+            ->groupBy(fn ($s) => Carbon::parse($s->pivot->fecha_deseada ?? $s->fecha_deseada)->toDateString())
+            ->map(function ($grupo, $fecha) {
+                // Las reservaciones anteriores a los horarios no guardan cuál eligieron:
+                // apartan todos los horarios de ese día.
+                $delDia = $this->disponibilidades
+                    ->where('dias_semana', Disponibilidad::diaDeFecha(Carbon::parse($fecha)))
+                    ->pluck('id_disponibilidad');
+
+                return $grupo
+                    ->flatMap(fn ($s) => $s->pivot->id_disponibilidad ? [$s->pivot->id_disponibilidad] : $delDia)
+                    ->map(fn ($id) => (int) $id)
+                    ->unique()
+                    ->values()
+                    ->all();
+            })
+            ->all();
+    }
+
+    /** ¿Ese horario ya está apartado por una reservación confirmada en esa fecha? */
+    public function horarioApartado(int $idDisponibilidad, Carbon|string $fecha, ?int $exceptoSolicitud = null): bool
+    {
+        $fecha = Carbon::parse($fecha)->toDateString();
+
+        return in_array($idDisponibilidad, $this->horariosApartados($exceptoSolicitud)[$fecha] ?? [], true);
+    }
+
+    /**
+     * Fechas en las que ya no queda ningún horario libre: todos los horarios
+     * de ese día de la semana están apartados. El calendario las muestra en gris.
+     */
+    public function fechasSinHorarios(?array $apartados = null): array
+    {
+        $apartados ??= $this->horariosApartados();
+
+        return collect($apartados)
+            ->filter(function ($ids, $fecha) {
+                $dia = Disponibilidad::diaDeFecha(Carbon::parse($fecha));
+                $delDia = $this->disponibilidades->where('dias_semana', $dia)->pluck('id_disponibilidad')->map(fn ($id) => (int) $id);
+
+                return $delDia->isNotEmpty() && $delDia->diff($ids)->isEmpty();
+            })
+            ->keys()
+            ->values()
+            ->all();
+    }
+
     public function lugaresDisponibles(Carbon|string $fecha): int
     {
         return max(0, $this->cupoParaFecha($fecha) - $this->personasReservadas($fecha));
@@ -260,7 +320,7 @@ class Experiencia extends Model
      * Revisa que el horario pertenezca a la experiencia, caiga en el día de la fecha
      * y tenga lugares para el número de personas. Devuelve el mensaje de error o null.
      */
-    public function errorDeReserva(int $idDisponibilidad, Carbon|string $fecha, int $personas): ?string
+    public function errorDeReserva(int $idDisponibilidad, Carbon|string $fecha, int $personas, ?int $exceptoSolicitud = null): ?string
     {
         $disp = $this->disponibilidades->firstWhere('id_disponibilidad', $idDisponibilidad);
 
@@ -270,6 +330,11 @@ class Experiencia extends Model
 
         if ($disp->dias_semana !== Disponibilidad::diaDeFecha(Carbon::parse($fecha))) {
             return "El horario elegido de {$this->nombre} no corresponde al día de la fecha.";
+        }
+
+        // Una reservación confirmada aparta el horario completo en esa fecha.
+        if ($this->horarioApartado($idDisponibilidad, $fecha, $exceptoSolicitud)) {
+            return "El horario {$disp->horario} de {$this->nombre} ya está reservado para esa fecha. Elige otro horario u otra fecha.";
         }
 
         $libres = $this->lugaresParaHorario($fecha, $idDisponibilidad);

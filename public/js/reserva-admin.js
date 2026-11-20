@@ -148,7 +148,9 @@
         }
         for (let dia = 1; dia <= ultimo; dia++) {
             const f = new Date(anio, mes, dia);
-            const permitido = f >= manana && dias.includes(nombresDias[f.getDay()]);
+            // Fuera quedan los días sin horario y los que ya tienen todos sus horarios reservados.
+            const permitido = f >= manana && dias.includes(nombresDias[f.getDay()])
+                && !(info.sinHorarios || []).includes(iso(f));
             const boton = document.createElement('button');
             boton.type = 'button';
             boton.textContent = String(dia);
@@ -172,7 +174,7 @@
         const leyenda = document.createElement('p');
         leyenda.className = 'ayuda';
         leyenda.style.margin = '8px 0 0';
-        leyenda.textContent = info ? 'Verde: día con horario · Gris: no disponible' : 'Elige primero la experiencia';
+        leyenda.textContent = info ? 'Verde: día con horario libre · Gris: no disponible o ya reservado' : 'Elige primero la experiencia';
         pop.appendChild(leyenda);
     }
 
@@ -212,7 +214,9 @@
         const fechaElegida = leerFecha(fecha.value);
         const dia = fechaElegida ? nombresDias[fechaElegida.getDay()] : null;
         const previa = seleccion !== undefined ? seleccion : horario.value;
-        const coinciden = lista.filter(h => !dia || h.dia === dia);
+        // Sin los horarios apartados por una reservación confirmada en esa fecha.
+        const apartados = info && fechaElegida ? ((info.apartados || {})[iso(fechaElegida)] || []) : [];
+        const coinciden = lista.filter(h => (!dia || h.dia === dia) && !apartados.includes(Number(h.id)));
 
         horario.replaceChildren();
         let texto = 'Elige primero la experiencia';

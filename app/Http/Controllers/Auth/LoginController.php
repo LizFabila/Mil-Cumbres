@@ -45,7 +45,8 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        $destino = Auth::user()->esAdmin() ? route('admin.resumen') : route('solicitudes.index');
+        // El cliente vuelve al inicio; si venía de una página protegida (por ejemplo, reservar), regresa a ella.
+        $destino = Auth::user()->esAdmin() ? route('admin.resumen') : route('inicio');
 
         return redirect()->intended($destino);
     }

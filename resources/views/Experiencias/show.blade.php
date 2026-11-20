@@ -98,6 +98,10 @@
         ->unique()
         ->values()
         ->all();
+
+    // Horarios apartados por reservaciones confirmadas (fecha => ids) y fechas sin ningún horario libre.
+    $horariosApartados = $experiencia->horariosApartados();
+    $fechasSinHorarios = $experiencia->fechasSinHorarios($horariosApartados);
 @endphp
 
 <div class="mc-detalle">
@@ -670,7 +674,7 @@
                                 </div>
                                 <div class="mc-detalle-calendario__dias" id="mc-detalle-dias"></div>
                                 <p class="mc-detalle-calendario__leyenda">
-                                    Verde: día programado · Gris: no disponible
+                                    Verde: día con horario libre · Gris: no disponible o ya reservado
                                 </p>
                             </div>
 
@@ -1001,6 +1005,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const anterior = document.getElementById('mc-detalle-mes-anterior');
     const siguiente = document.getElementById('mc-detalle-mes-siguiente');
     const diasHabilitados = {{ \Illuminate\Support\Js::from($diasHabilitados) }};
+    // Fechas cuyos horarios ya están todos reservados y horarios apartados por fecha.
+    const fechasSinHorarios = {{ \Illuminate\Support\Js::from($fechasSinHorarios) }};
+    const horariosApartados = {{ \Illuminate\Support\Js::from((object) $horariosApartados) }};
 
     if (!fecha || !mensaje || !calendario || fecha.disabled) return;
 
@@ -1021,7 +1028,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function esPermitida(f) {
-        return f >= manana && diasHabilitados.includes(f.getDay());
+        return f >= manana && diasHabilitados.includes(f.getDay())
+            && !fechasSinHorarios.includes(formatoFecha(f));
     }
 
     const inicial = leerFecha(fecha.value);
@@ -1169,7 +1177,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const fechaElegida = leerFecha(fecha.value);
         const dia = fechaElegida ? nombresDias[fechaElegida.getDay()] : null;
         const previa = horarioSel.value;
-        const coinciden = dia ? opcionesHorario.filter(o => o.dataset.dia === dia) : [];
+        // Solo los horarios de ese día que no estén apartados por una reservación confirmada.
+        const apartadosFecha = fechaElegida ? (horariosApartados[formatoFecha(fechaElegida)] || []) : [];
+        const coinciden = dia
+            ? opcionesHorario.filter(o => o.dataset.dia === dia && !apartadosFecha.includes(Number(o.value)))
+            : [];
 
         horarioSel.replaceChildren();
         horarioSel.add(new Option(
