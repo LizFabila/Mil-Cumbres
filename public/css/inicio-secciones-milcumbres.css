@@ -840,6 +840,28 @@
     transform: scale(1.06);
 }
 
+/* ---------- Guías turísticas (mismas tarjetas que Equipo) ---------- */
+
+/* Comparte fondo con Equipo; sin espacio inferior para que ambas se lean como un solo bloque. */
+.ini2-guias {
+    padding-bottom: 0;
+}
+
+/* Cuadro de foto vacío: símbolo de imagen en la esquina inferior derecha. */
+.ini2-miembro__foto--vacia {
+    position: relative;
+}
+
+.ini2-miembro__icono-foto {
+    position: absolute;
+    right: 14px;
+    bottom: 12px;
+    width: 26px;
+    height: 26px;
+    color: var(--verde, var(--tema-principal, #176954));
+    opacity: .55;
+}
+
 /* ---------- Galería: sombras visibles (el contenedor ya no las recorta) ---------- */
 
 .ini2-carrusel {
