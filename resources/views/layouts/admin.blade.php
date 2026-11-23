@@ -51,6 +51,7 @@
     <symbol id="mc-i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M17 5a3 3 0 0 1 0 6M17 14a5 5 0 0 1 4 5v1"/></symbol>
     <symbol id="mc-i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
     <symbol id="mc-i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0 0 18c1.1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4c0-4.4-4-7-9-7Z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7.5" r="1"/><circle cx="14.5" cy="7.5" r="1"/></symbol>
+    <symbol id="mc-i-brand" viewBox="0 0 24 24"><path d="M3 19 9.5 8l3.5 6 2.5-4L21 19Z"/><circle cx="17" cy="6" r="2"/></symbol>
     <symbol id="mc-i-logout" viewBox="0 0 24 24"><path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M14 8l4 4-4 4M8 12h10"/></symbol>
 </svg>
 <div class="mc-adm-shell">
@@ -58,7 +59,7 @@
     <aside class="mc-adm-sidebar" id="mc-admin-sidebar">
         <div class="mc-adm-brand">
             <div class="mc-adm-brand__logo">
-                <x-logo :href="route('admin.marca.edit')" etiqueta="Editar nombre y logotipo del sitio" />
+                <x-logo :href="route('admin.resumen')" etiqueta="Mil Cumbres, ir al Resumen general" />
             </div>
             <button class="mc-adm-sidebar-close" type="button" aria-label="Cerrar menú" data-mc-adm-close>×</button>
             <span class="mc-adm-brand__subtitle">PANEL DE ADMINISTRACIÓN</span>
@@ -118,6 +119,10 @@
                     <a href="{{ route('admin.apariencia.edit') }}" @class(['mc-adm-nav__link', 'is-active' => request()->routeIs('admin.apariencia.*')])>
                         <span class="mc-adm-nav__icon" aria-hidden="true"><svg><use href="#mc-i-palette"/></svg></span>
                         <span class="mc-adm-nav__name">Apariencia</span>
+                    </a>
+                    <a href="{{ route('admin.marca.edit') }}" @class(['mc-adm-nav__link', 'is-active' => request()->routeIs('admin.marca.*')])>
+                        <span class="mc-adm-nav__icon" aria-hidden="true"><svg><use href="#mc-i-brand"/></svg></span>
+                        <span class="mc-adm-nav__name">Identidad del sitio</span>
                     </a>
                 </div>
             </section>
