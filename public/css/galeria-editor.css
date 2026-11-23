@@ -1,0 +1,71 @@
+/* A07 · Editor de recorte de la galería (admin) */
+[hidden] { display: none !important; }
+
+.galeria-editor { display: grid; gap: 10px; margin-top: 8px; }
+
+.galeria-editor__lista { display: grid; gap: 16px; }
+
+.galeria-editor__item {
+    display: grid;
+    gap: 8px;
+    padding: 10px;
+    border: 1px solid #E2E7DE;
+    border-radius: 10px;
+    background: #FAFBF8;
+}
+
+.galeria-editor__marco {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9; /* igual que la foto principal del detalle */
+    overflow: hidden;
+    border-radius: 6px;
+    background: #0d1f1a;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+}
+
+.galeria-editor__marco:active { cursor: grabbing; }
+
+.galeria-editor__imagen {
+    position: absolute;
+    max-width: none;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Cuadrícula: regla de tercios y borde del espacio visible para el cliente */
+.galeria-editor__cuadricula {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border: 2px solid rgba(255, 255, 255, .9);
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, .55) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, .55) 1px, transparent 1px);
+    background-size: 33.333% 33.333%;
+}
+
+.galeria-editor__controles {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.galeria-editor__zoom {
+    display: flex;
+    flex: 1 1 200px;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.galeria-editor__zoom input[type="range"] {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.galeria-editor__zoom input[type="range"]:disabled { opacity: .4; }

@@ -146,11 +146,6 @@
 
                 <div class="mc-detalle-hero__contenido">
 
-                    <span class="mc-detalle-etiqueta">
-                        <span class="mc-detalle-linea"></span>
-                        UNA EXPERIENCIA MIL CUMBRES
-                    </span>
-
                     <h1>
                         {{ $experiencia->nombre }}
                     </h1>
@@ -161,32 +156,6 @@
                         {{ $experiencia->resumen ?: 'Descubre esta experiencia en Valle de Bravo.' }}
                     </p>
 
-                    {{-- DATOS IMPORTANTES INTEGRADOS --}}
-
-                    <div class="mc-detalle-hero__datos">
-
-                        <div class="mc-detalle-hero__dato">
-                            <small>UBICACIÓN</small>
-                            <strong>{{ $experiencia->zonas_texto ?: 'Valle de Bravo' }}</strong>
-                        </div>
-
-                        <div class="mc-detalle-hero__dato">
-                            <small>DURACIÓN</small>
-                            <strong>{{ $experiencia->duracion_texto }}</strong>
-                        </div>
-
-                        <div class="mc-detalle-hero__dato">
-                            <small>TEMPORADA</small>
-                            <strong>{{ $experiencia->temporada ?: 'Todo el año' }}</strong>
-                        </div>
-
-                    </div>
-
-                    <div class="mc-detalle-hero__requisitos">
-                        <small>REQUISITOS</small>
-                        <p>{{ $experiencia->requisitos ?: 'Sin requisitos especiales.' }}</p>
-                    </div>
-
                     <a href="#reservar-experiencia"
                        class="mc-detalle-boton mc-detalle-boton--verde">
                         Planea tu experiencia
@@ -196,25 +165,71 @@
                 </div>
 
 
-                {{-- IMAGEN PROTAGONISTA (DERECHA) --}}
+                {{-- COLUMNA DERECHA: foto principal, banda de datos y requisitos --}}
 
-                <div class="mc-detalle-hero__visual">
+                @php
+                    // Portada + galería, en el orden del administrador.
+                    $urlsGaleria = collect([$experiencia->imagen_url])->merge($experiencia->imagenes->map->url)->values()->all();
+                @endphp
+
+                <div class="mc-detalle-hero__derecha">
+
+                <div class="mc-detalle-hero__visual" data-galeria="{{ json_encode($urlsGaleria) }}">
 
                     <img
                         src="{{ $experiencia->imagen_url }}"
                         alt="{{ $experiencia->nombre }}"
                         fetchpriority="high"
+                        data-galeria-img
                     >
 
                     <div class="mc-detalle-hero__degradado"></div>
 
-                    <div class="mc-detalle-hero__superior">
-                        @if ($experiencia->catalogo)
-                            <span class="mc-detalle-hero__categoria">
-                                {{ $experiencia->catalogo->tipo }}
+                    @if ($experiencia->imagenes->isNotEmpty())
+                        <div class="mc-detalle-hero__galeria">
+                            <button type="button" class="mc-detalle-hero__siguiente" data-galeria-siguiente aria-label="Ver la siguiente foto">
+                                <span aria-hidden="true">→</span>
+                            </button>
+                            <span class="mc-detalle-hero__contador">
+                                Ver fotos · <span data-galeria-contador>1 / {{ count($urlsGaleria) }}</span>
                             </span>
-                        @endif
+                        </div>
+                    @endif
+
+                </div>
+
+                {{-- Banda de datos bajo la foto: ubicación, duración, temporada y precio --}}
+                <div class="mc-detalle-hero__datos">
+
+                    <div class="mc-detalle-hero__dato">
+                        <small>UBICACIÓN</small>
+                        <strong>{{ $experiencia->zonas_texto ?: 'Valle de Bravo' }}</strong>
                     </div>
+
+                    <div class="mc-detalle-hero__dato">
+                        <small>DURACIÓN</small>
+                        <strong>{{ $experiencia->duracion_texto }}</strong>
+                    </div>
+
+                    <div class="mc-detalle-hero__dato">
+                        <small>TEMPORADA</small>
+                        <strong>{{ $experiencia->temporada ?: 'Todo el año' }}</strong>
+                    </div>
+
+                    <div class="mc-detalle-hero__dato">
+                        <small>PRECIO</small>
+                        <strong>{{ $experiencia->precio_texto }}</strong>
+                    </div>
+
+                </div>
+
+                {{-- Requisitos: solo si el administrador los capturó --}}
+                @if (filled($experiencia->requisitos))
+                    <div class="mc-detalle-hero__requisitos">
+                        <small>REQUISITOS</small>
+                        <p>{{ $experiencia->requisitos }}</p>
+                    </div>
+                @endif
 
                 </div>
 
@@ -600,6 +615,10 @@
 </div>
 
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/galeria-experiencias.js') }}" defer></script>
+@endpush
 
 
 {{-- ====================================== --}}

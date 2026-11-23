@@ -99,6 +99,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('/calendario', [Admin\CalendarioController::class, 'index'])->name('calendario');                  // A05
 
+    // Galería: solo sube/quita imágenes y regresa a la misma edición (no guarda el resto del formulario).
+    Route::post('/experiencias/{experiencia}/galeria', [Admin\ExperienciaController::class, 'subirGaleria'])
+        ->name('experiencias.galeria');
+
+    // Portada: sube solo la foto de portada (o la URL) y regresa a esta misma edición.
+    Route::post('/experiencias/{experiencia}/portada', [Admin\ExperienciaController::class, 'subirPortada'])
+        ->name('experiencias.portada');
+
     Route::resource('experiencias', Admin\ExperienciaController::class)->except('show');                          // A06 / A07
 
     Route::resource('zonas', Admin\ZonaController::class)->except('show');                                        // Zonas (catálogo)

@@ -530,3 +530,26 @@
     margin-left: 0;
     margin-right: auto;
 }
+
+/* ---------- Texto del hero: a la izquierda con margen fijo y más grande ---------- */
+.inicio-hero .inicio-hero__contenido {
+    padding-left: clamp(24px, 8vw, 150px);
+}
+
+.inicio-hero .inicio-hero__fijo {
+    margin-left: 0;
+    text-align: left;
+}
+
+.inicio-hero h1.inicio-hero__bienvenida {
+    max-width: 960px;
+    font-size: clamp(26px, 3vw, 42px);
+}
+
+.inicio-hero .inicio-hero__descripcion--bienvenida {
+    font-size: clamp(18px, 1.8vw, 26px);
+}
+
+.inicio-hero .inicio-hero__lema {
+    font-size: clamp(22px, 2.3vw, 32px);
+}

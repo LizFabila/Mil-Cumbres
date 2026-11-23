@@ -2,7 +2,10 @@
      Tablas: experiencias, zonas, catalogo_experiencias, disponibilidad, asigna_disponibilidad --}}
 @extends('layouts.admin')
 
-@php $editando = $experiencia->exists; @endphp
+@php
+    $editando = $experiencia->exists;
+    $galeria = $editando ? $experiencia->imagenes : collect();
+@endphp
 
 @section('titulo', $editando ? 'Editar experiencia' : 'Nueva experiencia')
 
@@ -29,17 +32,6 @@
                     <input @class(['control', 'es-invalido' => $errors->has('nombre')]) id="nombre" name="nombre" maxlength="100"
                            value="{{ old('nombre', $experiencia->nombre) }}" required>
                     @error('nombre') <span class="error">{{ $message }}</span> @enderror
-                </div>
-
-                <div class="campo">
-                    <label for="id_catalogo_exp">Tipo</label>
-                    <select @class(['control', 'es-invalido' => $errors->has('id_catalogo_exp')]) id="id_catalogo_exp" name="id_catalogo_exp" required>
-                        <option value="">Elige…</option>
-                        @foreach ($tipos as $t)
-                            <option value="{{ $t->id_catalogo_exp }}" @selected(old('id_catalogo_exp', $experiencia->id_catalogo_exp) == $t->id_catalogo_exp)>{{ $t->tipo }}</option>
-                        @endforeach
-                    </select>
-                    @error('id_catalogo_exp') <span class="error">{{ $message }}</span> @enderror
                 </div>
 
                 @php
@@ -133,23 +125,107 @@
 
                 <div class="campo">
                     <label for="imagen_archivo">Subir archivo</label>
-                    <input class="control" type="file" id="imagen_archivo" name="imagen_archivo" accept="image/*">
+                    <input class="control" type="file" id="imagen_archivo" name="imagen_archivo" accept="image/*" @if ($editando) form="form-portada" @endif>
                     @error('imagen_archivo') <span class="error">{{ $message }}</span> @enderror
+                </div>
+
+                {{-- Recorte de la portada: el cuadro muestra lo que verá el cliente --}}
+                <div class="galeria-editor" id="portada-editor" data-maximo="1" hidden>
+                    <div class="fila fila--entre">
+                        <strong>Recorta la portada</strong>
+                        <span class="ayuda">16:9 · lo que verá el cliente</span>
+                    </div>
+                    <p class="ayuda mb-0">Arrastra la foto y usa los controles o la rueda del mouse. Lo que está dentro del cuadro es lo que verá el cliente.</p>
+                    <div class="galeria-editor__lista" id="portada-editor-lista"></div>
+                    <p class="error" id="portada-editor-aviso" role="alert" hidden></p>
                 </div>
 
                 <div class="campo">
                     <label for="imagen_url">…o pegar URL</label>
-                    <input class="control" type="url" id="imagen_url" name="imagen_url"
+                    <input class="control" type="url" id="imagen_url" name="imagen_url" @if ($editando) form="form-portada" @endif
                            value="{{ old('imagen_url', str_starts_with((string) $experiencia->imagen, 'http') ? $experiencia->imagen : '') }}"
                            placeholder="https://images.unsplash.com/…">
                     @error('imagen_url') <span class="error">{{ $message }}</span> @enderror
                 </div>
+
+                {{-- Cargar: solo la portada (formulario propio) y regresa a esta misma página --}}
+                @if ($editando)
+                    <div class="acciones-form__botones">
+                        <button class="btn btn--primario" type="submit" form="form-portada" id="boton-cargar-portada">Cargar</button>
+                    </div>
+                @endif
+            </section>
+
+            <section class="panel pila">
+                <div class="fila fila--entre">
+                    <h2 class="mb-0">Galería</h2>
+                    <span class="ayuda">{{ $galeria->count() }} de {{ \App\Models\Experiencia::MAX_IMAGENES }}</span>
+                </div>
+                <p class="ayuda mb-0">Máximo {{ \App\Models\Experiencia::MAX_IMAGENES }} imágenes por experiencia. La portada no cuenta dentro de este límite.</p>
+
+                @if ($galeria->isNotEmpty())
+                    <div class="galeria-admin">
+                        @foreach ($galeria as $img)
+                            <label class="galeria-admin__item">
+                                <img src="{{ $img->url }}" alt="">
+                                <span><input type="checkbox" name="imagenes_eliminar[]" value="{{ $img->id_experiencia_imagen }}" form="form-galeria"> Quitar</span>
+                            </label>
+                        @endforeach
+                    </div>
+                @endif
+
+                @if ($editando)
+                <div class="campo">
+                    <label for="imagenes">Agregar imágenes</label>
+                    <input @class(['control', 'es-invalido' => $errors->has('imagenes') || $errors->has('imagenes.*')])
+                           type="file" id="imagenes" name="imagenes[]" accept="image/*" multiple form="form-galeria">
+                    @error('imagenes') <span class="error">{{ $message }}</span> @enderror
+                    @error('imagenes.*') <span class="error">{{ $message }}</span> @enderror
+                </div>
+
+                {{-- Recorte antes de guardar: el cuadro muestra lo que verá el cliente --}}
+                <div class="galeria-editor" id="galeria-editor" data-maximo="{{ \App\Models\Experiencia::MAX_IMAGENES }}" hidden>
+                    <div class="fila fila--entre">
+                        <strong>Recorta cada imagen</strong>
+                        <span class="ayuda" id="galeria-editor-conteo"></span>
+                    </div>
+                    <p class="ayuda mb-0">Arrastra la foto y usa el control o la rueda del mouse para acercar. Lo que está dentro del cuadro es lo que verá el cliente.</p>
+                    <div class="galeria-editor__lista" id="galeria-editor-lista"></div>
+                    <p class="error" id="galeria-editor-aviso" role="alert" hidden></p>
+                </div>
+
+                {{-- Cargar: solo sube la galería (formulario separado) y regresa a esta misma página --}}
+                <div class="acciones-form__botones">
+                    <button class="btn btn--primario" type="submit" form="form-galeria" id="boton-cargar-galeria">Cargar</button>
+                </div>
+                @else
+                    <p class="ayuda mb-0">Guarda la experiencia para poder subir su galería.</p>
+                @endif
             </section>
         </div>
     </div>
 </form>
+
+@if ($editando)
+    {{-- Formulario de la galería: solo sube imágenes y regresa a esta misma página --}}
+    <form id="form-galeria" method="POST" enctype="multipart/form-data" novalidate
+          action="{{ route('admin.experiencias.galeria', $experiencia) }}">
+        @csrf
+    </form>
+
+    {{-- Formulario de la portada: solo sube la foto (o la URL) y regresa a esta misma página --}}
+    <form id="form-portada" method="POST" enctype="multipart/form-data" novalidate
+          action="{{ route('admin.experiencias.portada', $experiencia) }}">
+        @csrf
+    </form>
+@endif
 @endsection
+
+@push('estilos')
+    <link rel="stylesheet" href="{{ asset('css/galeria-editor.css') }}">
+@endpush
 
 @push('scripts')
     <script src="{{ asset('js/editor-experiencia.js') }}" defer></script>
+    <script src="{{ asset('js/galeria-editor.js') }}" defer></script>
 @endpush

@@ -180,3 +180,8 @@ body.admin { background: var(--fondo-alt); }
     .item-fila { grid-template-columns: 1fr; }
     .item-fila .imagen-exp[hidden] { display: none; }
 }
+
+/* Galería de la experiencia (máximo 10 imágenes) */
+.galeria-admin { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.galeria-admin__item { display: grid; gap: 4px; font-size: 12px; }
+.galeria-admin__item img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; }
