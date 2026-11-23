@@ -59,7 +59,7 @@
     <aside class="mc-adm-sidebar" id="mc-admin-sidebar">
         <div class="mc-adm-brand">
             <div class="mc-adm-brand__logo">
-                <x-logo :href="route('admin.resumen')" etiqueta="Mil Cumbres, ir al Resumen general" />
+                <x-logo :href="false" />
             </div>
             <button class="mc-adm-sidebar-close" type="button" aria-label="Cerrar menú" data-mc-adm-close>×</button>
             <span class="mc-adm-brand__subtitle">PANEL DE ADMINISTRACIÓN</span>
