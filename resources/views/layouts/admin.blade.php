@@ -33,7 +33,6 @@
         request()->routeIs('admin.zonas.*') => 'Zonas',
         request()->routeIs('admin.reservas.*') => 'Añadir reservación',
         request()->routeIs('admin.usuarios.*') => 'Usuarios',
-        request()->routeIs('admin.marca.*') => 'Identidad del sitio',
         request()->routeIs('admin.apariencia.*') => 'Apariencia',
         request()->routeIs('admin.calificaciones.*') => 'Opiniones',
         default => 'Administración',
@@ -58,7 +57,7 @@
     <aside class="mc-adm-sidebar" id="mc-admin-sidebar">
         <div class="mc-adm-brand">
             <div class="mc-adm-brand__logo">
-                <x-logo :href="route('admin.marca.edit')" etiqueta="Editar nombre y logotipo del sitio" />
+                <x-logo :href="false" />
             </div>
             <button class="mc-adm-sidebar-close" type="button" aria-label="Cerrar menú" data-mc-adm-close>×</button>
             <span class="mc-adm-brand__subtitle">PANEL DE ADMINISTRACIÓN</span>
