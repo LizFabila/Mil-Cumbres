@@ -376,6 +376,45 @@
 
 
     {{-- ======================================= --}}
+    {{-- GUÍAS TURÍSTICAS --}}
+    {{-- Mismas tarjetas que el equipo, con el cuadro de foto vacío. Cambia nombres, resúmenes y fotos cuando estén los datos reales. --}}
+    {{-- ======================================= --}}
+
+    <section class="ini2-equipo ini2-guias" id="guias" aria-labelledby="ini2-guias-titulo">
+        <div class="contenedor">
+
+            <div class="ini2-cabecera" data-ini2>
+                <h2 id="ini2-guias-titulo">Guías turísticas</h2>
+            </div>
+
+            <div class="ini2-equipo__grid">
+                @foreach ([
+                    ['Guía 1', 'Resumen del guía: experiencia, recorridos que acompaña y lo que más disfruta compartir del territorio.'],
+                    ['Guía 2', 'Resumen del guía: experiencia, recorridos que acompaña y lo que más disfruta compartir del territorio.'],
+                    ['Guía 3', 'Resumen del guía: experiencia, recorridos que acompaña y lo que más disfruta compartir del territorio.'],
+                    ['Guía 4', 'Resumen del guía: experiencia, recorridos que acompaña y lo que más disfruta compartir del territorio.'],
+                ] as [$nombre, $resumen])
+                    <article class="ini2-miembro ini2-elevable" data-ini2 style="--retardo: {{ $loop->index * 110 }}ms">
+                        {{-- Espacio para la foto del guía; agrega aquí un <img> cuando la tengas. --}}
+                        <div class="ini2-miembro__foto ini2-miembro__foto--vacia" aria-hidden="true">
+                            {{-- Símbolo de imagen: indica que aquí va la foto. Quítalo al poner el <img>. --}}
+                            <svg class="ini2-miembro__icono-foto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="16" rx="2.5"/>
+                                <circle cx="8.5" cy="9.5" r="1.8"/>
+                                <path d="M21 16l-5.2-5.2a1 1 0 0 0-1.4 0L5 20"/>
+                            </svg>
+                        </div>
+                        <h3>{{ $nombre }}</h3>
+                        <p>{{ $resumen }}</p>
+                    </article>
+                @endforeach
+            </div>
+
+        </div>
+    </section>
+
+
+    {{-- ======================================= --}}
     {{-- EQUIPO Y COLABORADORES --}}
     {{-- ======================================= --}}
 
