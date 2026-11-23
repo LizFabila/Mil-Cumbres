@@ -35,6 +35,8 @@
             p.inert = !activo;                  // los enlaces ocultos no reciben foco
         });
         fotos.forEach(function (f, k) { f.classList.toggle('is-activa', k === i); });
+        // Sombra más ligera solo cuando la foto lo pide (data-sombra="ligera").
+        hero.classList.toggle('is-sombra-ligera', !!(fotos[i] && fotos[i].hasAttribute('data-sombra')));
         indicadores.forEach(function (b, k) {
             b.classList.toggle('is-activo', k === i);
             b.setAttribute('aria-selected', k === i ? 'true' : 'false');

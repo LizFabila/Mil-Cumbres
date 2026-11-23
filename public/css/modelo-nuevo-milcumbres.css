@@ -1,0 +1,229 @@
+/* =====================================================
+   Nuestro modelo · contenido nuevo (PDF «Mil Cumbres Turismo Regenerativo»)
+   Animaciones: cada bloque entra al hacer scroll.
+   Sin JavaScript, todo queda visible.
+===================================================== */
+
+.mn-modelo {
+    padding-bottom: 0;
+}
+
+.mn-seccion {
+    padding: clamp(56px, 7vw, 96px) 0;
+}
+
+.mn-fila {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(28px, 4vw, 64px);
+    align-items: center;
+}
+
+.mn-etiqueta {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: var(--verde, var(--tema-principal, #176954));
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.mn-modelo h2 {
+    margin: 0 0 18px;
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: clamp(2rem, 4vw, 3.1rem);
+    font-weight: 500;
+    line-height: 1.12;
+    color: var(--verde-bosque, var(--tema-oscuro, #143D36));
+}
+
+.mn-modelo h2 em {
+    font-style: italic;
+    color: var(--verde, var(--tema-principal, #176954));
+}
+
+.mn-texto p {
+    margin: 0 0 14px;
+    color: var(--gris-texto, #5F716B);
+    font-size: 1.02rem;
+    line-height: 1.7;
+}
+
+.mn-lead {
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: clamp(1.25rem, 2.2vw, 1.6rem) !important;
+    line-height: 1.5 !important;
+    color: var(--verde-bosque, var(--tema-oscuro, #143D36)) !important;
+}
+
+.mn-foto {
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radio-lg, 14px);
+    box-shadow: var(--sombra, 0 14px 34px rgba(20, 61, 54, .14));
+}
+
+.mn-foto img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 1.2s ease;
+}
+
+.mn-foto:hover img {
+    transform: scale(1.03);
+}
+
+/* 3 · Experiencias que regeneran */
+.mn-regeneran {
+    position: relative;
+    isolation: isolate;
+    background: var(--verde-bosque, var(--tema-oscuro, #143D36));
+    color: #fff;
+}
+
+.mn-regeneran::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: var(--foto) center / cover no-repeat;
+    opacity: .22;
+}
+
+.mn-regeneran::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(20, 61, 54, .6), rgba(20, 61, 54, .92));
+}
+
+.mn-regeneran .mn-etiqueta {
+    color: var(--lima, var(--tema-acento, #C5D49D));
+}
+
+.mn-regeneran h2 {
+    color: #fff;
+}
+
+.mn-regeneran h2 em {
+    color: var(--lima, var(--tema-acento, #C5D49D));
+}
+
+.mn-encabezado {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.mn-tarjetas {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.mn-tarjeta {
+    padding: 28px 26px;
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: var(--radio-lg, 14px);
+    background: rgba(255, 255, 255, .08);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.mn-tarjeta h3 {
+    margin: 0 0 14px;
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--lima, var(--tema-acento, #C5D49D));
+}
+
+.mn-tarjeta p {
+    margin: 0 0 12px;
+    color: rgba(255, 255, 255, .9);
+    font-size: .98rem;
+    line-height: 1.65;
+}
+
+/* 4 · Cierre */
+.mn-cierre {
+    position: relative;
+    isolation: isolate;
+    padding: clamp(72px, 9vw, 120px) 0;
+    background: var(--verde-bosque, var(--tema-oscuro, #143D36));
+    color: #fff;
+    text-align: center;
+}
+
+.mn-cierre::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: var(--foto) center / cover no-repeat;
+}
+
+.mn-cierre::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgba(20, 61, 54, .72);
+}
+
+.mn-cierre h2 {
+    max-width: 760px;
+    margin: 0 auto 28px;
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: clamp(2rem, 4.2vw, 3.2rem);
+    font-weight: 500;
+    line-height: 1.15;
+    color: #fff;
+}
+
+.mn-cierre h2 em {
+    color: var(--lima, var(--tema-acento, #C5D49D));
+}
+
+/* Animaciones de entrada (solo con JavaScript activo) */
+.js .mn-revela {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .9s cubic-bezier(.2, .7, .2, 1), transform .9s cubic-bezier(.2, .7, .2, 1);
+    transition-delay: var(--retardo, 0ms);
+}
+
+.js .mn-revela.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .mn-fila,
+    .mn-fila--invertida {
+        grid-template-columns: 1fr;
+    }
+
+    .mn-fila--invertida .mn-texto {
+        order: 0;
+    }
+
+    .mn-tarjetas {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .js .mn-revela {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .mn-foto img {
+        transition: none;
+    }
+}

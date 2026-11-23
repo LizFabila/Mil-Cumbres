@@ -1,0 +1,88 @@
+/* =====================================================
+   Inicio · Servicios (tarjetas alargadas, como en el PDF)
+   Iconos en verde del sitio, sin fondo; mismas animaciones
+   de «Nuestra historia» (data-ini2 / ini2-elevable).
+===================================================== */
+
+.ini2-servicios {
+    padding: 36px 0 24px;
+}
+
+.ini2-servicios__lista {
+    display: grid;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.ini2-servicio {
+    display: grid;
+    grid-template-columns: minmax(200px, 1fr) minmax(0, 1.25fr) minmax(0, 1.4fr);
+    align-items: stretch;
+    overflow: hidden;
+    border: 1px solid var(--borde, #E3E8E5);
+    border: 2px solid var(--c, var(--naranja-monarca, #E8771E));
+    outline: 5.5px solid color-mix(in srgb, var(--c, var(--naranja-monarca, #E8771E)) 30%, transparent);
+    outline-offset: 0;
+    margin: 10px 8px;
+    border-radius: 16px;
+    background: #fff;
+}
+
+.ini2-servicio__cabecera {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+}
+
+.ini2-servicio__icono {
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+}
+
+.ini2-servicio__nombre {
+    margin: 0;
+    color: var(--verde-bosque, var(--tema-oscuro, #143D36));
+    font-family: var(--fuente-titulo, Georgia, serif);
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+}
+
+.ini2-servicio__texto,
+.ini2-servicio__detalle {
+    margin: 0;
+    padding: 14px 18px;
+    color: var(--gris-texto, #5F716B);
+    font-size: .92rem;
+    line-height: 1.55;
+}
+
+.ini2-servicio__detalle {
+    border-left: 1px solid var(--borde, #E3E8E5);
+}
+
+@media (max-width: 860px) {
+    .ini2-servicio {
+        grid-template-columns: 1fr;
+    }
+
+    .ini2-servicio__detalle {
+        border-left: 0;
+        border-top: 1px solid var(--borde, #E3E8E5);
+    }
+}
+
+/* ---------- Colaboradores siempre a color (sin el filtro de escala de grises) ---------- */
+.ini2-colaboradores .ini2-logo img {
+    filter: none;
+}
+
+/* ---------- Valores: mismo naranja monarca que los servicios (cabecera y borde del icono) ---------- */
+.ini2-quienes .ini2-paso-card--valores {
+    --c: var(--naranja-monarca, #E8771E);
+}
