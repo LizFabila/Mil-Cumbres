@@ -1,0 +1,125 @@
+/* =====================================================
+   C01 · Alineación del banner principal (todas las paletas)
+   Todo el texto parte del mismo margen izquierdo que el logotipo
+   del encabezado, en una sola columna y sin huecos:
+   frases de bienvenida → título de la diapositiva → botones,
+   y abajo los controles del carrusel junto a «Descubre más».
+   Se carga al final para ganar a las reglas anteriores del hero.
+===================================================== */
+
+/* El texto arranca cerca del riel de experiencias (no del logotipo), sin margen muerto a la izquierda */
+.inicio-hero {
+    --hero-texto-izq: calc(var(--menu-riel, 76px) + 48px);
+}
+
+/* Columna del contenido */
+.inicio-hero .inicio-hero__contenido {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 26px;
+    width: 100%;
+    max-width: none;
+    min-height: min(600px, calc(100svh - 140px));
+    margin: 0;
+    padding-top: 40px;
+    padding-right: 48px;
+    padding-bottom: 104px;
+    padding-left: var(--hero-texto-izq);
+}
+
+/* Frases fijas de arriba */
+.inicio-hero .inicio-hero__fijo {
+    align-self: stretch;
+    width: 100%;
+    max-width: 820px;
+    margin: 0;
+    text-align: left;
+}
+
+/* Título de cada diapositiva: a la izquierda, justo debajo de las frases */
+.inicio-hero .inicio-hero__paneles {
+    flex: 0 0 auto;
+    align-self: stretch;
+    align-content: start;
+    padding: 0;
+}
+
+.inicio-hero .inicio-hero__panel {
+    justify-items: start;
+    align-items: start;
+}
+
+.inicio-hero .inicio-hero__panel .inicio-hero__texto {
+    position: static;
+    width: 100%;
+    text-align: left;
+}
+
+.inicio-hero h2.inicio-hero__titulo {
+    max-width: 900px;
+    margin: 0;
+    text-align: left;
+}
+
+/* Botones debajo del título, en la misma columna */
+.inicio-hero .inicio-hero__pie {
+    position: static;
+    margin: 0;
+}
+
+.inicio-hero .inicio-hero__pie .inicio-hero__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 28px;
+    margin: 0;
+}
+
+/* Controles del carrusel abajo, alineados con el texto */
+.inicio-hero .inicio-hero__controles {
+    left: var(--hero-texto-izq);
+    bottom: 32px;
+}
+
+/* «Descubre más» a la derecha de los controles, en la misma línea */
+.inicio-hero .inicio-hero__scroll {
+    right: 48px;
+    left: auto;
+    bottom: 40px;
+    transform: none;
+}
+
+@media (max-width: 1100px) {
+    .inicio-hero .inicio-hero__contenido {
+        min-height: 0;
+        padding-bottom: 96px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* En celular el riel es un botón arriba: el texto usa el margen normal */
+    .inicio-hero {
+        --hero-texto-izq: 24px;
+    }
+
+    .inicio-hero .inicio-hero__contenido {
+        padding-right: 24px;
+        gap: 20px;
+        padding-top: 84px;
+        padding-bottom: 88px;
+    }
+
+    /* En columna, los botones también parten del margen izquierdo */
+    .inicio-hero .inicio-hero__pie .inicio-hero__acciones {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .inicio-hero .inicio-hero__controles {
+        left: 16px;
+        right: 16px;
+        bottom: 24px;
+    }
+}

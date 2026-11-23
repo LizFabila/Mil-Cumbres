@@ -584,6 +584,8 @@
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('inicio-servicios-milcumbres.css') }}">
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('inicio-menu-hero.css') }}">
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('inicio-secciones-milcumbres.css') }}">
+    {{-- Al final: alinea todo el texto del banner a la izquierda, sin huecos --}}
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('inicio-hero-alineacion.css') }}">
 @endpush
 
 @push('scripts')

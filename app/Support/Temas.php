@@ -95,12 +95,15 @@ final class Temas
             ],
             'naranja' => [
                 'nombre' => 'Naranja',
-                'descripcion' => 'Barras claras en durazno, fondos blancos, tarjetas crema y botones y elementos activos en naranja intenso.',
+                'descripcion' => 'Barra superior y fondos oscuros en marrón ámbar, menú en naranja tierra, fondos blancos, tarjetas crema y botones en naranja miel.',
                 'colores' => [
-                    'oscuro' => '#FDE3D3',
-                    'sobre-oscuro' => '#1F1F1F',
+                    // «Oscuro» también es el color de títulos y de las secciones oscuras del sitio:
+                    // debe ser oscuro de verdad para que se lean sobre fondos blancos y crema.
+                    'oscuro' => '#542E06',
+                    'sobre-oscuro' => '#FFFFFF',
                     'principal' => '#D9730D',
-                    'principal-claro' => '#F28A22',
+                    // Se usa como color de texto en muchas vistas: naranja profundo para que se lea sobre blanco.
+                    'principal-claro' => '#B35F0F',
                     'sobre-principal' => '#FFFFFF',
                     'activo' => '#D9730D',
                     'sobre-activo' => '#FFFFFF',

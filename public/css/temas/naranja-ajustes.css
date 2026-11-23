@@ -25,3 +25,156 @@
 .hero-menu { background: var(--tema-fondo-alt) !important; }
 .hero-menu, .hero-menu * { color: var(--tema-texto) !important; }
 .hero-menu__boton { background: var(--tema-accion) !important; }
+
+/* =====================================================
+   Distribución de color de la paleta Naranja (referencia de diseño)
+   #542E06 marrón ámbar oscuro · barra superior y fondos oscuros
+   #8F4E16 naranja tostado   · navegación y elementos secundarios
+   #B26E36 naranja tierra    · fondos y superficies
+   #C87519 naranja cálido    · acentos y elementos activos
+   #EA8E3E naranja miel      · botones principales
+   #FDF5EB crema suave       · botones claros y fondos
+   #FFFFFF blanco            · textos principales
+   Va al final del archivo para reemplazar las reglas de arriba.
+===================================================== */
+:root {
+    --nj-marron: #542E06;
+    --nj-tostado: #8F4E16;
+    --nj-tierra: #B26E36;
+    --nj-calido: #C87519;
+    --nj-miel: #EA8E3E;
+    --nj-crema: #FDF5EB;
+}
+
+/* Franja superior: marrón oscuro; marca en naranja miel y contactos en blanco */
+.mc-hub .mc-hub__ribbon { background: var(--nj-marron) !important; }
+.mc-hub .mc-hub__ribbon .mc-hub__ribbon-marca { color: var(--nj-miel) !important; }
+.mc-hub .mc-hub__ribbon .mc-contacto,
+.mc-hub .mc-hub__ribbon .mc-contacto * { color: #FFFFFF !important; }
+
+/* Barra de navegación: naranja tierra a naranja cálido, textos en blanco */
+.mc-hub { background: var(--nj-marron) !important; }
+.mc-hub .mc-hub__bar { background: linear-gradient(90deg, var(--nj-tierra) 0%, var(--nj-calido) 100%) !important; }
+.mc-hub .mc-hub__bar .marca__nombre,
+.mc-hub .mc-hub__bar .marca__lema,
+.mc-hub .mc-hub__bar .mc-hub__nav > .mc-hub__nav-link,
+.mc-hub .mc-hub__bar .mc-hub__group > .mc-hub__nav-button,
+.mc-hub .mc-hub__bar .mc-hub__account,
+.mc-hub .mc-hub__bar .mc-hub__account * ,
+.mc-hub .mc-hub__bar .mc-hub__mobile-toggle { color: #FFFFFF !important; }
+.mc-hub .mc-hub__bar .marca__lema { opacity: .9; }
+
+/* Enlace activo y hover en crema, con subrayado crema */
+.mc-hub .mc-hub__bar .mc-hub__nav > .mc-hub__nav-link.is-active,
+.mc-hub .mc-hub__bar .mc-hub__nav > .mc-hub__nav-link:hover,
+.mc-hub .mc-hub__bar .mc-hub__group > .mc-hub__nav-button:hover,
+.mc-hub .mc-hub__bar .mc-hub__group > .mc-hub__nav-button[aria-expanded="true"] { color: var(--nj-crema) !important; }
+.mc-hub .mc-hub__nav-link::after { background: var(--nj-crema) !important; }
+
+/* Logotipo sobre placa blanca, como en la referencia */
+.mc-hub .marca img { background: #FFFFFF !important; }
+
+/* Ícono de la cuenta en crema y botón «Explorar» en naranja miel */
+.mc-hub .mc-hub__account-icon { background: var(--nj-crema) !important; color: var(--nj-tostado) !important; }
+.mc-hub .mc-hub__primary-cta,
+.mc-hub .mc-hub__primary-cta * { background-color: var(--nj-miel) !important; color: #FFFFFF !important; border-color: var(--nj-miel) !important; }
+.mc-hub .mc-hub__primary-cta * { background-color: transparent !important; }
+.mc-hub .mc-hub__primary-cta:hover { background-color: var(--nj-calido) !important; border-color: var(--nj-calido) !important; }
+
+/* Banner: velo cálido marrón, más fuerte a la izquierda donde va el texto */
+.inicio-hero .inicio-hero__sombra {
+    background:
+        linear-gradient(90deg, rgba(84, 46, 6, .80) 0%, rgba(84, 46, 6, .52) 45%, rgba(84, 46, 6, .12) 100%),
+        linear-gradient(0deg, rgba(84, 46, 6, .55), transparent 45%) !important;
+}
+
+/* Textos del banner: blanco y acentos en naranja miel */
+.inicio-hero .inicio-hero__bienvenida,
+.inicio-hero .inicio-hero__descripcion,
+.inicio-hero .inicio-hero__titulo { color: #FFFFFF !important; }
+.inicio-hero .inicio-hero__bienvenida em,
+.inicio-hero .inicio-hero__lema { color: var(--nj-miel) !important; }
+
+/* Botón «Reservar» claro (crema con texto tostado) y enlace en blanco */
+.inicio-hero .inicio-btn--claro {
+    background: var(--nj-crema) !important;
+    color: var(--nj-tostado) !important;
+    border-color: var(--nj-crema) !important;
+}
+.inicio-hero .inicio-btn--claro:hover { background: #FFFFFF !important; }
+.inicio-hero .inicio-hero__enlace { color: #FFFFFF !important; }
+.inicio-hero .inicio-hero__enlace:hover { color: var(--nj-miel) !important; }
+
+/* Controles del carrusel: bordes crema y avance en naranja miel */
+.inicio-hero .inicio-hero__control {
+    border-color: rgba(253, 245, 235, .55) !important;
+    background: rgba(84, 46, 6, .35) !important;
+    color: #FFFFFF !important;
+}
+.inicio-hero .inicio-hero__control:hover { border-color: var(--nj-miel) !important; background: rgba(234, 142, 62, .25) !important; }
+.inicio-hero .inicio-hero__icono-pausa { border-color: #FFFFFF !important; }
+.inicio-hero .inicio-hero__control--pausa[aria-pressed="true"] .inicio-hero__icono-pausa { border-color: transparent transparent transparent #FFFFFF !important; }
+.inicio-hero .inicio-hero__indicador span { background: rgba(253, 245, 235, .35) !important; }
+.inicio-hero .inicio-hero__indicador span::after { background: var(--nj-miel) !important; }
+.inicio-hero .inicio-hero__scroll,
+.inicio-hero .inicio-hero__scroll * { color: #FFFFFF !important; }
+
+/* Riel de experiencias: marrón translúcido con botón naranja miel y textos blancos */
+.hero-menu {
+    background: rgba(84, 46, 6, .62) !important;
+    border-right: 1px solid rgba(234, 142, 62, .45) !important;
+}
+.hero-menu.is-abierto { background: rgba(84, 46, 6, .96) !important; }
+.hero-menu, .hero-menu * { color: #FFFFFF !important; }
+.hero-menu .hero-menu__boton { background: transparent !important; }
+.hero-menu .hero-menu__hamburguesa { background: var(--nj-miel) !important; }
+.hero-menu .hero-menu__hamburguesa i { background: var(--nj-marron) !important; }
+.hero-menu .hero-menu__tipo,
+.hero-menu .hero-menu__flecha,
+.hero-menu .hero-menu__actual { color: var(--nj-miel) !important; }
+.hero-menu .hero-menu__item.is-actual::before { background: var(--nj-miel) !important; }
+.hero-menu .hero-menu__item.is-actual { background: rgba(234, 142, 62, .14) !important; }
+.hero-menu .hero-menu__datos small { color: rgba(255, 255, 255, .7) !important; }
+
+/* La franja naranja ocupa todo el ancho, no solo el centro */
+.mc-hub { background: linear-gradient(90deg, var(--nj-tierra) 0%, var(--nj-calido) 100%) !important; }
+.mc-hub .mc-hub__bar { background: transparent !important; box-shadow: none !important; }
+
+/* Figura de la cuenta en naranja tostado sobre el círculo crema */
+.mc-hub .mc-hub__bar .mc-hub__account .mc-hub__account-icon,
+.mc-hub .mc-hub__bar .mc-hub__account .mc-hub__account-icon * { color: var(--nj-tostado) !important; }
+
+/* Legibilidad del texto sobre fotos claras */
+.inicio-hero .inicio-hero__fijo,
+.inicio-hero .inicio-hero__titulo { text-shadow: 0 2px 14px rgba(40, 20, 2, .55); }
+
+/* Fotos claras: el velo baja menos para que los textos naranja se sigan leyendo */
+.inicio-hero.is-sombra-ligera .inicio-hero__sombra { opacity: .72 !important; }
+
+/* =====================================================
+   Legibilidad de textos en la paleta Naranja
+   «Oscuro» ahora es marrón ámbar (#542E06, en app/Support/Temas.php):
+   títulos y secciones oscuras ya se leen. Aquí solo se ajustan los
+   acentos que quedaban demasiado claros sobre fondos blancos o crema.
+===================================================== */
+
+/* Botón «Explorar» del menú: letra marrón sobre naranja miel (el blanco no se leía) */
+.mc-hub .mc-hub__primary-cta,
+.mc-hub .mc-hub__primary-cta * { color: var(--nj-marron) !important; }
+
+/* Botones claros en todo el sitio: crema con letra naranja tostado */
+.inicio-btn--claro {
+    background: var(--nj-crema) !important;
+    color: var(--nj-tostado) !important;
+    border-color: var(--nj-crema) !important;
+}
+.inicio-btn--claro:hover { background: #FFFFFF !important; }
+
+/* Números de «Nuestra historia» en naranja más profundo para que se lean sobre crema */
+.ini2-hito__numero { color: #B35F0F !important; }
+
+/* Aviso de privacidad: índice y correos en naranja tostado */
+.aviso__indice a,
+.aviso__correo { color: var(--nj-tostado) !important; }
+.aviso__indice a:hover,
+.aviso__correo:hover { color: var(--nj-marron) !important; }
