@@ -13,7 +13,7 @@
 
 @push('estilos')
 <link rel="stylesheet"
-      href="{{ asset('css/catalogo-milcumbres.css') }}">
+      href="{{ \App\Support\Temas::hoja('catalogo-milcumbres.css') }}">
 @endpush
 
 @section('contenido')

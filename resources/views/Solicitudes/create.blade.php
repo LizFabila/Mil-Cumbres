@@ -10,7 +10,7 @@
 )
 @push('estilos')
 <link rel="stylesheet"
-      href="{{ asset('css/solicitar-milcumbres.css') }}">
+      href="{{ \App\Support\Temas::hoja('solicitar-milcumbres.css') }}">
 @endpush
 @section('contenido')
 @php
@@ -556,7 +556,7 @@
         background: #f6f8f6;
         cursor: pointer;
         font-size: 23px;
-        color: #274c39;
+        color: var(--tm-274c39, #274c39);
     }
     .calendario-dias-semana,
     .calendario-cuadricula {
@@ -569,7 +569,7 @@
         text-align: center;
         font-weight: bold;
         font-size: 12px;
-        color: #53635a;
+        color: var(--tm-53635a, #53635a);
     }
     .calendario-cuadricula button {
         width: 100%;
@@ -580,12 +580,12 @@
         font-size: 13px;
     }
     .calendario-cuadricula .dia-disponible {
-        background: #d7f1df;
-        color: #14643a;
+        background: var(--tm-d7f1df, #d7f1df);
+        color: var(--tm-14643a, #14643a);
         cursor: pointer;
     }
     .calendario-cuadricula .dia-disponible:hover {
-        background: #a5dfb9;
+        background: var(--tm-a5dfb9, #a5dfb9);
     }
     .calendario-cuadricula .dia-bloqueado {
         background: #f2f2f2;
@@ -593,14 +593,14 @@
         cursor: not-allowed;
     }
     .calendario-cuadricula .dia-seleccionado {
-        background: #176447;
+        background: var(--tm-176447, #176447);
         color: white;
         font-weight: bold;
     }
     .calendario-ayuda {
         margin: 12px 0 0;
         font-size: 11px;
-        color: #65736b;
+        color: var(--tm-65736b, #65736b);
         text-align: center;
     }
 </style>

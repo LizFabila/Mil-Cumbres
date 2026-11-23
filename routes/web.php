@@ -116,6 +116,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/identidad', [Admin\MarcaController::class, 'update'])->name('marca.update');
     Route::delete('/identidad/logo', [Admin\MarcaController::class, 'restaurarLogo'])->name('marca.logo.restaurar');
 
+    Route::get('/apariencia', [Admin\AparienciaController::class, 'edit'])->name('apariencia.edit');          // A12
+    Route::put('/apariencia', [Admin\AparienciaController::class, 'update'])->name('apariencia.update');
+
     Route::get('/opiniones', [Admin\CalificacionController::class, 'index'])->name('calificaciones.index');       // A11
     Route::patch('/opiniones/{calificacion}/estado', [Admin\CalificacionController::class, 'estado'])->name('calificaciones.estado');
     Route::patch('/opiniones/{calificacion}/respuesta', [Admin\CalificacionController::class, 'respuesta'])->name('calificaciones.respuesta');

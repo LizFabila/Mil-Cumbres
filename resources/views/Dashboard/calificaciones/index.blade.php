@@ -6,7 +6,7 @@
 @section('titulo', 'Opiniones')
 
 @push('estilos')
-    <link rel="stylesheet" href="{{ asset('css/admin-calificaciones-milcumbres.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('admin-calificaciones-milcumbres.css') }}">
 @endpush
 
 @php

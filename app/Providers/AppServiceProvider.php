@@ -7,6 +7,7 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,6 +27,21 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::defaultView('vendor.pagination.mil-cumbres');
         Carbon::setLocale('es');
+
+        // Categorías del desplegable "Experiencias" de la barra: disponibles en todas
+        // las vistas que usan layouts.app (cliente, login, registro, solicitudes, etc.).
+        View::composer('layouts.app', function ($vista) {
+            $vista->with('categoriasMenu', \App\Models\CatalogoExperiencia::query()
+                ->orderBy('id_catalogo_exp')
+                ->get(['id_catalogo_exp', 'tipo']));
+
+            // Experiencias con horario, agrupadas por tipo, para el riel lateral.
+            $vista->with('rielGrupos', \App\Models\Experiencia::with(['zona', 'zonas', 'catalogo', 'disponibilidades'])
+                ->whereHas('disponibilidades')
+                ->orderBy('id_experiencia')
+                ->get()
+                ->groupBy(fn ($e) => $e->catalogo?->tipo ?? 'Otras', true));
+        });
 
         // Correo de "Olvidé mi contraseña" (C14) en español.
         ResetPassword::toMailUsing(function ($persona, string $token) {

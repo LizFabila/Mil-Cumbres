@@ -5,14 +5,14 @@
 ============================================== */
 
 .mc-c06 {
-    --c06-verde: #143D36;
-    --c06-acento: #1B6B57;
+    --c06-verde: var(--tema-oscuro, #143D36);
+    --c06-acento: var(--tema-principal-claro, #1B6B57);
     --c06-crema: #F6F2E9;
     --c06-arena: #E6D9B7;
-    --c06-texto: #5F716B;
+    --c06-texto: var(--tm-5f716b, #5F716B);
     --c06-borde: #DCE5DB;
 
-    color: var(--c06-verde);
+    color: var(--tema-texto, var(--c06-verde));
     background: var(--c06-crema);
     font-family: "Public Sans", sans-serif;
     overflow: clip;
@@ -54,7 +54,7 @@
 .mc-c06 button:focus-visible,
 .mc-c06 input:focus-visible,
 .mc-c06 textarea:focus-visible {
-    outline: 3px solid #5AA0D8;
+    outline: 3px solid var(--tm-5aa0d8, #5AA0D8);
     outline-offset: 3px;
 }
 
@@ -62,7 +62,7 @@
     display: inline-flex;
     align-items: center;
     gap: 11px;
-    color: var(--c06-acento);
+    color: var(--tema-texto, var(--c06-acento));
     font-size: 10px;
     font-weight: 700;
     line-height: 1.6;
@@ -92,7 +92,7 @@
     overflow: hidden;
     isolation: isolate;
     background: var(--c06-verde);
-    color: white;
+    color: var(--tema-sobre-oscuro, white);
 }
 
 .mc-c06__hero-imagen,
@@ -114,13 +114,13 @@
     background:
         linear-gradient(
             90deg,
-            rgba(7,31,23,.91) 0%,
-            rgba(7,31,23,.68) 53%,
-            rgba(7,31,23,.18) 100%
+            var(--tm-rgba-7-31-23-p91, rgba(7,31,23,.91)) 0%,
+            var(--tm-rgba-7-31-23-p68, rgba(7,31,23,.68)) 53%,
+            var(--tm-rgba-7-31-23-p18, rgba(7,31,23,.18)) 100%
         ),
         linear-gradient(
             0deg,
-            rgba(7,31,23,.39),
+            var(--tm-rgba-7-31-23-p39, rgba(7,31,23,.39)),
             transparent 50%
         );
 }
@@ -213,7 +213,7 @@
 
 .mc-c06__introduccion h2 em {
     display: block;
-    color: var(--c06-acento);
+    color: var(--tema-texto, var(--c06-acento));
 }
 
 .mc-c06__intro-texto > p {
@@ -225,7 +225,7 @@
 }
 
 .mc-c06__intro-texto > span {
-    color: var(--c06-acento);
+    color: var(--tema-texto, var(--c06-acento));
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 1.2px;
@@ -276,9 +276,9 @@
     gap: 11px;
     min-height: 52px;
     padding: 12px;
-    border-top: 2px solid #D0DBCF;
+    border-top: 2px solid var(--tm-d0dbcf, #D0DBCF);
     background: rgba(255,255,255,.72);
-    color: var(--c06-verde);
+    color: var(--tema-texto, var(--c06-verde));
     font-size: 11px;
     font-weight: 700;
     transition:
@@ -292,7 +292,7 @@
 }
 
 .mc-c06__pasos-nav a span {
-    color: var(--c06-acento);
+    color: var(--tema-texto, var(--c06-acento));
     font-size: 10px;
 }
 
@@ -316,7 +316,7 @@
     width: 100%;
     margin: 0 0 18px;
     padding: 0;
-    color: var(--c06-verde);
+    color: var(--tema-texto, var(--c06-verde));
     font-family: "Fraunces", Georgia, serif;
     font-size: clamp(25px,3vw,34px);
     font-weight: 500;
@@ -324,7 +324,7 @@
 }
 
 .mc-c06__legend em {
-    color: var(--c06-acento);
+    color: var(--tema-texto, var(--c06-acento));
 }
 
 .mc-c06__paso-numero {
@@ -334,8 +334,8 @@
     height: 43px;
     margin-right: 12px;
     border-radius: 50%;
-    background: #E6F0E4;
-    color: var(--c06-acento);
+    background: var(--tm-e6f0e4, #E6F0E4);
+    color: var(--tema-texto, var(--c06-acento));
     font-family: "Public Sans", sans-serif;
     font-size: 12px;
     font-weight: 700;
@@ -376,7 +376,7 @@
     border-radius: 4px;
     background: #FBFCF9;
 
-    color: var(--c06-verde);
+    color: var(--tema-texto, var(--c06-verde));
     cursor: pointer;
 
     transition:
@@ -387,7 +387,7 @@
 }
 
 .mc-c06 .mc-c06__opcion:hover {
-    border-color: #9FBEA4;
+    border-color: var(--tm-9fbea4, #9FBEA4);
     background: #F1F7EF;
     transform: translateY(-2px);
 }
@@ -395,11 +395,11 @@
 .mc-c06 .mc-c06__opcion:has(input:checked) {
     border-color: var(--c06-acento);
     background: #EAF3E8;
-    box-shadow: 0 0 0 1px rgba(27,107,87,.17);
+    box-shadow: 0 0 0 1px var(--tm-rgba-27-107-87-p17, rgba(27,107,87,.17));
 }
 
 .mc-c06 .mc-c06__opcion:focus-within {
-    outline: 2px solid #5AA0D8;
+    outline: 2px solid var(--tm-5aa0d8, #5AA0D8);
     outline-offset: 2px;
 }
 
@@ -429,14 +429,14 @@
 }
 
 .mc-c06__opcion-etiqueta {
-    color: var(--c06-acento);
+    color: var(--tema-texto, var(--c06-acento));
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 1.1px;
 }
 
 .mc-c06__opcion-info > strong {
-    color: var(--c06-verde);
+    color: var(--tema-texto, var(--c06-verde));
     font-family: "Fraunces", Georgia, serif;
     font-size: clamp(18px,2vw,24px);
     font-weight: 600;
@@ -454,7 +454,7 @@
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    color: var(--c06-acento);
+    color: var(--tema-texto, var(--c06-acento));
     font-size: 10px;
     font-weight: 600;
     line-height: 1.6;
@@ -470,7 +470,7 @@
     flex-direction: column;
     align-items: flex-end;
     gap: 8px;
-    color: var(--c06-verde);
+    color: var(--tema-texto, var(--c06-verde));
     font-family: "Fraunces", Georgia, serif;
     font-size: 19px;
     font-weight: 600;
@@ -480,7 +480,7 @@
 }
 
 .mc-c06__opcion-precio small {
-    color: #83958A;
+    color: var(--tm-83958a, #83958A);
     font-family: "Public Sans", sans-serif;
     font-size: 9px;
     font-weight: 700;
@@ -503,7 +503,7 @@
 
 .mc-c06__vacio > span {
     margin-bottom: 14px;
-    color: var(--c06-acento);
+    color: var(--tema-texto, var(--c06-acento));
     font-size: 40px;
 }
 
@@ -521,7 +521,7 @@
 }
 
 .mc-c06__vacio a {
-    color: var(--c06-acento);
+    color: var(--tema-texto, var(--c06-acento));
     font-size: 12px;
     font-weight: 700;
 }
@@ -552,7 +552,7 @@
 .mc-c06__campo label {
     display: block;
     margin-bottom: 11px;
-    color: var(--c06-verde);
+    color: var(--tema-texto, var(--c06-verde));
     font-size: 12px;
     font-weight: 700;
 }
@@ -562,7 +562,7 @@
 }
 
 .mc-c06__opcional {
-    color: #89998E;
+    color: var(--tm-89998e, #89998E);
     font-size: 10px;
     font-weight: 500;
 }
@@ -573,11 +573,11 @@
     min-width: 0;
     min-height: 53px;
     padding: 13px 15px;
-    border: 1px solid #D1DED0;
+    border: 1px solid var(--tm-d1ded0, #D1DED0);
     border-radius: 3px;
     background: #FAFCF9;
     box-shadow: none;
-    color: var(--c06-verde);
+    color: var(--tema-texto, var(--c06-verde));
     font-family: inherit;
     font-size: 13px;
     line-height: 1.6;
@@ -585,7 +585,7 @@
 
 .mc-c06 .mc-c06__control:focus {
     border-color: var(--c06-acento);
-    box-shadow: 0 0 0 3px rgba(27,107,87,.1);
+    box-shadow: 0 0 0 3px var(--tm-rgba-27-107-87-p1, rgba(27,107,87,.1));
 }
 
 .mc-c06 .mc-c06__control.es-invalido {
@@ -600,7 +600,7 @@
 .mc-c06__campo .ayuda {
     display: block;
     margin-top: 9px;
-    color: #7D8D82;
+    color: var(--tm-7d8d82, #7D8D82);
     font-size: 11px;
     line-height: 1.7;
 }
@@ -642,7 +642,7 @@
 .mc-c06__recordatorio strong {
     display: block;
     margin-bottom: 9px;
-    color: var(--c06-verde);
+    color: var(--tema-texto, var(--c06-verde));
     font-size: 13px;
     font-weight: 700;
 }
@@ -668,15 +668,15 @@
 
 .mc-c06__resumen-card {
     overflow: hidden;
-    border: 1px solid #D7E2D5;
+    border: 1px solid var(--tm-d7e2d5, #D7E2D5);
     background: white;
-    box-shadow: 0 15px 35px rgba(20,61,54,.08);
+    box-shadow: 0 15px 35px var(--tm-rgba-20-61-54-p08, rgba(20,61,54,.08));
 }
 
 .mc-c06__resumen-header {
     padding: 29px;
     background: var(--c06-verde);
-    color: white;
+    color: var(--tema-sobre-oscuro, white);
 }
 
 .mc-c06__resumen-header > span {
@@ -688,7 +688,7 @@
 
 .mc-c06__resumen-header h2 {
     margin: 19px 0 15px;
-    color: white;
+    color: var(--tema-sobre-oscuro, white);
     font-size: 36px;
     line-height: 1.17;
 }
@@ -712,7 +712,7 @@
 .mc-c06__resumen-etiqueta {
     display: block;
     margin-bottom: 25px;
-    color: var(--c06-acento);
+    color: var(--tema-texto, var(--c06-acento));
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 1.3px;
@@ -736,13 +736,13 @@
 }
 
 .mc-c06__resumen-fila > span > span {
-    color: var(--c06-acento);
+    color: var(--tema-texto, var(--c06-acento));
     font-size: 19px;
 }
 
 .mc-c06__resumen-fila > strong {
     max-width: 165px;
-    color: var(--c06-verde);
+    color: var(--tema-texto, var(--c06-verde));
     font-size: 11px;
     font-weight: 700;
     line-height: 1.7;
@@ -767,7 +767,7 @@
 }
 
 .mc-c06__total > span {
-    color: var(--c06-acento);
+    color: var(--tema-texto, var(--c06-acento));
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 1.4px;
@@ -775,7 +775,7 @@
 
 .mc-c06__total #total {
     display: block;
-    color: var(--c06-verde);
+    color: var(--tema-texto, var(--c06-verde));
     font-family: "Fraunces", Georgia, serif;
     font-size: clamp(28px,3vw,39px);
     font-weight: 600;
@@ -784,7 +784,7 @@
 }
 
 .mc-c06__total > small {
-    color: #809188;
+    color: var(--tm-809188, #809188);
     font-size: 11px;
     line-height: 1.7;
 }
@@ -805,7 +805,7 @@
     border: 1px solid var(--c06-verde);
     border-radius: 3px;
     background: var(--c06-verde);
-    color: white;
+    color: var(--tema-sobre-oscuro, white);
     font-family: inherit;
     font-size: 12px;
     font-weight: 700;
@@ -841,7 +841,7 @@
 }
 
 .mc-c06__resumen-pie > span {
-    color: var(--c06-acento);
+    color: var(--tema-texto, var(--c06-acento));
     font-size: 21px;
 }
 
@@ -861,13 +861,13 @@
     margin-top: 18px;
     padding: 26px;
     background: #E5EDE2;
-    border: 1px solid #D2DFD0;
+    border: 1px solid var(--tm-d2dfd0, #D2DFD0);
 }
 
 .mc-c06__lateral-extra > span {
     display: block;
     margin-bottom: 15px;
-    color: var(--c06-acento);
+    color: var(--tema-texto, var(--c06-acento));
     font-size: 35px;
     line-height: 1;
 }
@@ -875,7 +875,7 @@
 .mc-c06__lateral-extra strong {
     display: block;
     margin-bottom: 12px;
-    color: var(--c06-verde);
+    color: var(--tema-texto, var(--c06-verde));
     font-family: "Fraunces", Georgia, serif;
     font-size: 26px;
     font-weight: 500;
@@ -892,7 +892,7 @@
     display: inline-flex;
     padding-bottom: 6px;
     border-bottom: 1px solid currentColor;
-    color: var(--c06-acento);
+    color: var(--tema-texto, var(--c06-acento));
     font-size: 12px;
     font-weight: 700;
 }
@@ -1090,7 +1090,7 @@
         align-items: flex-start;
         margin-top: 3px;
         padding-top: 10px;
-        border-top: 1px solid #D7E3D5;
+        border-top: 1px solid var(--tm-d7e3d5, #D7E3D5);
         text-align: left;
     }
 

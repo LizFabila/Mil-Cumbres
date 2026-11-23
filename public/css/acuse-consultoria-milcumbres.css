@@ -5,15 +5,15 @@
 ===================================================== */
 
 .mc-c12 {
-    --c12-verde: #143D36;
-    --c12-acento: #1B6B57;
+    --c12-verde: var(--tema-oscuro, #143D36);
+    --c12-acento: var(--tema-principal-claro, #1B6B57);
     --c12-crema: #FAF8F2;
     --c12-arena: #E5D8B8;
-    --c12-texto: #5F716B;
+    --c12-texto: var(--tm-5f716b, #5F716B);
     --c12-borde: #D6E1DC;
 
     width: 100%;
-    color: var(--c12-verde);
+    color: var(--tema-texto, var(--c12-verde));
     background: var(--c12-crema);
     font-family: "Public Sans", sans-serif;
 }
@@ -51,7 +51,7 @@
 
 .mc-c12 a:focus-visible,
 .mc-c12 button:focus-visible {
-    outline: 3px solid #5AA0D8;
+    outline: 3px solid var(--tm-5aa0d8, #5AA0D8);
     outline-offset: 3px;
 }
 
@@ -60,7 +60,7 @@
     align-items: center;
     gap: 11px;
 
-    color: var(--c12-acento);
+    color: var(--tema-texto, var(--c12-acento));
 
     font-size: 10px;
     font-weight: 700;
@@ -89,7 +89,7 @@
     min-height: 540px;
     overflow: hidden;
     isolation: isolate;
-    color: white;
+    color: var(--tema-sobre-oscuro, white);
     background: var(--c12-verde);
 }
 
@@ -112,13 +112,13 @@
     background:
         linear-gradient(
             90deg,
-            rgba(8,32,25,.94) 0%,
-            rgba(8,32,25,.76) 53%,
-            rgba(8,32,25,.28) 100%
+            var(--tm-rgba-8-32-25-p94, rgba(8,32,25,.94)) 0%,
+            var(--tm-rgba-8-32-25-p76, rgba(8,32,25,.76)) 53%,
+            var(--tm-rgba-8-32-25-p28, rgba(8,32,25,.28)) 100%
         ),
         linear-gradient(
             0deg,
-            rgba(8,32,25,.52),
+            var(--tm-rgba-8-32-25-p52, rgba(8,32,25,.52)),
             transparent 45%
         );
 }
@@ -216,7 +216,7 @@
 .mc-c12__comprobante {
     border: 1px solid var(--c12-borde);
     background: white;
-    box-shadow: 0 20px 55px rgba(20,61,54,.08);
+    box-shadow: 0 20px 55px var(--tm-rgba-20-61-54-p08, rgba(20,61,54,.08));
     overflow: hidden;
 }
 
@@ -239,10 +239,10 @@
     flex-shrink: 0;
     width: 70px;
     height: 70px;
-    border: 1px solid #C6DFC9;
+    border: 1px solid var(--tm-c6dfc9, #C6DFC9);
     border-radius: 50%;
-    background: #E8F4E7;
-    color: #23744A;
+    background: var(--tm-e8f4e7, #E8F4E7);
+    color: var(--tm-23744a, #23744A);
 }
 
 .mc-c12__confirmacion-texto {
@@ -252,13 +252,13 @@
 
 .mc-c12__confirmacion h2 {
     margin: 16px 0;
-    color: var(--c12-verde);
+    color: var(--tema-texto, var(--c12-verde));
     font-size: clamp(29px,3.2vw,44px);
     line-height: 1.2;
 }
 
 .mc-c12__confirmacion h2 em {
-    color: var(--c12-acento);
+    color: var(--tema-texto, var(--c12-acento));
 }
 
 .mc-c12__confirmacion p {
@@ -281,13 +281,13 @@
     gap: 5px;
     width: 120px;
     height: 120px;
-    border: 1px dashed #AFC6B1;
+    border: 1px dashed var(--tm-afc6b1, #AFC6B1);
     border-radius: 50%;
-    color: var(--c12-verde);
+    color: var(--tema-texto, var(--c12-verde));
 }
 
 .mc-c12__sello > span {
-    color: var(--c12-acento);
+    color: var(--tema-texto, var(--c12-acento));
     font-size: 33px;
     line-height: 1;
 }
@@ -322,13 +322,13 @@
 
 .mc-c12__encabezado h2 {
     margin: 16px 0 30px;
-    color: var(--c12-verde);
+    color: var(--tema-texto, var(--c12-verde));
     font-size: clamp(30px,3vw,42px);
     line-height: 1.2;
 }
 
 .mc-c12__encabezado h2 em {
-    color: var(--c12-acento);
+    color: var(--tema-texto, var(--c12-acento));
 }
 
 
@@ -340,7 +340,7 @@
     padding: clamp(22px,3vw,30px);
     border: 1px solid var(--c12-verde);
     background: var(--c12-verde);
-    color: white;
+    color: var(--tema-sobre-oscuro, white);
 }
 
 .mc-c12__folio-superior {
@@ -439,7 +439,7 @@
 }
 
 .mc-c12__datos-titulo > span:last-child {
-    color: var(--c12-acento);
+    color: var(--tema-texto, var(--c12-acento));
     font-size: 25px;
 }
 
@@ -463,7 +463,7 @@
 
 .mc-c12__dato dt {
     margin-bottom: 12px;
-    color: #809287;
+    color: var(--tm-809287, #809287);
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 1.1px;
@@ -471,7 +471,7 @@
 
 .mc-c12__dato dd {
     margin: 0;
-    color: var(--c12-verde);
+    color: var(--tema-texto, var(--c12-verde));
     font-size: 14px;
     font-weight: 700;
     line-height: 1.7;
@@ -479,7 +479,7 @@
 }
 
 .mc-c12__dato--estado {
-    border-color: #CDDFCB;
+    border-color: var(--tm-cddfcb, #CDDFCB);
     background: #EDF4EA;
 }
 
@@ -537,7 +537,7 @@
 .mc-c12__siguientes {
     min-width: 0;
     padding: clamp(28px,3.5vw,46px);
-    background: #19473B;
+    background: var(--tm-19473b, #19473B);
     color: white;
 }
 
@@ -599,9 +599,9 @@
     place-items: center;
     width: 47px;
     height: 47px;
-    border: 1px solid #B7BCA5;
+    border: 1px solid var(--tm-b7bca5, #B7BCA5);
     border-radius: 50%;
-    background: #19473B;
+    background: var(--tm-19473b, #19473B);
     color: #E9DDBD;
     font-size: 12px;
     font-weight: 700;
@@ -679,13 +679,13 @@
 
 .mc-c12__acciones h2 {
     margin: 15px 0 12px;
-    color: var(--c12-verde);
+    color: var(--tema-texto, var(--c12-verde));
     font-size: clamp(29px,3vw,40px);
     line-height: 1.2;
 }
 
 .mc-c12__acciones h2 em {
-    color: var(--c12-acento);
+    color: var(--tema-texto, var(--c12-acento));
 }
 
 .mc-c12__acciones > div:first-child > p {
@@ -728,37 +728,37 @@
 }
 
 .mc-c12__boton--verde {
-    background: var(--c12-verde);
-    color: white;
+    background: var(--tema-accion, var(--c12-verde));
+    color: var(--tema-sobre-accion, white);
 }
 
 .mc-c12__boton--verde:hover {
-    background: var(--c12-acento);
-    color: white;
+    background: var(--tema-accion-hover, var(--c12-acento));
+    color: var(--tema-sobre-accion, white);
 }
 
 .mc-c12__boton--borde {
-    border-color: #CCDCCC;
+    border-color: var(--tm-ccdccc, #CCDCCC);
     background: white;
-    color: var(--c12-verde);
+    color: var(--tema-texto, var(--c12-verde));
 }
 
 .mc-c12__boton--borde:hover {
     background: #EAF2E8;
-    color: var(--c12-verde);
+    color: var(--tema-texto, var(--c12-verde));
 }
 
 .mc-c12__enlace {
     display: inline-flex;
     align-items: center;
     gap: 11px;
-    color: var(--c12-acento);
+    color: var(--tema-texto, var(--c12-acento));
     font-size: 12px;
     font-weight: 700;
 }
 
 .mc-c12__enlace:hover {
-    color: var(--c12-verde);
+    color: var(--tema-texto, var(--c12-verde));
     text-decoration: underline;
 }
 
@@ -777,7 +777,7 @@
 }
 
 .mc-c12__despedida > span {
-    color: var(--c12-acento);
+    color: var(--tema-texto, var(--c12-acento));
     font-size: 45px;
     line-height: 1;
 }
@@ -785,18 +785,18 @@
 .mc-c12__despedida p {
     max-width: 680px;
     margin-bottom: 0;
-    color: var(--c12-verde);
+    color: var(--tema-texto, var(--c12-verde));
     font-family: "Fraunces", Georgia, serif;
     font-size: clamp(28px,3.3vw,45px);
     line-height: 1.3;
 }
 
 .mc-c12__despedida p em {
-    color: var(--c12-acento);
+    color: var(--tema-texto, var(--c12-acento));
 }
 
 .mc-c12__despedida small {
-    color: #819187;
+    color: var(--tm-819187, #819187);
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 1.4px;
@@ -1037,13 +1037,13 @@
     .mc-c12__folio,
     .mc-c12__siguientes {
         background: white !important;
-        color: #143D36 !important;
+        color: var(--tema-oscuro, #143D36) !important;
         border: 1px solid #DDD;
     }
 
     .mc-c12__folio *,
     .mc-c12__siguientes * {
-        color: #143D36 !important;
+        color: var(--tema-oscuro, #143D36) !important;
     }
 
     .mc-c12__dato,

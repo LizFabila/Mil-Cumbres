@@ -6,11 +6,11 @@
 ================================================== */
 
 :root {
-    --cal-verde: #143D36;
-    --cal-verde-2: #1B6B57;
+    --cal-verde: var(--tema-oscuro, #143D36);
+    --cal-verde-2: var(--tema-principal-claro, #1B6B57);
     --cal-crema: #F6F2E9;
     --cal-arena: #E5D8B8;
-    --cal-texto: #5F716B;
+    --cal-texto: var(--tm-5f716b, #5F716B);
     --cal-borde: #DCE5DB;
     --cal-ambar: #D69A2D;
     --cal-estrella-vacia: #D7DDD9;
@@ -45,7 +45,7 @@
     padding: 18px 22px;
     border-radius: 6px;
     background: var(--cal-verde);
-    color: #FFFFFF;
+    color: var(--tema-sobre-oscuro, #FFFFFF);
 }
 
 .mc-cal-invita strong {
@@ -71,7 +71,7 @@
     padding: 12px 18px;
     border-radius: 4px;
     background: var(--cal-arena);
-    color: var(--cal-verde);
+    color: var(--tema-texto, var(--cal-verde));
     font-size: 13px;
     font-weight: 700;
     text-decoration: none;
@@ -96,12 +96,12 @@
 }
 
 .mc-cal-hecha strong {
-    color: var(--cal-verde);
+    color: var(--tema-texto, var(--cal-verde));
 }
 
 .mc-cal-hecha a {
     margin-left: auto;
-    color: var(--cal-verde-2);
+    color: var(--tema-texto, var(--cal-verde-2));
     font-weight: 700;
 }
 
@@ -124,7 +124,7 @@
 
 .mc-cal {
     background: var(--cal-crema);
-    color: var(--cal-verde);
+    color: var(--tema-texto, var(--cal-verde));
     font-family: "Public Sans", system-ui, sans-serif;
 }
 
@@ -147,12 +147,12 @@
 }
 
 .mc-cal-migas a {
-    color: var(--cal-verde-2);
+    color: var(--tema-texto, var(--cal-verde-2));
     font-weight: 700;
 }
 
 .mc-cal-eyebrow {
-    color: var(--cal-verde-2);
+    color: var(--tema-texto, var(--cal-verde-2));
     font-size: 11px;
     font-weight: 700;
     letter-spacing: .14em;
@@ -167,7 +167,7 @@
 }
 
 .mc-cal-encabezado h1 em {
-    color: var(--cal-verde-2);
+    color: var(--tema-texto, var(--cal-verde-2));
     font-style: italic;
     font-weight: 400;
 }
@@ -218,7 +218,7 @@
     gap: 8px;
     margin-bottom: 16px;
     padding: 0;
-    color: var(--cal-verde);
+    color: var(--tema-texto, var(--cal-verde));
     font-size: 16px;
     font-weight: 700;
 }
@@ -232,8 +232,8 @@
 }
 
 .mc-cal-obligatorio {
-    background: #E3F0EA;
-    color: var(--cal-verde-2);
+    background: var(--tm-e3f0ea, #E3F0EA);
+    color: var(--tema-texto, var(--cal-verde-2));
 }
 
 .mc-cal-opcional {
@@ -289,13 +289,13 @@
 }
 
 .mc-cal-estrellas__opciones input:focus-visible + label {
-    outline: 3px solid #5AA0D8;
+    outline: 3px solid var(--tm-5aa0d8, #5AA0D8);
     outline-offset: 2px;
     border-radius: 4px;
 }
 
 .mc-cal-estrellas__texto {
-    color: var(--cal-verde-2);
+    color: var(--tema-texto, var(--cal-verde-2));
     font-size: 14px;
     font-weight: 700;
 }
@@ -328,7 +328,7 @@
     border: 1px solid var(--cal-borde);
     border-radius: 6px;
     background: #FFFFFF;
-    color: var(--cal-verde);
+    color: var(--tema-texto, var(--cal-verde));
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
@@ -342,11 +342,11 @@
 .mc-cal-nps input:checked + label {
     border-color: var(--cal-verde-2);
     background: var(--cal-verde-2);
-    color: #FFFFFF;
+    color: var(--tema-sobre-principal, #FFFFFF);
 }
 
 .mc-cal-nps input:focus-visible + label {
-    outline: 3px solid #5AA0D8;
+    outline: 3px solid var(--tm-5aa0d8, #5AA0D8);
     outline-offset: 2px;
 }
 
@@ -400,7 +400,7 @@
     border: 1px solid var(--cal-borde);
     border-radius: 6px;
     background: #FFFFFF;
-    color: var(--cal-verde);
+    color: var(--tema-texto, var(--cal-verde));
     font: inherit;
     font-size: 15px;
     resize: vertical;
@@ -409,7 +409,7 @@
 .mc-cal-area:focus {
     outline: none;
     border-color: var(--cal-verde-2);
-    box-shadow: 0 0 0 3px #E3F0EA;
+    box-shadow: 0 0 0 3px var(--tm-e3f0ea, #E3F0EA);
 }
 
 .mc-cal-contador {
@@ -460,7 +460,7 @@
     border: 1px solid var(--cal-verde);
     border-radius: 4px;
     background: var(--cal-verde);
-    color: #FFFFFF;
+    color: var(--tema-sobre-oscuro, #FFFFFF);
     font: inherit;
     font-size: 14px;
     font-weight: 700;
@@ -476,13 +476,13 @@
 .mc-cal-boton--borde {
     background: transparent;
     border-color: var(--cal-borde);
-    color: var(--cal-verde);
+    color: var(--tema-texto, var(--cal-verde));
 }
 
 .mc-cal-boton--borde:hover {
     background: #FFFFFF;
     border-color: var(--cal-verde-2);
-    color: var(--cal-verde);
+    color: var(--tema-texto, var(--cal-verde));
 }
 
 /* Lateral con la experiencia */
@@ -582,7 +582,7 @@
     font-family: "Fraunces", Georgia, serif;
     font-size: 54px;
     line-height: 1;
-    color: var(--cal-verde);
+    color: var(--tema-texto, var(--cal-verde));
 }
 
 .mc-cal-promedio__cabeza small {
@@ -627,7 +627,7 @@
 }
 
 .mc-cal-subtitulo {
-    color: var(--cal-verde-2);
+    color: var(--tema-texto, var(--cal-verde-2));
     font-size: 11px;
     font-weight: 700;
     letter-spacing: .14em;
@@ -674,12 +674,12 @@
 }
 
 .mc-cal-testimonio header strong {
-    color: var(--cal-verde);
+    color: var(--tema-texto, var(--cal-verde));
 }
 
 .mc-cal-testimonio p {
     margin: 0;
-    color: #33463F;
+    color: var(--tm-33463f, #33463F);
     font-size: 15px;
     line-height: 1.6;
 }
@@ -688,14 +688,14 @@
     padding: 9px 13px;
     border-left: 3px solid var(--cal-verde-2);
     border-radius: 0 6px 6px 0;
-    background: #F3F7F5;
+    background: var(--tema-fondo-alt, #F3F7F5);
     color: var(--cal-texto);
     font-size: 13px;
     line-height: 1.5;
 }
 
 .mc-cal-respuesta strong {
-    color: var(--cal-verde-2);
+    color: var(--tema-texto, var(--cal-verde-2));
 }
 
 .mc-cal-sin-testimonios {

@@ -17,7 +17,7 @@
 
 @push('estilos')
 <link rel="stylesheet"
-      href="{{ asset('css/detalle-milcumbres.css') }}">
+      href="{{ \App\Support\Temas::hoja('detalle-milcumbres.css') }}">
 @endpush
 
 
@@ -43,7 +43,7 @@
 }
 .mc-detalle-calendario__cabecera button {
     width: 34px; height: 34px; border: 1px solid #d7ded9;
-    border-radius: 8px; background: #f6f8f6; color: #274c39;
+    border-radius: 8px; background: #f6f8f6; color: var(--tm-274c39, #274c39);
     font-size: 22px; cursor: pointer;
 }
 .mc-detalle-calendario__cabecera button:disabled { opacity: .35; cursor: not-allowed; }
@@ -52,24 +52,24 @@
 }
 .mc-detalle-calendario__semana {
     margin-bottom: 7px; text-align: center; font-size: 12px;
-    font-weight: 700; color: #53635a;
+    font-weight: 700; color: var(--tm-53635a, #53635a);
 }
 .mc-detalle-calendario__dias button {
     width: 100%; min-height: 36px; padding: 0; border: 1px solid transparent;
     border-radius: 7px; font: 13px Arial, sans-serif;
 }
 .mc-detalle-calendario__dias .dia-disponible {
-    background: #d7f1df; color: #14643a; cursor: pointer;
+    background: var(--tm-d7f1df, #d7f1df); color: var(--tm-14643a, #14643a); cursor: pointer;
 }
-.mc-detalle-calendario__dias .dia-disponible:hover { background: #a5dfb9; }
+.mc-detalle-calendario__dias .dia-disponible:hover { background: var(--tm-a5dfb9, #a5dfb9); }
 .mc-detalle-calendario__dias .dia-bloqueado {
     background: #f2f2f2; color: #aaa; cursor: not-allowed;
 }
 .mc-detalle-calendario__dias .dia-seleccionado {
-    background: #176447; color: #fff; font-weight: 700;
+    background: var(--tm-176447, #176447); color: #fff; font-weight: 700;
 }
 .mc-detalle-calendario__leyenda {
-    margin: 12px 0 0; font-size: 11px; color: #65736b; text-align: center;
+    margin: 12px 0 0; font-size: 11px; color: var(--tm-65736b, #65736b); text-align: center;
 }
 </style>
 @endpush

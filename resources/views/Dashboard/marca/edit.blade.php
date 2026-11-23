@@ -5,7 +5,7 @@
 @section('titulo', 'Identidad del sitio')
 
 @push('estilos')
-    <link rel="stylesheet" href="{{ asset('css/admin-identidad-milcumbres.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('admin-identidad-milcumbres.css') }}">
 @endpush
 
 @section('contenido')

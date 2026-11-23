@@ -5,25 +5,25 @@
    ========================================================================== */
 
 :root {
-    --verde-900: #143d36;   /* texto principal / títulos */
-    --verde-700: #176954;   /* acento: enlaces, botones, etiquetas */
-    --verde-600: #23806a;
+    --verde-900: var(--tema-oscuro, #143D36);   /* texto principal / títulos */
+    --verde-700: var(--tema-principal, #176954);   /* acento: enlaces, botones, etiquetas */
+    --verde-600: var(--tm-23806a, #23806a);
     --verde-100: #e7f0ec;
-    --verde-50:  #f3f7f5;
-    --cielo:     #5aa0d8;   /* montaña azul del logotipo */
-    --gris-700:  #5f716b;   /* texto secundario */
-    --gris-500:  #84948d;   /* etiquetas pequeñas */
+    --verde-50:  var(--tema-fondo-alt, #F3F7F5);
+    --cielo:     var(--tm-5aa0d8, #5aa0d8);   /* montaña azul del logotipo */
+    --gris-700:  var(--tm-5f716b, #5f716b);   /* texto secundario */
+    --gris-500:  var(--tm-84948d, #84948d);   /* etiquetas pequeñas */
     --gris-400:  #ababab;   /* deshabilitado */
     --borde:     #d6e1dc;
-    --fondo:     #ffffff;
-    --fondo-alt: #f3f7f5;
+    --fondo:     var(--tema-fondo, #ffffff);
+    --fondo-alt: var(--tema-fondo-alt, #F3F7F5);
 
     --ambar:     #9a6a12;
     --ambar-bg:  #fbf3e2;
     --rojo:      #a23b2c;
     --rojo-bg:   #fbecea;
-    --azul:      #2f6690;
-    --azul-bg:   #e8f1f8;
+    --azul:      var(--tema-secundario, #2F6690);
+    --azul-bg:   var(--tm-e8f1f8, #e8f1f8);
 
     --fuente-titulo: 'Fraunces', Georgia, 'Times New Roman', serif;
     --fuente-texto: 'Public Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -32,7 +32,7 @@
     --radio-sm: 6px;
     --radio: 10px;
     --radio-lg: 14px;
-    --sombra: 0 1px 2px rgba(20, 61, 54, .05), 0 8px 24px rgba(20, 61, 54, .06);
+    --sombra: 0 1px 2px var(--tm-rgba-20-61-54-p05, rgba(20, 61, 54, .05)), 0 8px 24px var(--tm-rgba-20-61-54-p06, rgba(20, 61, 54, .06));
     --ancho: 1120px;
 }
 
@@ -44,13 +44,13 @@ body {
     font-family: var(--fuente-texto);
     font-size: 16px;
     line-height: 1.55;
-    color: var(--verde-900);
+    color: var(--tema-texto, var(--verde-900));
     background: var(--fondo);
 }
 img { max-width: 100%; display: block; }
-a { color: var(--verde-700); text-decoration: none; }
+a { color: var(--tema-texto, var(--verde-700)); text-decoration: none; }
 a:hover { text-decoration: underline; }
-h1, h2, h3, h4 { margin: 0 0 .5em; line-height: 1.15; color: var(--verde-900); }
+h1, h2, h3, h4 { margin: 0 0 .5em; line-height: 1.15; color: var(--tema-texto, var(--verde-900)); }
 p { margin: 0 0 1em; }
 ul { margin: 0; }
 button, input, select, textarea { font: inherit; color: inherit; }
@@ -110,11 +110,11 @@ legend { padding: 0; }
     text-decoration: none !important;
     transition: background .15s, border-color .15s, color .15s;
 }
-.btn--primario { background: var(--verde-700); color: #fff; }
-.btn--primario:hover { background: var(--verde-900); }
-.btn--secundario { background: #fff; color: var(--verde-700); border-color: var(--borde); }
+.btn--primario { background: var(--tema-accion, var(--verde-700)); color: var(--tema-sobre-accion, #fff); }
+.btn--primario:hover { background: var(--tema-accion-hover, var(--verde-900)); }
+.btn--secundario { background: #fff; color: var(--tema-texto, var(--verde-700)); border-color: var(--borde); }
 .btn--secundario:hover { border-color: var(--verde-700); }
-.btn--texto { background: none; color: var(--verde-700); padding-left: 0; padding-right: 0; }
+.btn--texto { background: none; color: var(--tema-texto, var(--verde-700)); padding-left: 0; padding-right: 0; }
 .btn--peligro { background: #fff; color: var(--rojo); border-color: #ecc9c3; }
 .btn--peligro:hover { background: var(--rojo-bg); }
 .btn--chico { padding: 7px 14px; font-size: .85rem; }
@@ -164,11 +164,11 @@ textarea.control { min-height: 120px; resize: vertical; }
     border-radius: 999px;
     border: 1px solid var(--borde);
     font-size: .85rem;
-    color: var(--verde-900);
+    color: var(--tema-texto, var(--verde-900));
     background: #fff;
 }
-.chip--activo { border-color: var(--verde-700); color: var(--verde-700); font-weight: 700; }
-.tipo { font-size: .85rem; font-weight: 600; color: var(--verde-700); }
+.chip--activo { border-color: var(--verde-700); color: var(--tema-texto, var(--verde-700)); font-weight: 700; }
+.tipo { font-size: .85rem; font-weight: 600; color: var(--tema-texto, var(--verde-700)); }
 .estado {
     display: inline-block;
     padding: 3px 10px;
@@ -179,7 +179,7 @@ textarea.control { min-height: 120px; resize: vertical; }
     white-space: nowrap;
 }
 .estado--pendiente, .estado--recibida { background: var(--ambar-bg); color: var(--ambar); }
-.estado--confirmada, .estado--aprobado, .estado--atendida { background: var(--verde-100); color: var(--verde-700); }
+.estado--confirmada, .estado--aprobado, .estado--atendida { background: var(--verde-100); color: var(--tema-texto, var(--verde-700)); }
 .estado--en_proceso { background: var(--azul-bg); color: var(--azul); }
 .estado--completada, .estado--cerrada { background: #eef0ef; color: var(--gris-700); }
 .estado--cancelada, .estado--rechazado { background: var(--rojo-bg); color: var(--rojo); }
@@ -207,7 +207,7 @@ textarea.control { min-height: 120px; resize: vertical; }
     font-size: .95rem;
     margin-bottom: 24px;
 }
-.aviso--ok { background: var(--verde-100); color: var(--verde-900); }
+.aviso--ok { background: var(--verde-100); color: var(--tema-texto, var(--verde-900)); }
 .aviso--error { background: var(--rojo-bg); color: var(--rojo); }
 .aviso--info { background: var(--fondo-alt); color: var(--gris-700); border: 1px solid var(--borde); }
 
@@ -222,14 +222,14 @@ textarea.control { min-height: 120px; resize: vertical; }
     min-width: 38px; padding: 7px 12px; text-align: center;
     border: 1px solid var(--borde); border-radius: var(--radio-sm); font-size: .9rem;
 }
-.paginacion .actual { background: var(--verde-700); border-color: var(--verde-700); color: #fff; font-weight: 700; }
+.paginacion .actual { background: var(--verde-700); border-color: var(--verde-700); color: var(--tema-sobre-principal, #fff); font-weight: 700; }
 .paginacion .inactivo { color: var(--gris-400); }
 
 /* ---------- Logotipo ---------- */
-.marca { display: inline-flex; align-items: center; gap: 12px; color: var(--verde-900); text-decoration: none !important; }
+.marca { display: inline-flex; align-items: center; gap: 12px; color: var(--tema-texto, var(--verde-900)); text-decoration: none !important; }
 .marca img { display: block; height: 64px; width: auto; flex: none; }
 .marca__nombre { display: block; font-weight: 700; font-size: 1.1rem; line-height: 1.1; }
-.marca__lema { display: block; font-size: .78rem; color: var(--verde-700); }
+.marca__lema { display: block; font-size: .78rem; color: var(--tema-texto, var(--verde-700)); }
 
 /* ---------- Utilidades ---------- */
 .oculto-visual { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -254,7 +254,7 @@ textarea.control { min-height: 120px; resize: vertical; }
 .ver-contrasena {
     position: absolute; top: 50%; right: 8px; transform: translateY(-50%);
     padding: 6px 10px; border: 0; border-radius: var(--radio-sm);
-    background: var(--verde-50); color: var(--verde-700);
+    background: var(--verde-50); color: var(--tema-texto, var(--verde-700));
     font-size: .8rem; font-weight: 700; cursor: pointer;
 }
 .ver-contrasena:hover { background: var(--verde-100); }
@@ -266,7 +266,7 @@ textarea.control { min-height: 120px; resize: vertical; }
 .requisitos ul { list-style: none; padding: 0; display: grid; gap: 4px; }
 .requisitos li { display: flex; align-items: center; gap: 8px; }
 .requisitos li::before { content: "○"; width: 16px; text-align: center; font-weight: 700; color: var(--gris-500); }
-.requisitos li.cumple { color: var(--verde-700); }
-.requisitos li.cumple::before { content: "✓"; color: var(--verde-700); }
+.requisitos li.cumple { color: var(--tema-texto, var(--verde-700)); }
+.requisitos li.cumple::before { content: "✓"; color: var(--tema-texto, var(--verde-700)); }
 .requisitos li.no-cumple { color: var(--rojo); }
 .requisitos li.no-cumple::before { content: "✕"; color: var(--rojo); }

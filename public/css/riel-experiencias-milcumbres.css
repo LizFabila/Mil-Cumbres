@@ -1,0 +1,17 @@
+/* Riel "Experiencias" fijo en las páginas del cliente.
+   Usa los estilos de inicio-menu-hero.css; aquí se fija a la izquierda y ocupa toda la altura de la pantalla. */
+.hero-menu.hero-menu--fijo {
+    --menu-riel: 76px;
+    --menu-ancho: 380px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+}
+
+@media (max-width: 899px) {
+    /* En celular, las experiencias ya están en el menú de la barra superior */
+    .hero-menu.hero-menu--fijo { display: none; }
+}
+

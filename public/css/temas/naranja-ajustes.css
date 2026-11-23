@@ -1,0 +1,27 @@
+/* Ajustes de la paleta Naranja. Solo se carga cuando esa paleta está activa. */
+:root { --naranja-activo: #A34A06; }
+
+/* Franja superior y barra de navegación en durazno, con texto oscuro */
+.mc-hub, .mc-hub .mc-hub__ribbon { background: var(--tema-oscuro) !important; }
+.mc-hub .mc-hub__ribbon, .mc-hub .mc-hub__ribbon *,
+.mc-hub .mc-contacto, .mc-hub .mc-contacto *,
+.mc-hub a, .mc-hub button, .mc-hub .marca, .mc-hub .marca__nombre { color: var(--tema-texto) !important; }
+.mc-hub .mc-hub__ribbon-marca { color: var(--naranja-activo) !important; }
+.mc-hub .marca__lema { color: #4A4A4A !important; }
+
+/* El logotipo es blanco: se coloca sobre una placa naranja para que se vea */
+.mc-hub .marca img { background: var(--tema-principal) !important; border-radius: 10px; padding: 6px 8px; box-sizing: content-box; }
+
+/* Enlaces: activo y hover en naranja oscuro, subrayado en naranja intenso */
+.mc-hub .mc-hub__nav-link.is-active,
+.mc-hub .mc-hub__nav-link:hover,
+.mc-hub .mc-hub__nav-button[aria-expanded="true"] { color: var(--naranja-activo) !important; }
+.mc-hub .mc-hub__nav-link::after { background: var(--tema-principal) !important; }
+
+/* Velo del héroe en gris neutro, sin café */
+.hero::before { background: linear-gradient(180deg, rgba(31, 31, 31, .05) 20%, rgba(31, 31, 31, .8) 100%) !important; }
+
+/* Riel lateral del héroe en durazno claro */
+.hero-menu { background: var(--tema-fondo-alt) !important; }
+.hero-menu, .hero-menu * { color: var(--tema-texto) !important; }
+.hero-menu__boton { background: var(--tema-accion) !important; }

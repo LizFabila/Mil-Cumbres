@@ -9,7 +9,7 @@
 
 @push('estilos')
     <link rel="stylesheet"
-          href="{{ asset('css/admin-pagos-milcumbres.css') }}">
+          href="{{ \App\Support\Temas::hoja('admin-pagos-milcumbres.css') }}">
 @endpush
 
 @section('contenido')

@@ -10,7 +10,7 @@
 @section('descripcion', 'Acompañamiento para empresas y proyectos agrarios que buscan desarrollar turismo regenerativo en su territorio.')
 
 @push('estilos')
-    <link rel="stylesheet" href="{{ asset('css/consultoria-milcumbres.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('consultoria-milcumbres.css') }}">
 @endpush
 
 @section('contenido')

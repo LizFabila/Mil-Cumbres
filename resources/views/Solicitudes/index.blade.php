@@ -22,7 +22,7 @@
 
 <link rel="stylesheet"
 
-      href="{{ asset('css/mis-solicitudes-milcumbres.css') }}">
+      href="{{ \App\Support\Temas::hoja('mis-solicitudes-milcumbres.css') }}">
 
 @endpush
 

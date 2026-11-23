@@ -11,9 +11,9 @@
 
 @push('estilos')
     <link rel="stylesheet"
-          href="{{ asset('css/admin-resumen-milcumbres.css') }}">
+          href="{{ \App\Support\Temas::hoja('admin-resumen-milcumbres.css') }}">
     <link rel="stylesheet"
-          href="{{ asset('css/admin-resumen-graficas.css') }}">
+          href="{{ \App\Support\Temas::hoja('admin-resumen-graficas.css') }}">
 @endpush
 
 @section('contenido')

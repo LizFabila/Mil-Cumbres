@@ -5,14 +5,14 @@
 ================================================= */
 
 .mc-modelo {
-    --mod-verde: #143D36;
-    --mod-verde-2: #1B6B57;
+    --mod-verde: var(--tema-oscuro, #143D36);
+    --mod-verde-2: var(--tema-principal-claro, #1B6B57);
     --mod-crema: #F6F2E9;
     --mod-arena: #E8E2D5;
-    --mod-texto: #5F716B;
+    --mod-texto: var(--tm-5f716b, #5F716B);
     --mod-claro: #FDFBF6;
 
-    color: var(--mod-verde);
+    color: var(--tema-texto, var(--mod-verde));
     overflow: hidden;
     font-family: "Public Sans", sans-serif;
 }
@@ -47,7 +47,7 @@
 }
 
 .mc-modelo a:focus-visible {
-    outline: 3px solid #5AA0D8;
+    outline: 3px solid var(--tm-5aa0d8, #5AA0D8);
     outline-offset: 4px;
 }
 
@@ -55,7 +55,7 @@
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    color: var(--mod-verde-2);
+    color: var(--tema-texto, var(--mod-verde-2));
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -110,12 +110,12 @@
 
 .modelo-boton--claro {
     background: white;
-    color: var(--mod-verde);
+    color: var(--tema-texto, var(--mod-verde));
 }
 
 .modelo-boton--claro:hover {
     background: var(--mod-crema);
-    color: var(--mod-verde);
+    color: var(--tema-texto, var(--mod-verde));
 }
 
 .modelo-boton--transparente {
@@ -125,7 +125,7 @@
 
 .modelo-boton--transparente:hover {
     background: white;
-    color: var(--mod-verde);
+    color: var(--tema-texto, var(--mod-verde));
 }
 
 
@@ -136,7 +136,7 @@
 .modelo-hero {
     position: relative;
     min-height: 660px;
-    color: white;
+    color: var(--tema-sobre-oscuro, white);
     background: var(--mod-verde);
     isolation: isolate;
 }
@@ -164,13 +164,13 @@
     background:
         linear-gradient(
             90deg,
-            rgba(9,29,24,.90),
-            rgba(9,29,24,.54) 55%,
-            rgba(9,29,24,.17)
+            var(--tm-rgba-9-29-24-p90, rgba(9,29,24,.90)),
+            var(--tm-rgba-9-29-24-p54, rgba(9,29,24,.54)) 55%,
+            var(--tm-rgba-9-29-24-p17, rgba(9,29,24,.17))
         ),
         linear-gradient(
             0deg,
-            rgba(9,29,24,.45),
+            var(--tm-rgba-9-29-24-p45, rgba(9,29,24,.45)),
             transparent 40%
         );
 }
@@ -324,7 +324,7 @@
 
 .modelo-vision__intro h2 em {
     display: block;
-    color: var(--mod-verde-2);
+    color: var(--tema-texto, var(--mod-verde-2));
 }
 
 .modelo-vision__intro p {
@@ -364,7 +364,7 @@
     inset: 0;
     background: linear-gradient(
         0deg,
-        rgba(11,39,30,.75),
+        var(--tm-rgba-11-39-30-p75, rgba(11,39,30,.75)),
         transparent 55%
     );
 }
@@ -398,7 +398,7 @@
     justify-content: center;
     padding: clamp(35px, 5vw, 80px);
     background: var(--mod-verde);
-    color: white;
+    color: var(--tema-sobre-oscuro, white);
     overflow: hidden;
 }
 
@@ -464,7 +464,7 @@
 }
 
 .modelo-seccion-heading h2 em {
-    color: var(--mod-verde-2);
+    color: var(--tema-texto, var(--mod-verde-2));
 }
 
 .modelo-seccion-heading p {
@@ -491,12 +491,12 @@
 
 .modelo-evolucion__card--sostenible {
     background: #F0F2ED;
-    color: var(--mod-verde);
+    color: var(--tema-texto, var(--mod-verde));
 }
 
 .modelo-evolucion__card--regenerativo {
     background: var(--mod-verde);
-    color: white;
+    color: var(--tema-sobre-oscuro, white);
 }
 
 .modelo-evolucion__numero {
@@ -559,7 +559,7 @@
     border: 1px solid #D9E4DB;
     border-radius: 50%;
     background: white;
-    color: var(--mod-verde-2);
+    color: var(--tema-texto, var(--mod-verde-2));
     font-size: 35px;
 }
 
@@ -571,7 +571,7 @@
 .modelo-compromisos {
     padding: 110px 0;
     background: var(--mod-verde);
-    color: white;
+    color: var(--tema-sobre-oscuro, white);
 }
 
 .modelo-compromisos__grid {
@@ -669,7 +669,7 @@
 
 .modelo-pilares__cabecera h2 em {
     display: block;
-    color: var(--mod-verde-2);
+    color: var(--tema-texto, var(--mod-verde-2));
 }
 
 .modelo-pilares__cabecera > p {
@@ -695,7 +695,7 @@
 
 .modelo-pilar:hover {
     transform: translateY(-7px);
-    box-shadow: 0 18px 35px rgba(20,61,54,.11);
+    box-shadow: 0 18px 35px var(--tm-rgba-20-61-54-p11, rgba(20,61,54,.11));
 }
 
 .modelo-pilar__imagen {
@@ -722,7 +722,7 @@
     top: 20px;
     left: 20px;
     padding: 8px 11px;
-    background: rgba(20,61,54,.8);
+    background: var(--tm-rgba-20-61-54-p8, rgba(20,61,54,.8));
     color: white;
     font-size: 10px;
     letter-spacing: 1px;
@@ -735,7 +735,7 @@
 }
 
 .modelo-pilar__etiqueta {
-    color: var(--mod-verde-2);
+    color: var(--tema-texto, var(--mod-verde-2));
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 1.5px;
@@ -743,7 +743,7 @@
 
 .modelo-pilar__contenido h3 {
     margin: 16px 0;
-    color: var(--mod-verde);
+    color: var(--tema-texto, var(--mod-verde));
     font-size: 36px;
     font-weight: 500;
 }
@@ -773,7 +773,7 @@
     position: relative;
     min-height: 545px;
     background: var(--mod-verde);
-    color: white;
+    color: var(--tema-sobre-oscuro, white);
     isolation: isolate;
 }
 
@@ -796,7 +796,7 @@
 
 .modelo-final__overlay {
     z-index: -1;
-    background: rgba(11,37,28,.77);
+    background: var(--tm-rgba-11-37-28-p77, rgba(11,37,28,.77));
 }
 
 .modelo-final__contenido {

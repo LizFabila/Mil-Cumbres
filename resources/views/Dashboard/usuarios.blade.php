@@ -5,7 +5,7 @@
 @section('titulo', $vista === 'cartera' ? 'Cartera de clientes' : 'Usuarios')
 
 @push('estilos')
-    <link rel="stylesheet" href="{{ asset('css/admin-cartera-milcumbres.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('admin-cartera-milcumbres.css') }}">
 @endpush
 
 @section('contenido')

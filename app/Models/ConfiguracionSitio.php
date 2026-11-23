@@ -13,7 +13,7 @@ class ConfiguracionSitio extends Model
     protected $table = 'configuracion_sitio';
     protected $primaryKey = 'id_configuracion';
 
-    protected $fillable = ['nombre', 'lema', 'logo'];
+    protected $fillable = ['nombre', 'lema', 'logo', 'tema'];
 
     private static ?self $actual = null;
 
@@ -36,6 +36,7 @@ class ConfiguracionSitio extends Model
         return static::$actual = $config ?? new static([
             'nombre' => 'Mil Cumbres',
             'lema' => 'Turismo Regenerativo',
+            'tema' => 'actual',
         ]);
     }
 

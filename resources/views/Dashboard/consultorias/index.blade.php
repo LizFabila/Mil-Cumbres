@@ -11,7 +11,7 @@
 
 @push('estilos')
 <link rel="stylesheet"
-      href="{{ asset('css/admin-consultorias.css') }}">
+      href="{{ \App\Support\Temas::hoja('admin-consultorias.css') }}">
 @endpush
 
 @section('contenido')

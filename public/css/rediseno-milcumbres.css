@@ -8,12 +8,12 @@
 
 /* ---------- Paleta del rediseño ---------- */
 :root {
-    --verde-bosque: #143D36;   /* encabezado, hero y bloques oscuros */
-    --verde:        #176954;   /* botones y navegación activa */
-    --azul:         #2F6690;   /* cursivas de títulos sobre fondo blanco */
-    --lima:         #00DD00;   /* acento sobre verde bosque (nunca como texto sobre blanco) */
-    --verde-suave:  #F3F7F5;   /* fondos alternos */
-    --gris-texto:   #5F716B;   /* texto secundario */
+    --verde-bosque: var(--tema-oscuro, #143D36);   /* encabezado, hero y bloques oscuros */
+    --verde:        var(--tema-principal, #176954);   /* botones y navegación activa */
+    --azul:         var(--tema-secundario, #2F6690);   /* cursivas de títulos sobre fondo blanco */
+    --lima:         var(--tema-acento, #00DD00);   /* acento sobre verde bosque (nunca como texto sobre blanco) */
+    --verde-suave:  var(--tema-fondo-alt, #F3F7F5);   /* fondos alternos */
+    --gris-texto:   var(--tm-5f716b, #5F716B);   /* texto secundario */
     --borde-suave:  #D6E1DC;   /* líneas y contornos */
 }
 
@@ -26,7 +26,7 @@
 }
 
 .mc-hub__ribbon {
-    background: #0C2A25;
+    background: var(--tm-0c2a25, #0C2A25);
     color: rgba(255, 255, 255, .82);
     border-bottom: 1px solid rgba(255, 255, 255, .06);
 }
@@ -51,7 +51,7 @@
 
 /* Logotipo sobre fondo oscuro: el PNG trae texto azul-marino, así que va sobre una placa blanca */
 .mc-hub .marca {
-    color: #fff;
+    color: var(--tema-sobre-oscuro, #fff);
 }
 
 .mc-hub .marca img {
@@ -130,13 +130,13 @@
     }
 
     .mc-hub__account {
-        color: #fff;
+        color: var(--tema-sobre-oscuro, #fff);
     }
 
     .mc-hub__account-icon {
         background: rgba(255, 255, 255, .08);
         border-color: rgba(255, 255, 255, .3);
-        color: #fff;
+        color: var(--tema-sobre-oscuro, #fff);
     }
 
     .mc-hub__primary-cta {
@@ -319,7 +319,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(20, 61, 54, 0) 45%, rgba(20, 61, 54, .45));
+    background: linear-gradient(180deg, var(--tm-rgba-20-61-54-0, rgba(20, 61, 54, 0)) 45%, var(--tm-rgba-20-61-54-p45, rgba(20, 61, 54, .45)));
 }
 
 .inicio-paso__numero {
@@ -341,7 +341,7 @@
     position: relative;
     margin-bottom: 26px;
     padding-bottom: 16px;
-    color: #143D36;
+    color: var(--tema-oscuro, #143D36);
     font-size: 24px;
     letter-spacing: -.01em;
     line-height: 1.15;
@@ -366,7 +366,7 @@
 }
 
 .inicio-paso p {
-    color: #3D4F4A;
+    color: var(--tm-3d4f4a, #3D4F4A);
     font-size: 15px;
     line-height: 1.7;
 }
@@ -376,7 +376,7 @@
     margin-bottom: 22px;
     padding: 5px 12px;
     border-radius: 999px;
-    color: #143D36;
+    color: var(--tema-oscuro, #143D36);
     background: #DDE8DF;
     font-size: 12px;
     font-weight: 700;
@@ -496,11 +496,11 @@
     justify-content: space-between;
     gap: 12px;
     flex-wrap: wrap;
-    color: #143D36;
+    color: var(--tema-oscuro, #143D36);
 }
 
 .mc-detalle-reserva__item-cabecera span {
-    color: #5F716B;
+    color: var(--tm-5f716b, #5F716B);
     font-size: 12px;
 }
 
@@ -511,15 +511,15 @@
 .mc-detalle-reserva__agregar {
     width: 100%;
     padding: 12px 14px;
-    border: 1px dashed #176954;
+    border: 1px dashed var(--tema-principal, #176954);
     background: transparent;
-    color: #176954;
+    color: var(--tema-principal, #176954);
     font-weight: 700;
     cursor: pointer;
 }
 
 .mc-detalle-reserva__agregar:hover {
-    background: #F3F7F5;
+    background: var(--tema-fondo-alt, #F3F7F5);
 }
 
 .mc-detalle-reserva__opcion {
@@ -537,11 +537,11 @@
 .mc-detalle-reserva__opcion-cabecera span {
     display: grid;
     gap: 2px;
-    color: #143D36;
+    color: var(--tema-oscuro, #143D36);
 }
 
 .mc-detalle-reserva__opcion-cabecera small {
-    color: #5F716B;
+    color: var(--tm-5f716b, #5F716B);
 }
 
 .mc-detalle-reserva__extra {
@@ -553,7 +553,7 @@
 .mc-detalle-reserva__extra label {
     display: grid;
     gap: 4px;
-    color: #143D36;
+    color: var(--tema-oscuro, #143D36);
     font-size: 13px;
 }
 
@@ -566,19 +566,19 @@
 }
 
 .mc-detalle-reserva__total span {
-    color: #5F716B;
+    color: var(--tm-5f716b, #5F716B);
     font-size: 12px;
     letter-spacing: .08em;
     text-transform: uppercase;
 }
 
 .mc-detalle-reserva__total strong {
-    color: #143D36;
+    color: var(--tema-oscuro, #143D36);
     font-size: 26px;
 }
 
 .mc-detalle-reserva__total small {
-    color: #78877D;
+    color: var(--tm-78877d, #78877D);
     font-size: 11px;
 }
 
@@ -606,12 +606,12 @@
 .mc-c06__subtotal {
     margin: 0 0 14px;
     padding: 0 20px 0;
-    color: #5F716B;
+    color: var(--tm-5f716b, #5F716B);
     font-size: 13px;
 }
 
 .mc-c06__subtotal strong {
-    color: #143D36;
+    color: var(--tema-oscuro, #143D36);
 }
 
 /* ---------- Administrador en la vista del cliente: nombre + "Regresar a panel" ---------- */

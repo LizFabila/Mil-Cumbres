@@ -14,7 +14,7 @@
 
 @push('estilos')
 <link rel="stylesheet"
-      href="{{ asset('css/acuse-consultoria-milcumbres.css') }}">
+      href="{{ \App\Support\Temas::hoja('acuse-consultoria-milcumbres.css') }}">
 @endpush
 
 @section('contenido')
