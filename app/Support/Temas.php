@@ -93,40 +93,99 @@ final class Temas
                     'sobre-accion' => '#14302A',
                 ],
             ],
-            'naranja' => [
-                'nombre' => 'Naranja',
-                'descripcion' => 'Barra superior y fondos oscuros en marrón ámbar, menú en naranja tierra, fondos blancos, tarjetas crema y botones en naranja miel.',
+            // Regla 60-30-10 con el azul del logotipo (#0090FC y marino #0B1A33):
+            // 60 % azul: franja superior, títulos, secciones oscuras; barra del menú en azul casi blanco.
+            // 30 % naranja: botones de acción, palabras resaltadas y detalles.
+            // 10 % acento: blanco. Las fotos conservan su color natural.
+            'azul' => [
+                'nombre' => 'Azul y naranja',
+                'descripcion' => 'Regla 60-30-10: 60 % azul del logotipo en títulos y secciones oscuras con barra en azul casi blanco, 30 % naranja en botones y resaltados, y 10 % blanco como acento.',
+                'archivo' => 'azul',
+                'colores' => self::coloresAzul('#FFFFFF', '#0B2545'),
+            ],
+            // Regla 60-30-10: 60 % fondos claros (blanco y verde niebla),
+            // 30 % verde teal profundo (barras, títulos y secciones oscuras),
+            // 10 % naranja (botones, enlaces destacados y acentos).
+            // Sin «texto»: los textos conservan los colores originales del diseño verde.
+            'teal' => [
+                'nombre' => 'Bosque teal',
+                'descripcion' => 'Regla 60-30-10: 60 % fondos claros en verde niebla, 30 % verde teal profundo en barras, títulos y secciones oscuras, y 10 % naranja en botones y acentos.',
                 'colores' => [
-                    // «Oscuro» también es el color de títulos y de las secciones oscuras del sitio:
-                    // debe ser oscuro de verdad para que se lean sobre fondos blancos y crema.
-                    'oscuro' => '#542E06',
-                    'sobre-oscuro' => '#FFFFFF',
-                    'principal' => '#D9730D',
-                    // Se usa como color de texto en muchas vistas: naranja profundo para que se lea sobre blanco.
-                    'principal-claro' => '#B35F0F',
-                    'sobre-principal' => '#FFFFFF',
-                    'activo' => '#D9730D',
-                    'sobre-activo' => '#FFFFFF',
-                    'accion' => '#F28A22',
-                    'accion-hover' => '#E07B00',
-                    'sobre-accion' => '#1F1F1F',
-                    'secundario' => '#A34A06',
-                    'acento' => '#FFCC80',
+                    'oscuro' => '#0F4038',
+                    'principal' => '#1D6F5E',
+                    'principal-claro' => '#237A67',
+                    'secundario' => '#C2541F',
+                    'acento' => '#F2894A',
+                    'accion' => '#D9622B',
+                    'accion-hover' => '#C2541F',
+                    'sobre-accion' => '#FFFFFF',
                     'fondo' => '#FFFFFF',
-                    'fondo-alt' => '#FDF3EA',
-                    'lateral' => '#FDF3EA',
-                    'lateral-2' => '#FDE3D3',
-                    'lateral-texto' => '#1F1F1F',
-                    'texto' => '#1F1F1F',
+                    'fondo-alt' => '#EAF2EE',
+                    'lateral' => '#E6F0EC',
+                    'lateral-2' => '#D2E5DD',
+                    'lateral-texto' => '#0F4038',
                 ],
             ],
         ];
+    }
+
+    /** Colores de las paletas Azul y naranja; solo cambia el acento (10 %) y el texto que va sobre él. */
+    private static function coloresAzul(string $acento, string $sobreAcento): array
+    {
+        return [
+            // 60 % azul. «Oscuro» también es el color de los títulos: marino para que se lea sobre blanco.
+            'oscuro' => '#0B2545',
+            'sobre-oscuro' => '#FFFFFF',
+            'principal' => '#0B78D0',
+            'principal-claro' => '#0A64AE',   // texto y enlaces sobre fondo blanco
+            'sobre-principal' => '#FFFFFF',
+            'activo' => '#0B78D0',
+            'sobre-activo' => '#FFFFFF',
+            // 30 % naranja
+            'accion' => '#F2841F',
+            'accion-hover' => '#E06F0C',
+            'sobre-accion' => '#0B2545',
+            'secundario' => '#C2560E',        // palabras resaltadas sobre fondo claro
+            // 10 % acento
+            'acento' => $acento,
+            'sobre-acento' => $sobreAcento,
+            // Fondos claros en azul niebla
+            'fondo' => '#FFFFFF',
+            'fondo-alt' => '#EEF5FC',
+            'lateral' => '#EAF3FC',
+            'lateral-2' => '#D3E6F8',
+            'lateral-texto' => '#0B2545',
+        ];
+    }
+
+    /** Claves guardadas que ya no existen y la paleta que las reemplaza. */
+    private const REEMPLAZOS = ['naranja' => 'azul', 'azul-dorado' => 'azul'];
+
+    /** Nombre de los archivos CSS de la paleta activa (varias paletas pueden compartirlos). */
+    public static function archivo(): string
+    {
+        return self::catalogo()[self::clave()]['archivo'] ?? self::clave();
+    }
+
+    /** Hoja con las variables --tm-* de la paleta activa (temas/<archivo>.css). */
+    public static function hojaTema(): string
+    {
+        return self::hoja('temas/'.self::archivo().'.css');
+    }
+
+    /** Hoja de ajustes propia de la paleta activa (temas/<archivo>-ajustes.css), si existe. */
+    public static function hojaAjustes(): ?string
+    {
+        $ruta = 'temas/'.self::archivo().'-ajustes.css';
+
+        return is_file(public_path('css/'.$ruta)) ? self::hoja($ruta) : null;
     }
 
     /** Clave del tema activo. Si la columna aún no existe o el valor no es válido, usa el actual. */
     public static function clave(): string
     {
         $clave = (string) ConfiguracionSitio::actual()->tema;
+        $clave = self::REEMPLAZOS[$clave] ?? $clave;
 
         return array_key_exists($clave, self::catalogo()) ? $clave : self::PREDETERMINADO;
     }

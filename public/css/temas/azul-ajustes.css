@@ -1,0 +1,210 @@
+/* =====================================================
+   Ajustes de la paleta «Azul y naranja». Solo se carga cuando está activa.
+   Regla 60-30-10:
+   60 % azul del logotipo: marino #0B2545, azul #0B78D0, barra en azul niebla #F3F8FD
+   30 % naranja: botones #F2841F, resaltados #FF9F45 (sobre oscuro) y #C2560E (sobre blanco)
+   10 % acento: blanco
+   Las fotos conservan su color natural: el velo del banner es neutro, sin tinte azul.
+===================================================== */
+:root {
+    --az-marino: #0B2545;
+    --az-azul: #0B78D0;
+    --az-azul-medio: #0A5FA8;
+    --az-azul-texto: #0A64AE;      /* azul legible sobre fondos claros */
+    --az-niebla: #F3F8FD;          /* azul casi blanco de la barra del menú */
+    --az-naranja: #F2841F;
+    --az-naranja-claro: #FF9F45;   /* sobre fondos oscuros */
+    --az-naranja-texto: #C2560E;   /* sobre fondos blancos */
+}
+
+/* ---------- Encabezado ---------- */
+/* Franja superior en marino; la marca en naranja y los contactos en blanco */
+.mc-hub .mc-hub__ribbon { background: var(--az-marino) !important; }
+.mc-hub .mc-hub__ribbon .mc-hub__ribbon-marca { color: var(--az-naranja-claro) !important; }
+.mc-hub .mc-hub__ribbon .mc-contacto,
+.mc-hub .mc-hub__ribbon .mc-contacto * { color: #FFFFFF !important; }
+
+/* Barra del menú en azul niebla, casi blanco: el logotipo se ve tal cual, sin recuadro */
+.mc-hub { background: var(--az-niebla) !important; border-bottom: 1px solid #D3E6F8; }
+.mc-hub .mc-hub__bar { background: transparent !important; box-shadow: none !important; }
+.mc-hub .mc-hub__bar .marca__nombre,
+.mc-hub .mc-hub__bar .mc-hub__nav > .mc-hub__nav-link,
+.mc-hub .mc-hub__bar .mc-hub__group > .mc-hub__nav-button,
+.mc-hub .mc-hub__bar .mc-hub__account,
+.mc-hub .mc-hub__bar .mc-hub__account *,
+.mc-hub .mc-hub__bar .mc-hub__mobile-toggle { color: var(--az-marino) !important; }
+.mc-hub .mc-hub__bar .marca__lema { color: var(--az-azul-texto) !important; }
+
+/* Enlace activo y hover en azul del logotipo, subrayado en naranja */
+.mc-hub .mc-hub__bar .mc-hub__nav > .mc-hub__nav-link.is-active,
+.mc-hub .mc-hub__bar .mc-hub__nav > .mc-hub__nav-link:hover,
+.mc-hub .mc-hub__bar .mc-hub__group > .mc-hub__nav-button:hover,
+.mc-hub .mc-hub__bar .mc-hub__group > .mc-hub__nav-button[aria-expanded="true"] { color: var(--az-azul-texto) !important; }
+.mc-hub .mc-hub__nav-link::after { background: var(--az-naranja) !important; }
+
+/* Logotipo sin placa: sobre el azul niebla se lee completo */
+.mc-hub .marca img { background: transparent !important; padding: 0 !important; border-radius: 0 !important; }
+
+/* Ícono de la cuenta: círculo azul con figura blanca */
+.mc-hub .mc-hub__bar .mc-hub__account .mc-hub__account-icon { background: var(--az-azul) !important; }
+.mc-hub .mc-hub__bar .mc-hub__account .mc-hub__account-icon,
+.mc-hub .mc-hub__bar .mc-hub__account .mc-hub__account-icon * { color: #FFFFFF !important; }
+
+/* Botones con borde del encabezado (por ejemplo «Regresar a panel»): marino sobre la barra clara */
+.mc-hub .mc-hub__bar .mc-hub__actions a:not(.mc-hub__primary-cta),
+.mc-hub .mc-hub__bar .mc-hub__actions a:not(.mc-hub__primary-cta) * {
+    color: var(--az-marino) !important;
+    border-color: rgba(11, 37, 69, .35) !important;
+}
+
+/* Acción principal del encabezado en naranja con letra marino */
+.mc-hub .mc-hub__primary-cta {
+    background: var(--tema-accion) !important;
+    border-color: var(--tema-accion) !important;
+    color: var(--tema-sobre-accion) !important;
+}
+.mc-hub .mc-hub__primary-cta * { color: var(--tema-sobre-accion) !important; }
+.mc-hub .mc-hub__primary-cta:hover {
+    background: var(--tema-accion-hover) !important;
+    border-color: var(--tema-accion-hover) !important;
+}
+
+/* ---------- Banner principal: fotos con su color natural ---------- */
+/* Velo neutro (solo sombra, sin tinte azul) para que el texto se lea */
+.inicio-hero .inicio-hero__sombra {
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, .62) 0%, rgba(0, 0, 0, .38) 45%, rgba(0, 0, 0, .06) 100%),
+        linear-gradient(0deg, rgba(0, 0, 0, .45), transparent 45%) !important;
+}
+.inicio-hero.is-sombra-ligera .inicio-hero__sombra { opacity: .8 !important; }
+.inicio-hero .inicio-hero__fijo,
+.inicio-hero .inicio-hero__titulo { text-shadow: 0 2px 14px rgba(0, 0, 0, .5); }
+
+.inicio-hero .inicio-hero__bienvenida,
+.inicio-hero .inicio-hero__descripcion,
+.inicio-hero .inicio-hero__titulo { color: #FFFFFF !important; }
+/* Palabras resaltadas del banner en naranja (30 %) */
+.inicio-hero .inicio-hero__bienvenida em,
+.inicio-hero .inicio-hero__lema { color: var(--az-naranja-claro) !important; }
+
+.inicio-hero .inicio-hero__enlace { color: #FFFFFF !important; }
+.inicio-hero .inicio-hero__enlace:hover { color: var(--az-naranja-claro) !important; }
+
+/* Controles del carrusel: neutros; el avance en blanco (acento) */
+.inicio-hero .inicio-hero__control {
+    border-color: rgba(255, 255, 255, .6) !important;
+    background: rgba(0, 0, 0, .25) !important;
+    color: #FFFFFF !important;
+}
+.inicio-hero .inicio-hero__control:hover { border-color: #FFFFFF !important; background: rgba(0, 0, 0, .4) !important; }
+.inicio-hero .inicio-hero__indicador span { background: rgba(255, 255, 255, .35) !important; }
+.inicio-hero .inicio-hero__indicador span::after { background: var(--tema-acento) !important; }
+.inicio-hero .inicio-hero__scroll,
+.inicio-hero .inicio-hero__scroll * { color: #FFFFFF !important; }
+
+/* ---------- Riel de experiencias: sombra neutra sobre la foto; abierto, panel marino ---------- */
+.hero-menu {
+    background: rgba(0, 0, 0, .42) !important;
+    border-right: 1px solid rgba(255, 255, 255, .22) !important;
+}
+.hero-menu.is-abierto { background: rgba(11, 37, 69, .97) !important; }
+.hero-menu, .hero-menu * { color: #FFFFFF !important; }
+.hero-menu .hero-menu__boton { background: transparent !important; }
+.hero-menu .hero-menu__hamburguesa { background: var(--tema-acento) !important; }
+.hero-menu .hero-menu__hamburguesa i { background: var(--tema-sobre-acento) !important; }
+.hero-menu .hero-menu__tipo,
+.hero-menu .hero-menu__flecha,
+.hero-menu .hero-menu__actual { color: var(--az-naranja-claro) !important; }
+.hero-menu .hero-menu__item.is-actual::before { background: var(--az-naranja-claro) !important; }
+.hero-menu .hero-menu__item.is-actual { background: rgba(255, 255, 255, .1) !important; }
+.hero-menu .hero-menu__datos small { color: rgba(255, 255, 255, .75) !important; }
+
+/* ---------- Legibilidad en el resto del sitio ---------- */
+/* Palabras en cursiva de los títulos sobre fondo claro: naranja oscuro */
+h1 em, h2 em, h3 em, h4 em { color: var(--az-naranja-texto); }
+
+/* Botones claros: blanco con letra azul */
+.inicio-btn--claro {
+    background: #FFFFFF !important;
+    color: var(--az-azul-medio) !important;
+    border-color: #FFFFFF !important;
+}
+.inicio-btn--claro:hover { background: #EEF5FC !important; }
+
+/* Tarjeta «Valores» de Inicio: su naranja propio se oscurece para leerse sobre blanco */
+.ini2-paso-card--valores h3 { color: var(--az-naranja-texto) !important; }
+
+/* Panel: el lema junto al logotipo de la barra lateral en marino */
+.mc-adm-sidebar .marca__lema,
+.mc-adm-brand .marca__lema { color: var(--az-marino) !important; }
+
+/* Botón del menú en celular: líneas y borde marino sobre la barra clara */
+.mc-hub .mc-hub__mobile-toggle { border-color: rgba(11, 37, 69, .35) !important; }
+.mc-hub .mc-hub__mobile-toggle span { background: var(--az-marino) !important; }
+
+/* =====================================================
+   Más presencia del naranja (30 %) y franja en el azul del logotipo
+===================================================== */
+:root { --az-logo: #0A8AF0; }   /* azul de la montaña del logotipo (#0090FC), apenas más profundo para que el texto blanco se lea */
+
+/* Franja superior en el azul del logotipo, con todo el texto en blanco */
+.mc-hub .mc-hub__ribbon { background: var(--az-logo) !important; }
+.mc-hub .mc-hub__ribbon .mc-hub__ribbon-marca,
+.mc-hub .mc-hub__ribbon .mc-contacto,
+.mc-hub .mc-hub__ribbon .mc-contacto * { color: #FFFFFF !important; }
+
+/* Botones principales en naranja con letra marino (antes marino) */
+.btn--primario,
+.mc-detalle-reserva__submit,
+.mc-detalle-boton--verde,
+.mc-c11__boton,
+.mc-consultoria-tipo__boton,
+.mc-login__submit,
+.mc-registro__submit,
+.mc-apa__boton,
+.inicio-hero .inicio-btn--claro {
+    background: var(--az-naranja) !important;
+    border-color: var(--az-naranja) !important;
+    color: var(--az-marino) !important;
+}
+.btn--primario *,
+.mc-detalle-reserva__submit *,
+.mc-detalle-boton--verde *,
+.mc-c11__boton *,
+.mc-consultoria-tipo__boton *,
+.mc-login__submit *,
+.mc-registro__submit *,
+.inicio-hero .inicio-btn--claro * { color: var(--az-marino) !important; }
+.btn--primario:hover,
+.mc-detalle-reserva__submit:hover,
+.mc-detalle-boton--verde:hover,
+.mc-c11__boton:hover,
+.mc-consultoria-tipo__boton:hover,
+.mc-login__submit:hover,
+.mc-registro__submit:hover,
+.mc-apa__boton:hover,
+.inicio-hero .inicio-btn--claro:hover {
+    background: var(--tema-accion-hover) !important;
+    border-color: var(--tema-accion-hover) !important;
+}
+
+/* Catálogo: filtro activo y flecha de cada tarjeta en naranja */
+.mc-cat-chip--activo {
+    background: var(--az-naranja) !important;
+    border-color: var(--az-naranja) !important;
+    color: var(--az-marino) !important;
+}
+.mc-cat-card__boton { background: var(--az-naranja) !important; color: var(--az-marino) !important; }
+
+/* Detalles: etiquetas de sección con su línea, avance del carrusel y botón del riel */
+.inicio-kicker { color: var(--az-naranja-texto) !important; }
+.inicio-kicker__linea { background: var(--az-naranja) !important; height: 2px !important; }
+.inicio-hero .inicio-hero__indicador span::after { background: var(--az-naranja) !important; }
+.hero-menu .hero-menu__hamburguesa { background: var(--az-naranja) !important; }
+.hero-menu .hero-menu__hamburguesa i { background: var(--az-marino) !important; }
+
+/* Encabezado: subrayado del enlace activo más grueso para que el naranja se note */
+.mc-hub .mc-hub__nav-link::after { height: 3px !important; }
+
+/* Riel fuera del banner (páginas sin foto de fondo): marino sólido en lugar de gris */
+.hero-menu:not(.inicio-hero .hero-menu) { background: var(--az-marino) !important; }

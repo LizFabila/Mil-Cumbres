@@ -11,9 +11,10 @@
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('base.css') }}">
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('admin.css') }}">
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('admin-menu-milcumbres.css') }}">
-    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('temas/'.\App\Support\Temas::clave().'.css') }}">
-    @if (\App\Support\Temas::clave() === 'naranja')
-        <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('temas/naranja-ajustes.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hojaTema() }}">
+    {{-- Ajustes propios de la paleta activa (temas/<clave>-ajustes.css), si los tiene --}}
+    @if ($ajustesTema = \App\Support\Temas::hojaAjustes())
+        <link rel="stylesheet" href="{{ $ajustesTema }}">
     @endif
     {!! \App\Support\Temas::etiqueta() !!}
     @stack('estilos')

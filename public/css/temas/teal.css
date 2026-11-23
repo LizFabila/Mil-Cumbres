@@ -1,0 +1,6 @@
+/* Variables de color de la paleta Bosque teal.
+   Parte del diseño original verde, así que no remapea colores:
+   los cambios vienen de las variables --tema-* (app/Support/Temas.php)
+   y de teal-ajustes.css. */
+:root {
+}

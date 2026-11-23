@@ -27,9 +27,10 @@
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('rediseno-milcumbres.css') }}">
 
     {{-- Paleta elegida en Apariencia (variables --tema-*) --}}
-    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('temas/'.\App\Support\Temas::clave().'.css') }}">
-    @if (\App\Support\Temas::clave() === 'naranja')
-        <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('temas/naranja-ajustes.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hojaTema() }}">
+    {{-- Ajustes propios de la paleta activa (temas/<clave>-ajustes.css), si los tiene --}}
+    @if ($ajustesTema = \App\Support\Temas::hojaAjustes())
+        <link rel="stylesheet" href="{{ $ajustesTema }}">
     @endif
     @unless ($__env->hasSection('sin-riel'))
         <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('inicio-menu-hero.css') }}">

@@ -1,0 +1,22 @@
+/* =====================================================
+   Ajustes de la paleta Bosque teal. Solo se carga cuando esa paleta está activa.
+   Regla 60-30-10:
+   60 % fondos claros: blanco y verde niebla #EAF2EE
+   30 % verde teal profundo #0F4038 / #1D6F5E: barras, títulos, secciones oscuras
+   10 % naranja #D9622B / #F2894A: botones de acción y acentos
+===================================================== */
+
+/* Acción principal del encabezado («Explorar» o «Reservar») en naranja */
+.mc-hub .mc-hub__primary-cta {
+    background: var(--tema-accion) !important;
+    border-color: var(--tema-accion) !important;
+    color: var(--tema-sobre-accion) !important;
+}
+.mc-hub .mc-hub__primary-cta * { color: var(--tema-sobre-accion) !important; }
+.mc-hub .mc-hub__primary-cta:hover {
+    background: var(--tema-accion-hover) !important;
+    border-color: var(--tema-accion-hover) !important;
+}
+
+/* Tarjeta «Valores» de Inicio: su naranja propio se oscurece para leerse sobre blanco */
+.ini2-paso-card--valores h3 { color: var(--tema-secundario) !important; }
