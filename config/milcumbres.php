@@ -29,6 +29,8 @@ return [
         'whatsapp' => '527224686206',
         'facebook' => 'https://www.facebook.com/share/1HruwCK89m/',
         'instagram' => 'https://www.instagram.com/milcumbres_turismoregenerativo/',
+        'tiktok' => 'https://www.tiktok.com/@milcumbresturismo',
+        'linkedin' => 'https://www.linkedin.com/in/alejandro-l%C3%B3pez-marcos-b754bb1bb/',
     ],
 
     // Datos que se muestran al cliente para hacer la transferencia (C09).
