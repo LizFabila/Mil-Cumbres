@@ -652,3 +652,8 @@
         color: var(--lima) !important;
     }
 }
+
+/* ---------- Logotipo del encabezado público: más grande ---------- */
+.mc-hub .marca img {
+    height: 80px;
+}

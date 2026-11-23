@@ -154,45 +154,6 @@
 
                             </div>
 
-                            {{-- CATEGORÍAS CON FOTOGRAFÍAS --}}
-
-                            <div class="mc-hub__category-grid">
-
-                                @foreach ($categoriasMenu ?? [] as $categoria)
-
-                                    <a
-                                        class="mc-hub__category"
-                                        href="{{ route('experiencias.index', ['tipo' => $categoria->id_catalogo_exp]) }}#catalogo-resultados"
-                                    >
-
-                                        <img
-                                            src="{{ config("milcumbres.imagenes.tipo.{$categoria->tipo}", config('milcumbres.imagenes.experiencia_default')) }}"
-                                            alt="Experiencias de {{ $categoria->tipo }}"
-                                            loading="lazy"
-                                        >
-
-                                        <span class="mc-hub__category-shade"></span>
-
-                                        <span class="mc-hub__category-content">
-
-                                            <strong>{{ $categoria->tipo }}</strong>
-
-                                            <small>
-                                                {{ $descripcionesMenu[$categoria->tipo] ?? 'Descubre esta categoría de experiencias.' }}
-                                            </small>
-
-                                            <span class="mc-hub__category-arrow">
-                                                Explorar <b>↗</b>
-                                            </span>
-
-                                        </span>
-
-                                    </a>
-
-                                @endforeach
-
-                            </div>
-
                             {{-- ACCESOS RÁPIDOS --}}
 
                             <div class="mc-hub__quick-links">

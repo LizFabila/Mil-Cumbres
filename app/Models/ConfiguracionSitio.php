@@ -40,11 +40,9 @@ class ConfiguracionSitio extends Model
         ]);
     }
 
-    /** Logotipo subido, o el PNG original si no se ha cambiado. */
+    /** Siempre el logotipo del repo: ya no hay carga de logo desde el admin. */
     protected function logoUrl(): Attribute
     {
-        return Attribute::get(fn () => $this->logo
-            ? Storage::disk('public')->url($this->logo)
-            : asset('img/logo-mil-cumbres.png'));
+        return Attribute::get(fn () => asset('img/logo-mil-cumbres.png'));
     }
 }

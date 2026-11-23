@@ -790,6 +790,7 @@
 }
 
 .mc-cat-card {
+    position: relative;
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -799,6 +800,36 @@
     transition:
         transform .3s ease,
         box-shadow .3s ease;
+}
+
+/* Botón circular para pasar a la siguiente foto de la galería */
+.mc-cat-card__siguiente {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 4;
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, .85);
+    background: rgba(9, 33, 24, .35);
+    color: #FFFFFF;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.mc-cat-card__siguiente:hover {
+    background: rgba(9, 33, 24, .6);
+}
+
+.mc-cat-card__siguiente:focus-visible {
+    outline: 2px solid #FFFFFF;
+    outline-offset: 3px;
 }
 
 .mc-cat-card:hover {
@@ -830,12 +861,7 @@
 .mc-cat-card__sombra {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        180deg,
-        var(--tm-rgba-9-33-24-p3, rgba(9,33,24,.3)),
-        transparent 50%,
-        var(--tm-rgba-9-33-24-p6, rgba(9,33,24,.6))
-    );
+    background: none;
     pointer-events: none;
 }
 

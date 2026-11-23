@@ -16,6 +16,10 @@
       href="{{ \App\Support\Temas::hoja('catalogo-milcumbres.css') }}">
 @endpush
 
+@push('scripts')
+    <script src="{{ asset('js/galeria-experiencias.js') }}" defer></script>
+@endpush
+
 @section('contenido')
 
 @php
@@ -83,47 +87,6 @@
                     </div>
 
 
-                    {{-- FILTROS DE TIPO --}}
-
-                    <div class="mc-cat-chips"
-                         aria-label="Tipo de experiencia">
-
-                        <a
-                            href="{{ route(
-                                'experiencias.index',
-                                request()->except('tipo', 'page')
-                            ) }}#catalogo-resultados"
-
-                            @class([
-                                'mc-cat-chip',
-                                'mc-cat-chip--activo' => $tipoActivo === ''
-                            ])
-                        >
-                            Todas las experiencias
-                        </a>
-
-                        @foreach ($tipos as $tipo)
-
-                            <a
-                                href="{{ route('experiencias.index', array_merge(
-                                    request()->except('tipo', 'page'),
-                                    ['tipo' => $tipo->id_catalogo_exp]
-                                )) }}#catalogo-resultados"
-
-                                @class([
-                                    'mc-cat-chip',
-                                    'mc-cat-chip--activo' =>
-                                        $tipoActivo === (string) $tipo->id_catalogo_exp
-                                ])
-                            >
-                                {{ $tipo->tipo }}
-                            </a>
-
-                        @endforeach
-
-                    </div>
-
-
                     {{-- INDICADOR DE FILTROS ACTIVOS --}}
 
                     @if ($hayFiltros)
@@ -179,8 +142,12 @@
                         <div class="mc-cat-grid">
 
                             @foreach ($experiencias as $experiencia)
+                                @php
+                                    // Portada + galería, en el orden del administrador.
+                                    $urls = collect([$experiencia->imagen_url])->merge($experiencia->imagenes->map->url)->values()->all();
+                                @endphp
 
-                                <article class="mc-cat-card">
+                                <article class="mc-cat-card" data-galeria="{{ json_encode($urls) }}">
 
                                     {{-- FOTOGRAFÍA --}}
 
@@ -199,6 +166,7 @@
                                             src="{{ $experiencia->imagen_url }}"
                                             alt="{{ $experiencia->nombre }}"
                                             loading="lazy"
+                                            data-galeria-img
                                         >
 
                                         <span class="mc-cat-card__sombra"></span>
@@ -207,7 +175,7 @@
                                         @if ($experiencia->catalogo)
 
                                             <span class="mc-cat-card__tipo">
-                                                {{ $experiencia->catalogo->tipo }}
+                                                {{ $experiencia->catalogo?->tipo }}
                                             </span>
 
                                         @endif
@@ -223,6 +191,13 @@
                                         </span>
 
                                     </a>
+
+                                    {{-- GALERÍA: botón circular para ver la siguiente foto --}}
+                                    @if ($experiencia->imagenes->isNotEmpty())
+                                        <button type="button" class="mc-cat-card__siguiente" data-galeria-siguiente aria-label="Ver la siguiente imagen">
+                                            <span aria-hidden="true">→</span>
+                                        </button>
+                                    @endif
 
 
                                     {{-- INFORMACIÓN --}}

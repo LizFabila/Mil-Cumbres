@@ -135,7 +135,7 @@
 ============================================== */
 
 .mc-detalle-hero {
-    padding: 25px 0 65px;
+    padding: 14px 0 28px;
     background: var(--det-crema);
 }
 
@@ -166,16 +166,78 @@
 .mc-detalle-hero__grid {
     display: grid;
     grid-template-columns: minmax(0,1.15fr) minmax(0,.85fr);
-    min-height: 580px;
+    align-items: center;
     background: white;
 }
 
+/* Columna derecha: foto (16:9, máx. 560 px), banda de datos y requisitos, todo con el mismo ancho */
+.mc-detalle-hero__derecha {
+    display: flex;
+    flex-direction: column;
+    justify-self: end;
+    width: 100%;
+    max-width: 560px;
+    gap: 22px;
+}
+
+/* Foto principal con un marco negro discreto de 2 px */
 .mc-detalle-hero__visual {
     position: relative;
-    min-height: 580px;
+    width: 100%;
+    aspect-ratio: 16 / 9;
     overflow: hidden;
     isolation: isolate;
     background: var(--det-verde);
+    border: 2px solid #111111;
+    box-sizing: border-box;
+}
+
+/* Galería: botón circular para pasar a la siguiente foto, con el contador al lado */
+.mc-detalle-hero__galeria {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mc-detalle-hero__siguiente {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    border-radius: 50%;
+    border: 2px solid var(--tema-oscuro, #143D36);
+    background: #FFFFFF;
+    color: var(--tema-oscuro, #143D36);
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .45);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.mc-detalle-hero__siguiente:hover {
+    transform: scale(1.06);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, .55);
+}
+
+.mc-detalle-hero__siguiente:focus-visible {
+    outline: 3px solid #FFFFFF;
+    outline-offset: 3px;
+}
+
+.mc-detalle-hero__contador {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(9, 33, 24, .7);
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
 }
 
 .mc-detalle-hero__visual > img {
@@ -197,12 +259,7 @@
     position: absolute;
     z-index: -1;
     inset: 0;
-    background: linear-gradient(
-        180deg,
-        var(--tm-rgba-8-34-26-p55, rgba(8,34,26,.55)),
-        var(--tm-rgba-8-34-26-p02, rgba(8,34,26,.02)) 38%,
-        var(--tm-rgba-8-34-26-p85, rgba(8,34,26,.85)) 100%
-    );
+    background: none;
 }
 
 .mc-detalle-hero__superior {
@@ -296,7 +353,7 @@
     max-width: 650px;
     margin: 17px 0 24px;
     color: var(--tema-texto, var(--det-verde));
-    font-size: clamp(34px, 3.6vw, 50px);
+    font-size: clamp(26px, 2.6vw, 36px);
     line-height: 1.12;
     letter-spacing: -1px;
     overflow-wrap: break-word;
@@ -1418,10 +1475,10 @@
 /* Datos (ubicación, duración, temporada) en fila dentro de la portada. */
 .mc-detalle-hero__datos {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
-    margin: 26px 0 22px;
-    padding: 20px 0;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin: 0;
+    padding: 16px 0;
     border-top: 1px solid #E4EAE4;
     border-bottom: 1px solid #E4EAE4;
 }
@@ -1441,7 +1498,7 @@
 }
 
 .mc-detalle-hero__requisitos {
-    margin-bottom: 26px;
+    margin: 0;
 }
 
 .mc-detalle-hero__requisitos small {
@@ -1464,15 +1521,16 @@
     .mc-detalle-hero__grid--texto-izq {
         grid-template-columns: 1fr;
     }
-    /* En una columna, la imagen va primero (arriba) y luego el texto. */
-    .mc-detalle-hero__grid--texto-izq .mc-detalle-hero__visual {
+    /* En una columna, la columna derecha (foto y datos) va primero, arriba del texto. */
+    .mc-detalle-hero__grid--texto-izq .mc-detalle-hero__derecha {
         order: -1;
+        max-width: none;
     }
 }
 
 @media (max-width: 520px) {
     .mc-detalle-hero__datos {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
     }
 }

@@ -113,6 +113,17 @@ class Experiencia extends Model
             ->withTimestamps();
     }
 
+    /** Máximo de imágenes en la galería de una experiencia (la portada no cuenta). */
+    public const MAX_IMAGENES = 10;
+
+    /** Galería de la experiencia, en el orden que eligió el administrador. */
+    public function imagenes(): HasMany
+    {
+        return $this->hasMany(ExperienciaImagen::class, 'id_experiencia', 'id_experiencia')
+            ->orderBy('orden')
+            ->orderBy('id_experiencia_imagen');
+    }
+
     /** Calificaciones que los clientes dieron a esta experiencia. */
     public function calificaciones(): HasMany
     {
