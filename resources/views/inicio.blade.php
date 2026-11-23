@@ -6,6 +6,7 @@
 @extends('layouts.app')
 
 @section('titulo', 'Inicio')
+@section('sin-riel', '1')
 
 @section('contenido')
 
@@ -21,41 +22,31 @@
 
     {{-- ======================================= --}}
     {{-- HERO PRINCIPAL --}}
+    {{-- Frases fijas en todo el carrusel; cada diapositiva cambia solo la imagen y el título de la sección.
+         Textos e imágenes: config/hero_experiencias.php --}}
     {{-- ======================================= --}}
+
+    @php
+        $carruselPdf = collect(config('hero_experiencias'))->map(fn ($e) => (object) $e);
+        $hayCarrusel = $carruselPdf->isNotEmpty();
+    @endphp
 
     <section class="inicio-hero"
              data-hero-carrusel
              aria-roledescription="carrusel"
              aria-label="Bienvenida y experiencias disponibles">
 
-        {{-- Fotos: la primera es la portada original; después, una por experiencia --}}
-        <div class="inicio-hero__foto is-activa" data-diapositiva="0">
-            <img
-                src="{{ config('milcumbres.imagenes.hero_inicio_local') ? asset(config('milcumbres.imagenes.hero_inicio_local')) : config('milcumbres.imagenes.hero_inicio') }}"
-                alt="Paisaje natural de Valle de Bravo"
-                fetchpriority="high"
-            >
-        </div>
-
-        @foreach ($carrusel as $experiencia)
-            <div class="inicio-hero__foto" data-diapositiva="{{ $loop->iteration }}" aria-hidden="true">
-                <img src="{{ $experiencia->imagen_url }}" alt="" loading="lazy" decoding="async">
+        {{-- Fotos: una por sección --}}
+        @foreach ($carruselPdf as $experiencia)
+            <div class="inicio-hero__foto {{ $loop->first ? 'is-activa' : '' }}" data-diapositiva="{{ $loop->index }}" {!! ! empty($experiencia->sombra ?? null) ? 'data-sombra="'.e($experiencia->sombra ?? '').'"' : '' !!} aria-hidden="true">
+                <img src="{{ asset($experiencia->imagen) }}" alt="" {{ $loop->first ? 'fetchpriority=high' : 'loading=lazy' }} decoding="async">
             </div>
         @endforeach
 
         <div class="inicio-hero__sombra"></div>
 
-        {{-- Menú lateral de experiencias.
-             Cerrado: riel con la palabra «Experiencias» y el nombre de la que se ve en el banner.
-             Abierto: lista numerada por tipo con nombre, zona, precio y duración.
-             Pasar el mouse por una experiencia la muestra en el banner; el clic abre su detalle. --}}
-        @if ($carrusel->isNotEmpty())
-            @php
-                $ordenTipos = array_keys($mensajesTipo);
-                $menuGrupos = $carrusel
-                    ->groupBy(fn ($e) => $e->catalogo?->tipo ?? 'Otras', true)
-                    ->sortBy(fn ($g, $tipo) => ($p = array_search($tipo, $ordenTipos, true)) === false ? 99 : $p);
-            @endphp
+        {{-- Menú lateral: lista de las diapositivas; el clic lleva al catálogo. --}}
+        @if ($hayCarrusel)
             <nav class="hero-menu" data-hero-menu aria-label="Experiencias disponibles">
                 <button type="button" class="hero-menu__boton" data-hero-menu-boton
                         aria-expanded="false" aria-controls="hero-menu-cuerpo">
@@ -67,32 +58,23 @@
                 <div class="hero-menu__cuerpo" id="hero-menu-cuerpo">
                     <p class="hero-menu__intro">Elige tu próxima experiencia</p>
 
-                    @foreach ($menuGrupos as $tipo => $grupo)
-                        <div class="hero-menu__grupo">
-                            <p class="hero-menu__tipo">
-                                <span>{{ $tipo }}</span>
-                            </p>
-                            <ul>
-                                @foreach ($grupo as $indice => $experiencia)
-                                    <li>
-                                        <a class="hero-menu__item"
-                                           href="{{ route('experiencias.show', [$experiencia->id_experiencia, $experiencia->slug]) }}"
-                                           data-hero-ver="{{ $indice + 1 }}"
-                                           data-nombre="{{ $experiencia->nombre }}">
-                                            <span class="hero-menu__datos">
-                                                <strong>{{ $experiencia->nombre }}</strong>
-                                                <small>
-                                                    {{ $experiencia->zonas_texto ?: config('milcumbres.contacto.lugar') }}
-                                                    · {{ $experiencia->precio_texto }} · {{ preg_replace('/\s*\(.*\)$/', '', $experiencia->duracion_texto) }}
-                                                </small>
-                                            </span>
-                                            <span class="hero-menu__flecha" aria-hidden="true">→</span>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endforeach
+                    <div class="hero-menu__grupo">
+                        <ul>
+                            @foreach ($carruselPdf as $experiencia)
+                                <li>
+                                    <a class="hero-menu__item"
+                                       href="{{ route('experiencias.index') }}"
+                                       data-hero-ver="{{ $loop->index }}"
+                                       data-nombre="{{ $experiencia->nombre }}">
+                                        <span class="hero-menu__datos">
+                                            <strong>{{ $experiencia->nombre }}</strong>
+                                        </span>
+                                        <span class="hero-menu__flecha" aria-hidden="true">→</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
 
                     <a class="hero-menu__todas" href="{{ route('experiencias.index') }}">
                         Ver catálogo completo <span aria-hidden="true">→</span>
@@ -103,44 +85,53 @@
 
         <div class="contenedor inicio-hero__contenido">
 
-          <div class="inicio-hero__paneles">
+          {{-- Frases fijas arriba: no cambian ni se animan al rotar el carrusel --}}
+          <div class="inicio-hero__fijo">
 
-          {{-- Diapositiva 0: bienvenida (sin cambios) --}}
-          <div class="inicio-hero__panel is-activo"
-               data-diapositiva="0"
-               role="group"
-               aria-roledescription="diapositiva"
-               aria-label="Bienvenida">
-
-            <div class="inicio-hero__texto">
-
-                <div class="inicio-hero__ubicacion">
-                    <span class="inicio-hero__punto"></span>
-                    {{ config('milcumbres.contacto.lugar') }}
-                </div>
-
-                <span class="inicio-hero__etiqueta">
-                    TURISMO REGENERATIVO · MIL CUMBRES
-                </span>
-
-                <h1>
-                    Hay lugares que
-                    <em>no solo se visitan.</em>
-                    Se viven.
+                <h1 class="inicio-hero__bienvenida">
+                    Regeneramos la naturaleza y las organizaciones
+                    <em>a través del turismo</em>
                 </h1>
 
-                <p class="inicio-hero__descripcion">
-                    Descubre Valle de Bravo a través de experiencias
-                    de naturaleza, bienestar y cultura.
-                    Conecta con el territorio y descubre
-                    una forma diferente de viajar.
+                <p class="inicio-hero__descripcion inicio-hero__descripcion--bienvenida">
+                    Conecta con tu ser, tu comunidad y la naturaleza.
                 </p>
+
+                <p class="inicio-hero__lema">Vive el viaje que transforma</p>
+
+          </div>
+
+          <div class="inicio-hero__paneles">
+
+          {{-- Diapositivas: título de cada sección y botón al catálogo --}}
+          @foreach ($carruselPdf as $experiencia)
+            <div class="inicio-hero__panel {{ $loop->first ? 'is-activo' : '' }}"
+                 data-diapositiva="{{ $loop->index }}"
+                 role="group"
+                 aria-roledescription="diapositiva"
+                 aria-label="{{ $experiencia->nombre }}"
+                 hidden>
+
+                <div class="inicio-hero__texto">
+
+                    <h2 class="inicio-hero__titulo">{{ $experiencia->nombre }}</h2>
+
+                </div>
+
+            </div>
+          @endforeach
+
+          </div>
+
+          {{-- Parte inferior fija: lema y botones --}}
+          <div class="inicio-hero__pie">
+
 
                 <div class="inicio-hero__acciones">
 
                     <a href="{{ route('experiencias.index') }}#catalogo-resultados"
                        class="inicio-btn inicio-btn--claro">
-                        Explorar experiencias
+                        Reservar
                         <span aria-hidden="true">↗</span>
                     </a>
 
@@ -152,108 +143,9 @@
 
                 </div>
 
-            </div>
-
-            <div class="inicio-hero__nota">
-                <div>
-                    <strong>Otra manera de descubrir</strong>
-                    <span>
-                        Naturaleza, cultura y bienestar
-                        en un mismo destino.
-                    </span>
-                </div>
-            </div>
-
           </div>
 
-          {{-- Diapositivas de experiencias --}}
-          @foreach ($carrusel as $experiencia)
-            @php
-                $urlDetalle = route('experiencias.show', [$experiencia->id_experiencia, $experiencia->slug]);
-            @endphp
-            <div class="inicio-hero__panel"
-                 data-diapositiva="{{ $loop->iteration }}"
-                 role="group"
-                 aria-roledescription="diapositiva"
-                 aria-label="{{ $experiencia->nombre }}"
-                 hidden>
-
-                <div class="inicio-hero__texto">
-
-                    <div class="inicio-hero__ubicacion">
-                        <span class="inicio-hero__punto"></span>
-                        {{ $experiencia->zonas_texto ?: config('milcumbres.contacto.lugar') }}
-                    </div>
-
-                    <span class="inicio-hero__etiqueta">
-                        EXPERIENCIA {{ mb_strtoupper($experiencia->catalogo?->tipo ?? '') }} · MIL CUMBRES
-                    </span>
-
-                    <h2 class="inicio-hero__titulo">{{ $experiencia->nombre }}</h2>
-
-                    @if ($experiencia->resumen)
-                        <p class="inicio-hero__descripcion">
-                            {{ \Illuminate\Support\Str::limit($experiencia->resumen, 170) }}
-                        </p>
-                    @endif
-
-                    {{-- Datos rápidos: duración, días con horario y temporada --}}
-                    @php
-                        $diasHero = $experiencia->disponibilidades->pluck('dia_texto')->unique()->values();
-                    @endphp
-                    <dl class="inicio-hero__datos">
-                        <div>
-                            <dt>Duración</dt>
-                            <dd>{{ preg_replace('/\s*\(.*\)$/', '', $experiencia->duracion_texto) }}</dd>
-                        </div>
-                        @if ($diasHero->isNotEmpty())
-                            <div>
-                                <dt>Días</dt>
-                                <dd>{{ $diasHero->count() > 1 ? $diasHero->slice(0, -1)->implode(', ').' y '.$diasHero->last() : $diasHero->first() }}</dd>
-                            </div>
-                        @endif
-                        @if ($experiencia->temporada)
-                            <div>
-                                <dt>Temporada</dt>
-                                <dd>{{ $experiencia->temporada }}</dd>
-                            </div>
-                        @endif
-                    </dl>
-
-                    <div class="inicio-hero__acciones">
-
-                        <a href="{{ $urlDetalle }}#reservar-experiencia"
-                           class="inicio-btn inicio-btn--claro">
-                            Reservar
-                            <span aria-hidden="true">↗</span>
-                        </a>
-
-                        <a href="{{ $urlDetalle }}"
-                           class="inicio-hero__enlace">
-                            Ver detalles
-                            <span aria-hidden="true">→</span>
-                        </a>
-
-                    </div>
-
-                </div>
-
-                <div class="inicio-hero__nota">
-                    <div>
-                        <strong>{{ $experiencia->precio_texto }}</strong>
-                        <span>
-                            @if ((float) $experiencia->precio > 0) Por persona · @endif
-                            {{ $experiencia->duracion_texto }}
-                        </span>
-                    </div>
-                </div>
-
-            </div>
-          @endforeach
-
-          </div>
-
-          @if ($carrusel->isNotEmpty())
+          @if ($hayCarrusel)
             {{-- Controles del carrusel --}}
             <div class="inicio-hero__controles">
                 <button type="button" class="inicio-hero__control" data-hero-anterior aria-label="Diapositiva anterior">
@@ -261,11 +153,9 @@
                 </button>
 
                 <div class="inicio-hero__indicadores" role="tablist" aria-label="Elegir diapositiva">
-                    <button type="button" class="inicio-hero__indicador is-activo" data-hero-ir="0" role="tab"
-                            aria-selected="true" aria-label="Bienvenida"><span></span></button>
-                    @foreach ($carrusel as $experiencia)
-                        <button type="button" class="inicio-hero__indicador" data-hero-ir="{{ $loop->iteration }}" role="tab"
-                                aria-selected="false" aria-label="{{ $experiencia->nombre }}"><span></span></button>
+                    @foreach ($carruselPdf as $experiencia)
+                        <button type="button" class="inicio-hero__indicador {{ $loop->first ? 'is-activo' : '' }}" data-hero-ir="{{ $loop->index }}" role="tab"
+                                aria-selected="{{ $loop->first ? 'true' : 'false' }}" aria-label="{{ $experiencia->nombre }}"><span></span></button>
                     @endforeach
                 </div>
 
@@ -293,6 +183,52 @@
 
 
     {{-- ======================================= --}}
+    {{-- ======================================= --}}
+    {{-- SERVICIOS (según el PDF «Mil Cumbres Turismo Regenerativo», página 5) --}}
+    {{-- ======================================= --}}
+
+    @php
+        $coloresServicios = [
+            'var(--naranja-monarca, #E8771E)',
+            'var(--azul, var(--tema-secundario, #2F6690))',
+            'var(--verde, var(--tema-principal, #176954))',
+            'var(--naranja-monarca, #E8771E)',
+            'var(--azul, var(--tema-secundario, #2F6690))',
+        ];
+        $iconosServicios = ['ico-experiencias.png', 'ico-transformacion.png', 'ico-pedagogia.png', 'ico-terapia.png', 'ico-proyectos.png'];
+        $servicios = [
+            ['Experiencias', 'Vivencias que trascienden en la vida. Diseñamos experiencias que reconectan con la esencia de ser, la comunidad y la naturaleza, despertando conciencia y dejando impacto en los viajeros y en el territorio.', 'Senderismo, avistamiento de luciérnagas, mariposa monarca, observación de aves, recolección de hongos silvestres, baño de bosque, meditación y campamentos.'],
+            ['Transformación organizacional', 'Programas empresariales en entornos naturales que fortalecen equipos, inspiran propósito y promueven el liderazgo regenerativo.', 'La naturaleza se convierte en espacio de creatividad, innovación y alta conexión. A través de dinámicas y herramientas de impacto, cultivamos bienestar, cohesión y sentido compartido para potenciar la alineación de equipos, la colaboración y la productividad.'],
+            ['Pedagogía de naturaleza', 'Metodologías vivenciales para escuelas, que integran ciencia, arte y juego en el aprendizaje al aire libre.', 'Fomentamos la educación ambiental conectando experiencias recreativas con proyectos de regeneración, inspirando una nueva forma de aprender y convivir con la naturaleza.'],
+            ['Terapia de naturaleza', 'Espacios seguros donde las personas pueden conectarse de manera sana y recíproca con la naturaleza a través de los sentidos.', 'Ideal para personas y organizaciones que buscan bienestar consciente y armonía. La naturaleza nos guía en procesos de reconexión y transformación personal y colectiva.'],
+            ['Proyectos', 'Consultoría y acciones colectivas que regeneran ecosistemas y fortalecen comunidades.', 'Contribuimos a la naturaleza a través de todas nuestras experiencias, impulsando un modelo integral que crea las condiciones fértiles para que la vida prospere.'],
+        ];
+    @endphp
+
+    <section class="ini2-servicios" id="servicios" aria-labelledby="ini2-servicios-titulo">
+        <div class="contenedor">
+
+            <div class="ini2-cabecera" data-ini2>
+                <h2 id="ini2-servicios-titulo">Servicios</h2>
+            </div>
+
+            <div class="ini2-servicios__lista">
+                @foreach ($servicios as $servicio)
+                    <article class="ini2-servicio ini2-elevable" data-ini2
+                             style="--c: {{ $coloresServicios[$loop->index % count($coloresServicios)] }}; --retardo: {{ $loop->index * 120 }}ms">
+                        <div class="ini2-servicio__cabecera">
+                            <img class="ini2-servicio__icono" src="{{ asset('img/servicios/'.$iconosServicios[$loop->index]) }}" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                            <h3 class="ini2-servicio__nombre">{{ $servicio[0] }}</h3>
+                        </div>
+                        <p class="ini2-servicio__texto">{{ $servicio[1] }}</p>
+                        <p class="ini2-servicio__detalle">{{ $servicio[2] }}</p>
+                    </article>
+                @endforeach
+            </div>
+
+        </div>
+    </section>
+
     {{-- ¿QUIÉNES SOMOS? --}}
     {{-- ======================================= --}}
 
@@ -343,7 +279,7 @@
                     <span class="ini2-linea-tiempo__barra" aria-hidden="true"></span>
 
                     {{-- Etapa 1 (arriba) --}}
-                    <div class="ini2-hito ini2-hito--arriba" style="--c: var(--verde, #176954)">
+                    <div class="ini2-hito ini2-hito--arriba" style="--c: var(--verde, var(--tema-principal, #176954))">
                         <div class="ini2-hito__contenido" data-ini2 style="--retardo: 0ms">
                             <span class="ini2-hito__numero">01</span>
                             <h4>El origen</h4>
@@ -356,7 +292,7 @@
                     </div>
 
                     {{-- Etapa 2 (abajo) --}}
-                    <div class="ini2-hito ini2-hito--abajo" style="--c: var(--azul, #2F6690)">
+                    <div class="ini2-hito ini2-hito--abajo" style="--c: var(--azul, var(--tema-secundario, #2F6690))">
                         <div class="ini2-hito__contenido" data-ini2 style="--retardo: 350ms">
                             <span class="ini2-hito__numero">02</span>
                             <h4>Primeras experiencias</h4>
@@ -369,7 +305,7 @@
                     </div>
 
                     {{-- Etapa 3 (arriba) --}}
-                    <div class="ini2-hito ini2-hito--arriba" style="--c: var(--verde-bosque, #143D36)">
+                    <div class="ini2-hito ini2-hito--arriba" style="--c: var(--verde-bosque, var(--tema-oscuro, #143D36))">
                         <div class="ini2-hito__contenido" data-ini2 style="--retardo: 700ms">
                             <span class="ini2-hito__numero">03</span>
                             <h4>Crecer con la comunidad</h4>
@@ -382,7 +318,7 @@
                     </div>
 
                     {{-- Etapa 4 (abajo) --}}
-                    <div class="ini2-hito ini2-hito--abajo" style="--c: var(--verde, #176954)">
+                    <div class="ini2-hito ini2-hito--abajo" style="--c: var(--verde, var(--tema-principal, #176954))">
                         <div class="ini2-hito__contenido" data-ini2 style="--retardo: 1050ms">
                             <span class="ini2-hito__numero">04</span>
                             <h4>Hoy</h4>
@@ -473,11 +409,16 @@
                 <p>Trabajamos con guías locales, comunidades de la región y especialistas en conservación para que cada experiencia tenga respaldo.</p>
                 {{-- Logos de colaboradores: reemplaza cada bloque por <img src="..." alt="Nombre del colaborador"> --}}
                 <div class="ini2-logos">
-                    @foreach (range(1, 6) as $numeroLogo)
-                        <div class="ini2-logo" role="img" aria-label="Logo de colaborador {{ $numeroLogo }} (pendiente)">
-                            <span>Logo {{ $numeroLogo }}</span>
-                        </div>
-                    @endforeach
+                    @foreach ([
+                    ['FOCEN', 'focen.png'], ['National Geographic', 'nationalgeographic.png'], ['Holcim', 'holcim.png'], ['Takeda', 'takeda.png'],
+                    ['FMCN', 'fmcn.png'], ['Common', 'common.png'], ['VTEX', 'vtex.png'], ['Traxion', 'traxion.png'],
+                    ['Mayer Brown', 'mayer-brown.png'], ['Colaborador', 'emblema.png'], ['Heartland', 'heartland.png'], ['Paynet by Openpay', 'paynet.png'],
+                    ['Global Water Watch México', 'global-water-watch.png'], ['Fundación Azteca', 'fundacion-azteca.png'], ['Lincoln', 'lincoln.png'], ['Essity', 'essity.png'],
+                ] as $colaborador)
+                    <div class="ini2-logo">
+                        <img src="{{ asset('img/colaboradores/'.$colaborador[1]) }}" alt="{{ $colaborador[0] }}" loading="lazy" decoding="async">
+                    </div>
+                @endforeach
                 </div>
             </div>
 
@@ -639,9 +580,10 @@
 @endsection
 
 @push('estilos')
-    <link rel="stylesheet" href="{{ asset('css/inicio-carrusel-milcumbres.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/inicio-menu-hero.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/inicio-secciones-milcumbres.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('inicio-carrusel-milcumbres.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('inicio-servicios-milcumbres.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('inicio-menu-hero.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('inicio-secciones-milcumbres.css') }}">
 @endpush
 
 @push('scripts')

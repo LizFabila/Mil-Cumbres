@@ -178,6 +178,41 @@
     to { transform: scaleX(1); }
 }
 
+/* ---------- Bienvenida: lema de la marca ----------
+   Misma familia que los títulos del sitio (Fraunces) y el color de acento del tema. */
+.inicio-hero h1.inicio-hero__bienvenida {
+    max-width: 880px;
+    font-family: var(--fuente-titulo);
+    font-size: clamp(34px, 3.7vw, 54px);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -.8px;
+    text-transform: none;
+}
+
+.inicio-hero__bienvenida em {
+    font-family: var(--fuente-titulo);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--lima, var(--tema-acento, #C5D49D));
+}
+
+.inicio-hero__descripcion--bienvenida {
+    font-family: var(--fuente-titulo);
+    font-size: clamp(17px, 1.6vw, 22px);
+    letter-spacing: .3px;
+    color: #fff;
+}
+
+.inicio-hero__lema {
+    margin: 0 0 26px;
+    font-family: var(--fuente-titulo);
+    font-style: italic;
+    font-size: clamp(20px, 2vw, 28px);
+    line-height: 1.2;
+    color: var(--lima, var(--tema-acento, #C5D49D));
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1100px) {
     .inicio-hero__panel {
@@ -238,4 +273,217 @@
     .inicio-hero__foto.is-activa img {
         animation: none;
     }
+}
+
+/* ---------- Frases fijas: no cambian ni se animan al rotar el carrusel ---------- */
+.inicio-hero__fijo {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 28px;
+}
+
+/* ---------- Banner compacto: el banner completo cabe en pantalla sin bajar ----------
+   Va después de inicio-menu-hero.css, así que usa selectores más específicos. */
+.inicio-hero .inicio-hero__fijo {
+    grid-column: 1 / -1;
+    margin-bottom: 14px;
+}
+
+.inicio-hero .inicio-hero__contenido {
+    padding-top: 18px;
+    padding-bottom: 92px;
+}
+
+/* Frases fijas: texto de apoyo, más chico que el título de cada diapositiva */
+.inicio-hero h1.inicio-hero__bienvenida {
+    max-width: 760px;
+    margin: 0 0 8px;
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.2;
+    letter-spacing: -.3px;
+}
+
+.inicio-hero .inicio-hero__descripcion--bienvenida {
+    margin: 0 0 4px;
+    font-size: clamp(15px, 1.3vw, 18px);
+    letter-spacing: .2px;
+}
+
+.inicio-hero .inicio-hero__lema {
+    margin: 0 0 12px;
+    font-size: clamp(16px, 1.5vw, 20px);
+}
+
+.inicio-hero .inicio-hero__fijo .inicio-hero__acciones {
+    margin-top: 10px;
+}
+
+/* Título de cada diapositiva: es el texto principal */
+.inicio-hero h2.inicio-hero__titulo {
+    max-width: 1000px;
+    margin: 0 0 16px;
+    font-size: clamp(44px, 6vw, 84px);
+    line-height: 1.02;
+    letter-spacing: -2px;
+}
+
+.inicio-hero .inicio-hero__paneles .inicio-hero__panel .inicio-hero__texto {
+    top: 0;
+}
+
+.inicio-hero .inicio-hero__panel .inicio-hero__acciones {
+    margin-top: 6px;
+}
+
+@media (max-width: 768px) {
+    .inicio-hero h2.inicio-hero__titulo {
+        font-size: clamp(38px, 10vw, 56px);
+        letter-spacing: -1.2px;
+    }
+}
+
+/* ---------- Distribución del banner: arriba las frases, al centro el título, abajo lema y botones ---------- */
+.inicio-hero .inicio-hero__contenido {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+    min-height: 0;
+    padding-top: 20px;
+    padding-bottom: 84px;
+}
+
+.inicio-hero .inicio-hero__fijo {
+    margin-bottom: 0;
+}
+
+.inicio-hero .inicio-hero__paneles {
+    flex: 1 1 auto;
+    display: grid;
+    align-content: center;
+    padding: 6px 0;
+}
+
+.inicio-hero .inicio-hero__pie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 28px;
+}
+
+.inicio-hero .inicio-hero__pie .inicio-hero__lema {
+    margin: 0;
+}
+
+.inicio-hero .inicio-hero__pie .inicio-hero__acciones {
+    margin: 0;
+}
+
+/* Título de la sección: un poco más compacto para que el banner no baje */
+.inicio-hero h2.inicio-hero__titulo {
+    font-size: clamp(40px, 5.2vw, 72px);
+    margin-bottom: 12px;
+}
+
+.inicio-hero .inicio-hero__panel .inicio-hero__acciones {
+    margin-top: 0;
+}
+
+/* ---------- Sin etiqueta ni botón por diapositiva; título centrado ---------- */
+.inicio-hero .inicio-hero__panel {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+}
+
+.inicio-hero .inicio-hero__panel .inicio-hero__texto {
+    width: 100%;
+    max-width: none;
+    text-align: center;
+}
+
+.inicio-hero h2.inicio-hero__titulo {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Diapositiva con poco filtro: la sombra se atenúa mientras esa foto está visible */
+.inicio-hero__sombra {
+    transition: opacity .6s ease;
+}
+
+.inicio-hero.is-sombra-ligera .inicio-hero__sombra {
+    opacity: .35;
+}
+
+/* ---------- Banner v7: frases a la izquierda; botones junto a "Descubre más" ---------- */
+.inicio-hero .inicio-hero__contenido {
+    min-height: min(640px, calc(100svh - 80px));
+    padding-top: 44px;
+    padding-bottom: 124px;
+}
+
+.inicio-hero .inicio-hero__fijo {
+    align-items: flex-start;
+    text-align: left;
+}
+
+.inicio-hero .inicio-hero__fijo .inicio-hero__lema {
+    margin: 14px 0 0;
+}
+
+.inicio-hero .inicio-hero__pie {
+    position: absolute;
+    right: max(24px, calc((100vw - var(--ancho, 1120px)) / 2 + 24px));
+    bottom: 26px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.inicio-hero .inicio-hero__pie .inicio-hero__acciones {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin: 0;
+}
+
+@media (max-width: 1100px) {
+    .inicio-hero.is-carrusel .inicio-hero__scroll {
+        display: none;
+    }
+
+    .inicio-hero .inicio-hero__contenido {
+        padding-bottom: 110px;
+    }
+
+    .inicio-hero .inicio-hero__pie {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        margin-top: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .inicio-hero .inicio-hero__contenido {
+        padding-bottom: 150px;
+    }
+}
+
+/* El contenedor del hero no se centra: el texto parte del mismo margen izquierdo que el menú. */
+.inicio-hero .inicio-hero__contenido {
+    max-width: none;
+}
+
+/* ---------- Frases de bienvenida alineadas a la izquierda ---------- */
+.inicio-hero .inicio-hero__fijo,
+.inicio-hero .inicio-hero__fijo > * {
+    text-align: left;
+    justify-self: start;
+}
+
+.inicio-hero .inicio-hero__fijo > * {
+    margin-left: 0;
+    margin-right: auto;
 }
