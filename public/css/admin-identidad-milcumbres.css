@@ -238,9 +238,9 @@
     width: auto;
     height: 58px;
     max-width: 140px;
-    padding: 6px 10px;
-    border-radius: 6px;
-    background: #fff;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
     object-fit: contain;
 }
 

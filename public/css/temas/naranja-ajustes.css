@@ -71,8 +71,8 @@
 .mc-hub .mc-hub__bar .mc-hub__group > .mc-hub__nav-button[aria-expanded="true"] { color: var(--nj-crema) !important; }
 .mc-hub .mc-hub__nav-link::after { background: var(--nj-crema) !important; }
 
-/* Logotipo sobre placa blanca, como en la referencia */
-.mc-hub .marca img { background: #FFFFFF !important; }
+/* Logotipo sin placa: fondo transparente */
+.mc-hub .marca img { background: transparent !important; padding: 0 !important; border-radius: 0 !important; }
 
 /* Ícono de la cuenta en crema y botón «Explorar» en naranja miel */
 .mc-hub .mc-hub__account-icon { background: var(--nj-crema) !important; color: var(--nj-tostado) !important; }
