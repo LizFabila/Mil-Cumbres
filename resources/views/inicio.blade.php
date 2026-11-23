@@ -38,7 +38,7 @@
 
         {{-- Fotos: una por sección --}}
         @foreach ($carruselPdf as $experiencia)
-            <div class="inicio-hero__foto {{ $loop->first ? 'is-activa' : '' }}" data-diapositiva="{{ $loop->index }}" {!! ! empty($experiencia->sombra ?? null) ? 'data-sombra="'.e($experiencia->sombra ?? '').'"' : '' !!} aria-hidden="true">
+            <div class="inicio-hero__foto {{ $loop->first ? 'is-activa' : '' }}" data-diapositiva="{{ $loop->index }}" {!! ! empty($experiencia->sombra ?? null) ? 'data-sombra="'.e($experiencia->sombra ?? '').'"' : '' !!} {!! ! empty($experiencia->mariposas ?? null) ? 'data-mariposas' : '' !!} aria-hidden="true">
                 <img src="{{ asset($experiencia->imagen) }}" alt="" {{ $loop->first ? 'fetchpriority=high' : 'loading=lazy' }} decoding="async">
             </div>
         @endforeach
@@ -584,8 +584,6 @@
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('inicio-servicios-milcumbres.css') }}">
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('inicio-menu-hero.css') }}">
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('inicio-secciones-milcumbres.css') }}">
-    {{-- Al final: alinea todo el texto del banner a la izquierda, sin huecos --}}
-    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('inicio-hero-alineacion.css') }}">
 @endpush
 
 @push('scripts')

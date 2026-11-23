@@ -483,6 +483,49 @@
     justify-self: start;
 }
 
+/* ---------- Mariposas monarca que salen volando de la foto ---------- */
+.inicio-hero__mariposas {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.inicio-hero__mariposa {
+    position: absolute;
+    width: 30px;
+    height: 21px;
+    margin: -10px 0 0 -15px;
+    will-change: transform, opacity;
+}
+
+.inicio-hero__mariposa svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .35));
+}
+
+/* Cada ala gira alrededor del cuerpo: se cierran y se abren para aletear. */
+.inicio-hero__ala {
+    transform-box: view-box;
+    transform-origin: 50px 35px;
+    animation: inicioAleteo var(--aleteo, .5s) ease-in-out infinite alternate;
+}
+
+@keyframes inicioAleteo {
+    from { transform: scaleX(1); }
+    to { transform: scaleX(.18); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .inicio-hero__mariposas {
+        display: none;
+    }
+}
+
 .inicio-hero .inicio-hero__fijo > * {
     margin-left: 0;
     margin-right: auto;

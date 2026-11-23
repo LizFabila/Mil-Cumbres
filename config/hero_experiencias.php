@@ -12,7 +12,7 @@
 */
 
 return [
-    ['nombre' => 'Experiencias Turísticas', 'imagen' => 'img/hero-experiencias/sec-08.jpg'],
+    ['nombre' => 'Experiencias Turísticas', 'imagen' => 'img/hero-experiencias/sec-08.jpg', 'mariposas' => true],
     ['nombre' => 'Pedagogía de Naturaleza', 'imagen' => 'img/hero-experiencias/sec-10.jpg'],
     ['nombre' => 'Proyectos de Restauración y Conservación', 'imagen' => 'img/hero-experiencias/sec-11.jpg', 'sombra' => 'ligera'],
     ['nombre' => 'Del Bosque a tu Mesa', 'imagen' => 'img/hero-experiencias/sec-12.jpg'],
