@@ -4,12 +4,12 @@
 ===================================================== */
 
 .mc-a10 {
-    --i-verde: #143D36;
-    --i-verde-2: #1B6B57;
-    --i-oscuro: #102F28;
+    --i-verde: var(--tema-oscuro, #143D36);
+    --i-verde-2: var(--tema-principal-claro, #1B6B57);
+    --i-oscuro: var(--tema-oscuro, #102F28);
     --i-dorado: #E5D8B8;
     --i-crema: #F6F3EB;
-    --i-texto: #63766B;
+    --i-texto: var(--tm-63766b, #63766B);
     --i-borde: #DCE5DB;
     --i-rojo: #A4473D;
     --i-ambar: #BC8D43;
@@ -18,7 +18,7 @@
     gap: 24px;
     width: 100%;
     min-width: 0;
-    color: var(--i-verde);
+    color: var(--tema-texto, var(--i-verde));
     font-family: "Public Sans", sans-serif;
 }
 
@@ -40,7 +40,7 @@
 .mc-a10 a:focus-visible,
 .mc-a10 button:focus-visible,
 .mc-a10 input:focus-visible {
-    outline: 3px solid #5AA0D8;
+    outline: 3px solid var(--tm-5aa0d8, #5AA0D8);
     outline-offset: 3px;
 }
 
@@ -54,8 +54,8 @@
     flex-wrap: wrap;
     gap: 20px 32px;
     padding: 24px clamp(22px, 3vw, 34px);
-    background: linear-gradient(115deg, #102F28 0%, #174638 65%, #26604D 100%);
-    color: #fff;
+    background: linear-gradient(115deg, var(--tema-oscuro, #102F28) 0%, var(--tm-174638, #174638) 65%, var(--tm-26604d, #26604D) 100%);
+    color: var(--tema-sobre-oscuro, #fff);
 }
 
 .mc-a10__cabecera::before {
@@ -83,11 +83,11 @@
     letter-spacing: 1.4px;
 }
 
-.mc-a10__seccion-eyebrow { color: var(--i-verde-2); }
+.mc-a10__seccion-eyebrow { color: var(--tema-texto, var(--i-verde-2)); }
 
 .mc-a10__cabecera h1 {
     margin: 6px 0 6px;
-    color: #fff;
+    color: var(--tema-sobre-oscuro, #fff);
     font-size: clamp(26px, 2.6vw, 34px);
     line-height: 1.15;
     letter-spacing: -.5px;
@@ -187,7 +187,7 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #2E8052;
+    background: var(--tm-2e8052, #2E8052);
 }
 
 .mc-a10__insignia.is-pendiente {
@@ -211,13 +211,13 @@
     gap: 14px;
     min-height: 118px;
     padding: 22px;
-    color: #fff;
+    color: var(--tema-sobre-oscuro, #fff);
 }
 
 .mc-a10__muestra--cliente .mc-a10__muestra-marca { background: var(--i-verde); }
 .mc-a10__muestra--panel {
     padding: 22px;
-    background: linear-gradient(165deg, #B9D5C3 0%, #A8C9B6 100%);
+    background: linear-gradient(165deg, var(--tm-b9d5c3, #B9D5C3) 0%, var(--tm-a8c9b6, #A8C9B6) 100%);
 }
 
 /* En el panel el logotipo va dentro de una tarjeta blanca, igual que en el menú lateral */
@@ -226,12 +226,12 @@
     padding: 12px;
     border-radius: 10px;
     background: #fff;
-    color: var(--i-verde);
+    color: var(--tema-texto, var(--i-verde));
 }
 
 .mc-a10__muestra--panel .mc-a10__muestra-marca img { padding: 0; }
-.mc-a10__muestra--panel .mc-a10__muestra-marca small { color: var(--i-verde-2); }
-.mc-a10__muestra--panel figcaption { color: #315D49; }
+.mc-a10__muestra--panel .mc-a10__muestra-marca small { color: var(--tema-texto, var(--i-verde-2)); }
+.mc-a10__muestra--panel figcaption { color: var(--tm-315d49, #315D49); }
 
 .mc-a10__muestra-marca img {
     flex: none;
@@ -287,7 +287,7 @@
 }
 
 .mc-a10__paso {
-    color: var(--i-verde-2);
+    color: var(--tema-texto, var(--i-verde-2));
     font-family: "Fraunces", Georgia, serif;
     font-size: 15px;
 }
@@ -318,7 +318,7 @@
     border: 1px solid var(--i-borde);
     border-radius: 3px;
     background: var(--i-crema);
-    color: var(--i-verde);
+    color: var(--tema-texto, var(--i-verde));
     font-size: 14px;
 }
 
@@ -348,7 +348,7 @@
     justify-items: center;
     gap: 6px;
     padding: 26px 16px;
-    border: 1.5px dashed #9DB8A6;
+    border: 1.5px dashed var(--tm-9db8a6, #9DB8A6);
     background: var(--i-crema);
     text-align: center;
     cursor: pointer;
@@ -368,7 +368,7 @@
     height: 42px;
     border-radius: 50%;
     background: var(--i-verde-2);
-    color: #fff;
+    color: var(--tema-sobre-principal, #fff);
     font-size: 19px;
 }
 
@@ -470,7 +470,7 @@
 
 .mc-a10__boton--principal {
     background: var(--i-verde);
-    color: #fff;
+    color: var(--tema-sobre-oscuro, #fff);
     transition: background .25s, transform .25s;
 }
 
@@ -484,7 +484,7 @@
     color: var(--i-texto);
 }
 
-.mc-a10__boton--texto:hover { color: var(--i-verde); }
+.mc-a10__boton--texto:hover { color: var(--tema-texto, var(--i-verde)); }
 
 /* ---------- Responsivo ---------- */
 @media (max-width: 900px) {

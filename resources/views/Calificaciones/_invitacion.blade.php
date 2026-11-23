@@ -29,7 +29,7 @@
 
     @once
         @push('estilos')
-            <link rel="stylesheet" href="{{ asset('css/calificaciones-milcumbres.css') }}">
+            <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('calificaciones-milcumbres.css') }}">
         @endpush
     @endonce
 

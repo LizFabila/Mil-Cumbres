@@ -1,0 +1,77 @@
+/* ==========================================================================
+   Mil Cumbres · admin-apariencia-milcumbres.css
+   Pantalla A12 · Apariencia (elección de paleta de colores del sitio).
+   ========================================================================== */
+
+.mc-apa { max-width: 980px; margin: 0 auto; padding: 8px 0 48px; color: var(--tema-oscuro, #143D36); }
+
+.mc-apa__eyebrow { display: block; font-size: 12px; letter-spacing: .12em; color: var(--tema-principal, #176954); font-weight: 700; }
+.mc-apa__cabecera h1 { font-family: var(--fuente-titulo); font-size: clamp(28px, 4vw, 38px); margin: 6px 0 6px; font-weight: 600; }
+.mc-apa__cabecera h1 em { font-style: italic; color: var(--tema-secundario, #2F6690); }
+.mc-apa__cabecera p { margin: 0 0 24px; color: var(--gris-700, #5F716B); max-width: 60ch; }
+
+.mc-apa__legend { font-weight: 700; font-size: 15px; margin-bottom: 12px; padding: 0; }
+.mc-apa__opciones { border: 0; margin: 0; padding: 0; min-width: 0; }
+
+.mc-apa__lista { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+
+.mc-apa__opcion { position: relative; display: block; cursor: pointer; }
+.mc-apa__opcion input { position: absolute; opacity: 0; pointer-events: none; }
+
+.mc-apa__tarjeta {
+    display: flex; flex-direction: column; gap: 12px; height: 100%;
+    padding: 14px; background: #fff; border: 2px solid var(--borde, #D6E1DC);
+    border-radius: var(--radio-lg, 14px); box-shadow: var(--sombra);
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.mc-apa__opcion:hover .mc-apa__tarjeta { border-color: var(--tema-principal-claro, #1B6B57); }
+.mc-apa__opcion input:focus-visible + .mc-apa__tarjeta { outline: 3px solid var(--tema-secundario, #2F6690); outline-offset: 2px; }
+.mc-apa__opcion input:checked + .mc-apa__tarjeta { border-color: var(--tema-principal, #176954); box-shadow: 0 0 0 3px var(--tm-rgba-23-105-84-p18, rgba(23, 105, 84, .18)); }
+
+/* Mini vista del sitio dentro de la tarjeta */
+.mc-apa__mini {
+    display: block; overflow: hidden; border-radius: var(--radio, 10px);
+    background: var(--p-fondo, #FFFFFF); border: 1px solid rgba(0, 0, 0, .08);
+}
+.mc-apa__mini-cabecera {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 12px; background: var(--p-oscuro, #143D36);
+}
+.mc-apa__mini-logo { width: 46px; height: 8px; border-radius: 4px; background: #fff; opacity: .9; }
+.mc-apa__mini-acento { width: 16px; height: 16px; border-radius: 50%; background: var(--p-acento, #E8955E); }
+.mc-apa__mini-cuerpo { display: flex; flex-direction: column; gap: 8px; padding: 14px 12px 16px; background: var(--p-fondo-alt, #F3F7F5); }
+.mc-apa__mini-titulo { font-family: var(--fuente-titulo); font-style: italic; font-size: 16px; color: var(--p-secundario, #2F6690); }
+.mc-apa__mini-linea { height: 6px; width: 90%; border-radius: 3px; background: rgba(0, 0, 0, .12); }
+.mc-apa__mini-linea--corta { width: 60%; }
+.mc-apa__mini-boton {
+    align-self: flex-start; margin-top: 4px; padding: 6px 12px; border-radius: 6px;
+    background: var(--p-principal, #176954); color: #fff; font-size: 12px; font-weight: 700;
+}
+
+.mc-apa__texto { display: flex; flex-direction: column; gap: 4px; }
+.mc-apa__nombre { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-weight: 700; font-size: 16px; }
+.mc-apa__etiqueta {
+    font-size: 11px; font-weight: 700; letter-spacing: .04em; padding: 2px 8px;
+    border-radius: 999px; background: var(--tema-fondo-alt, #F3F7F5); color: var(--tema-oscuro, #143D36);
+}
+.mc-apa__etiqueta--activa { background: var(--tema-principal, #176954); color: var(--tema-sobre-principal, #fff); }
+.mc-apa__descripcion { font-size: 14px; line-height: 1.5; color: var(--gris-700, #5F716B); }
+
+.mc-apa__error { margin: 14px 0 0; color: var(--rojo, #a23b2c); font-weight: 600; }
+
+.mc-apa__acciones {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
+    margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--borde, #D6E1DC);
+}
+.mc-apa__acciones p { margin: 0; max-width: 56ch; font-size: 14px; color: var(--gris-700, #5F716B); }
+.mc-apa__boton {
+    padding: 12px 22px; border: 0; border-radius: var(--radio, 10px); cursor: pointer;
+    background: var(--tema-principal, #176954); color: var(--tema-sobre-principal, #fff); font: inherit; font-weight: 700;
+}
+.mc-apa__boton:hover { background: var(--tema-oscuro, #143D36); }
+.mc-apa__boton:focus-visible { outline: 3px solid var(--tema-secundario, #2F6690); outline-offset: 2px; }
+
+@media (max-width: 640px) {
+    .mc-apa__acciones { flex-direction: column; align-items: stretch; }
+    .mc-apa__boton { width: 100%; }
+}

@@ -13,9 +13,9 @@
 
 @push('estilos')
 <link rel="stylesheet"
-      href="{{ asset('css/acuse-milcumbres.css') }}">
+      href="{{ \App\Support\Temas::hoja('acuse-milcumbres.css') }}">
 <link rel="stylesheet"
-      href="{{ asset('css/acuse-celebracion-milcumbres.css') }}">
+      href="{{ \App\Support\Temas::hoja('acuse-celebracion-milcumbres.css') }}">
 @endpush
 
 @section('contenido')

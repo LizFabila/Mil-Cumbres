@@ -9,7 +9,7 @@
 @section('descripcion', 'Cuéntanos cómo te fue en tu experiencia con Mil Cumbres.')
 
 @push('estilos')
-    <link rel="stylesheet" href="{{ asset('css/calificaciones-milcumbres.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('calificaciones-milcumbres.css') }}">
 @endpush
 
 @php

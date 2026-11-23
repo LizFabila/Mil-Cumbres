@@ -8,9 +8,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/base.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin-menu-milcumbres.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('base.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('admin.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('admin-menu-milcumbres.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('temas/'.\App\Support\Temas::clave().'.css') }}">
+    @if (\App\Support\Temas::clave() === 'naranja')
+        <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('temas/naranja-ajustes.css') }}">
+    @endif
+    {!! \App\Support\Temas::etiqueta() !!}
     @stack('estilos')
 </head>
 <body class="admin mc-admin-body">
@@ -29,6 +34,7 @@
         request()->routeIs('admin.reservas.*') => 'Añadir reservación',
         request()->routeIs('admin.usuarios.*') => 'Usuarios',
         request()->routeIs('admin.marca.*') => 'Identidad del sitio',
+        request()->routeIs('admin.apariencia.*') => 'Apariencia',
         request()->routeIs('admin.calificaciones.*') => 'Opiniones',
         default => 'Administración',
     };
@@ -44,6 +50,7 @@
     <symbol id="mc-i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z"/></symbol>
     <symbol id="mc-i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M17 5a3 3 0 0 1 0 6M17 14a5 5 0 0 1 4 5v1"/></symbol>
     <symbol id="mc-i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="mc-i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0 0 18c1.1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4c0-4.4-4-7-9-7Z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7.5" r="1"/><circle cx="14.5" cy="7.5" r="1"/></symbol>
     <symbol id="mc-i-logout" viewBox="0 0 24 24"><path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M14 8l4 4-4 4M8 12h10"/></symbol>
 </svg>
 <div class="mc-adm-shell">
@@ -107,6 +114,10 @@
                     <a href="{{ route('admin.usuarios.index') }}" @class(['mc-adm-nav__link', 'is-active' => request()->routeIs('admin.usuarios.*')])>
                         <span class="mc-adm-nav__icon" aria-hidden="true"><svg><use href="#mc-i-users"/></svg></span>
                         <span class="mc-adm-nav__name">Usuarios</span>
+                    </a>
+                    <a href="{{ route('admin.apariencia.edit') }}" @class(['mc-adm-nav__link', 'is-active' => request()->routeIs('admin.apariencia.*')])>
+                        <span class="mc-adm-nav__icon" aria-hidden="true"><svg><use href="#mc-i-palette"/></svg></span>
+                        <span class="mc-adm-nav__name">Apariencia</span>
                     </a>
                 </div>
             </section>

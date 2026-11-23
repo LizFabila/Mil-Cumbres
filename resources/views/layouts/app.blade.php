@@ -17,14 +17,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Public+Sans:wght@400;500;600;700&display=swap"
           rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('css/base.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/sitio.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('base.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('sitio.css') }}">
 
     {{-- CSS del nuevo menú --}}
-    <link rel="stylesheet" href="{{ asset('css/menu-milcumbres.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('menu-milcumbres.css') }}">
 
     {{-- Rediseño: paleta, encabezado verde bosque y animaciones --}}
-    <link rel="stylesheet" href="{{ asset('css/rediseno-milcumbres.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('rediseno-milcumbres.css') }}">
+
+    {{-- Paleta elegida en Apariencia (variables --tema-*) --}}
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('temas/'.\App\Support\Temas::clave().'.css') }}">
+    @if (\App\Support\Temas::clave() === 'naranja')
+        <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('temas/naranja-ajustes.css') }}">
+    @endif
+    @unless ($__env->hasSection('sin-riel'))
+        <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('inicio-menu-hero.css') }}">
+        <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('riel-experiencias-milcumbres.css') }}">
+    @endunless
+    {!! \App\Support\Temas::etiqueta() !!}
 
     @stack('estilos')
 </head>
@@ -32,11 +43,7 @@
 <body>
 
 @php
-    // Categorías reales de la base de datos.
-    // Se consultan sus identificadores para construir enlaces válidos.
-    $categoriasMenu = \App\Models\CatalogoExperiencia::query()
-        ->orderBy('id_catalogo_exp')
-        ->get(['id_catalogo_exp', 'tipo']);
+    // $categoriasMenu llega desde AppServiceProvider (view composer), en todas las vistas de este layout.
 
     $descripcionesMenu = [
         'Natural' => 'Senderos, paisajes y aventuras al aire libre.',
@@ -150,7 +157,7 @@
 
                             <div class="mc-hub__category-grid">
 
-                                @foreach ($categoriasMenu as $categoria)
+                                @foreach ($categoriasMenu ?? [] as $categoria)
 
                                     <a
                                         class="mc-hub__category"
@@ -525,6 +532,10 @@
 
 </header>
 
+@unless ($__env->hasSection('sin-riel'))
+    <x-riel-experiencias :grupos="$rielGrupos ?? collect()" />
+@endunless
+
 
 {{-- ======================================= --}}
 {{-- CONTENIDO DE LAS PÁGINAS --}}
@@ -565,6 +576,7 @@
 <script src="{{ asset('js/menu-milcumbres.js') }}" defer></script>
 <script src="{{ asset('js/reveal-milcumbres.js') }}" defer></script>
 <script src="{{ asset('js/acentos-milcumbres.js') }}" defer></script>
+<script src="{{ asset('js/riel-experiencias.js') }}?v={{ @filemtime(public_path('js/riel-experiencias.js')) }}" defer></script>
 
 @stack('scripts')
 

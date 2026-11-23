@@ -5,9 +5,9 @@
 ================================================== */
 
 .mc-a11 {
-    --a11-verde: #143D36;
-    --a11-verde-2: #1B6B57;
-    --a11-texto: #5F716B;
+    --a11-verde: var(--tema-oscuro, #143D36);
+    --a11-verde-2: var(--tema-principal-claro, #1B6B57);
+    --a11-texto: var(--tm-5f716b, #5F716B);
     --a11-borde: #DCE5DB;
     --a11-ambar: #D69A2D;
     --a11-ambar-bg: #FBF3E2;
@@ -16,7 +16,7 @@
 
     display: grid;
     gap: 22px;
-    color: var(--a11-verde);
+    color: var(--tema-texto, var(--a11-verde));
 }
 
 .mc-a11 .admin-cabecera {
@@ -47,7 +47,7 @@
     border: 1px solid var(--a11-borde);
     border-radius: 8px;
     background: #FFFFFF;
-    color: var(--a11-verde);
+    color: var(--tema-texto, var(--a11-verde));
     text-decoration: none !important;
 }
 
@@ -195,8 +195,8 @@ a.mc-a11__kpi:hover {
 }
 
 .mc-a11__chip--publicada {
-    background: #E3F0EA;
-    color: var(--a11-verde-2);
+    background: var(--tm-e3f0ea, #E3F0EA);
+    color: var(--tema-texto, var(--a11-verde-2));
 }
 
 .mc-a11__chip--bajo {
@@ -206,7 +206,7 @@ a.mc-a11__kpi:hover {
 
 .mc-a11__comentario {
     margin: 0;
-    color: #33463F;
+    color: var(--tm-33463f, #33463F);
     font-size: 15px;
     line-height: 1.6;
     white-space: pre-line;
@@ -262,7 +262,7 @@ a.mc-a11__kpi:hover {
 }
 
 .mc-a11__responder summary {
-    color: var(--a11-verde-2);
+    color: var(--tema-texto, var(--a11-verde-2));
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
@@ -284,13 +284,13 @@ a.mc-a11__kpi:hover {
     padding: 10px 14px;
     border-left: 3px solid var(--a11-verde-2);
     border-radius: 0 6px 6px 0;
-    background: #F3F7F5;
+    background: var(--tema-fondo-alt, #F3F7F5);
     color: var(--a11-texto);
     font-size: 13px;
 }
 
 .mc-a11__respuesta strong {
-    color: var(--a11-verde-2);
+    color: var(--tema-texto, var(--a11-verde-2));
 }
 
 .mc-a11__vacio {

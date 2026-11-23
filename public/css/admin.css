@@ -10,7 +10,7 @@ body.admin { background: var(--fondo-alt); }
 /* ---------- Barra lateral ---------- */
 .lateral {
     background: var(--verde-900);
-    color: #cfe0d9;
+    color: var(--tm-cfe0d9, #cfe0d9);
     padding: 24px 16px;
     position: sticky;
     top: 0;
@@ -18,26 +18,26 @@ body.admin { background: var(--fondo-alt); }
     display: flex;
     flex-direction: column;
 }
-.lateral .marca { color: #fff; padding: 0 8px 24px; }
-.lateral .marca__lema { color: #9fc7b8; }
+.lateral .marca { color: var(--tema-sobre-oscuro, #fff); padding: 0 8px 24px; }
+.lateral .marca__lema { color: var(--tm-9fc7b8, #9fc7b8); }
 /* El logotipo tiene letras azul marino: en la barra oscura va sobre una placa blanca */
 .lateral .marca img { height: 52px; padding: 6px 10px; background: #fff; border-radius: var(--radio-sm); box-sizing: content-box; }
 .lateral nav { display: flex; flex-direction: column; gap: 2px; }
 .lateral nav a {
     display: flex; align-items: center; gap: 10px;
     padding: 10px 12px; border-radius: var(--radio-sm);
-    color: #cfe0d9; font-size: .95rem; text-decoration: none;
+    color: var(--tm-cfe0d9, #cfe0d9); font-size: .95rem; text-decoration: none;
 }
-.lateral nav a:hover { background: rgba(255, 255, 255, .06); color: #fff; }
-.lateral nav a.activo { background: rgba(255, 255, 255, .12); color: #fff; font-weight: 700; }
+.lateral nav a:hover { background: rgba(255, 255, 255, .06); color: var(--tema-sobre-oscuro, #fff); }
+.lateral nav a.activo { background: rgba(255, 255, 255, .12); color: var(--tema-sobre-oscuro, #fff); font-weight: 700; }
 .lateral nav .contador {
-    margin-left: auto; background: var(--cielo); color: #fff;
+    margin-left: auto; background: var(--cielo); color: var(--tema-sobre-oscuro, #fff);
     font-size: .72rem; font-weight: 700; padding: 1px 8px; border-radius: 999px;
 }
-.lateral__grupo { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: #7fa596; padding: 18px 12px 6px; }
+.lateral__grupo { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--tm-7fa596, #7fa596); padding: 18px 12px 6px; }
 .lateral__pie { margin-top: auto; padding: 16px 12px 0; border-top: 1px solid rgba(255, 255, 255, .1); font-size: .85rem; }
 .lateral__pie form { margin: 6px 0 0; }
-.lateral__pie a, .lateral__pie button { background: none; border: 0; padding: 0; color: #9fc7b8; cursor: pointer; font-size: inherit; }
+.lateral__pie a, .lateral__pie button { background: none; border: 0; padding: 0; color: var(--tm-9fc7b8, #9fc7b8); cursor: pointer; font-size: inherit; }
 
 /* ---------- Contenido ---------- */
 .admin-main { padding: 32px 40px 56px; min-width: 0; }
@@ -144,10 +144,10 @@ body.admin { background: var(--fondo-alt); }
     background: #fff; cursor: pointer; font-weight: 500;
     transition: background .15s ease, border-color .15s ease, color .15s ease;
 }
-.zona-opcion:hover { border-color: #1B6B57; }
-.zona-opcion input { width: 16px; height: 16px; margin: 0; accent-color: #1B6B57; }
-.zona-opcion:has(input:checked) { background: #e3efe6; border-color: #1B6B57; color: #14513f; }
-.zona-opcion:has(input:focus-visible) { outline: 2px solid #1B6B57; outline-offset: 2px; }
+.zona-opcion:hover { border-color: var(--tema-principal-claro, #1B6B57); }
+.zona-opcion input { width: 16px; height: 16px; margin: 0; accent-color: var(--tema-principal-claro, #1B6B57); }
+.zona-opcion:has(input:checked) { background: var(--tm-e3efe6, #e3efe6); border-color: var(--tema-principal-claro, #1B6B57); color: var(--tm-14513f, #14513f); }
+.zona-opcion:has(input:focus-visible) { outline: 2px solid var(--tema-principal-claro, #1B6B57); outline-offset: 2px; }
 
 /* Botones al final de los formularios largos (experiencia y reservación) */
 .acciones-form { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px; }

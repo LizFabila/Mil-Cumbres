@@ -13,33 +13,33 @@
 
 @push('estilos')
 <style>
-    .aviso { background:#F6F2E9; color:#143D36; font-family:"Public Sans",system-ui,sans-serif; padding:64px 0 96px; }
+    .aviso { background:#F6F2E9; color:var(--tema-oscuro, #143D36); font-family:"Public Sans",system-ui,sans-serif; padding:64px 0 96px; }
     .aviso__hoja { max-width:820px; margin:0 auto; padding:56px 64px; background:#fff; border:1px solid #D9E1D8; }
     .aviso h1 { font-family:"Fraunces",Georgia,serif; font-weight:500; font-size:38px; line-height:1.15; margin:0 0 6px; }
     /* Flecha para regresar a la página anterior (esquina derecha, siempre visible) */
     .aviso__barra { position:sticky; top:172px; z-index:5; display:flex; justify-content:flex-end; align-items:flex-start; height:0; }
-    .aviso__regresar { display:inline-flex; align-items:center; gap:8px; margin-top:-28px; margin-right:-36px; padding:10px 16px; background:#143D36; color:#fff; font-size:14px; font-weight:600; text-decoration:none; box-shadow:0 6px 18px rgba(20,61,54,.18); }
-    .aviso__regresar:hover { background:#1B6B57; }
-    .aviso__regresar:focus-visible { outline:3px solid #5AA0D8; outline-offset:3px; }
+    .aviso__regresar { display:inline-flex; align-items:center; gap:8px; margin-top:-28px; margin-right:-36px; padding:10px 16px; background:var(--tema-oscuro, #143D36); color:#fff; font-size:14px; font-weight:600; text-decoration:none; box-shadow:0 6px 18px var(--tm-rgba-20-61-54-p18, rgba(20,61,54,.18)); }
+    .aviso__regresar:hover { background:var(--tema-principal-claro, #1B6B57); }
+    .aviso__regresar:focus-visible { outline:3px solid var(--tm-5aa0d8, #5AA0D8); outline-offset:3px; }
     .aviso__regresar span[aria-hidden] { font-size:18px; line-height:1; }
-    .aviso__sub { margin:0 0 4px; font-size:13px; font-weight:700; letter-spacing:1.5px; color:#1B6B57; text-transform:uppercase; }
-    .aviso__fecha { margin:18px 0 0; font-size:14px; color:#5F716B; }
+    .aviso__sub { margin:0 0 4px; font-size:13px; font-weight:700; letter-spacing:1.5px; color:var(--tema-principal-claro, #1B6B57); text-transform:uppercase; }
+    .aviso__fecha { margin:18px 0 0; font-size:14px; color:var(--tm-5f716b, #5F716B); }
     .aviso__indice { margin:32px 0 8px; padding:20px 24px; background:#F7F9F5; border:1px solid #DCE5DB; }
     .aviso__indice strong { display:block; margin-bottom:10px; font-size:13px; letter-spacing:1px; text-transform:uppercase; }
     .aviso__indice ol { margin:0; padding-left:22px; columns:2; column-gap:32px; font-size:14px; line-height:1.9; }
-    .aviso__indice a { color:#1B6B57; text-decoration:none; }
+    .aviso__indice a { color:var(--tema-principal-claro, #1B6B57); text-decoration:none; }
     .aviso__indice a:hover { text-decoration:underline; }
     .aviso section { padding-top:34px; scroll-margin-top:150px; }
     .aviso h2 { font-family:"Fraunces",Georgia,serif; font-weight:500; font-size:23px; margin:0 0 12px; padding-bottom:8px; border-bottom:1px solid #D9E1D8; }
     .aviso h3 { font-size:15px; font-weight:700; margin:20px 0 6px; }
-    .aviso p, .aviso li { font-size:15.5px; line-height:1.75; color:#3F504A; }
+    .aviso p, .aviso li { font-size:15.5px; line-height:1.75; color:var(--tm-3f504a, #3F504A); }
     .aviso p { margin:0 0 12px; }
     /* Texto justificado; la división silábica evita huecos grandes entre palabras */
     .aviso section > p, .aviso section li { text-align:justify; hyphens:auto; -webkit-hyphens:auto; }
     .aviso ul, .aviso ol.aviso__lista { margin:0 0 14px; padding-left:22px; }
     .aviso li { margin-bottom:4px; }
-    .aviso strong { color:#143D36; }
-    .aviso a.aviso__correo { color:#1B6B57; font-weight:600; }
+    .aviso strong { color:var(--tema-oscuro, #143D36); }
+    .aviso a.aviso__correo { color:var(--tema-principal-claro, #1B6B57); font-weight:600; }
 
     /* Datos pendientes: información de la persona dueña del sistema */
     .aviso-pendiente { display:inline; padding:1px 6px; border:1px dashed #C0392B; border-radius:4px; background:#FDECEA; color:#B42318; font-weight:600; hyphens:none; -webkit-hyphens:none; }

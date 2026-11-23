@@ -10,7 +10,7 @@
 
 @push('estilos')
     <link rel="stylesheet"
-          href="{{ asset('css/admin-calendario-milcumbres.css') }}">
+          href="{{ \App\Support\Temas::hoja('admin-calendario-milcumbres.css') }}">
 @endpush
 
 @section('contenido')
