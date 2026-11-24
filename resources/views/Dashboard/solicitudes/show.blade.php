@@ -59,7 +59,7 @@
                                 <strong>{{ $exp->nombre }}</strong>
                                 <div class="texto-chico texto-suave">{{ $exp->zonas_texto }} · {{ $exp->duracion_texto }}</div>
                             </td>
-                            <td class="num">${{ number_format($exp->precio, 2) }}</td>
+                            <td class="num">${{ number_format($exp->precioParaPersonas((int) ($exp->pivot->cant_persona ?? $solicitud->cant_persona)), 2) }}</td>
                             <td>
                                 @if ($c['cupo'] === 0)
                                     <span class="error">Sin horario ese día</span>

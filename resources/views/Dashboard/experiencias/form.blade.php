@@ -63,9 +63,10 @@
                 </div>
 
                 <div class="campo">
-                    <label for="duracion">Duración (minutos)</label>
+                    <label for="duracion">Duración (horas)</label>
                     <input @class(['control', 'es-invalido' => $errors->has('duracion')]) type="number" id="duracion" name="duracion"
-                           min="1" value="{{ old('duracion', $experiencia->duracion) }}" required>
+                           min="0.25" step="0.25" value="{{ old('duracion', $experiencia->duracion !== null ? (float) $experiencia->duracion : '') }}" required>
+                    <span class="ayuda">Puedes usar decimales: 1.5 = 1 h 30 min.</span>
                     @error('duracion') <span class="error">{{ $message }}</span> @enderror
                 </div>
 
@@ -73,6 +74,7 @@
                     <label for="precio">Precio por persona (MXN)</label>
                     <input @class(['control', 'es-invalido' => $errors->has('precio')]) type="number" id="precio" name="precio"
                            min="0" step="0.01" value="{{ old('precio', $experiencia->precio) }}" required>
+                    <span class="ayuda">Se cobra cuando el número de personas no coincide con un grupo.</span>
                     @error('precio') <span class="error">{{ $message }}</span> @enderror
                 </div>
 
@@ -104,6 +106,25 @@
 
                 <template id="plantilla-horario">
                     @include('Dashboard.experiencias._horario', ['i' => '__I__', 'h' => []])
+                </template>
+            </section>
+
+            <section class="panel">
+                <div class="fila fila--entre">
+                    <h2 class="mb-0">Precios por grupo</h2>
+                    <button class="btn btn--secundario btn--chico" type="button" id="agregar-grupo">+ Agregar grupo</button>
+                </div>
+                <p class="ayuda">Cada grupo tiene un número de personas y un <strong>precio total</strong> para ese grupo, no por persona. Si la reservación es de exactamente ese número de personas, se cobra el precio del grupo; en otro caso, el precio por persona.</p>
+                @error('grupos.*') <span class="error">{{ $message }}</span> @enderror
+
+                <div id="grupos">
+                    @foreach ($grupos as $i => $g)
+                        @include('Dashboard.experiencias._grupo', ['i' => $i, 'g' => $g])
+                    @endforeach
+                </div>
+
+                <template id="plantilla-grupo">
+                    @include('Dashboard.experiencias._grupo', ['i' => '__I__', 'g' => []])
                 </template>
             </section>
 

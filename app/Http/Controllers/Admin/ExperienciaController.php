@@ -43,6 +43,7 @@ class ExperienciaController extends Controller
             $experiencia = Experiencia::create($this->conImagen($request, $datos));
             $experiencia->sincronizarZonas($datos['zonas']);
             $this->guardarHorarios($experiencia, $datos['horarios'] ?? []);
+            $experiencia->sincronizarGrupos($datos['grupos'] ?? []);
             $this->guardarGaleria($request, $experiencia);
         });
 
@@ -52,7 +53,7 @@ class ExperienciaController extends Controller
     /** A07 · Editor (edición) */
     public function edit(Experiencia $experiencia): View
     {
-        $experiencia->load(['disponibilidades', 'zonas', 'imagenes']);
+        $experiencia->load(['disponibilidades', 'zonas', 'imagenes', 'grupos']);
 
         return view('Dashboard.experiencias.form', $this->datosFormulario($experiencia));
     }
@@ -66,6 +67,7 @@ class ExperienciaController extends Controller
             $experiencia->update($this->conImagen($request, $datos, $experiencia));
             $experiencia->sincronizarZonas($datos['zonas']);
             $this->guardarHorarios($experiencia, $datos['horarios'] ?? []);
+            $experiencia->sincronizarGrupos($datos['grupos'] ?? []);
             $this->guardarGaleria($request, $experiencia);
         });
 
@@ -141,6 +143,10 @@ class ExperienciaController extends Controller
                 'fin' => substr($d->hora_fin, 0, 5),
                 'cupo' => $d->pivot->cupo,
             ])->all()),
+            'grupos' => old('grupos', $experiencia->grupos->map(fn ($g) => [
+                'personas' => $g->personas,
+                'precio' => (float) $g->precio,
+            ])->values()->all()),
         ];
     }
 
@@ -153,7 +159,7 @@ class ExperienciaController extends Controller
             'zona_principal' => ['nullable', 'integer'],
             'resumen' => ['nullable', 'string', 'max:2000'],
             'temporada' => ['nullable', 'string', 'max:50'],
-            'duracion' => ['required', 'integer', 'min:1', 'max:65535'],
+            'duracion' => ['required', 'numeric', 'min:0.25', 'max:999.99'],
             'precio' => ['required', 'numeric', 'min:0', 'max:99999999.99'],
             'requisitos' => ['nullable', 'string', 'max:2000'],
             'imagen_url' => ['nullable', 'url', 'max:255'],
@@ -167,7 +173,13 @@ class ExperienciaController extends Controller
             'horarios.*.inicio' => ['required', 'date_format:H:i'],
             'horarios.*.fin' => ['required', 'date_format:H:i', 'after:horarios.*.inicio'],
             'horarios.*.cupo' => ['required', 'integer', 'min:1', 'max:65535'],
+            'grupos' => ['nullable', 'array'],
+            'grupos.*.personas' => ['required', 'integer', 'min:1', 'max:999', 'distinct'],
+            'grupos.*.precio' => ['required', 'numeric', 'min:0', 'max:99999999.99'],
         ], [
+            'grupos.*.personas.required' => 'Indica el número de personas de cada grupo.',
+            'grupos.*.personas.distinct' => 'Hay dos grupos con el mismo número de personas.',
+            'grupos.*.precio.required' => 'Indica el precio total de cada grupo.',
             'horarios.*.fin.after' => 'La hora de fin debe ser mayor que la de inicio.',
             'zonas.required' => 'Elige al menos una zona.',
             'zonas.min' => 'Elige al menos una zona.',
@@ -177,7 +189,7 @@ class ExperienciaController extends Controller
     /** Archivo subido > URL escrita > imagen que ya tenía. */
     private function conImagen(Request $request, array $datos, ?Experiencia $actual = null): array
     {
-        $campos = collect($datos)->except(['imagen_url', 'imagen_archivo', 'horarios', 'zonas', 'zona_principal'])->all();
+        $campos = collect($datos)->except(['imagen_url', 'imagen_archivo', 'horarios', 'grupos', 'zonas', 'zona_principal'])->all();
 
         // Zona principal: la marcada como principal si está entre las elegidas; si no, la primera.
         $zonas = array_map('intval', $datos['zonas']);

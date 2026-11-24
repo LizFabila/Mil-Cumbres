@@ -1133,3 +1133,6 @@
     }
 
 }
+
+/* Precio de grupo en la tarjeta de experiencia */
+.mc-c06__opcion-grupo { display: block; font-size: .8rem; opacity: .85; font-weight: 400; }

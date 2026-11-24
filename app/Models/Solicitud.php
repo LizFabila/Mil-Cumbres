@@ -72,7 +72,7 @@ class Solicitud extends Model
     public function recalcularTotal(): void
     {
         $this->total = $this->experiencias()->get()->sum(
-            fn ($experiencia) => (float) $experiencia->precio * (int) $experiencia->pivot->cant_persona
+            fn ($experiencia) => $experiencia->precioParaPersonas((int) $experiencia->pivot->cant_persona)
         );
         $this->save();
     }

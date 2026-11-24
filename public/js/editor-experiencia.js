@@ -19,6 +19,24 @@
         });
     }
 
+    // Grupos de precio: agregar / quitar filas.
+    const contenedorGrupos = document.getElementById('grupos');
+    const plantillaGrupo = document.getElementById('plantilla-grupo');
+    const agregarGrupo = document.getElementById('agregar-grupo');
+    let siguienteGrupo = contenedorGrupos ? contenedorGrupos.children.length : 0;
+
+    if (agregarGrupo && plantillaGrupo && contenedorGrupos) {
+        agregarGrupo.addEventListener('click', function () {
+            const html = plantillaGrupo.innerHTML.replaceAll('__I__', 'g' + siguienteGrupo++);
+            contenedorGrupos.insertAdjacentHTML('beforeend', html);
+        });
+
+        contenedorGrupos.addEventListener('click', function (e) {
+            const boton = e.target.closest('[data-quitar]');
+            if (boton) boton.closest('.grupo-fila').remove();
+        });
+    }
+
     const vista = document.getElementById('vista-imagen');
     const archivo = document.getElementById('imagen_archivo');
     const url = document.getElementById('imagen_url');

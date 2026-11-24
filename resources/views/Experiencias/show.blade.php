@@ -282,6 +282,17 @@
                         <small>
                             Precio por persona
                         </small>
+
+                        @if ($experiencia->grupos->isNotEmpty())
+                            <ul class="mc-detalle-grupos">
+                                @foreach ($experiencia->grupos as $grupo)
+                                    <li>
+                                        <span>Grupo de {{ $grupo->personas }} {{ $grupo->personas === 1 ? 'persona' : 'personas' }}</span>
+                                        <strong>${{ number_format((float) $grupo->precio, 2) }} MXN</strong>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
                     </div>
 
 
@@ -340,6 +351,7 @@
                     <div
                         class="mc-detalle-reserva__item"
                         data-precio="{{ (float) $experiencia->precio }}"
+                        data-grupos='@json($experiencia->gruposParaJs())'
                     >
 
                         <input
@@ -515,7 +527,7 @@
                             @endif
                         </strong>
                         <small id="mc-detalle-total-detalle">
-                            Precio por persona × participantes.
+                            Precio por persona × participantes, o precio del grupo si coincide con el número de personas.
                         </small>
                     </div>
 
@@ -641,17 +653,18 @@ document.addEventListener('DOMContentLoaded', function () {
     function recalcularTotal() {
         if (!totalCampo || !personasPrincipal) return;
 
-        const precio = Number(
-            document.querySelector('.mc-detalle-reserva__item').dataset.precio
-        ) || 0;
+        const item = document.querySelector('.mc-detalle-reserva__item');
+        const precio = Number(item.dataset.precio) || 0;
+        const grupos = JSON.parse(item.dataset.grupos || '[]');
+        const cantidad = Math.max(1, Number(personasPrincipal.value) || 1);
+        const grupo = grupos.find(g => g.personas === cantidad);
 
-        if (precio <= 0) {
+        if (!grupo && precio <= 0) {
             totalCampo.textContent = 'Por confirmar';
             return;
         }
 
-        const cantidad = Math.max(1, Number(personasPrincipal.value) || 1);
-        totalCampo.textContent = formatoMoneda.format(precio * cantidad);
+        totalCampo.textContent = formatoMoneda.format(grupo ? grupo.precio : precio * cantidad);
     }
 
     if (personasPrincipal) {

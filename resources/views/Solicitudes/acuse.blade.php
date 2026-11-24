@@ -313,7 +313,7 @@
                                             <small style="display:block; margin-top:4px;">
                                                 {{ $personasExperiencia }}
                                                 {{ $personasExperiencia == 1 ? 'persona' : 'personas' }}
-                                                · ${{ number_format((float) $experiencia->precio * $personasExperiencia, 2) }} MXN
+                                                · ${{ number_format($experiencia->precioParaPersonas($personasExperiencia), 2) }} MXN
                                             </small>
                                             @if ($experiencia->pivot->nota)
                                                 <small style="display:block; margin-top:4px;">

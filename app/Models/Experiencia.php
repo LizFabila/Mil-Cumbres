@@ -27,7 +27,7 @@ class Experiencia extends Model
     protected function casts(): array
     {
         return [
-            'duracion' => 'integer',
+            'duracion' => 'decimal:2',
             'precio' => 'decimal:2',
         ];
     }
@@ -86,6 +86,57 @@ class Experiencia extends Model
     public function catalogo(): BelongsTo
     {
         return $this->belongsTo(CatalogoExperiencia::class, 'id_catalogo_exp', 'id_catalogo_exp');
+    }
+
+    /** Grupos con precio total (tabla experiencia_grupos), de menos a más personas. */
+    public function grupos(): HasMany
+    {
+        return $this->hasMany(ExperienciaGrupo::class, 'id_experiencia', 'id_experiencia')
+            ->orderBy('personas');
+    }
+
+    /**
+     * Precio total para N personas. Si hay un grupo de exactamente N personas,
+     * se cobra el precio total de ese grupo; si no, precio por persona × N.
+     */
+    public function precioParaPersonas(int $personas): float
+    {
+        $grupo = $this->grupos->firstWhere('personas', $personas);
+
+        return $grupo ? (float) $grupo->precio : (float) $this->precio * $personas;
+    }
+
+    /** Grupos en formato simple para el JavaScript de las páginas de reservación. */
+    public function gruposParaJs(): array
+    {
+        return $this->grupos
+            ->map(fn ($g) => ['personas' => (int) $g->personas, 'precio' => (float) $g->precio])
+            ->values()
+            ->all();
+    }
+
+    /**
+     * Guarda los grupos con borrado lógico: actualiza o crea cada número de personas
+     * y da de baja los que se quitaron.
+     */
+    public function sincronizarGrupos(array $grupos): void
+    {
+        $vigentes = [];
+
+        foreach ($grupos as $g) {
+            $grupo = ExperienciaGrupo::updateOrCreate(
+                ['id_experiencia' => $this->id_experiencia, 'personas' => (int) $g['personas']],
+                ['precio' => $g['precio']],
+            );
+            $vigentes[] = $grupo->id_experiencia_grupo;
+        }
+
+        ExperienciaGrupo::where('id_experiencia', $this->id_experiencia)
+            ->whereNotIn('id_experiencia_grupo', $vigentes)
+            ->get()
+            ->each->delete();
+
+        $this->unsetRelation('grupos');
     }
 
     /** Horarios asignados (tabla asigna_disponibilidad) con su cupo. */
@@ -164,17 +215,13 @@ class Experiencia extends Model
     }
 
 
-    /** "3 h (180 min)", "1 h 30 min (90 min)", "45 min" */
+    /** Duración en horas: "3 h", "1.5 h", "0.75 h". */
     protected function duracionTexto(): Attribute
     {
         return Attribute::get(function () {
-            $h = intdiv($this->duracion, 60);
-            $m = $this->duracion % 60;
-            if ($h === 0) {
-                return "{$m} min";
-            }
+            $horas = rtrim(rtrim(number_format((float) $this->duracion, 2, '.', ''), '0'), '.');
 
-            return $h.' h'.($m ? " {$m} min" : '')." ({$this->duracion} min)";
+            return ($horas !== '' ? $horas : '0').' h';
         });
     }
 
