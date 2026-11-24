@@ -10,6 +10,15 @@
     z-index: 1050;
 }
 
+/* El riel ocupa los primeros 76 px de la pantalla: el contenido y el pie empiezan después,
+   para que el riel no tape secciones que van de orilla a orilla (por ejemplo, la foto de Iniciar sesión). */
+@media (min-width: 900px) {
+    body:has(.hero-menu--fijo) #contenido-principal,
+    body:has(.hero-menu--fijo) > footer.pie {
+        padding-left: 76px;
+    }
+}
+
 @media (max-width: 899px) {
     /* En celular, las experiencias ya están en el menú de la barra superior */
     .hero-menu.hero-menu--fijo { display: none; }

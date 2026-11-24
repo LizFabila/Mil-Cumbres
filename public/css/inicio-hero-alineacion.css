@@ -29,13 +29,28 @@
     padding-left: var(--hero-texto-izq);
 }
 
-/* Frases fijas de arriba */
+/* Frases fijas de arriba: usan el ancho disponible para no partirse en renglones de más */
 .inicio-hero .inicio-hero__fijo {
     align-self: stretch;
     width: 100%;
-    max-width: 820px;
+    max-width: 1100px;
     margin: 0;
     text-align: left;
+}
+
+.inicio-hero h1.inicio-hero__bienvenida {
+    max-width: none;
+}
+
+/* Frase «Conecta con tu ser…» en una sola línea y con interlineado normal */
+.inicio-hero .inicio-hero__descripcion--bienvenida {
+    max-width: none;
+    margin-bottom: 6px;
+    line-height: 1.45;
+}
+
+.inicio-hero .inicio-hero__fijo .inicio-hero__lema {
+    margin-top: 8px;
 }
 
 /* Título de cada diapositiva: a la izquierda, justo debajo de las frases */
