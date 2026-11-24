@@ -6,6 +6,8 @@
     $editando = $experiencia->exists;
     $galeria = $editando ? $experiencia->imagenes : collect();
     $tipoPrecio = old('tipo_precio', $experiencia->tipo_precio ?? 'persona');
+    $cobraPersona = session()->hasOldInput() ? (bool) old('cobra_persona') : in_array($tipoPrecio, ['persona', 'ambos'], true);
+    $cobraGrupo = session()->hasOldInput() ? (bool) old('cobra_grupo') : in_array($tipoPrecio, ['grupo', 'ambos'], true);
 @endphp
 
 @section('titulo', $editando ? 'Editar experiencia' : 'Nueva experiencia')
@@ -78,23 +80,22 @@
                 </div>
 
                 <fieldset class="campo completo">
-                    <legend>¿Cómo se cobra?</legend>
+                    <legend>¿Cómo se cobra? <small class="texto-suave">· puedes marcar una o las dos</small></legend>
                     <div class="of-adm-opciones">
-                        @foreach (\App\Models\Experiencia::TIPOS_PRECIO as $clave => $nombre)
-                            <label @class(['of-adm-opcion', 'is-elegida' => $tipoPrecio === $clave])>
-                                <input type="radio" name="tipo_precio" value="{{ $clave }}" @checked($tipoPrecio === $clave)>
-                                <span>
-                                    <strong>{{ $nombre }}</strong>
-                                    <small>
-                                        @switch($clave)
-                                            @case('persona') Un precio por persona. @break
-                                            @case('grupo') Solo precios totales por grupo. @break
-                                            @case('ambos') Precio por persona y precios por grupo. @break
-                                        @endswitch
-                                    </small>
-                                </span>
-                            </label>
-                        @endforeach
+                        <label @class(['of-adm-opcion', 'is-elegida' => $cobraPersona])>
+                            <input type="checkbox" name="cobra_persona" value="1" @checked($cobraPersona)>
+                            <span>
+                                <strong>Precio por persona</strong>
+                                <small>Un precio por cada persona.</small>
+                            </span>
+                        </label>
+                        <label @class(['of-adm-opcion', 'is-elegida' => $cobraGrupo])>
+                            <input type="checkbox" name="cobra_grupo" value="1" @checked($cobraGrupo)>
+                            <span>
+                                <strong>Precio por grupo</strong>
+                                <small>Un precio total para cada rango de personas.</small>
+                            </span>
+                        </label>
                     </div>
                     @error('tipo_precio') <span class="error">{{ $message }}</span> @enderror
                 </fieldset>

@@ -20,7 +20,7 @@ class ExperienciaController extends Controller
     /** A06 · Experiencias */
     public function index(): View
     {
-        $experiencias = Experiencia::with(['zona', 'zonas', 'catalogo'])
+        $experiencias = Experiencia::with(['zona', 'zonas', 'catalogo', 'grupos'])
             ->withCount('disponibilidades')
             ->orderBy('nombre')
             ->paginate(15);
@@ -162,7 +162,8 @@ class ExperienciaController extends Controller
             'temporada' => ['nullable', 'string', 'max:50'],
             'duracion' => ['required', 'numeric', 'min:0.25', 'max:999.99'],
             'precio' => ['nullable', 'numeric', 'min:0', 'max:99999999.99'],
-            'tipo_precio' => ['required', Rule::in(array_keys(Experiencia::TIPOS_PRECIO))],
+            'cobra_persona' => ['nullable', 'boolean'],
+            'cobra_grupo' => ['nullable', 'boolean'],
             'requisitos' => ['nullable', 'string', 'max:2000'],
             'imagen_url' => ['nullable', 'url', 'max:255'],
             'imagen_archivo' => ['nullable', 'image', 'max:4096'],
@@ -192,14 +193,21 @@ class ExperienciaController extends Controller
     }
 
     /**
-     * 'persona' cobra por persona y descarta los grupos; 'grupo' cobra solo por grupo y guarda 0 por persona.
-     * La experiencia nunca se queda sin costo, y los rangos de grupo no pueden cruzarse.
+     * Las casillas "precio por persona" y "precio por grupo" pueden ir juntas.
+     * Cada tipo marcado exige su precio, así la experiencia nunca se queda sin costo.
      */
     private function normalizarPrecios(array $datos): array
     {
-        $tipo = $datos['tipo_precio'];
-        $precio = $tipo === 'grupo' ? 0.0 : (float) ($datos['precio'] ?? 0);
-        $crudos = $tipo === 'persona' ? [] : array_values($datos['grupos'] ?? []);
+        $persona = (bool) ($datos['cobra_persona'] ?? false);
+        $grupo = (bool) ($datos['cobra_grupo'] ?? false);
+
+        if (! $persona && ! $grupo) {
+            throw ValidationException::withMessages(['tipo_precio' => 'Marca al menos un tipo de precio.']);
+        }
+
+        $tipo = $persona && $grupo ? 'ambos' : ($persona ? 'persona' : 'grupo');
+        $precio = $persona ? (float) ($datos['precio'] ?? 0) : 0.0;
+        $crudos = $grupo ? array_values($datos['grupos'] ?? []) : [];
 
         $grupos = [];
         foreach ($crudos as $g) {
@@ -225,14 +233,15 @@ class ExperienciaController extends Controller
 
         $hayGrupoConPrecio = collect($grupos)->contains(fn ($g) => (float) $g['precio'] > 0);
 
-        if ($tipo === 'persona' && $precio <= 0) {
-            throw ValidationException::withMessages(['precio' => 'Indica el precio por persona, o elige precio por grupo.']);
+        if ($persona && $precio <= 0) {
+            throw ValidationException::withMessages(['precio' => 'Indica el precio por persona.']);
         }
 
-        if ($tipo === 'grupo' && ! $hayGrupoConPrecio) {
+        if ($grupo && ! $hayGrupoConPrecio) {
             throw ValidationException::withMessages(['grupos' => 'Agrega al menos un grupo con precio.']);
         }
 
+        $datos['tipo_precio'] = $tipo;
         $datos['precio'] = $precio;
         $datos['grupos'] = $grupos;
 

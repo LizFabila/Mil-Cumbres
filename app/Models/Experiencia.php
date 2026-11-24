@@ -23,6 +23,7 @@ class Experiencia extends Model
     public const TIPOS_PRECIO = [
         'persona' => 'Precio por persona',
         'grupo' => 'Precio por grupo',
+        'ambos' => 'Ambos',
     ];
 
     protected $fillable = [

@@ -54,29 +54,31 @@
     }
 })();
 
-// Cómo se cobra: precio por persona o por grupo. Lo que no aplica se oculta y no se envía.
+// Cómo se cobra: precio por persona y/o por grupo. Lo que no aplica se oculta y no se envía.
 (function () {
-    const radios = document.querySelectorAll('input[name="tipo_precio"]');
+    const persona = document.querySelector('input[name="cobra_persona"]');
+    const grupo = document.querySelector('input[name="cobra_grupo"]');
     const campoPrecio = document.querySelector('[data-precio-campo]');
     const precio = document.getElementById('precio');
     const panelGrupos = document.querySelector('[data-grupos-panel]');
     const contenedor = document.getElementById('grupos');
 
-    if (!radios.length || !campoPrecio || !panelGrupos || !contenedor) return;
+    if (!persona || !grupo || !campoPrecio || !panelGrupos || !contenedor) return;
 
     function aplicarTipo() {
-        const tipo = document.querySelector('input[name="tipo_precio"]:checked')?.value || 'persona';
-        const usaPersona = tipo === 'persona';
+        const usaPersona = persona.checked;
+        const usaGrupos = grupo.checked;
 
         campoPrecio.hidden = !usaPersona;
         precio.disabled = !usaPersona;
-        panelGrupos.hidden = usaPersona;
-        contenedor.querySelectorAll('input').forEach((i) => { i.disabled = usaPersona; });
+        panelGrupos.hidden = !usaGrupos;
+        contenedor.querySelectorAll('input').forEach((i) => { i.disabled = !usaGrupos; });
 
-        radios.forEach((r) => r.closest('.of-adm-opcion')?.classList.toggle('is-elegida', r.checked));
+        [persona, grupo].forEach((c) => c.closest('.of-adm-opcion')?.classList.toggle('is-elegida', c.checked));
     }
 
     window.mcAplicarTipoPrecio = aplicarTipo;
-    radios.forEach((r) => r.addEventListener('change', aplicarTipo));
+    persona.addEventListener('change', aplicarTipo);
+    grupo.addEventListener('change', aplicarTipo);
     aplicarTipo();
 })();
