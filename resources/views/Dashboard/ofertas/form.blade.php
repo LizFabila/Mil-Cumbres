@@ -15,6 +15,7 @@
 
 @push('estilos')
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('ofertas-milcumbres.css') }}">
+    <style>[hidden] { display: none !important; }</style>
 @endpush
 
 @section('contenido')

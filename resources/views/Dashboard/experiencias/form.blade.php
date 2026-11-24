@@ -5,6 +5,7 @@
 @php
     $editando = $experiencia->exists;
     $galeria = $editando ? $experiencia->imagenes : collect();
+    $tipoPrecio = old('tipo_precio', $experiencia->tipo_precio ?? 'persona');
 @endphp
 
 @section('titulo', $editando ? 'Editar experiencia' : 'Nueva experiencia')
@@ -71,23 +72,78 @@
                 </div>
 
                 <div class="campo">
-                    <label for="precio">Precio por persona (MXN)</label>
-                    <input @class(['control', 'es-invalido' => $errors->has('precio')]) type="number" id="precio" name="precio"
-                           min="0" step="0.01" value="{{ old('precio', $experiencia->precio) }}" required>
-                    <span class="ayuda">Se cobra cuando el número de personas no coincide con un grupo.</span>
-                    @error('precio') <span class="error">{{ $message }}</span> @enderror
-                </div>
-
-                <div class="campo">
                     <label for="temporada">Temporada</label>
                     <input class="control" id="temporada" name="temporada" maxlength="50"
                            value="{{ old('temporada', $experiencia->temporada) }}" placeholder="Octubre a marzo">
+                </div>
+
+                <fieldset class="campo completo">
+                    <legend>¿Cómo se cobra?</legend>
+                    <div class="of-adm-opciones">
+                        @foreach (\App\Models\Experiencia::TIPOS_PRECIO as $clave => $nombre)
+                            <label @class(['of-adm-opcion', 'is-elegida' => $tipoPrecio === $clave])>
+                                <input type="radio" name="tipo_precio" value="{{ $clave }}" @checked($tipoPrecio === $clave)>
+                                <span>
+                                    <strong>{{ $nombre }}</strong>
+                                    <small>
+                                        @switch($clave)
+                                            @case('persona') Un precio por persona. @break
+                                            @case('grupo') Solo precios totales por grupo. @break
+                                            @case('ambos') Precio por persona y precios por grupo. @break
+                                        @endswitch
+                                    </small>
+                                </span>
+                            </label>
+                        @endforeach
+                    </div>
+                    @error('tipo_precio') <span class="error">{{ $message }}</span> @enderror
+                </fieldset>
+
+                <div class="campo" data-precio-campo>
+                    <label for="precio">Precio por persona (MXN)</label>
+                    <input @class(['control', 'es-invalido' => $errors->has('precio')]) type="number" id="precio" name="precio"
+                           min="0" step="0.01" value="{{ old('precio', $experiencia->precio) }}">
+                    <span class="ayuda">Se cobra cuando el número de personas no coincide con un grupo.</span>
+                    @error('precio') <span class="error">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="campo completo">
                     <label for="requisitos">Requisitos</label>
                     <textarea class="control" id="requisitos" name="requisitos" maxlength="2000">{{ old('requisitos', $experiencia->requisitos) }}</textarea>
                 </div>
+            </section>
+
+            <section class="panel" data-grupos-panel>
+                <div class="fila fila--entre">
+                    <h2 class="mb-0">Precios por grupo</h2>
+                    <button class="btn btn--secundario btn--chico" type="button" id="agregar-grupo">+ Agregar grupo</button>
+                </div>
+                <p class="ayuda">Cada grupo tiene un número de personas y un <strong>precio total</strong> para ese grupo, no por persona. Si la reservación es exactamente de ese número de personas, se cobra el precio del grupo.</p>
+
+                <div class="grupos-generar">
+                    <div class="campo">
+                        <label for="grupos-desde">Desde (personas)</label>
+                        <input class="control" type="number" id="grupos-desde" min="1" max="999" value="2">
+                    </div>
+                    <div class="campo">
+                        <label for="grupos-hasta">Hasta (personas)</label>
+                        <input class="control" type="number" id="grupos-hasta" min="1" max="999" value="12">
+                    </div>
+                    <button class="btn btn--secundario btn--chico" type="button" id="generar-grupos">Generar tamaños</button>
+                </div>
+                <p class="ayuda">Crea una fila por cada tamaño del rango que todavía no tenga grupo. Después ajusta el precio total de cada uno.</p>
+                @error('grupos') <span class="error">{{ $message }}</span> @enderror
+                @error('grupos.*') <span class="error">{{ $message }}</span> @enderror
+
+                <div id="grupos">
+                    @foreach ($grupos as $i => $g)
+                        @include('Dashboard.experiencias._grupo', ['i' => $i, 'g' => $g])
+                    @endforeach
+                </div>
+
+                <template id="plantilla-grupo">
+                    @include('Dashboard.experiencias._grupo', ['i' => '__I__', 'g' => []])
+                </template>
             </section>
 
             <section class="panel">
@@ -106,25 +162,6 @@
 
                 <template id="plantilla-horario">
                     @include('Dashboard.experiencias._horario', ['i' => '__I__', 'h' => []])
-                </template>
-            </section>
-
-            <section class="panel">
-                <div class="fila fila--entre">
-                    <h2 class="mb-0">Precios por grupo</h2>
-                    <button class="btn btn--secundario btn--chico" type="button" id="agregar-grupo">+ Agregar grupo</button>
-                </div>
-                <p class="ayuda">Cada grupo tiene un número de personas y un <strong>precio total</strong> para ese grupo, no por persona. Si la reservación es de exactamente ese número de personas, se cobra el precio del grupo; en otro caso, el precio por persona.</p>
-                @error('grupos.*') <span class="error">{{ $message }}</span> @enderror
-
-                <div id="grupos">
-                    @foreach ($grupos as $i => $g)
-                        @include('Dashboard.experiencias._grupo', ['i' => $i, 'g' => $g])
-                    @endforeach
-                </div>
-
-                <template id="plantilla-grupo">
-                    @include('Dashboard.experiencias._grupo', ['i' => '__I__', 'g' => []])
                 </template>
             </section>
 
@@ -244,6 +281,12 @@
 
 @push('estilos')
     <link rel="stylesheet" href="{{ asset('css/galeria-editor.css') }}">
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('ofertas-milcumbres.css') }}">
+    <style>
+        [hidden] { display: none !important; }
+        .grupos-generar { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; margin: 12px 0 6px; }
+        @media (max-width: 640px) { .grupos-generar { grid-template-columns: 1fr; } }
+    </style>
 @endpush
 
 @push('scripts')

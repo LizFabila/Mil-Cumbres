@@ -29,6 +29,7 @@
         agregarGrupo.addEventListener('click', function () {
             const html = plantillaGrupo.innerHTML.replaceAll('__I__', 'g' + siguienteGrupo++);
             contenedorGrupos.insertAdjacentHTML('beforeend', html);
+            window.mcAplicarTipoPrecio?.();
         });
 
         contenedorGrupos.addEventListener('click', function (e) {
@@ -51,4 +52,55 @@
             if (url.value) vista.src = url.value;
         });
     }
+})();
+
+// Cómo se cobra: precio por persona, solo grupos o ambos. Lo que no aplica se oculta y no se envía.
+(function () {
+    const radios = document.querySelectorAll('input[name="tipo_precio"]');
+    const campoPrecio = document.querySelector('[data-precio-campo]');
+    const precio = document.getElementById('precio');
+    const panelGrupos = document.querySelector('[data-grupos-panel]');
+    const contenedor = document.getElementById('grupos');
+    const plantilla = document.getElementById('plantilla-grupo');
+    const generar = document.getElementById('generar-grupos');
+
+    if (!radios.length || !campoPrecio || !panelGrupos || !contenedor) return;
+
+    function tipoActual() {
+        return document.querySelector('input[name="tipo_precio"]:checked')?.value || 'persona';
+    }
+
+    function aplicarTipo() {
+        const tipo = tipoActual();
+        const usaPersona = tipo !== 'grupo';
+        const usaGrupos = tipo !== 'persona';
+
+        campoPrecio.hidden = !usaPersona;
+        precio.disabled = !usaPersona;
+        panelGrupos.hidden = !usaGrupos;
+        contenedor.querySelectorAll('input').forEach((i) => { i.disabled = !usaGrupos; });
+
+        radios.forEach((r) => r.closest('.of-adm-opcion')?.classList.toggle('is-elegida', r.checked));
+    }
+
+    window.mcAplicarTipoPrecio = aplicarTipo;
+    radios.forEach((r) => r.addEventListener('change', aplicarTipo));
+
+    // Crea una fila por cada tamaño del rango que todavía no tenga grupo.
+    generar?.addEventListener('click', function () {
+        const desde = Math.max(1, parseInt(document.getElementById('grupos-desde').value, 10) || 1);
+        const hasta = Math.min(999, parseInt(document.getElementById('grupos-hasta').value, 10) || desde);
+        const existentes = new Set([...contenedor.querySelectorAll('input[name$="[personas]"]')].map((i) => Number(i.value)));
+
+        for (let n = desde; n <= hasta; n++) {
+            if (existentes.has(n)) continue;
+            const clave = 'r' + Math.random().toString(36).slice(2, 9);
+            contenedor.insertAdjacentHTML('beforeend', plantilla.innerHTML.replaceAll('__I__', clave));
+            contenedor.lastElementChild.querySelector('input[name$="[personas]"]').value = n;
+        }
+
+        aplicarTipo();
+    });
+
+    aplicarTipo();
 })();

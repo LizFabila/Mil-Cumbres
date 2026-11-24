@@ -152,7 +152,7 @@ class ExperienciaController extends Controller
 
     private function validar(Request $request): array
     {
-        return $request->validate([
+        $datos = $request->validate([
             'nombre' => ['required', 'string', 'max:100'],
             'zonas' => ['required', 'array', 'min:1'],
             'zonas.*' => ['integer', 'distinct', 'exists:zonas,id_zona,deleted_at,NULL'],
@@ -160,7 +160,8 @@ class ExperienciaController extends Controller
             'resumen' => ['nullable', 'string', 'max:2000'],
             'temporada' => ['nullable', 'string', 'max:50'],
             'duracion' => ['required', 'numeric', 'min:0.25', 'max:999.99'],
-            'precio' => ['required', 'numeric', 'min:0', 'max:99999999.99'],
+            'precio' => ['nullable', 'numeric', 'min:0', 'max:99999999.99'],
+            'tipo_precio' => ['required', Rule::in(array_keys(Experiencia::TIPOS_PRECIO))],
             'requisitos' => ['nullable', 'string', 'max:2000'],
             'imagen_url' => ['nullable', 'url', 'max:255'],
             'imagen_archivo' => ['nullable', 'image', 'max:4096'],
@@ -184,6 +185,39 @@ class ExperienciaController extends Controller
             'zonas.required' => 'Elige al menos una zona.',
             'zonas.min' => 'Elige al menos una zona.',
         ]);
+
+        return $this->normalizarPrecios($datos);
+    }
+
+    /**
+     * Según el tipo de precio: 'persona' descarta los grupos; 'grupo' guarda el precio por persona en 0.
+     * La experiencia nunca se queda sin costo: hace falta precio por persona o al menos un grupo con precio.
+     */
+    private function normalizarPrecios(array $datos): array
+    {
+        $tipo = $datos['tipo_precio'];
+        $grupos = $tipo === 'persona' ? [] : ($datos['grupos'] ?? []);
+        $precio = $tipo === 'grupo' ? 0.0 : (float) ($datos['precio'] ?? 0);
+        $hayGrupoConPrecio = collect($grupos)->contains(fn ($g) => (float) ($g['precio'] ?? 0) > 0);
+
+        if ($tipo === 'persona' && $precio <= 0) {
+            throw ValidationException::withMessages(['precio' => 'Indica el precio por persona, o elige precio por grupo.']);
+        }
+
+        if ($tipo === 'grupo' && ! $hayGrupoConPrecio) {
+            throw ValidationException::withMessages(['grupos' => 'Agrega al menos un grupo con precio.']);
+        }
+
+        if ($tipo === 'ambos' && $precio <= 0 && ! $hayGrupoConPrecio) {
+            throw ValidationException::withMessages([
+                'precio' => 'Pon precio por persona o al menos un grupo con precio.',
+            ]);
+        }
+
+        $datos['precio'] = $precio;
+        $datos['grupos'] = $grupos;
+
+        return $datos;
     }
 
     /** Archivo subido > URL escrita > imagen que ya tenía. */

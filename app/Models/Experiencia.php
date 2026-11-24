@@ -19,9 +19,16 @@ class Experiencia extends Model
     protected $table = 'experiencias';
     protected $primaryKey = 'id_experiencia';
 
+    /** Cómo se cobra: por persona, solo por grupo o ambos. */
+    public const TIPOS_PRECIO = [
+        'persona' => 'Precio por persona',
+        'grupo' => 'Precio por grupo',
+        'ambos' => 'Ambos',
+    ];
+
     protected $fillable = [
         'nombre', 'id_zona', 'id_catalogo_exp', 'resumen', 'temporada',
-        'duracion', 'precio', 'requisitos', 'imagen',
+        'duracion', 'precio', 'tipo_precio', 'requisitos', 'imagen',
     ];
 
     protected function casts(): array
@@ -262,7 +269,7 @@ class Experiencia extends Model
     protected function precioActualTexto(): Attribute
     {
         return Attribute::get(fn () => (float) $this->precio_actual <= 0
-            ? 'Precio por confirmar'
+            ? ($this->tipo_precio !== 'persona' ? 'Por grupo' : 'Precio por confirmar')
             : '$'.number_format((float) $this->precio_actual, 2).' MXN');
     }
 
@@ -289,7 +296,7 @@ class Experiencia extends Model
     {
         return Attribute::get(function () {
             if ((float) $this->precio <= 0) {
-                return 'Precio por confirmar';
+                return $this->tipo_precio !== 'persona' ? 'Por grupo' : 'Precio por confirmar';
             }
 
             return '$'.number_format((float) $this->precio, 2).' MXN';
