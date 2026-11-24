@@ -293,16 +293,6 @@
                             @endif
                         </small>
 
-                        @if ($experiencia->grupos->isNotEmpty())
-                            <ul class="mc-detalle-grupos">
-                                @foreach ($experiencia->grupos as $grupo)
-                                    <li>
-                                        <span>Grupo {{ $grupo->rangoTexto() }}</span>
-                                        <strong>${{ number_format($experiencia->precioGrupoActual($grupo), 2) }} MXN</strong>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endif
                     </div>
 
 
