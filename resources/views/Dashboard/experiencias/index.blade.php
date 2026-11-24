@@ -40,12 +40,18 @@
                 </td>
                 <td>{{ $exp->zonas_texto }}</td>
                 <td>{{ $exp->duracion_texto }}</td>
-                <td class="num">
+                <td class="num" style="white-space: nowrap;">
                     @if ((float) $exp->precio > 0)
-                        <div>${{ number_format($exp->precio, 2) }} <small class="texto-suave">por persona</small></div>
+                        <div style="display: flex; justify-content: flex-end; gap: 6px; align-items: baseline; margin-bottom: 4px;">
+                            <strong>${{ number_format($exp->precio, 2) }}</strong>
+                            <small class="texto-suave">por persona</small>
+                        </div>
                     @endif
                     @foreach ($exp->grupos as $grupo)
-                        <div><small class="texto-suave">Grupo {{ $grupo->rangoTexto() }}</small> ${{ number_format($grupo->precio, 2) }}</div>
+                        <div style="display: flex; justify-content: flex-end; gap: 6px; align-items: baseline; margin-bottom: 4px;">
+                            <small class="texto-suave">Grupo {{ $grupo->rangoTexto() }}</small>
+                            <strong>${{ number_format($grupo->precio, 2) }}</strong>
+                        </div>
                     @endforeach
                     @if ((float) $exp->precio <= 0 && $exp->grupos->isEmpty())
                         <span class="texto-suave">Por confirmar</span>
