@@ -144,7 +144,8 @@ class ExperienciaController extends Controller
                 'cupo' => $d->pivot->cupo,
             ])->all()),
             'grupos' => old('grupos', $experiencia->grupos->map(fn ($g) => [
-                'personas' => $g->personas,
+                'desde' => $g->personas,
+                'hasta' => $g->personas_hasta ?? $g->personas,
                 'precio' => (float) $g->precio,
             ])->values()->all()),
         ];
@@ -175,11 +176,12 @@ class ExperienciaController extends Controller
             'horarios.*.fin' => ['required', 'date_format:H:i', 'after:horarios.*.inicio'],
             'horarios.*.cupo' => ['required', 'integer', 'min:1', 'max:65535'],
             'grupos' => ['nullable', 'array'],
-            'grupos.*.personas' => ['required', 'integer', 'min:1', 'max:999', 'distinct'],
+            'grupos.*.desde' => ['required', 'integer', 'min:1', 'max:999'],
+            'grupos.*.hasta' => ['required', 'integer', 'min:1', 'max:999'],
             'grupos.*.precio' => ['required', 'numeric', 'min:0', 'max:99999999.99'],
         ], [
-            'grupos.*.personas.required' => 'Indica el número de personas de cada grupo.',
-            'grupos.*.personas.distinct' => 'Hay dos grupos con el mismo número de personas.',
+            'grupos.*.desde.required' => 'Indica desde cuántas personas es el grupo.',
+            'grupos.*.hasta.required' => 'Indica hasta cuántas personas es el grupo.',
             'grupos.*.precio.required' => 'Indica el precio total de cada grupo.',
             'horarios.*.fin.after' => 'La hora de fin debe ser mayor que la de inicio.',
             'zonas.required' => 'Elige al menos una zona.',
@@ -190,15 +192,38 @@ class ExperienciaController extends Controller
     }
 
     /**
-     * Según el tipo de precio: 'persona' descarta los grupos; 'grupo' guarda el precio por persona en 0.
-     * La experiencia nunca se queda sin costo: hace falta precio por persona o al menos un grupo con precio.
+     * 'persona' cobra por persona y descarta los grupos; 'grupo' cobra solo por grupo y guarda 0 por persona.
+     * La experiencia nunca se queda sin costo, y los rangos de grupo no pueden cruzarse.
      */
     private function normalizarPrecios(array $datos): array
     {
         $tipo = $datos['tipo_precio'];
-        $grupos = $tipo === 'persona' ? [] : ($datos['grupos'] ?? []);
         $precio = $tipo === 'grupo' ? 0.0 : (float) ($datos['precio'] ?? 0);
-        $hayGrupoConPrecio = collect($grupos)->contains(fn ($g) => (float) ($g['precio'] ?? 0) > 0);
+        $crudos = $tipo === 'persona' ? [] : array_values($datos['grupos'] ?? []);
+
+        $grupos = [];
+        foreach ($crudos as $g) {
+            $desde = (int) $g['desde'];
+            $hasta = (int) $g['hasta'];
+
+            if ($hasta < $desde) {
+                throw ValidationException::withMessages([
+                    'grupos' => 'En cada grupo, "hasta" debe ser igual o mayor que "desde".',
+                ]);
+            }
+
+            $grupos[] = ['personas' => $desde, 'personas_hasta' => $hasta, 'precio' => $g['precio']];
+        }
+
+        usort($grupos, fn ($a, $b) => $a['personas'] <=> $b['personas']);
+
+        for ($i = 1; $i < count($grupos); $i++) {
+            if ($grupos[$i]['personas'] <= $grupos[$i - 1]['personas_hasta']) {
+                throw ValidationException::withMessages(['grupos' => 'Los rangos de grupo no pueden cruzarse.']);
+            }
+        }
+
+        $hayGrupoConPrecio = collect($grupos)->contains(fn ($g) => (float) $g['precio'] > 0);
 
         if ($tipo === 'persona' && $precio <= 0) {
             throw ValidationException::withMessages(['precio' => 'Indica el precio por persona, o elige precio por grupo.']);
@@ -206,12 +231,6 @@ class ExperienciaController extends Controller
 
         if ($tipo === 'grupo' && ! $hayGrupoConPrecio) {
             throw ValidationException::withMessages(['grupos' => 'Agrega al menos un grupo con precio.']);
-        }
-
-        if ($tipo === 'ambos' && $precio <= 0 && ! $hayGrupoConPrecio) {
-            throw ValidationException::withMessages([
-                'precio' => 'Pon precio por persona o al menos un grupo con precio.',
-            ]);
         }
 
         $datos['precio'] = $precio;

@@ -79,7 +79,7 @@
                             @foreach ($e->grupos as $g)
                                 <option value="{{ $g->personas }}" data-exp="{{ $e->id_experiencia }}" data-precio="{{ (float) $g->precio }}"
                                         @selected($grupoSel === (int) $g->personas && $idSel === (int) $e->id_experiencia)>
-                                    Grupo de {{ $g->personas }} {{ $g->personas === 1 ? 'persona' : 'personas' }} — ${{ number_format((float) $g->precio, 2) }} total
+                                    Grupo {{ $g->rangoTexto() }} — ${{ number_format((float) $g->precio, 2) }} total
                                 </option>
                             @endforeach
                         @endforeach

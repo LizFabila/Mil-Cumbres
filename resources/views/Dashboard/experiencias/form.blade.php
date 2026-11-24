@@ -107,43 +107,30 @@
                     @error('precio') <span class="error">{{ $message }}</span> @enderror
                 </div>
 
+                <div class="campo completo" data-grupos-panel>
+                    <div class="fila fila--entre">
+                        <strong>Grupos con precio</strong>
+                        <button class="btn btn--secundario btn--chico" type="button" id="agregar-grupo">+ Agregar grupo</button>
+                    </div>
+                    <p class="ayuda">Indica el rango de personas (por ejemplo, de 4 a 8) y el precio total de ese grupo. El cliente verá que la experiencia también se cobra en grupos de 4 a 8 personas.</p>
+                    @error('grupos') <span class="error">{{ $message }}</span> @enderror
+                    @error('grupos.*') <span class="error">{{ $message }}</span> @enderror
+
+                    <div id="grupos">
+                        @foreach ($grupos as $i => $g)
+                            @include('Dashboard.experiencias._grupo', ['i' => $i, 'g' => $g])
+                        @endforeach
+                    </div>
+
+                    <template id="plantilla-grupo">
+                        @include('Dashboard.experiencias._grupo', ['i' => '__I__', 'g' => []])
+                    </template>
+                </div>
+
                 <div class="campo completo">
                     <label for="requisitos">Requisitos</label>
                     <textarea class="control" id="requisitos" name="requisitos" maxlength="2000">{{ old('requisitos', $experiencia->requisitos) }}</textarea>
                 </div>
-            </section>
-
-            <section class="panel" data-grupos-panel>
-                <div class="fila fila--entre">
-                    <h2 class="mb-0">Precios por grupo</h2>
-                    <button class="btn btn--secundario btn--chico" type="button" id="agregar-grupo">+ Agregar grupo</button>
-                </div>
-                <p class="ayuda">Cada grupo tiene un número de personas y un <strong>precio total</strong> para ese grupo, no por persona. Si la reservación es exactamente de ese número de personas, se cobra el precio del grupo.</p>
-
-                <div class="grupos-generar">
-                    <div class="campo">
-                        <label for="grupos-desde">Desde (personas)</label>
-                        <input class="control" type="number" id="grupos-desde" min="1" max="999" value="2">
-                    </div>
-                    <div class="campo">
-                        <label for="grupos-hasta">Hasta (personas)</label>
-                        <input class="control" type="number" id="grupos-hasta" min="1" max="999" value="12">
-                    </div>
-                    <button class="btn btn--secundario btn--chico" type="button" id="generar-grupos">Generar tamaños</button>
-                </div>
-                <p class="ayuda">Crea una fila por cada tamaño del rango que todavía no tenga grupo. Después ajusta el precio total de cada uno.</p>
-                @error('grupos') <span class="error">{{ $message }}</span> @enderror
-                @error('grupos.*') <span class="error">{{ $message }}</span> @enderror
-
-                <div id="grupos">
-                    @foreach ($grupos as $i => $g)
-                        @include('Dashboard.experiencias._grupo', ['i' => $i, 'g' => $g])
-                    @endforeach
-                </div>
-
-                <template id="plantilla-grupo">
-                    @include('Dashboard.experiencias._grupo', ['i' => '__I__', 'g' => []])
-                </template>
             </section>
 
             <section class="panel">
@@ -284,8 +271,6 @@
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('ofertas-milcumbres.css') }}">
     <style>
         [hidden] { display: none !important; }
-        .grupos-generar { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; margin: 12px 0 6px; }
-        @media (max-width: 640px) { .grupos-generar { grid-template-columns: 1fr; } }
     </style>
 @endpush
 

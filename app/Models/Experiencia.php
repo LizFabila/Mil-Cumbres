@@ -19,11 +19,10 @@ class Experiencia extends Model
     protected $table = 'experiencias';
     protected $primaryKey = 'id_experiencia';
 
-    /** Cómo se cobra: por persona, solo por grupo o ambos. */
+    /** Cómo se cobra: por persona o solo por grupo. */
     public const TIPOS_PRECIO = [
         'persona' => 'Precio por persona',
         'grupo' => 'Precio por grupo',
-        'ambos' => 'Ambos',
     ];
 
     protected $fillable = [
@@ -102,29 +101,37 @@ class Experiencia extends Model
             ->orderBy('personas');
     }
 
-    /** Oferta de grupo vigente para ese número de personas, o null. */
-    public function ofertaDeGrupo(int $personas): ?Oferta
+    /** Oferta de grupo vigente para ese grupo, o null (se identifica por el primer número de personas). */
+    public function ofertaDeGrupo(ExperienciaGrupo $grupo): ?Oferta
     {
         return Oferta::vigentesGruposPorExperiencia()
             ->get($this->id_experiencia)
-            ?->first(fn ($o) => (int) $o->grupo_personas === $personas);
+            ?->first(fn ($o) => (int) $o->grupo_personas === (int) $grupo->personas);
     }
 
-    /** Precio total del grupo hoy: el precio del grupo con su oferta de grupo, si la hay. */
+    /** Precio total del grupo hoy: con su oferta de grupo, si la hay. */
     public function precioGrupoActual(ExperienciaGrupo $grupo): float
     {
-        $oferta = $this->ofertaDeGrupo((int) $grupo->personas);
+        $oferta = $this->ofertaDeGrupo($grupo);
 
         return $oferta ? $oferta->aplicarAGrupo((float) $grupo->precio) : (float) $grupo->precio;
     }
 
+    /** El grupo cuyo rango cubre ese número de personas, o null. */
+    public function grupoPara(int $personas): ?ExperienciaGrupo
+    {
+        return $this->grupos->first(
+            fn ($g) => $personas >= (int) $g->personas && $personas <= (int) ($g->personas_hasta ?? $g->personas)
+        );
+    }
+
     /**
-     * Total hoy para N personas. Si hay un grupo de exactamente N personas, se cobra
-     * su precio total (con su oferta de grupo); si no, precio por persona de hoy × N.
+     * Total hoy para N personas: si N cae en un grupo, el precio total de ese grupo;
+     * si no, precio por persona de hoy × N.
      */
     public function precioParaPersonas(int $personas): float
     {
-        $grupo = $this->grupos->firstWhere('personas', $personas);
+        $grupo = $this->grupoPara($personas);
 
         return $grupo ? $this->precioGrupoActual($grupo) : (float) $this->precio_actual * $personas;
     }
@@ -133,14 +140,28 @@ class Experiencia extends Model
     public function gruposParaJs(): array
     {
         return $this->grupos
-            ->map(fn ($g) => ['personas' => (int) $g->personas, 'precio' => $this->precioGrupoActual($g)])
+            ->map(fn ($g) => [
+                'desde' => (int) $g->personas,
+                'hasta' => (int) ($g->personas_hasta ?? $g->personas),
+                'precio' => $this->precioGrupoActual($g),
+            ])
             ->values()
             ->all();
     }
 
+    /** "4 a 8" o "4 a 8 y 10 a 12", para escribir "grupos de … personas" al cliente. */
+    public function rangosGruposTexto(): string
+    {
+        return $this->grupos->map(function ($g) {
+            $hasta = (int) ($g->personas_hasta ?? $g->personas);
+
+            return $hasta > (int) $g->personas ? "{$g->personas} a {$hasta}" : (string) $g->personas;
+        })->implode(' y ');
+    }
+
     /**
-     * Guarda los grupos con borrado lógico: actualiza o crea cada número de personas
-     * y da de baja los que se quitaron.
+     * Guarda los grupos (rango y precio) con borrado lógico.
+     * Cada grupo se identifica por su número mínimo de personas.
      */
     public function sincronizarGrupos(array $grupos): void
     {
@@ -149,7 +170,7 @@ class Experiencia extends Model
         foreach ($grupos as $g) {
             $grupo = ExperienciaGrupo::updateOrCreate(
                 ['id_experiencia' => $this->id_experiencia, 'personas' => (int) $g['personas']],
-                ['precio' => $g['precio']],
+                ['personas_hasta' => (int) $g['personas_hasta'], 'precio' => $g['precio']],
             );
             $vigentes[] = $grupo->id_experiencia_grupo;
         }

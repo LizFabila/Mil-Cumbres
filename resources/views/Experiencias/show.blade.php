@@ -219,6 +219,9 @@
                     <div class="mc-detalle-hero__dato">
                         <small>{{ $experiencia->oferta_actual ? 'PRECIO DE OFERTA' : 'PRECIO' }}</small>
                         <strong>{{ $experiencia->precio_actual_texto }}</strong>
+                        @if ($experiencia->grupos->isNotEmpty())
+                            <small>También en grupos de {{ $experiencia->rangosGruposTexto() }} personas</small>
+                        @endif
                     </div>
 
                 </div>
@@ -294,7 +297,7 @@
                             <ul class="mc-detalle-grupos">
                                 @foreach ($experiencia->grupos as $grupo)
                                     <li>
-                                        <span>Grupo de {{ $grupo->personas }} {{ $grupo->personas === 1 ? 'persona' : 'personas' }}</span>
+                                        <span>Grupo {{ $grupo->rangoTexto() }}</span>
                                         <strong>${{ number_format($experiencia->precioGrupoActual($grupo), 2) }} MXN</strong>
                                     </li>
                                 @endforeach
@@ -664,7 +667,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const precio = Number(item.dataset.precio) || 0;
         const grupos = JSON.parse(item.dataset.grupos || '[]');
         const cantidad = Math.max(1, Number(personasPrincipal.value) || 1);
-        const grupo = grupos.find(g => g.personas === cantidad);
+        const grupo = grupos.find(g => cantidad >= g.desde && cantidad <= g.hasta);
 
         if (!grupo && precio <= 0) {
             totalCampo.textContent = 'Por confirmar';

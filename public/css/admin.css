@@ -97,7 +97,7 @@ body.admin { background: var(--fondo-alt); }
 
 /* ---------- Editor de experiencia (A07) ---------- */
 .horario-fila { display: grid; grid-template-columns: 1.3fr 1fr 1fr .8fr auto; gap: 10px; align-items: end; margin-bottom: 10px; }
-.grupo-fila { display: grid; grid-template-columns: 1fr 1.4fr auto; gap: 10px; align-items: end; margin-bottom: 10px; }
+.grupo-fila { display: grid; grid-template-columns: 1fr 1fr 1.4fr auto; gap: 10px; align-items: end; margin-bottom: 10px; }
 .vista-imagen { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radio); background: var(--fondo-alt); border: 1px solid var(--borde); }
 .miniatura { width: 64px; height: 44px; object-fit: cover; border-radius: var(--radio-sm); }
 

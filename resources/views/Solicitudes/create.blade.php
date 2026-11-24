@@ -222,7 +222,7 @@
                                         </strong>
                                         @foreach ($exp->grupos as $grupo)
                                             <small class="mc-c06__opcion-grupo">
-                                                Grupo de {{ $grupo->personas }} {{ $grupo->personas === 1 ? 'persona' : 'personas' }}: ${{ number_format($exp->precioGrupoActual($grupo), 2) }}
+                                                Grupo {{ $grupo->rangoTexto() }}: ${{ number_format($exp->precioGrupoActual($grupo), 2) }}
                                             </small>
                                         @endforeach
                                     </label>
@@ -753,7 +753,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const bloque = bloques.find(b => b.dataset.experiencia === check.value);
             const campo = bloque ? bloque.querySelector('.personas-exp') : null;
             const cantidad = Math.max(0, Number(campo ? campo.value : 0) || 0);
-            const grupo = grupos.find(g => g.personas === cantidad);
+            const grupo = grupos.find(g => cantidad >= g.desde && cantidad <= g.hasta);
             const monto = grupo ? grupo.precio : precio * cantidad;
             const sinMonto = !grupo && precio <= 0;
 
