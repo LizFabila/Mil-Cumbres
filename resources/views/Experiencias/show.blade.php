@@ -528,7 +528,7 @@
                             @endif
                         </strong>
                         <small id="mc-detalle-total-detalle">
-                            Precio por persona × participantes, o precio del grupo si coincide con el número de personas.
+                            Precio por persona × participantes. Si la experiencia tiene precio por grupo, elige arriba cómo pagar.
                         </small>
                     </div>
 
