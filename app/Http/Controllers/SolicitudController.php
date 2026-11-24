@@ -126,6 +126,8 @@ class SolicitudController extends Controller
                 $asignaciones[$id] = [
                     'fecha_deseada' => $fechas[$id],
                     'cant_persona' => (int) $personas[$id],
+                    // Precio por persona de hoy (con oferta, si la hay): queda fijo en la reservación.
+                    'precio_unitario' => $exp->precio_actual,
                     'nota' => $notas[$id] ?? null,
                     'id_disponibilidad' => (int) $horarios[$id],
                 ];

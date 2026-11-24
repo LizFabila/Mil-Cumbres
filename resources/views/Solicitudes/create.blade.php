@@ -167,7 +167,7 @@
                                             type="checkbox"
                                             name="experiencias[]"
                                             value="{{ $exp->id_experiencia }}"
-                                            data-precio="{{ $exp->precio }}"
+                                            data-precio="{{ $exp->precio_actual }}"
                                             data-dias="{{ $exp->disponibilidades->pluck('dias_semana')->unique()->implode(',') }}"
                                             @checked(
                                                 in_array(
@@ -212,9 +212,12 @@
                                         {{-- PRECIO ORIGINAL --}}
                                         <strong class="mc-c06__opcion-precio">
                                             <small>
-                                                POR PERSONA
+                                                {{ $exp->oferta_actual ? 'OFERTA · POR PERSONA' : 'POR PERSONA' }}
                                             </small>
-                                            {{ $exp->precio_texto }}
+                                            @if ($exp->oferta_actual)
+                                                <del class="mc-precio-antes">{{ $exp->precio_texto }}</del>
+                                            @endif
+                                            {{ $exp->precio_actual_texto }}
                                         </strong>
                                     </label>
                                         <div

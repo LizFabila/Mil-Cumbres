@@ -108,7 +108,7 @@ class Experiencia extends Model
             'id_solicitud'
         )
             ->using(AsignaExperiencia::class)
-            ->withPivot('fecha_deseada', 'cant_persona', 'nota', 'id_disponibilidad')
+            ->withPivot('fecha_deseada', 'cant_persona', 'precio_unitario', 'nota', 'id_disponibilidad')
             ->wherePivotNull('deleted_at')
             ->withTimestamps();
     }
@@ -176,6 +176,40 @@ class Experiencia extends Model
 
             return $h.' h'.($m ? " {$m} min" : '')." ({$this->duracion} min)";
         });
+    }
+
+    /** Ofertas de la experiencia (activas, programadas y vencidas). */
+    public function ofertas(): HasMany
+    {
+        return $this->hasMany(Oferta::class, 'id_experiencia', 'id_experiencia');
+    }
+
+    /** Oferta vigente hoy (la de menor precio si hubiera varias), o null. */
+    protected function ofertaActual(): Attribute
+    {
+        return Attribute::get(fn () => Oferta::vigentesPorExperiencia()->get($this->id_experiencia));
+    }
+
+    /** Precio por persona que se cobra hoy: con oferta si la hay. */
+    protected function precioActual(): Attribute
+    {
+        return Attribute::get(fn () => $this->oferta_actual?->precio_oferta ?? (float) $this->precio);
+    }
+
+    protected function precioActualTexto(): Attribute
+    {
+        return Attribute::get(fn () => (float) $this->precio_actual <= 0
+            ? 'Precio por confirmar'
+            : '$'.number_format((float) $this->precio_actual, 2).' MXN');
+    }
+
+    /**
+     * Precio por persona dentro de una solicitud: el que quedó guardado al pedirla
+     * (asigna_experiencia.precio_unitario) o, en reservaciones anteriores, el de la experiencia.
+     */
+    public function precioEnSolicitud(): float
+    {
+        return (float) ($this->pivot?->precio_unitario ?? $this->precio);
     }
 
     protected function precioTexto(): Attribute

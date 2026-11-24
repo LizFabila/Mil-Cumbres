@@ -35,6 +35,11 @@ class AppServiceProvider extends ServiceProvider
                 ->orderBy('id_catalogo_exp')
                 ->get(['id_catalogo_exp', 'tipo']));
 
+            // Ofertas vigentes para el botón «Ofertas» y su panel (una por experiencia, ordenadas por fecha de término).
+            $vista->with('ofertasPanel', \App\Models\Oferta::vigentesPorExperiencia()
+                ->sortBy(fn ($o) => $o->termina)
+                ->values());
+
             // Experiencias con horario, agrupadas por tipo, para el riel lateral.
             $vista->with('rielGrupos', \App\Models\Experiencia::with(['zona', 'zonas', 'catalogo', 'disponibilidades'])
                 ->whereHas('disponibilidades')
