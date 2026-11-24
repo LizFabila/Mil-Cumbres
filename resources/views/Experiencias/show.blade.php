@@ -352,6 +352,7 @@
                     <div
                         class="mc-detalle-reserva__item"
                         data-precio="{{ (float) $experiencia->precio_actual }}"
+                        data-tipo-precio="{{ $experiencia->tipo_precio }}"
                         data-grupos='@json($experiencia->gruposParaJs())'
                     >
 
@@ -473,6 +474,24 @@
                             >
 
                         </div>
+
+                        @if ($experiencia->tipo_precio === 'ambos')
+                            <fieldset class="mc-detalle-reserva__modalidad">
+                                <legend>¿Cómo quieres pagar?</legend>
+                                <div class="mc-detalle-reserva__modalidad-filas">
+                                    <label class="mc-detalle-reserva__modalidad-opcion">
+                                        <input type="radio" id="mc-detalle-modo-persona" name="modalidad[{{ $experiencia->id_experiencia }}]" value="persona" checked @guest disabled @endguest>
+                                        <span>Pago por persona</span>
+                                        <small id="mc-detalle-modo-persona-detalle"></small>
+                                    </label>
+                                    <label class="mc-detalle-reserva__modalidad-opcion">
+                                        <input type="radio" id="mc-detalle-modo-grupo" name="modalidad[{{ $experiencia->id_experiencia }}]" value="grupo" @guest disabled @endguest>
+                                        <span>Pago por grupo</span>
+                                        <small id="mc-detalle-modo-grupo-detalle"></small>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        @endif
 
                         <div class="mc-detalle-reserva__campo">
 
@@ -651,6 +670,9 @@ document.addEventListener('DOMContentLoaded', function () {
         currency: 'MXN'
     });
 
+    const radioPersona = document.getElementById('mc-detalle-modo-persona');
+    const radioGrupo = document.getElementById('mc-detalle-modo-grupo');
+
     function recalcularTotal() {
         if (!totalCampo || !personasPrincipal) return;
 
@@ -658,9 +680,31 @@ document.addEventListener('DOMContentLoaded', function () {
         const precio = Number(item.dataset.precio) || 0;
         const grupos = JSON.parse(item.dataset.grupos || '[]');
         const cantidad = Math.max(1, Number(personasPrincipal.value) || 1);
-        const grupo = grupos.find(g => cantidad >= g.desde && cantidad <= g.hasta);
+        const grupoActual = grupos.find(g => cantidad >= g.desde && cantidad <= g.hasta);
 
-        if (!grupo && precio <= 0) {
+        // Tipo 'ambos': el cliente elige. El grupo solo se habilita si el número cae en un rango.
+        if (radioGrupo && radioPersona) {
+            document.getElementById('mc-detalle-modo-persona-detalle').textContent =
+                formatoMoneda.format(precio) + ' × ' + cantidad + ' = ' + formatoMoneda.format(precio * cantidad);
+
+            const detalleGrupo = document.getElementById('mc-detalle-modo-grupo-detalle');
+            if (grupoActual) {
+                radioGrupo.disabled = false;
+                detalleGrupo.textContent = 'De ' + grupoActual.desde + ' a ' + grupoActual.hasta + ' personas: ' + formatoMoneda.format(grupoActual.precio) + ' total';
+            } else {
+                radioGrupo.disabled = true;
+                radioGrupo.checked = false;
+                radioPersona.checked = true;
+                detalleGrupo.textContent = 'No hay precio de grupo para ' + cantidad + ' personas';
+            }
+        }
+
+        const modoGrupo = radioGrupo
+            ? radioGrupo.checked && !radioGrupo.disabled
+            : item.dataset.tipoPrecio === 'grupo';
+        const grupo = modoGrupo ? grupoActual : null;
+
+        if (!grupo && (modoGrupo || precio <= 0)) {
             totalCampo.textContent = 'Por confirmar';
             return;
         }
@@ -671,6 +715,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (personasPrincipal) {
         personasPrincipal.addEventListener('input', recalcularTotal);
     }
+
+    [radioPersona, radioGrupo].forEach(function (radio) {
+        if (radio) radio.addEventListener('change', recalcularTotal);
+    });
 
     recalcularTotal();
 

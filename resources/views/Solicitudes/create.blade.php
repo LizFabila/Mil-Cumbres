@@ -20,7 +20,7 @@
     $personasPrevias = (array) old('personas', $personas);
     $notasPrevias = (array) old('notas', $notas);
     $horariosPrevios = (array) old('horarios', $horarios ?? []);
-    $modalidadPrevias = (array) old('modalidad', []);
+    $modalidadPrevias = (array) old('modalidad', $modalidad ?? []);
 @endphp
 <div class="mc-c06">
     {{-- ======================================= --}}

@@ -27,6 +27,7 @@ class SolicitudController extends Controller
             'personas' => (array) $request->query('personas', []),
             'notas' => (array) $request->query('notas', []),
             'horarios' => (array) $request->query('horarios', []),
+            'modalidad' => (array) $request->query('modalidad', []),
         ]);
     }
 

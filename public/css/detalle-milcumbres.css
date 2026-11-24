@@ -1539,6 +1539,18 @@
 .mc-detalle-grupos { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 6px; font-size: .9rem; }
 .mc-detalle-grupos li { display: flex; justify-content: space-between; gap: 12px; padding-top: 6px; border-top: 1px solid rgba(0, 0, 0, .12); }
 
+/* Elección de pago por persona o por grupo en la caja de reservación */
+.mc-detalle-reserva__modalidad { border: 0; margin: 0 0 16px; padding: 0; min-width: 0; }
+.mc-detalle-reserva__modalidad legend { font-weight: 600; margin-bottom: 8px; padding: 0; }
+.mc-detalle-reserva__modalidad-filas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mc-detalle-reserva__modalidad-opcion { display: grid; grid-template-columns: auto 1fr; column-gap: 8px; row-gap: 4px; align-items: center; padding: 12px; border: 1px solid #C9D3C9; border-radius: 8px; cursor: pointer; }
+.mc-detalle-reserva__modalidad-opcion input { margin: 0; }
+.mc-detalle-reserva__modalidad-opcion span { font-weight: 600; }
+.mc-detalle-reserva__modalidad-opcion small { grid-column: 2; font-size: .9rem; opacity: .85; }
+.mc-detalle-reserva__modalidad-opcion:has(input:checked) { box-shadow: inset 0 0 0 1px #1E3A5F; border-color: #1E3A5F; }
+.mc-detalle-reserva__modalidad-opcion:has(input:disabled) { opacity: .45; cursor: not-allowed; }
+@media (max-width: 520px) { .mc-detalle-reserva__modalidad-filas { grid-template-columns: 1fr; } }
+
 /* Precio de cada grupo en la banda de datos de la experiencia */
 /* Precio de cada grupo con la misma tipografía de las etiquetas de la banda (UBICACIÓN, DURACIÓN) */
 .mc-detalle-hero__dato .mc-detalle-hero__grupo { display: block; margin: 4px 0 0; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--tm-89968a, #89968A); }
