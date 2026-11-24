@@ -220,7 +220,7 @@
                         <small>{{ $experiencia->oferta_actual ? 'PRECIO DE OFERTA' : 'PRECIO' }}</small>
                         <strong>{{ $experiencia->precio_actual_texto }}</strong>
                         @foreach ($experiencia->grupos as $grupo)
-                            <strong class="mc-detalle-hero__grupo">Grupo {{ $grupo->rangoTexto() }}: ${{ number_format($experiencia->precioGrupoActual($grupo), 2) }} MXN</strong>
+                            <small class="mc-detalle-hero__grupo">Grupo {{ $grupo->rangoTexto() }}: ${{ number_format($experiencia->precioGrupoActual($grupo), 2) }} MXN</small>
                         @endforeach
                     </div>
 

@@ -1540,6 +1540,6 @@
 .mc-detalle-grupos li { display: flex; justify-content: space-between; gap: 12px; padding-top: 6px; border-top: 1px solid rgba(0, 0, 0, .12); }
 
 /* Precio de cada grupo en la banda de datos de la experiencia */
-/* Mismo tamaño y color que el precio por persona (.mc-detalle-hero__dato strong) */
-.mc-detalle-hero__grupo { display: block; margin-top: 4px; font-size: 15px; font-weight: 700; color: var(--tema-texto, var(--det-verde)); letter-spacing: normal; }
+/* Precio de cada grupo con la misma tipografía de las etiquetas de la banda (UBICACIÓN, DURACIÓN) */
+.mc-detalle-hero__dato .mc-detalle-hero__grupo { display: block; margin: 4px 0 0; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--tm-89968a, #89968A); }
 
