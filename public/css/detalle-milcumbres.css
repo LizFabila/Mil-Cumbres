@@ -1540,5 +1540,6 @@
 .mc-detalle-grupos li { display: flex; justify-content: space-between; gap: 12px; padding-top: 6px; border-top: 1px solid rgba(0, 0, 0, .12); }
 
 /* Precio de cada grupo en la banda de datos de la experiencia */
-.mc-detalle-hero__grupo { display: block; margin-top: 4px; font-size: .8rem; opacity: .85; }
+/* Mismo tamaño y color que el precio por persona (.mc-detalle-hero__dato strong) */
+.mc-detalle-hero__grupo { display: block; margin-top: 4px; font-size: 15px; font-weight: 700; color: var(--tema-texto, var(--det-verde)); letter-spacing: normal; }
 
