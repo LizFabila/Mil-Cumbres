@@ -40,12 +40,19 @@
                 </td>
                 <td>
                     <span class="of-adm-desc">−{{ $o->porcentaje }}%</span><br>
-                    <small class="texto-suave">{{ $o->modo === 'precio' ? 'precio fijo' : 'porcentaje' }}</small>
+                    <small class="texto-suave">
+                        {{ $o->aplica_a === 'grupo' ? 'Grupo de '.$o->grupo_personas.' · ' : 'Persona · ' }}{{ $o->modo === 'precio' ? 'precio fijo' : ($o->modo === 'cantidad' ? 'monto menos' : 'porcentaje') }}
+                    </small>
                 </td>
                 <td>
                     @if ($o->experiencia)
-                        <del class="texto-suave">${{ number_format((float) $o->experiencia->precio, 2) }}</del>
-                        → <strong>${{ number_format($o->precio_oferta, 2) }}</strong>
+                        @if ($o->aplica_a === 'grupo')
+                            <del class="texto-suave">${{ number_format((float) $o->precioBaseGrupo(), 2) }}</del>
+                            → <strong>${{ number_format((float) $o->precio_oferta, 2) }}</strong> <small class="texto-suave">total del grupo</small>
+                        @else
+                            <del class="texto-suave">${{ number_format((float) $o->experiencia->precio, 2) }}</del>
+                            → <strong>${{ number_format($o->precio_oferta, 2) }}</strong>
+                        @endif
                     @endif
                 </td>
                 <td>{{ $o->inicia->translatedFormat('j M') }} – {{ $o->termina->translatedFormat('j M Y') }}</td>

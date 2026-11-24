@@ -122,10 +122,22 @@ class Oferta extends Model
         static::$gruposCache = null;
     }
 
-    /** Precio final por persona con la oferta aplicada. */
+    /** Total del grupo al que aplica (solo ofertas de grupo); null si no es de grupo o ya no existe. */
+    public function precioBaseGrupo(): ?float
+    {
+        $grupo = $this->experiencia?->grupos->firstWhere('personas', $this->grupo_personas);
+
+        return $grupo ? (float) $grupo->precio : null;
+    }
+
+    /** Precio final con la oferta: por persona (persona individual) o total del grupo (grupo). */
     protected function precioOferta(): Attribute
     {
         return Attribute::get(function () {
+            if ($this->aplica_a === 'grupo') {
+                return $this->precioBaseGrupo() !== null ? $this->aplicarAGrupo($this->precioBaseGrupo()) : null;
+            }
+
             $precio = (float) $this->experiencia?->precio;
 
             return $this->modo === 'precio'
@@ -138,13 +150,15 @@ class Oferta extends Model
     protected function porcentaje(): Attribute
     {
         return Attribute::get(function () {
-            $precio = (float) $this->experiencia?->precio;
-
             if ($this->modo === 'porcentaje') {
                 return (int) round((float) $this->valor);
             }
 
-            return $precio > 0 ? (int) round(100 - $this->precio_oferta * 100 / $precio) : 0;
+            $base = $this->aplica_a === 'grupo'
+                ? (float) $this->precioBaseGrupo()
+                : (float) $this->experiencia?->precio;
+
+            return $base > 0 ? (int) round(100 - (float) $this->precio_oferta * 100 / $base) : 0;
         });
     }
 
