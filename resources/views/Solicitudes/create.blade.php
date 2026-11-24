@@ -20,6 +20,7 @@
     $personasPrevias = (array) old('personas', $personas);
     $notasPrevias = (array) old('notas', $notas);
     $horariosPrevios = (array) old('horarios', $horarios ?? []);
+    $modalidadPrevias = (array) old('modalidad', []);
 @endphp
 <div class="mc-c06">
     {{-- ======================================= --}}
@@ -168,6 +169,7 @@
                                             name="experiencias[]"
                                             value="{{ $exp->id_experiencia }}"
                                             data-precio="{{ $exp->precio_actual }}"
+                                            data-tipo-precio="{{ $exp->tipo_precio }}"
                                             data-grupos='@json($exp->gruposParaJs())'
                                             data-dias="{{ $exp->disponibilidades->pluck('dias_semana')->unique()->implode(',') }}"
                                             @checked(
@@ -321,6 +323,21 @@
                                                 @error('personas.' . $exp->id_experiencia)
                                                     <span class="error mc-c06__error" role="alert">{{ $message }}</span>
                                                 @enderror
+                                                @if ($exp->tipo_precio === 'ambos')
+                                                    <fieldset class="mc-c06__modalidad">
+                                                        <legend>¿Cómo quieres pagar?</legend>
+                                                        <label class="mc-c06__modalidad-opcion">
+                                                            <input type="radio" name="modalidad[{{ $exp->id_experiencia }}]" value="persona" data-modalidad-radio @checked(($modalidadPrevias[$exp->id_experiencia] ?? 'persona') === 'persona') disabled>
+                                                            <span>Por persona</span>
+                                                            <small data-modalidad-detalle="persona"></small>
+                                                        </label>
+                                                        <label class="mc-c06__modalidad-opcion">
+                                                            <input type="radio" name="modalidad[{{ $exp->id_experiencia }}]" value="grupo" data-modalidad-radio @checked(($modalidadPrevias[$exp->id_experiencia] ?? null) === 'grupo') disabled>
+                                                            <span>Por grupo</span>
+                                                            <small data-modalidad-detalle="grupo"></small>
+                                                        </label>
+                                                    </fieldset>
+                                                @endif
                                                 <label for="notas-{{ $exp->id_experiencia }}">
                                                     Información adicional
                                                     <span class="mc-c06__opcional">(opcional)</span>
@@ -732,7 +749,33 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         actualizarTotal();
     }
-    // Total = Σ (precio por persona × personas de esa experiencia).
+    // Tipo 'ambos': el cliente elige precio por persona o por grupo.
+    // La opción de grupo solo se habilita si el número de personas cae en un rango.
+    function actualizarModalidades(bloque, precio, grupos, cantidad) {
+        if (!bloque) return;
+
+        const radioPersona = bloque.querySelector('[data-modalidad-radio][value="persona"]');
+        const radioGrupo = bloque.querySelector('[data-modalidad-radio][value="grupo"]');
+        if (!radioPersona || !radioGrupo) return;
+
+        const grupo = grupos.find(g => cantidad >= g.desde && cantidad <= g.hasta);
+        const detalleGrupo = bloque.querySelector('[data-modalidad-detalle="grupo"]');
+
+        bloque.querySelector('[data-modalidad-detalle="persona"]').textContent =
+            formatoMoneda.format(precio) + ' × ' + cantidad + ' = ' + formatoMoneda.format(precio * cantidad);
+
+        if (grupo) {
+            radioGrupo.disabled = false;
+            detalleGrupo.textContent = 'De ' + grupo.desde + ' a ' + grupo.hasta + ' personas: ' + formatoMoneda.format(grupo.precio) + ' total';
+        } else {
+            radioGrupo.disabled = true;
+            radioGrupo.checked = false;
+            radioPersona.checked = true;
+            detalleGrupo.textContent = 'No hay precio de grupo para ' + cantidad + ' personas';
+        }
+    }
+
+    // Total = Σ (precio de la modalidad elegida × personas de esa experiencia).
     // Cada tarjeta marcada muestra su propio subtotal.
     function actualizarTotal() {
         let suma = 0;
@@ -753,9 +796,13 @@ document.addEventListener('DOMContentLoaded', function () {
             const bloque = bloques.find(b => b.dataset.experiencia === check.value);
             const campo = bloque ? bloque.querySelector('.personas-exp') : null;
             const cantidad = Math.max(0, Number(campo ? campo.value : 0) || 0);
-            const grupo = grupos.find(g => cantidad >= g.desde && cantidad <= g.hasta);
-            const monto = grupo ? grupo.precio : precio * cantidad;
-            const sinMonto = !grupo && precio <= 0;
+            actualizarModalidades(bloque, precio, grupos, cantidad);
+
+            const elegida = bloque ? bloque.querySelector('[data-modalidad-radio]:checked') : null;
+            const modo = elegida ? elegida.value : (check.dataset.tipoPrecio === 'grupo' ? 'grupo' : 'persona');
+            const grupo = modo === 'grupo' ? grupos.find(g => cantidad >= g.desde && cantidad <= g.hasta) : null;
+            const monto = modo === 'grupo' ? (grupo ? grupo.precio : 0) : precio * cantidad;
+            const sinMonto = modo === 'grupo' ? !grupo : precio <= 0;
 
             if (sinMonto) {
                 sinPrecio = true;
@@ -911,6 +958,9 @@ document.addEventListener('DOMContentLoaded', function () {
             campo.required = activo;
             bloque.querySelector('.personas-exp').disabled = !activo;
             bloque.querySelector('.notas-exp').disabled = !activo;
+            bloque.querySelectorAll('[data-modalidad-radio]').forEach(function (radio) {
+                radio.disabled = !activo;
+            });
             const horario = bloque.querySelector('.horario-exp');
             if (horario) horario.disabled = !activo;
             if (activo) {
@@ -934,6 +984,9 @@ document.addEventListener('DOMContentLoaded', function () {
             .addEventListener('change', function () { ajustarMaxPersonas(bloque); });
         bloque.querySelector('.personas-exp')
             .addEventListener('input', actualizarTotal);
+        bloque.querySelectorAll('[data-modalidad-radio]').forEach(function (radio) {
+            radio.addEventListener('change', actualizarTotal);
+        });
         bloque.querySelector('.calendario-valor')
             .addEventListener('change', function () {
                 filtrarHorarios(bloque);

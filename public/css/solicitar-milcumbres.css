@@ -1136,3 +1136,10 @@
 
 /* Precio de grupo en la tarjeta de experiencia */
 .mc-c06__opcion-grupo { display: block; font-size: .8rem; opacity: .85; font-weight: 400; }
+
+/* Elección de modalidad de precio (tipo 'ambos') */
+.mc-c06__modalidad { border: 0; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; }
+.mc-c06__modalidad legend { font-weight: 600; margin-bottom: 6px; }
+.mc-c06__modalidad-opcion { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; align-items: center; cursor: pointer; }
+.mc-c06__modalidad-opcion small { grid-column: 2; opacity: .8; }
+.mc-c06__modalidad-opcion:has(input:disabled) { opacity: .45; cursor: not-allowed; }

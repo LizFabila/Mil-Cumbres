@@ -52,7 +52,7 @@ class Solicitud extends Model
             'id_experiencia'
         )
             ->using(AsignaExperiencia::class)
-            ->withPivot('id_asigna_exp', 'fecha_deseada', 'cant_persona', 'precio_unitario', 'precio_total', 'nota', 'id_disponibilidad')
+            ->withPivot('id_asigna_exp', 'fecha_deseada', 'cant_persona', 'precio_unitario', 'precio_total', 'modalidad_precio', 'nota', 'id_disponibilidad')
             ->wherePivotNull('deleted_at')
             ->withTimestamps();
     }
