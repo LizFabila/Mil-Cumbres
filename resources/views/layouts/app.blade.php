@@ -20,6 +20,9 @@
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('base.css') }}">
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('sitio.css') }}">
 
+    {{-- Botón y panel de ofertas --}}
+    <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('ofertas-milcumbres.css') }}">
+
     {{-- CSS del nuevo menú --}}
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('menu-milcumbres.css') }}">
 
@@ -79,6 +82,15 @@
         <div class="mc-hub__brand">
             <x-logo :href="false" />
         </div>
+
+        {{-- BOTÓN DE OFERTAS EN CELULAR (fuera del menú, siempre visible) --}}
+        @if (($ofertasPanel ?? collect())->isNotEmpty())
+            <button type="button" class="mc-ofertas-btn mc-ofertas-btn--movil" data-mc-ofertas-abrir aria-controls="ofertas" aria-label="Ver ofertas">
+                <span class="mc-ofertas-btn__icono" aria-hidden="true">%</span>
+                Ofertas
+                <span class="mc-ofertas-btn__conteo">{{ $ofertasPanel->count() }}</span>
+            </button>
+        @endif
 
         {{-- BOTÓN MÓVIL --}}
         <button
@@ -318,7 +330,16 @@
 
             <div class="mc-hub__actions">
 
-                @if (auth()->user()?->esAdmin())
+                {{-- BOTÓN DE OFERTAS (solo aparece si hay ofertas vigentes) --}}
+                @if (($ofertasPanel ?? collect())->isNotEmpty())
+                    <button type="button" class="mc-ofertas-btn" data-mc-ofertas-abrir aria-controls="ofertas">
+                        <span class="mc-ofertas-btn__icono" aria-hidden="true">%</span>
+                        Ofertas
+                        <span class="mc-ofertas-btn__conteo">{{ $ofertasPanel->count() }}</span>
+                    </button>
+                @endif
+
+                                @if (auth()->user()?->esAdmin())
 
                 {{-- El administrador no ve el menú de cuenta: solo su nombre y el regreso al panel --}}
                 <span class="mc-hub__account mc-hub__account--admin">
@@ -530,6 +551,10 @@
 </footer>
 
 
+{{-- PANEL DE OFERTAS --}}
+<x-panel-ofertas :ofertas="$ofertasPanel ?? collect()" />
+
+
 {{-- AVISO DE COOKIES --}}
 <x-aviso-cookies />
 
@@ -538,6 +563,7 @@
 <script src="{{ asset('js/menu-milcumbres.js') }}" defer></script>
 <script src="{{ asset('js/reveal-milcumbres.js') }}" defer></script>
 <script src="{{ asset('js/acentos-milcumbres.js') }}" defer></script>
+<script src="{{ asset('js/ofertas-milcumbres.js') }}" defer></script>
 <script src="{{ asset('js/riel-experiencias.js') }}?v={{ @filemtime(public_path('js/riel-experiencias.js')) }}" defer></script>
 
 @stack('scripts')

@@ -95,22 +95,38 @@ class Experiencia extends Model
             ->orderBy('personas');
     }
 
+    /** Oferta de grupo vigente para ese número de personas, o null. */
+    public function ofertaDeGrupo(int $personas): ?Oferta
+    {
+        return Oferta::vigentesGruposPorExperiencia()
+            ->get($this->id_experiencia)
+            ?->first(fn ($o) => (int) $o->grupo_personas === $personas);
+    }
+
+    /** Precio total del grupo hoy: el precio del grupo con su oferta de grupo, si la hay. */
+    public function precioGrupoActual(ExperienciaGrupo $grupo): float
+    {
+        $oferta = $this->ofertaDeGrupo((int) $grupo->personas);
+
+        return $oferta ? $oferta->aplicarAGrupo((float) $grupo->precio) : (float) $grupo->precio;
+    }
+
     /**
-     * Precio total para N personas. Si hay un grupo de exactamente N personas,
-     * se cobra el precio total de ese grupo; si no, precio por persona × N.
+     * Total hoy para N personas. Si hay un grupo de exactamente N personas, se cobra
+     * su precio total (con su oferta de grupo); si no, precio por persona de hoy × N.
      */
     public function precioParaPersonas(int $personas): float
     {
         $grupo = $this->grupos->firstWhere('personas', $personas);
 
-        return $grupo ? (float) $grupo->precio : (float) $this->precio * $personas;
+        return $grupo ? $this->precioGrupoActual($grupo) : (float) $this->precio_actual * $personas;
     }
 
     /** Grupos en formato simple para el JavaScript de las páginas de reservación. */
     public function gruposParaJs(): array
     {
         return $this->grupos
-            ->map(fn ($g) => ['personas' => (int) $g->personas, 'precio' => (float) $g->precio])
+            ->map(fn ($g) => ['personas' => (int) $g->personas, 'precio' => $this->precioGrupoActual($g)])
             ->values()
             ->all();
     }
@@ -159,7 +175,7 @@ class Experiencia extends Model
             'id_solicitud'
         )
             ->using(AsignaExperiencia::class)
-            ->withPivot('fecha_deseada', 'cant_persona', 'nota', 'id_disponibilidad')
+            ->withPivot('fecha_deseada', 'cant_persona', 'precio_unitario', 'precio_total', 'nota', 'id_disponibilidad')
             ->wherePivotNull('deleted_at')
             ->withTimestamps();
     }
@@ -223,6 +239,50 @@ class Experiencia extends Model
 
             return ($horas !== '' ? $horas : '0').' h';
         });
+    }
+
+    /** Ofertas de la experiencia (activas, programadas y vencidas). */
+    public function ofertas(): HasMany
+    {
+        return $this->hasMany(Oferta::class, 'id_experiencia', 'id_experiencia');
+    }
+
+    /** Oferta vigente hoy (la de menor precio si hubiera varias), o null. */
+    protected function ofertaActual(): Attribute
+    {
+        return Attribute::get(fn () => Oferta::vigentesPorExperiencia()->get($this->id_experiencia));
+    }
+
+    /** Precio por persona que se cobra hoy: con oferta si la hay. */
+    protected function precioActual(): Attribute
+    {
+        return Attribute::get(fn () => $this->oferta_actual?->precio_oferta ?? (float) $this->precio);
+    }
+
+    protected function precioActualTexto(): Attribute
+    {
+        return Attribute::get(fn () => (float) $this->precio_actual <= 0
+            ? 'Precio por confirmar'
+            : '$'.number_format((float) $this->precio_actual, 2).' MXN');
+    }
+
+    /**
+     * Precio por persona dentro de una solicitud: el que quedó guardado al pedirla
+     * (asigna_experiencia.precio_unitario) o, en reservaciones anteriores, el de la experiencia.
+     */
+    public function precioEnSolicitud(): float
+    {
+        return (float) ($this->pivot?->precio_unitario ?? $this->precio);
+    }
+
+    /** Total de esta experiencia en la reservación: el que se fijó al pedir o, si no hay, precio × personas. */
+    public function totalEnSolicitud(): float
+    {
+        if ($this->pivot?->precio_total !== null) {
+            return (float) $this->pivot->precio_total;
+        }
+
+        return $this->precioEnSolicitud() * (int) $this->pivot?->cant_persona;
     }
 
     protected function precioTexto(): Attribute

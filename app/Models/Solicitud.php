@@ -52,7 +52,7 @@ class Solicitud extends Model
             'id_experiencia'
         )
             ->using(AsignaExperiencia::class)
-            ->withPivot('id_asigna_exp', 'fecha_deseada', 'cant_persona', 'nota', 'id_disponibilidad')
+            ->withPivot('id_asigna_exp', 'fecha_deseada', 'cant_persona', 'precio_unitario', 'precio_total', 'nota', 'id_disponibilidad')
             ->wherePivotNull('deleted_at')
             ->withTimestamps();
     }
@@ -68,11 +68,14 @@ class Solicitud extends Model
             ->latestOfMany('fecha');
     }
 
-    /** total = Σ (precio de cada experiencia × personas asignadas a esa experiencia). */
+    /**
+     * total = Σ (precio por persona × personas de cada experiencia).
+     * El precio por persona es el guardado al pedir (con oferta, si la había).
+     */
     public function recalcularTotal(): void
     {
         $this->total = $this->experiencias()->get()->sum(
-            fn ($experiencia) => $experiencia->precioParaPersonas((int) $experiencia->pivot->cant_persona)
+            fn ($experiencia) => $experiencia->totalEnSolicitud()
         );
         $this->save();
     }

@@ -167,7 +167,7 @@
                                             type="checkbox"
                                             name="experiencias[]"
                                             value="{{ $exp->id_experiencia }}"
-                                            data-precio="{{ $exp->precio }}"
+                                            data-precio="{{ $exp->precio_actual }}"
                                             data-grupos='@json($exp->gruposParaJs())'
                                             data-dias="{{ $exp->disponibilidades->pluck('dias_semana')->unique()->implode(',') }}"
                                             @checked(
@@ -213,13 +213,16 @@
                                         {{-- PRECIO ORIGINAL --}}
                                         <strong class="mc-c06__opcion-precio">
                                             <small>
-                                                POR PERSONA
+                                                {{ $exp->oferta_actual ? 'OFERTA · POR PERSONA' : 'POR PERSONA' }}
                                             </small>
-                                            {{ $exp->precio_texto }}
+                                            @if ($exp->oferta_actual)
+                                                <del class="mc-precio-antes">{{ $exp->precio_texto }}</del>
+                                            @endif
+                                            {{ $exp->precio_actual_texto }}
                                         </strong>
                                         @foreach ($exp->grupos as $grupo)
                                             <small class="mc-c06__opcion-grupo">
-                                                Grupo de {{ $grupo->personas }} {{ $grupo->personas === 1 ? 'persona' : 'personas' }}: ${{ number_format((float) $grupo->precio, 2) }}
+                                                Grupo de {{ $grupo->personas }} {{ $grupo->personas === 1 ? 'persona' : 'personas' }}: ${{ number_format($exp->precioGrupoActual($grupo), 2) }}
                                             </small>
                                         @endforeach
                                     </label>

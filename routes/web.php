@@ -109,6 +109,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::resource('experiencias', Admin\ExperienciaController::class)->except('show');                          // A06 / A07
 
+    Route::resource('ofertas', Admin\OfertaController::class)->except('show')
+        ->parameters(['ofertas' => 'oferta']);                                                                    // Ofertas por tiempo limitado
+
     Route::resource('zonas', Admin\ZonaController::class)->except('show');                                        // Zonas (catálogo)
 
     Route::get('/reservas/nueva', [Admin\ReservaController::class, 'create'])->name('reservas.create');           // Reservar a nombre de un cliente

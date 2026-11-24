@@ -190,12 +190,12 @@
                                 </div>
 
                                 <div class="mc-c09__pedido-item-precio">
-                                    <strong>${{ number_format($experiencia->precioParaPersonas((int) $personas), 2) }}</strong>
+                                    <strong>${{ number_format($experiencia->totalEnSolicitud(), 2) }}</strong>
                                     <small>
                                         @if ($experiencia->grupos->firstWhere('personas', (int) $personas))
                                             Precio del grupo de {{ $personas }}
                                         @else
-                                            ${{ number_format($experiencia->precio, 2) }} × {{ $personas }}
+                                            ${{ number_format($experiencia->precioEnSolicitud(), 2) }} × {{ $personas }}
                                         @endif
                                     </small>
                                 </div>
