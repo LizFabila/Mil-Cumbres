@@ -19,15 +19,22 @@ class Experiencia extends Model
     protected $table = 'experiencias';
     protected $primaryKey = 'id_experiencia';
 
+    /** Cómo se cobra: por persona o solo por grupo. */
+    public const TIPOS_PRECIO = [
+        'persona' => 'Precio por persona',
+        'grupo' => 'Precio por grupo',
+        'ambos' => 'Ambos',
+    ];
+
     protected $fillable = [
         'nombre', 'id_zona', 'id_catalogo_exp', 'resumen', 'temporada',
-        'duracion', 'precio', 'requisitos', 'imagen',
+        'duracion', 'precio', 'tipo_precio', 'requisitos', 'imagen',
     ];
 
     protected function casts(): array
     {
         return [
-            'duracion' => 'integer',
+            'duracion' => 'decimal:2',
             'precio' => 'decimal:2',
         ];
     }
@@ -88,6 +95,95 @@ class Experiencia extends Model
         return $this->belongsTo(CatalogoExperiencia::class, 'id_catalogo_exp', 'id_catalogo_exp');
     }
 
+    /** Grupos con precio total (tabla experiencia_grupos), de menos a más personas. */
+    public function grupos(): HasMany
+    {
+        return $this->hasMany(ExperienciaGrupo::class, 'id_experiencia', 'id_experiencia')
+            ->orderBy('personas');
+    }
+
+    /** Oferta de grupo vigente para ese grupo, o null (se identifica por el primer número de personas). */
+    public function ofertaDeGrupo(ExperienciaGrupo $grupo): ?Oferta
+    {
+        return Oferta::vigentesGruposPorExperiencia()
+            ->get($this->id_experiencia)
+            ?->first(fn ($o) => (int) $o->grupo_personas === (int) $grupo->personas);
+    }
+
+    /** Precio total del grupo hoy: con su oferta de grupo, si la hay. */
+    public function precioGrupoActual(ExperienciaGrupo $grupo): float
+    {
+        $oferta = $this->ofertaDeGrupo($grupo);
+
+        return $oferta ? $oferta->aplicarAGrupo((float) $grupo->precio) : (float) $grupo->precio;
+    }
+
+    /** El grupo cuyo rango cubre ese número de personas, o null. */
+    public function grupoPara(int $personas): ?ExperienciaGrupo
+    {
+        return $this->grupos->first(
+            fn ($g) => $personas >= (int) $g->personas && $personas <= (int) ($g->personas_hasta ?? $g->personas)
+        );
+    }
+
+    /**
+     * Total hoy para N personas: si N cae en un grupo, el precio total de ese grupo;
+     * si no, precio por persona de hoy × N.
+     */
+    public function precioParaPersonas(int $personas): float
+    {
+        $grupo = $this->grupoPara($personas);
+
+        return $grupo ? $this->precioGrupoActual($grupo) : (float) $this->precio_actual * $personas;
+    }
+
+    /** Grupos en formato simple para el JavaScript de las páginas de reservación. */
+    public function gruposParaJs(): array
+    {
+        return $this->grupos
+            ->map(fn ($g) => [
+                'desde' => (int) $g->personas,
+                'hasta' => (int) ($g->personas_hasta ?? $g->personas),
+                'precio' => $this->precioGrupoActual($g),
+            ])
+            ->values()
+            ->all();
+    }
+
+    /** "4 a 8" o "4 a 8 y 10 a 12", para escribir "grupos de … personas" al cliente. */
+    public function rangosGruposTexto(): string
+    {
+        return $this->grupos->map(function ($g) {
+            $hasta = (int) ($g->personas_hasta ?? $g->personas);
+
+            return $hasta > (int) $g->personas ? "{$g->personas} a {$hasta}" : (string) $g->personas;
+        })->implode(' y ');
+    }
+
+    /**
+     * Guarda los grupos (rango y precio) con borrado lógico.
+     * Cada grupo se identifica por su número mínimo de personas.
+     */
+    public function sincronizarGrupos(array $grupos): void
+    {
+        $vigentes = [];
+
+        foreach ($grupos as $g) {
+            $grupo = ExperienciaGrupo::updateOrCreate(
+                ['id_experiencia' => $this->id_experiencia, 'personas' => (int) $g['personas']],
+                ['personas_hasta' => (int) $g['personas_hasta'], 'precio' => $g['precio']],
+            );
+            $vigentes[] = $grupo->id_experiencia_grupo;
+        }
+
+        ExperienciaGrupo::where('id_experiencia', $this->id_experiencia)
+            ->whereNotIn('id_experiencia_grupo', $vigentes)
+            ->get()
+            ->each->delete();
+
+        $this->unsetRelation('grupos');
+    }
+
     /** Horarios asignados (tabla asigna_disponibilidad) con su cupo. */
     public function disponibilidades(): BelongsToMany
     {
@@ -108,7 +204,7 @@ class Experiencia extends Model
             'id_solicitud'
         )
             ->using(AsignaExperiencia::class)
-            ->withPivot('fecha_deseada', 'cant_persona', 'precio_unitario', 'nota', 'id_disponibilidad')
+            ->withPivot('fecha_deseada', 'cant_persona', 'precio_unitario', 'precio_total', 'nota', 'id_disponibilidad')
             ->wherePivotNull('deleted_at')
             ->withTimestamps();
     }
@@ -164,17 +260,13 @@ class Experiencia extends Model
     }
 
 
-    /** "3 h (180 min)", "1 h 30 min (90 min)", "45 min" */
+    /** Duración en horas: "3 h", "1.5 h", "0.75 h". */
     protected function duracionTexto(): Attribute
     {
         return Attribute::get(function () {
-            $h = intdiv($this->duracion, 60);
-            $m = $this->duracion % 60;
-            if ($h === 0) {
-                return "{$m} min";
-            }
+            $horas = rtrim(rtrim(number_format((float) $this->duracion, 2, '.', ''), '0'), '.');
 
-            return $h.' h'.($m ? " {$m} min" : '')." ({$this->duracion} min)";
+            return ($horas !== '' ? $horas : '0').' h';
         });
     }
 
@@ -199,7 +291,7 @@ class Experiencia extends Model
     protected function precioActualTexto(): Attribute
     {
         return Attribute::get(fn () => (float) $this->precio_actual <= 0
-            ? 'Precio por confirmar'
+            ? ($this->tipo_precio !== 'persona' ? 'Por grupo' : 'Precio por confirmar')
             : '$'.number_format((float) $this->precio_actual, 2).' MXN');
     }
 
@@ -212,11 +304,21 @@ class Experiencia extends Model
         return (float) ($this->pivot?->precio_unitario ?? $this->precio);
     }
 
+    /** Total de esta experiencia en la reservación: el que se fijó al pedir o, si no hay, precio × personas. */
+    public function totalEnSolicitud(): float
+    {
+        if ($this->pivot?->precio_total !== null) {
+            return (float) $this->pivot->precio_total;
+        }
+
+        return $this->precioEnSolicitud() * (int) $this->pivot?->cant_persona;
+    }
+
     protected function precioTexto(): Attribute
     {
         return Attribute::get(function () {
             if ((float) $this->precio <= 0) {
-                return 'Precio por confirmar';
+                return $this->tipo_precio !== 'persona' ? 'Por grupo' : 'Precio por confirmar';
             }
 
             return '$'.number_format((float) $this->precio, 2).' MXN';

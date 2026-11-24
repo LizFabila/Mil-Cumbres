@@ -190,8 +190,14 @@
                                 </div>
 
                                 <div class="mc-c09__pedido-item-precio">
-                                    <strong>${{ number_format($experiencia->precioEnSolicitud() * $personas, 2) }}</strong>
-                                    <small>${{ number_format($experiencia->precioEnSolicitud(), 2) }} × {{ $personas }}</small>
+                                    <strong>${{ number_format($experiencia->totalEnSolicitud(), 2) }}</strong>
+                                    <small>
+                                        @if ($experiencia->grupoPara((int) $personas))
+                                            Precio del grupo de {{ $personas }}
+                                        @else
+                                            ${{ number_format($experiencia->precioEnSolicitud(), 2) }} × {{ $personas }}
+                                        @endif
+                                    </small>
                                 </div>
                             </li>
                         @endforeach

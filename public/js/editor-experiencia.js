@@ -19,6 +19,25 @@
         });
     }
 
+    // Grupos de precio: agregar / quitar filas.
+    const contenedorGrupos = document.getElementById('grupos');
+    const plantillaGrupo = document.getElementById('plantilla-grupo');
+    const agregarGrupo = document.getElementById('agregar-grupo');
+    let siguienteGrupo = contenedorGrupos ? contenedorGrupos.children.length : 0;
+
+    if (agregarGrupo && plantillaGrupo && contenedorGrupos) {
+        agregarGrupo.addEventListener('click', function () {
+            const html = plantillaGrupo.innerHTML.replaceAll('__I__', 'g' + siguienteGrupo++);
+            contenedorGrupos.insertAdjacentHTML('beforeend', html);
+            window.mcAplicarTipoPrecio?.();
+        });
+
+        contenedorGrupos.addEventListener('click', function (e) {
+            const boton = e.target.closest('[data-quitar]');
+            if (boton) boton.closest('.grupo-fila').remove();
+        });
+    }
+
     const vista = document.getElementById('vista-imagen');
     const archivo = document.getElementById('imagen_archivo');
     const url = document.getElementById('imagen_url');
@@ -33,4 +52,33 @@
             if (url.value) vista.src = url.value;
         });
     }
+})();
+
+// Cómo se cobra: precio por persona y/o por grupo. Lo que no aplica se oculta y no se envía.
+(function () {
+    const persona = document.querySelector('input[name="cobra_persona"]');
+    const grupo = document.querySelector('input[name="cobra_grupo"]');
+    const campoPrecio = document.querySelector('[data-precio-campo]');
+    const precio = document.getElementById('precio');
+    const panelGrupos = document.querySelector('[data-grupos-panel]');
+    const contenedor = document.getElementById('grupos');
+
+    if (!persona || !grupo || !campoPrecio || !panelGrupos || !contenedor) return;
+
+    function aplicarTipo() {
+        const usaPersona = persona.checked;
+        const usaGrupos = grupo.checked;
+
+        campoPrecio.hidden = !usaPersona;
+        precio.disabled = !usaPersona;
+        panelGrupos.hidden = !usaGrupos;
+        contenedor.querySelectorAll('input').forEach((i) => { i.disabled = !usaGrupos; });
+
+        [persona, grupo].forEach((c) => c.closest('.of-adm-opcion')?.classList.toggle('is-elegida', c.checked));
+    }
+
+    window.mcAplicarTipoPrecio = aplicarTipo;
+    persona.addEventListener('change', aplicarTipo);
+    grupo.addEventListener('change', aplicarTipo);
+    aplicarTipo();
 })();

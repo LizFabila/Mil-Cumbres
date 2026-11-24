@@ -21,9 +21,21 @@ class Oferta extends Model
     protected $table = 'ofertas';
     protected $primaryKey = 'id_oferta';
 
-    public const MODOS = ['porcentaje' => 'Porcentaje', 'precio' => 'Precio fijo'];
+    /** Tipos de descuento. 'precio' y 'cantidad' dependen de a qué aplica (ver MODOS_POR_APLICA). */
+    public const MODOS = [
+        'porcentaje' => 'Porcentaje',
+        'precio' => 'Precio fijo por persona',
+        'cantidad' => 'Monto de descuento al grupo',
+    ];
 
-    protected $fillable = ['id_experiencia', 'modo', 'valor', 'etiqueta', 'inicia', 'termina'];
+    public const APLICA = ['persona' => 'persona individual', 'grupo' => 'grupo'];
+
+    public const MODOS_POR_APLICA = [
+        'persona' => ['porcentaje', 'precio'],
+        'grupo' => ['porcentaje', 'cantidad'],
+    ];
+
+    protected $fillable = ['id_experiencia', 'aplica_a', 'grupo_personas', 'modo', 'valor', 'etiqueta', 'inicia', 'termina'];
 
     protected function casts(): array
     {
@@ -36,6 +48,9 @@ class Oferta extends Model
 
     /** Ofertas vigentes por experiencia, cargadas una sola vez por petición. */
     private static ?Collection $vigentesCache = null;
+
+    /** Ofertas de grupo vigentes, cargadas una sola vez por petición. */
+    private static ?Collection $gruposCache = null;
 
     public function experiencia(): BelongsTo
     {
@@ -62,7 +77,7 @@ class Oferta extends Model
         }
 
         try {
-            $ofertas = static::vigentes()->with('experiencia')->get();
+            $ofertas = static::vigentes()->where('aplica_a', 'persona')->with('experiencia')->get();
         } catch (QueryException) {
             $ofertas = collect();
         }
@@ -74,16 +89,55 @@ class Oferta extends Model
             ->keyBy('id_experiencia');
     }
 
+    /** Ofertas de grupo vigentes, agrupadas por id_experiencia (cada una dice a qué grupo aplica). */
+    public static function vigentesGruposPorExperiencia(): Collection
+    {
+        if (static::$gruposCache !== null) {
+            return static::$gruposCache;
+        }
+
+        try {
+            $ofertas = static::vigentes()->where('aplica_a', 'grupo')->get();
+        } catch (QueryException) {
+            $ofertas = collect();
+        }
+
+        return static::$gruposCache = $ofertas->groupBy('id_experiencia');
+    }
+
+    /** Descuento de esta oferta sobre el precio total de un grupo. */
+    public function aplicarAGrupo(float $total): float
+    {
+        if ($this->modo === 'cantidad') {
+            return round(max(0, $total - (float) $this->valor), 2);
+        }
+
+        return round($total * (100 - (float) $this->valor) / 100, 2);
+    }
+
     /** Para pruebas o después de guardar una oferta en la misma petición. */
     public static function olvidarCache(): void
     {
         static::$vigentesCache = null;
+        static::$gruposCache = null;
     }
 
-    /** Precio final por persona con la oferta aplicada. */
+    /** Total del grupo al que aplica (solo ofertas de grupo); null si no es de grupo o ya no existe. */
+    public function precioBaseGrupo(): ?float
+    {
+        $grupo = $this->experiencia?->grupos->firstWhere('personas', $this->grupo_personas);
+
+        return $grupo ? (float) $grupo->precio : null;
+    }
+
+    /** Precio final con la oferta: por persona (persona individual) o total del grupo (grupo). */
     protected function precioOferta(): Attribute
     {
         return Attribute::get(function () {
+            if ($this->aplica_a === 'grupo') {
+                return $this->precioBaseGrupo() !== null ? $this->aplicarAGrupo($this->precioBaseGrupo()) : null;
+            }
+
             $precio = (float) $this->experiencia?->precio;
 
             return $this->modo === 'precio'
@@ -96,13 +150,15 @@ class Oferta extends Model
     protected function porcentaje(): Attribute
     {
         return Attribute::get(function () {
-            $precio = (float) $this->experiencia?->precio;
-
             if ($this->modo === 'porcentaje') {
                 return (int) round((float) $this->valor);
             }
 
-            return $precio > 0 ? (int) round(100 - $this->precio_oferta * 100 / $precio) : 0;
+            $base = $this->aplica_a === 'grupo'
+                ? (float) $this->precioBaseGrupo()
+                : (float) $this->experiencia?->precio;
+
+            return $base > 0 ? (int) round(100 - (float) $this->precio_oferta * 100 / $base) : 0;
         });
     }
 

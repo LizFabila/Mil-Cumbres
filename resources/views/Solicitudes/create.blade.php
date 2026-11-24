@@ -168,6 +168,7 @@
                                             name="experiencias[]"
                                             value="{{ $exp->id_experiencia }}"
                                             data-precio="{{ $exp->precio_actual }}"
+                                            data-grupos='@json($exp->gruposParaJs())'
                                             data-dias="{{ $exp->disponibilidades->pluck('dias_semana')->unique()->implode(',') }}"
                                             @checked(
                                                 in_array(
@@ -219,6 +220,11 @@
                                             @endif
                                             {{ $exp->precio_actual_texto }}
                                         </strong>
+                                        @foreach ($exp->grupos as $grupo)
+                                            <small class="mc-c06__opcion-grupo">
+                                                Grupo {{ $grupo->rangoTexto() }}: ${{ number_format($exp->precioGrupoActual($grupo), 2) }}
+                                            </small>
+                                        @endforeach
                                     </label>
                                         <div
                                             class="campo fecha-experiencia"
@@ -743,21 +749,25 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             const precio = Number(check.dataset.precio) || 0;
+            const grupos = JSON.parse(check.dataset.grupos || '[]');
             const bloque = bloques.find(b => b.dataset.experiencia === check.value);
             const campo = bloque ? bloque.querySelector('.personas-exp') : null;
             const cantidad = Math.max(0, Number(campo ? campo.value : 0) || 0);
+            const grupo = grupos.find(g => cantidad >= g.desde && cantidad <= g.hasta);
+            const monto = grupo ? grupo.precio : precio * cantidad;
+            const sinMonto = !grupo && precio <= 0;
 
-            if (precio <= 0) {
+            if (sinMonto) {
                 sinPrecio = true;
             }
 
-            suma += precio * cantidad;
+            suma += monto;
 
             if (subtotal) {
                 subtotal.hidden = false;
-                subtotal.querySelector('strong').textContent = precio > 0
-                    ? formatoMoneda.format(precio * cantidad)
-                    : 'Por confirmar';
+                subtotal.querySelector('strong').textContent = sinMonto
+                    ? 'Por confirmar'
+                    : formatoMoneda.format(monto);
             }
         });
 

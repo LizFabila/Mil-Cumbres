@@ -1,11 +1,13 @@
 {{-- Ofertas: alta y edición
-     Tablas: ofertas, experiencias --}}
+     Tablas: ofertas, experiencias, experiencia_grupos --}}
 @extends('layouts.admin')
 
 @php
     $editando = $oferta->exists;
+    $aplica = old('aplica_a', $oferta->aplica_a ?? 'persona');
     $modo = old('modo', $oferta->modo ?? 'porcentaje');
     $idSel = (int) old('id_experiencia', $oferta->id_experiencia);
+    $grupoSel = (int) old('grupo_personas', $oferta->grupo_personas);
     $expSel = $experiencias->firstWhere('id_experiencia', $idSel) ?? $experiencias->first();
 @endphp
 
@@ -13,6 +15,7 @@
 
 @push('estilos')
     <link rel="stylesheet" href="{{ \App\Support\Temas::hoja('ofertas-milcumbres.css') }}">
+    <style>[hidden] { display: none !important; }</style>
 @endpush
 
 @section('contenido')
@@ -54,14 +57,61 @@
                 </div>
 
                 <fieldset class="campo completo">
+                    <legend>¿A quién aplica?</legend>
+                    <div class="of-adm-opciones">
+                        @foreach (\App\Models\Oferta::APLICA as $clave => $nombre)
+                            <label @class(['of-adm-opcion', 'is-elegida' => $aplica === $clave])>
+                                <input type="radio" name="aplica_a" value="{{ $clave }}" @checked($aplica === $clave)>
+                                <span>
+                                    <strong>{{ $clave === 'persona' ? 'Persona individual' : 'Un grupo' }}</strong>
+                                    <small>{{ $clave === 'persona' ? 'Baja el precio por persona.' : 'Baja el precio total de un grupo.' }}</small>
+                                </span>
+                            </label>
+                        @endforeach
+                    </div>
+                    @error('aplica_a') <span class="error">{{ $message }}</span> @enderror
+                </fieldset>
+
+                <div class="campo completo" data-of-grupo-campo @if ($aplica !== 'grupo') hidden @endif>
+                    <label for="grupo_personas">Grupo</label>
+                    <select @class(['control', 'es-invalido' => $errors->has('grupo_personas')]) id="grupo_personas" name="grupo_personas">
+                        @foreach ($experiencias as $e)
+                            @foreach ($e->grupos as $g)
+                                <option value="{{ $g->personas }}" data-exp="{{ $e->id_experiencia }}" data-precio="{{ (float) $g->precio }}"
+                                        @selected($grupoSel === (int) $g->personas && $idSel === (int) $e->id_experiencia)>
+                                    Grupo {{ $g->rangoTexto() }} — ${{ number_format((float) $g->precio, 2) }} total
+                                </option>
+                            @endforeach
+                        @endforeach
+                    </select>
+                    <span class="ayuda" data-of-grupo-aviso @if ($experiencias->flatMap->grupos->isNotEmpty()) hidden @endif>
+                        Esta experiencia no tiene grupos. <a href="{{ $expSel ? route('admin.experiencias.edit', $expSel) : route('admin.experiencias.index') }}">Agrega grupos en la experiencia</a>.
+                    </span>
+                    @error('grupo_personas') <span class="error">{{ $message }}</span> @enderror
+                </div>
+
+                <fieldset class="campo completo">
                     <legend>Tipo de descuento</legend>
                     <div class="of-adm-opciones">
                         @foreach (\App\Models\Oferta::MODOS as $clave => $nombre)
-                            <label @class(['of-adm-opcion', 'is-elegida' => $modo === $clave])>
+                            @php
+                                $permitidoPara = collect(\App\Models\Oferta::MODOS_POR_APLICA)
+                                    ->filter(fn ($modos) => in_array($clave, $modos, true))
+                                    ->keys()
+                                    ->implode(',');
+                            @endphp
+                            <label @class(['of-adm-opcion', 'is-elegida' => $modo === $clave]) data-of-modo="{{ $permitidoPara }}"
+                                   @if (! str_contains($permitidoPara, $aplica)) hidden @endif>
                                 <input type="radio" name="modo" value="{{ $clave }}" @checked($modo === $clave)>
                                 <span>
                                     <strong>{{ $nombre }}</strong>
-                                    <small>{{ $clave === 'porcentaje' ? 'Ej. 20 % menos' : 'Ej. $520 por persona' }}</small>
+                                    <small>
+                                        @switch($clave)
+                                            @case('porcentaje') Ej. 20 % menos @break
+                                            @case('precio') Ej. $520 por persona @break
+                                            @case('cantidad') Ej. $300 menos al total del grupo @break
+                                        @endswitch
+                                    </small>
                                 </span>
                             </label>
                         @endforeach
@@ -70,7 +120,7 @@
                 </fieldset>
 
                 <div class="campo">
-                    <label for="valor" data-of-valor-label>{{ $modo === 'precio' ? 'Precio de oferta por persona (MXN)' : 'Descuento (%)' }}</label>
+                    <label for="valor" data-of-valor-label>Descuento (%)</label>
                     <input @class(['control', 'es-invalido' => $errors->has('valor')]) type="number" id="valor" name="valor"
                            min="0" step="0.01" value="{{ old('valor', $oferta->valor !== null ? (float) $oferta->valor : '') }}" required>
                     <span class="ayuda" data-of-resultado></span>
@@ -122,7 +172,7 @@
                     <p class="mc-oferta__etiqueta" data-of-v-etiqueta></p>
                     <div class="mc-oferta__precios">
                         <del data-of-v-antes></del>
-                        <strong><span data-of-v-precio></span> <small>MXN por persona</small></strong>
+                        <strong><span data-of-v-precio></span> <small data-of-v-unidad>MXN por persona</small></strong>
                     </div>
                     <p class="mc-oferta__vigencia" data-of-v-vigencia></p>
                     <span class="mc-oferta__cta">Reservar con descuento <span aria-hidden="true">↗</span></span>
@@ -136,7 +186,7 @@
 
 @push('scripts')
 <script>
-// Vista previa en vivo de la tarjeta de oferta.
+// Vista previa en vivo de la oferta: persona individual o grupo.
 (() => {
     const form = document.querySelector('[data-of-form]');
     if (!form) return;
@@ -144,28 +194,85 @@
     const $ = (s) => form.querySelector(s);
     const dinero = (n) => '$' + Math.round(n).toLocaleString('es-MX');
     const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    const etiquetasValor = {
+        'persona:porcentaje': 'Descuento (%)',
+        'persona:precio': 'Precio de oferta por persona (MXN)',
+        'grupo:porcentaje': 'Descuento (%) sobre el total del grupo',
+        'grupo:cantidad': 'Monto a descontar del total del grupo (MXN)',
+    };
+
+    function aplicaActual() {
+        return form.querySelector('input[name="aplica_a"]:checked')?.value || 'persona';
+    }
+
+    // Muestra solo los grupos de la experiencia elegida y los tipos de descuento que aplican.
+    function filtrarOpciones() {
+        const aplica = aplicaActual();
+        const idExp = $('#id_experiencia').value;
+        const select = $('#grupo_personas');
+        let visibles = 0;
+
+        select.querySelectorAll('option').forEach((o) => {
+            const ok = o.dataset.exp === idExp;
+            o.hidden = !ok;
+            o.disabled = !ok;
+            if (ok) visibles++;
+        });
+
+        if (select.selectedOptions[0]?.disabled) {
+            const primera = [...select.options].find((o) => !o.disabled);
+            if (primera) primera.selected = true;
+        }
+
+        $('[data-of-grupo-campo]').hidden = aplica !== 'grupo';
+        $('[data-of-grupo-aviso]').hidden = aplica !== 'grupo' || visibles > 0;
+        select.disabled = aplica !== 'grupo';
+
+        form.querySelectorAll('[data-of-modo]').forEach((l) => {
+            const permitido = l.dataset.ofModo.split(',').includes(aplica);
+            l.hidden = !permitido;
+            if (!permitido && l.querySelector('input').checked) {
+                l.querySelector('input').checked = false;
+                const primero = form.querySelector(`[data-of-modo*="${aplica}"] input`);
+                if (primero) primero.checked = true;
+            }
+        });
+    }
 
     function pintar() {
-        const opcion = $('#id_experiencia').selectedOptions[0];
-        const precio = Number(opcion.dataset.precio) || 0;
+        filtrarOpciones();
+
+        const aplica = aplicaActual();
         const modo = form.querySelector('input[name="modo"]:checked')?.value || 'porcentaje';
         const valor = Number($('#valor').value) || 0;
+        const opcionExp = $('#id_experiencia').selectedOptions[0];
+        const opcionGrupo = $('#grupo_personas').selectedOptions[0];
 
-        const final = modo === 'precio' ? valor : precio * (100 - valor) / 100;
-        const pct = modo === 'precio' ? (precio > 0 ? Math.round(100 - final * 100 / precio) : 0) : Math.round(valor);
+        const esGrupo = aplica === 'grupo' && opcionGrupo && !opcionGrupo.disabled;
+        const base = esGrupo ? Number(opcionGrupo.dataset.precio) || 0 : Number(opcionExp.dataset.precio) || 0;
 
-        form.querySelectorAll('.of-adm-opcion').forEach((l) => l.classList.toggle('is-elegida', l.querySelector('input').checked));
-        $('[data-of-valor-label]').textContent = modo === 'precio' ? 'Precio de oferta por persona (MXN)' : 'Descuento (%)';
-        $('[data-of-resultado]').innerHTML = valor > 0 && final > 0
-            ? `Precio con oferta: <strong>${dinero(final)}</strong> (antes ${dinero(precio)})`
-            : `Precio normal: ${dinero(precio)} por persona`;
+        let final = base;
+        if (modo === 'porcentaje') final = base * (100 - valor) / 100;
+        if (modo === 'precio') final = valor;
+        if (modo === 'cantidad') final = base - valor;
+        final = Math.max(0, final);
 
-        $('[data-of-v-imagen]').src = opcion.dataset.imagen;
-        $('[data-of-v-meta]').textContent = opcion.dataset.meta;
-        $('[data-of-v-nombre]').textContent = opcion.textContent.split(' — ')[0].trim();
+        const pct = base > 0 ? Math.round(100 - final * 100 / base) : 0;
+
+        $('[data-of-valor-label]').textContent = etiquetasValor[aplica + ':' + modo] || 'Descuento';
+        const unidad = esGrupo ? 'MXN el grupo' : 'MXN por persona';
+        $('[data-of-v-unidad]').textContent = unidad;
+
+        $('[data-of-resultado]').innerHTML = valor > 0 && final > 0 && final < base
+            ? `Precio con oferta: <strong>${dinero(final)}</strong> (antes ${dinero(base)})`
+            : `Precio normal: ${dinero(base)}${esGrupo ? ' el grupo' : ' por persona'}`;
+
+        $('[data-of-v-imagen]').src = opcionExp.dataset.imagen;
+        $('[data-of-v-meta]').textContent = opcionExp.dataset.meta;
+        $('[data-of-v-nombre]').textContent = opcionExp.textContent.split(' — ')[0].trim();
         $('[data-of-v-sello]').textContent = '−' + Math.max(0, pct) + '%';
-        $('[data-of-v-antes]').textContent = dinero(precio);
-        $('[data-of-v-precio]').textContent = dinero(Math.max(0, final));
+        $('[data-of-v-antes]').textContent = dinero(base);
+        $('[data-of-v-precio]').textContent = dinero(final);
 
         const etiqueta = $('#etiqueta').value.trim();
         $('[data-of-v-etiqueta]').textContent = etiqueta;
@@ -176,6 +283,8 @@
             const [a, m, d] = fin.split('-').map(Number);
             $('[data-of-v-vigencia]').textContent = `Válida hasta el ${d} de ${meses[m - 1]}`;
         }
+
+        form.querySelectorAll('.of-adm-opcion').forEach((l) => l.classList.toggle('is-elegida', l.querySelector('input').checked));
     }
 
     form.addEventListener('input', pintar);

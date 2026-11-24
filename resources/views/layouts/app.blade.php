@@ -491,11 +491,14 @@
                 {{-- BOTÓN DESTACADO DEL ENCABEZADO --}}
                 @auth
 
-                    <a href="{{ route('solicitudes.create') }}"
-                       class="mc-hub__primary-cta">
-                        Reservar
-                        <span aria-hidden="true">↗</span>
-                    </a>
+                    {{-- El administrador no ve el botón de reservar en la vista de cliente --}}
+                    @unless (auth()->user()?->esAdmin())
+                        <a href="{{ route('solicitudes.create') }}"
+                           class="mc-hub__primary-cta">
+                            Reservar
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                    @endunless
 
                 @else
 

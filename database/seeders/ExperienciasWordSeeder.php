@@ -44,7 +44,7 @@ class ExperienciasWordSeeder extends Seeder
                     'id_zona' => $zona->id_zona,
                     'id_catalogo_exp' => null,
                     'resumen' => $e['resumen'],
-                    'duracion' => 180,
+                    'duracion' => 3,
                     'precio' => 0,
                     'requisitos' => $e['requisitos'],
                     'imagen' => $this->copiarFoto($e['foto']),

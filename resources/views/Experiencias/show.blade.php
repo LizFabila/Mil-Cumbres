@@ -219,6 +219,10 @@
                     <div class="mc-detalle-hero__dato">
                         <small>{{ $experiencia->oferta_actual ? 'PRECIO DE OFERTA' : 'PRECIO' }}</small>
                         <strong>{{ $experiencia->precio_actual_texto }}</strong>
+                        @foreach ($experiencia->grupos as $grupo)
+                            <small class="mc-detalle-hero__grupo">Grupo {{ $grupo->rangoTexto() }}</small>
+                            <strong class="mc-detalle-hero__grupo-precio">${{ number_format($experiencia->precioGrupoActual($grupo), 2) }} MXN</strong>
+                        @endforeach
                     </div>
 
                 </div>
@@ -289,6 +293,7 @@
                                 · válido hasta el {{ $experiencia->oferta_actual->termina->translatedFormat('j \d\e F') }}
                             @endif
                         </small>
+
                     </div>
 
 
@@ -347,6 +352,7 @@
                     <div
                         class="mc-detalle-reserva__item"
                         data-precio="{{ (float) $experiencia->precio_actual }}"
+                        data-grupos='@json($experiencia->gruposParaJs())'
                     >
 
                         <input
@@ -522,7 +528,7 @@
                             @endif
                         </strong>
                         <small id="mc-detalle-total-detalle">
-                            Precio por persona × participantes.
+                            Precio por persona × participantes, o precio del grupo si coincide con el número de personas.
                         </small>
                     </div>
 
@@ -648,17 +654,18 @@ document.addEventListener('DOMContentLoaded', function () {
     function recalcularTotal() {
         if (!totalCampo || !personasPrincipal) return;
 
-        const precio = Number(
-            document.querySelector('.mc-detalle-reserva__item').dataset.precio
-        ) || 0;
+        const item = document.querySelector('.mc-detalle-reserva__item');
+        const precio = Number(item.dataset.precio) || 0;
+        const grupos = JSON.parse(item.dataset.grupos || '[]');
+        const cantidad = Math.max(1, Number(personasPrincipal.value) || 1);
+        const grupo = grupos.find(g => cantidad >= g.desde && cantidad <= g.hasta);
 
-        if (precio <= 0) {
+        if (!grupo && precio <= 0) {
             totalCampo.textContent = 'Por confirmar';
             return;
         }
 
-        const cantidad = Math.max(1, Number(personasPrincipal.value) || 1);
-        totalCampo.textContent = formatoMoneda.format(precio * cantidad);
+        totalCampo.textContent = formatoMoneda.format(grupo ? grupo.precio : precio * cantidad);
     }
 
     if (personasPrincipal) {

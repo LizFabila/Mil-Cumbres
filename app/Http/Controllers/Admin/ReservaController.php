@@ -102,6 +102,7 @@ class ReservaController extends Controller
                     'cant_persona' => (int) $fila['personas'],
                     // Precio por persona de hoy (con oferta, si la hay): queda fijo en la reservación.
                     'precio_unitario' => $exp->precio_actual,
+                    'precio_total' => $exp->precioParaPersonas((int) $fila['personas']),
                     'nota' => $fila['nota'] ?? null,
                     'id_disponibilidad' => (int) $fila['id_disponibilidad'],
                 ];

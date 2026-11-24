@@ -20,7 +20,7 @@ class ExperienciaController extends Controller
     /** A06 · Experiencias */
     public function index(): View
     {
-        $experiencias = Experiencia::with(['zona', 'zonas', 'catalogo'])
+        $experiencias = Experiencia::with(['zona', 'zonas', 'catalogo', 'grupos'])
             ->withCount('disponibilidades')
             ->orderBy('nombre')
             ->paginate(15);
@@ -43,6 +43,7 @@ class ExperienciaController extends Controller
             $experiencia = Experiencia::create($this->conImagen($request, $datos));
             $experiencia->sincronizarZonas($datos['zonas']);
             $this->guardarHorarios($experiencia, $datos['horarios'] ?? []);
+            $experiencia->sincronizarGrupos($datos['grupos'] ?? []);
             $this->guardarGaleria($request, $experiencia);
         });
 
@@ -52,7 +53,7 @@ class ExperienciaController extends Controller
     /** A07 · Editor (edición) */
     public function edit(Experiencia $experiencia): View
     {
-        $experiencia->load(['disponibilidades', 'zonas', 'imagenes']);
+        $experiencia->load(['disponibilidades', 'zonas', 'imagenes', 'grupos']);
 
         return view('Dashboard.experiencias.form', $this->datosFormulario($experiencia));
     }
@@ -66,6 +67,7 @@ class ExperienciaController extends Controller
             $experiencia->update($this->conImagen($request, $datos, $experiencia));
             $experiencia->sincronizarZonas($datos['zonas']);
             $this->guardarHorarios($experiencia, $datos['horarios'] ?? []);
+            $experiencia->sincronizarGrupos($datos['grupos'] ?? []);
             $this->guardarGaleria($request, $experiencia);
         });
 
@@ -141,20 +143,27 @@ class ExperienciaController extends Controller
                 'fin' => substr($d->hora_fin, 0, 5),
                 'cupo' => $d->pivot->cupo,
             ])->all()),
+            'grupos' => old('grupos', $experiencia->grupos->map(fn ($g) => [
+                'desde' => $g->personas,
+                'hasta' => $g->personas_hasta ?? $g->personas,
+                'precio' => (float) $g->precio,
+            ])->values()->all()),
         ];
     }
 
     private function validar(Request $request): array
     {
-        return $request->validate([
+        $datos = $request->validate([
             'nombre' => ['required', 'string', 'max:100'],
             'zonas' => ['required', 'array', 'min:1'],
             'zonas.*' => ['integer', 'distinct', 'exists:zonas,id_zona,deleted_at,NULL'],
             'zona_principal' => ['nullable', 'integer'],
             'resumen' => ['nullable', 'string', 'max:2000'],
             'temporada' => ['nullable', 'string', 'max:50'],
-            'duracion' => ['required', 'integer', 'min:1', 'max:65535'],
-            'precio' => ['required', 'numeric', 'min:0', 'max:99999999.99'],
+            'duracion' => ['required', 'numeric', 'min:0.25', 'max:999.99'],
+            'precio' => ['nullable', 'numeric', 'min:0', 'max:99999999.99'],
+            'cobra_persona' => ['nullable', 'boolean'],
+            'cobra_grupo' => ['nullable', 'boolean'],
             'requisitos' => ['nullable', 'string', 'max:2000'],
             'imagen_url' => ['nullable', 'url', 'max:255'],
             'imagen_archivo' => ['nullable', 'image', 'max:4096'],
@@ -167,17 +176,82 @@ class ExperienciaController extends Controller
             'horarios.*.inicio' => ['required', 'date_format:H:i'],
             'horarios.*.fin' => ['required', 'date_format:H:i', 'after:horarios.*.inicio'],
             'horarios.*.cupo' => ['required', 'integer', 'min:1', 'max:65535'],
+            'grupos' => ['nullable', 'array'],
+            'grupos.*.desde' => ['required', 'integer', 'min:1', 'max:999'],
+            'grupos.*.hasta' => ['required', 'integer', 'min:1', 'max:999'],
+            'grupos.*.precio' => ['required', 'numeric', 'min:0', 'max:99999999.99'],
         ], [
+            'grupos.*.desde.required' => 'Indica desde cuántas personas es el grupo.',
+            'grupos.*.hasta.required' => 'Indica hasta cuántas personas es el grupo.',
+            'grupos.*.precio.required' => 'Indica el precio total de cada grupo.',
             'horarios.*.fin.after' => 'La hora de fin debe ser mayor que la de inicio.',
             'zonas.required' => 'Elige al menos una zona.',
             'zonas.min' => 'Elige al menos una zona.',
         ]);
+
+        return $this->normalizarPrecios($datos);
+    }
+
+    /**
+     * Las casillas "precio por persona" y "precio por grupo" pueden ir juntas.
+     * Cada tipo marcado exige su precio, así la experiencia nunca se queda sin costo.
+     */
+    private function normalizarPrecios(array $datos): array
+    {
+        $persona = (bool) ($datos['cobra_persona'] ?? false);
+        $grupo = (bool) ($datos['cobra_grupo'] ?? false);
+
+        if (! $persona && ! $grupo) {
+            throw ValidationException::withMessages(['tipo_precio' => 'Marca al menos un tipo de precio.']);
+        }
+
+        $tipo = $persona && $grupo ? 'ambos' : ($persona ? 'persona' : 'grupo');
+        $precio = $persona ? (float) ($datos['precio'] ?? 0) : 0.0;
+        $crudos = $grupo ? array_values($datos['grupos'] ?? []) : [];
+
+        $grupos = [];
+        foreach ($crudos as $g) {
+            $desde = (int) $g['desde'];
+            $hasta = (int) $g['hasta'];
+
+            if ($hasta < $desde) {
+                throw ValidationException::withMessages([
+                    'grupos' => 'En cada grupo, "hasta" debe ser igual o mayor que "desde".',
+                ]);
+            }
+
+            $grupos[] = ['personas' => $desde, 'personas_hasta' => $hasta, 'precio' => $g['precio']];
+        }
+
+        usort($grupos, fn ($a, $b) => $a['personas'] <=> $b['personas']);
+
+        for ($i = 1; $i < count($grupos); $i++) {
+            if ($grupos[$i]['personas'] <= $grupos[$i - 1]['personas_hasta']) {
+                throw ValidationException::withMessages(['grupos' => 'Los rangos de grupo no pueden cruzarse.']);
+            }
+        }
+
+        $hayGrupoConPrecio = collect($grupos)->contains(fn ($g) => (float) $g['precio'] > 0);
+
+        if ($persona && $precio <= 0) {
+            throw ValidationException::withMessages(['precio' => 'Indica el precio por persona.']);
+        }
+
+        if ($grupo && ! $hayGrupoConPrecio) {
+            throw ValidationException::withMessages(['grupos' => 'Agrega al menos un grupo con precio.']);
+        }
+
+        $datos['tipo_precio'] = $tipo;
+        $datos['precio'] = $precio;
+        $datos['grupos'] = $grupos;
+
+        return $datos;
     }
 
     /** Archivo subido > URL escrita > imagen que ya tenía. */
     private function conImagen(Request $request, array $datos, ?Experiencia $actual = null): array
     {
-        $campos = collect($datos)->except(['imagen_url', 'imagen_archivo', 'horarios', 'zonas', 'zona_principal'])->all();
+        $campos = collect($datos)->except(['imagen_url', 'imagen_archivo', 'horarios', 'grupos', 'zonas', 'zona_principal'])->all();
 
         // Zona principal: la marcada como principal si está entre las elegidas; si no, la primera.
         $zonas = array_map('intval', $datos['zonas']);
