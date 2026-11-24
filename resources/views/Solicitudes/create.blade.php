@@ -329,12 +329,12 @@
                                                         <div class="mc-c06__modalidad-filas">
                                                         <label class="mc-c06__modalidad-opcion">
                                                             <input type="radio" name="modalidad[{{ $exp->id_experiencia }}]" value="persona" data-modalidad-radio @checked(($modalidadPrevias[$exp->id_experiencia] ?? 'persona') === 'persona') disabled>
-                                                            <span>Por persona</span>
+                                                            <span>Pago por persona</span>
                                                             <small data-modalidad-detalle="persona"></small>
                                                         </label>
                                                         <label class="mc-c06__modalidad-opcion">
                                                             <input type="radio" name="modalidad[{{ $exp->id_experiencia }}]" value="grupo" data-modalidad-radio @checked(($modalidadPrevias[$exp->id_experiencia] ?? null) === 'grupo') disabled>
-                                                            <span>Por grupo</span>
+                                                            <span>Pago por grupo</span>
                                                             <small data-modalidad-detalle="grupo"></small>
                                                         </label>
                                                         </div>
