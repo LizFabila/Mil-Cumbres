@@ -27,6 +27,7 @@ class AsignaExperiencia extends Pivot
         'cant_persona',
         'precio_unitario',
         'precio_total',
+        'modalidad_precio',
         'nota',
     ];
 

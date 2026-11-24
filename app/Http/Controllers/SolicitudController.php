@@ -27,6 +27,7 @@ class SolicitudController extends Controller
             'personas' => (array) $request->query('personas', []),
             'notas' => (array) $request->query('notas', []),
             'horarios' => (array) $request->query('horarios', []),
+            'modalidad' => (array) $request->query('modalidad', []),
         ]);
     }
 
@@ -45,6 +46,8 @@ class SolicitudController extends Controller
             'personas.*' => ['required', 'integer', 'min:1', 'max:500'],
             'notas' => ['nullable', 'array'],
             'notas.*' => ['nullable', 'string', 'max:1000'],
+            'modalidad' => ['nullable', 'array'],
+            'modalidad.*' => ['nullable', 'in:persona,grupo'],
             'horarios' => ['required', 'array'],
             'horarios.*' => ['required', 'integer'],
         ], [
@@ -68,6 +71,9 @@ class SolicitudController extends Controller
 
         $horarios = $datos['horarios'];
 
+        $modalidades = [];
+        $totales = [];
+
         foreach ($experiencias as $exp) {
             $id = $exp->id_experiencia;
             $fecha = $fechas[$id] ?? null;
@@ -90,6 +96,26 @@ class SolicitudController extends Controller
                     "horarios.$id" => $error,
                 ]);
             }
+
+            // 'ambos': el cliente elige. Solo por grupo o solo por persona: lo define la experiencia.
+            $modalidad = match ($exp->tipo_precio) {
+                'ambos' => $datos['modalidad'][$id] ?? 'persona',
+                'grupo' => 'grupo',
+                default => 'persona',
+            };
+
+            $total = $exp->precioEnModalidad($cantidad, $modalidad);
+
+            if ($total === null) {
+                throw ValidationException::withMessages([
+                    "personas.$id" => $exp->tipo_precio === 'ambos'
+                        ? "Con {$cantidad} personas no hay precio de grupo para {$exp->nombre}. Elige precio por persona o ajusta el número."
+                        : "Con {$cantidad} personas no cae en ningún grupo de {$exp->nombre}. Ajusta el número de personas.",
+                ]);
+            }
+
+            $modalidades[$id] = $modalidad;
+            $totales[$id] = $total;
         }
 
         $primeraFecha = $fechas[$experiencias->first()->id_experiencia];
@@ -108,7 +134,9 @@ class SolicitudController extends Controller
             $notas,
             $horarios,
             $primeraFecha,
-            $cantPersonas
+            $cantPersonas,
+            $modalidades,
+            $totales
         ) {
             $solicitud = Solicitud::create([
                 'fecha_deseada' => $primeraFecha,
@@ -128,7 +156,8 @@ class SolicitudController extends Controller
                     'cant_persona' => (int) $personas[$id],
                     // Precio por persona de hoy (con oferta, si la hay): queda fijo en la reservación.
                     'precio_unitario' => $exp->precio_actual,
-                    'precio_total' => $exp->precioParaPersonas((int) $personas[$id]),
+                    'modalidad_precio' => $modalidades[$id],
+                    'precio_total' => $totales[$id],
                     'nota' => $notas[$id] ?? null,
                     'id_disponibilidad' => (int) $horarios[$id],
                 ];

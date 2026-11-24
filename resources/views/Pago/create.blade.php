@@ -192,10 +192,10 @@
                                 <div class="mc-c09__pedido-item-precio">
                                     <strong>${{ number_format($experiencia->totalEnSolicitud(), 2) }}</strong>
                                     <small>
-                                        @if ($experiencia->grupoPara((int) $personas))
-                                            Precio del grupo de {{ $personas }}
+                                        @if ($experiencia->pivot?->modalidad_precio === 'grupo')
+                                            Precio por grupo · {{ $experiencia->pivot->cant_persona }} personas
                                         @else
-                                            ${{ number_format($experiencia->precioEnSolicitud(), 2) }} × {{ $personas }}
+                                            ${{ number_format($experiencia->precioEnSolicitud(), 2) }} × {{ $experiencia->pivot?->cant_persona ?? $personas }}
                                         @endif
                                     </small>
                                 </div>

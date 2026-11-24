@@ -137,6 +137,22 @@ class Experiencia extends Model
         return $grupo ? $this->precioGrupoActual($grupo) : (float) $this->precio_actual * $personas;
     }
 
+    /**
+     * Total para N personas con la modalidad que eligió el cliente.
+     * 'grupo' usa el precio del rango que cubre N; 'persona' usa precio de hoy × N.
+     * Devuelve null si pidió grupo y N no cae en ningún rango.
+     */
+    public function precioEnModalidad(int $personas, string $modalidad): ?float
+    {
+        if ($modalidad !== 'grupo') {
+            return (float) $this->precio_actual * $personas;
+        }
+
+        $grupo = $this->grupoPara($personas);
+
+        return $grupo ? $this->precioGrupoActual($grupo) : null;
+    }
+
     /** Grupos en formato simple para el JavaScript de las páginas de reservación. */
     public function gruposParaJs(): array
     {
@@ -204,7 +220,7 @@ class Experiencia extends Model
             'id_solicitud'
         )
             ->using(AsignaExperiencia::class)
-            ->withPivot('fecha_deseada', 'cant_persona', 'precio_unitario', 'precio_total', 'nota', 'id_disponibilidad')
+            ->withPivot('fecha_deseada', 'cant_persona', 'precio_unitario', 'precio_total', 'modalidad_precio', 'nota', 'id_disponibilidad')
             ->wherePivotNull('deleted_at')
             ->withTimestamps();
     }

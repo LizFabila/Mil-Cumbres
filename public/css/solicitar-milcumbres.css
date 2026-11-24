@@ -1136,3 +1136,15 @@
 
 /* Precio de grupo en la tarjeta de experiencia */
 .mc-c06__opcion-grupo { display: block; font-size: .8rem; opacity: .85; font-weight: 400; }
+
+/* Elección de modalidad de precio (tipo 'ambos') */
+.mc-c06__modalidad { border: 0; margin: 12px 0 0; padding: 0; min-width: 0; }
+.mc-c06__modalidad legend { font-weight: 600; margin-bottom: 8px; padding: 0; }
+.mc-c06__modalidad-filas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mc-c06__modalidad-opcion { display: grid; grid-template-columns: auto 1fr; column-gap: 8px; row-gap: 4px; align-items: center; padding: 12px; border: 1px solid #C9D3C9; border-radius: 8px; cursor: pointer; }
+.mc-c06__modalidad-opcion input { margin: 0; }
+.mc-c06__modalidad-opcion span { font-weight: 600; }
+.mc-c06__modalidad-opcion small { grid-column: 2; font-size: .9rem; opacity: .85; }
+.mc-c06__modalidad-opcion:has(input:checked) { border-color: var(--det-verde, #1E3A5F); box-shadow: inset 0 0 0 1px var(--det-verde, #1E3A5F); }
+.mc-c06__modalidad-opcion:has(input:disabled) { opacity: .45; cursor: not-allowed; }
+@media (max-width: 520px) { .mc-c06__modalidad-filas { grid-template-columns: 1fr; } }
