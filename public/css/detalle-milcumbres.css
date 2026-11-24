@@ -1538,3 +1538,7 @@
 /* Precios por grupo en la reservación */
 .mc-detalle-grupos { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 6px; font-size: .9rem; }
 .mc-detalle-grupos li { display: flex; justify-content: space-between; gap: 12px; padding-top: 6px; border-top: 1px solid rgba(0, 0, 0, .12); }
+
+/* Precio de cada grupo en la banda de datos de la experiencia */
+.mc-detalle-hero__grupo { display: block; margin-top: 4px; font-size: .8rem; opacity: .85; }
+

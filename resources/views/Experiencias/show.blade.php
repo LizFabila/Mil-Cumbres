@@ -219,9 +219,9 @@
                     <div class="mc-detalle-hero__dato">
                         <small>{{ $experiencia->oferta_actual ? 'PRECIO DE OFERTA' : 'PRECIO' }}</small>
                         <strong>{{ $experiencia->precio_actual_texto }}</strong>
-                        @if ($experiencia->grupos->isNotEmpty())
-                            <small>También en grupos de {{ $experiencia->rangosGruposTexto() }} personas</small>
-                        @endif
+                        @foreach ($experiencia->grupos as $grupo)
+                            <small class="mc-detalle-hero__grupo">Grupo {{ $grupo->rangoTexto() }}: ${{ number_format($experiencia->precioGrupoActual($grupo), 2) }} MXN</small>
+                        @endforeach
                     </div>
 
                 </div>
