@@ -43,13 +43,13 @@
                 <td class="num" style="white-space: nowrap;">
                     @if ((float) $exp->precio > 0)
                         <div style="display: flex; justify-content: flex-end; gap: 6px; align-items: baseline; margin-bottom: 4px;">
+                            <small class="texto-suave">Persona:</small>
                             <strong>${{ number_format($exp->precio, 2) }}</strong>
-                            <small class="texto-suave">por persona</small>
                         </div>
                     @endif
                     @foreach ($exp->grupos as $grupo)
                         <div style="display: flex; justify-content: flex-end; gap: 6px; align-items: baseline; margin-bottom: 4px;">
-                            <small class="texto-suave">Grupo {{ $grupo->rangoTexto() }}</small>
+                            <small class="texto-suave">Grupo:</small>
                             <strong>${{ number_format($grupo->precio, 2) }}</strong>
                         </div>
                     @endforeach
