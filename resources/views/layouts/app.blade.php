@@ -145,27 +145,6 @@
                     >
                         <div class="mc-hub__dropdown-content">
 
-                            <div class="mc-hub__dropdown-heading">
-
-                                <div>
-                                    <span class="mc-hub__eyebrow">
-                                        DESCUBRE VALLE DE BRAVO
-                                    </span>
-
-                                    <h2>
-                                        Experiencias para
-                                        <em>cada forma de viajar.</em>
-                                    </h2>
-                                </div>
-
-                                <p>
-                                    Naturaleza, cultura y bienestar.
-                                    Explora nuestras experiencias
-                                    y encuentra tu próxima aventura.
-                                </p>
-
-                            </div>
-
                             {{-- ACCESOS RÁPIDOS --}}
 
                             <div class="mc-hub__quick-links">
