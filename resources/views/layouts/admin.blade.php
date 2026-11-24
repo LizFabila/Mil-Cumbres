@@ -36,6 +36,7 @@
         request()->routeIs('admin.usuarios.*') => 'Usuarios',
         request()->routeIs('admin.apariencia.*') => 'Apariencia',
         request()->routeIs('admin.calificaciones.*') => 'Opiniones',
+        request()->routeIs('admin.ofertas.*') => 'Ofertas',
         default => 'Administración',
     };
 @endphp
@@ -51,6 +52,7 @@
     <symbol id="mc-i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M17 5a3 3 0 0 1 0 6M17 14a5 5 0 0 1 4 5v1"/></symbol>
     <symbol id="mc-i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
     <symbol id="mc-i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0 0 18c1.1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4c0-4.4-4-7-9-7Z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7.5" r="1"/><circle cx="14.5" cy="7.5" r="1"/></symbol>
+    <symbol id="mc-i-tag" viewBox="0 0 24 24"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9Z"/><circle cx="8" cy="8" r="1.5"/></symbol>
     <symbol id="mc-i-logout" viewBox="0 0 24 24"><path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M14 8l4 4-4 4M8 12h10"/></symbol>
 </svg>
 <div class="mc-adm-shell">
@@ -102,6 +104,10 @@
                     <a href="{{ route('admin.experiencias.index') }}" @class(['mc-adm-nav__link', 'is-active' => request()->routeIs('admin.experiencias.*')])>
                         <span class="mc-adm-nav__icon" aria-hidden="true"><svg><use href="#mc-i-leaf"/></svg></span>
                         <span class="mc-adm-nav__name">Experiencias</span>
+                    </a>
+                    <a href="{{ route('admin.ofertas.index') }}" @class(['mc-adm-nav__link', 'is-active' => request()->routeIs('admin.ofertas.*')])>
+                        <span class="mc-adm-nav__icon" aria-hidden="true"><svg><use href="#mc-i-tag"/></svg></span>
+                        <span class="mc-adm-nav__name">Ofertas</span>
                     </a>
                     <a href="{{ route('admin.zonas.index') }}" @class(['mc-adm-nav__link', 'is-active' => request()->routeIs('admin.zonas.*')])>
                         <span class="mc-adm-nav__icon" aria-hidden="true"><svg><use href="#mc-i-leaf"/></svg></span>

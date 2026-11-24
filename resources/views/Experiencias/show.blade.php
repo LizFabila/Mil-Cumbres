@@ -217,8 +217,8 @@
                     </div>
 
                     <div class="mc-detalle-hero__dato">
-                        <small>PRECIO</small>
-                        <strong>{{ $experiencia->precio_texto }}</strong>
+                        <small>{{ $experiencia->oferta_actual ? 'PRECIO DE OFERTA' : 'PRECIO' }}</small>
+                        <strong>{{ $experiencia->precio_actual_texto }}</strong>
                     </div>
 
                 </div>
@@ -272,15 +272,22 @@
 
                     <div>
                         <span>
-                            DESDE
+                            {{ $experiencia->oferta_actual ? 'OFERTA −'.$experiencia->oferta_actual->porcentaje.'%' : 'DESDE' }}
                         </span>
 
+                        @if ($experiencia->oferta_actual)
+                            <del class="mc-precio-antes">{{ $experiencia->precio_texto }}</del>
+                        @endif
+
                         <strong>
-                            {{ $experiencia->precio_texto }}
+                            {{ $experiencia->precio_actual_texto }}
                         </strong>
 
                         <small>
                             Precio por persona
+                            @if ($experiencia->oferta_actual)
+                                · válido hasta el {{ $experiencia->oferta_actual->termina->translatedFormat('j \d\e F') }}
+                            @endif
                         </small>
                     </div>
 
@@ -339,7 +346,7 @@
 
                     <div
                         class="mc-detalle-reserva__item"
-                        data-precio="{{ (float) $experiencia->precio }}"
+                        data-precio="{{ (float) $experiencia->precio_actual }}"
                     >
 
                         <input
@@ -508,8 +515,8 @@
                             Total estimado
                         </span>
                         <strong id="mc-detalle-total">
-                            @if ((float) $experiencia->precio > 0)
-                                ${{ number_format((float) $experiencia->precio, 2) }} MXN
+                            @if ((float) $experiencia->precio_actual > 0)
+                                ${{ number_format((float) $experiencia->precio_actual, 2) }} MXN
                             @else
                                 Por confirmar
                             @endif

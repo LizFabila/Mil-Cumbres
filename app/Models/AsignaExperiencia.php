@@ -25,6 +25,7 @@ class AsignaExperiencia extends Pivot
         'id_disponibilidad',
         'fecha_deseada',
         'cant_persona',
+        'precio_unitario',
         'nota',
     ];
 
@@ -33,6 +34,7 @@ class AsignaExperiencia extends Pivot
         return [
             'fecha_deseada' => 'date',
             'cant_persona' => 'integer',
+            'precio_unitario' => 'decimal:2',
         ];
     }
 

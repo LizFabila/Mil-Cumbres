@@ -26,7 +26,7 @@
                                         <strong>{{ $experiencia->nombre }}</strong>
                                         <small>
                                             {{ $experiencia->zonas_texto ?: config('milcumbres.contacto.lugar') }}
-                                            · {{ $experiencia->precio_texto }} · {{ preg_replace('/\s*\(.*\)$/', '', $experiencia->duracion_texto) }}
+                                            · {{ $experiencia->precio_actual_texto }} · {{ preg_replace('/\s*\(.*\)$/', '', $experiencia->duracion_texto) }}
                                         </small>
                                     </span>
                                     <span class="hero-menu__flecha" aria-hidden="true">→</span>

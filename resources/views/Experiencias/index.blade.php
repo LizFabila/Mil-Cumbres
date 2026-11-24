@@ -264,11 +264,15 @@
                                             <div class="mc-cat-card__precio">
 
                                                 <small>
-                                                    PRECIO POR PERSONA
+                                                    {{ $experiencia->oferta_actual ? 'OFERTA · POR PERSONA' : 'PRECIO POR PERSONA' }}
                                                 </small>
 
+                                                @if ($experiencia->oferta_actual)
+                                                    <del class="mc-precio-antes">{{ $experiencia->precio_texto }}</del>
+                                                @endif
+
                                                 <strong>
-                                                    {{ $experiencia->precio_texto }}
+                                                    {{ $experiencia->precio_actual_texto }}
                                                 </strong>
 
                                             </div>

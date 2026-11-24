@@ -7,7 +7,12 @@
         <p class="texto-suave texto-chico mb-0">{{ \Illuminate\Support\Str::limit($experiencia->resumen, 110) }}</p>
         <div class="exp-tarjeta__meta">
             <span>{{ $experiencia->zonas_texto }} · {{ $experiencia->duracion_texto }}</span>
-            <strong>${{ number_format($experiencia->precio, 0) }}</strong>
+            <strong>
+                @if ($experiencia->oferta_actual)
+                    <del class="mc-precio-antes">${{ number_format($experiencia->precio, 0) }}</del>
+                @endif
+                ${{ number_format($experiencia->precio_actual, 0) }}
+            </strong>
         </div>
     </div>
 </a>
